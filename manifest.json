@@ -11,6 +11,11 @@
       "128": "images/sn-blame.png"
     }
   },
+  "browser_specific_settings": {
+      "gecko": {
+          "id": "extensionname@example.org"
+      }
+  },
   "icons":{
     "16": "images/sn-blame.png",
     "48": "images/sn-blame.png",
