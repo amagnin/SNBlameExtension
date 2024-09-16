@@ -30,6 +30,23 @@ window.addEventListener(
 
       getVersions(g_ck, table, sys_id, Object.keys(fields)).then((versions) => {
         Object.keys(fields).forEach((field) => {
+          let editorElement = document.querySelector(
+            `[id='element.${fields[field].id}'] #debugContainer`
+          );
+
+          if(versions.length === 0){
+            let warnDiv = document.createElement('DIV');
+            warnDiv.innerText = 'SN BLAME: NO VERSIONS AVAILABLE, CAN\'T START BLAME';
+            warnDiv.style.padding = '10px';
+            warnDiv.style.backgroundColor = 'hsl(55deg 100% 12%)';
+            warnDiv.style.margin = '10px';
+            warnDiv.style.color = 'white';
+            warnDiv.style.fontWeight = 'bold';
+            
+            editorElement.prepend(warnDiv)
+            return;
+          }
+
           serverDiff[field] = getBlame(versions, field);
           let currentDiff = getDiffsWithCurrent(
             fields[field].lines,
@@ -41,10 +58,6 @@ window.addEventListener(
             diff: currentDiff,
             field,
           });
-
-          let editorElement = document.querySelector(
-            `[id='element.${fields[field].id}'] #debugContainer`
-          );
           gutter[field] = new MonacoBlameGutter(editorElement, currentDiff);
           gutter[field].updateGutter();
         });
