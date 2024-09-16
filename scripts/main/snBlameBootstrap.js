@@ -76,12 +76,7 @@ let snBlamebootstrap = (monaco) => {
       },
     });
 
-    /*
-    editor.onDidScrollChange(function (scroll) {
-      window.dispatchEvent(new CustomEvent("sn-blame-scroll", {detail: {scroll, field}}));
-    });
-    */
-
+    /** Mutation observer on the monaco gutter is smoother than the editor.onDidScrollChange **/
     let scrollObserver = new MutationObserver(() => {
       let scroll = {
         scrollHeight: editor.getScrollHeight(),
