@@ -5,6 +5,7 @@ class SNBlameOptions {
     "debugLineNumbers",
     "hideGutterDate",
     "ignoreWhiteSpace",
+    "startOnAction",
   ];
 
   constructor() {
@@ -19,8 +20,20 @@ class SNBlameOptions {
         this.options.debugLineNumbers = false;
         this.options.hideGutterDate = false;
         this.options.ignoreWhiteSpace = true;
-        this.options = JSON.parse(data.blameOptions);
-      } catch (e) {}
+        this.options.startOnAction = false;
+
+        let userOptions = JSON.parse(data.blameOptions)
+
+        Object.keys(userOptions).forEach((key => this.options[key] = userOptions[key]));
+
+        
+      } catch (e) {
+        
+      } finally{
+        if(!this.options.startOnAction){
+          window.postMessage({ type: "sn-blame-start"});
+        }
+      }
     });
 
     return this;

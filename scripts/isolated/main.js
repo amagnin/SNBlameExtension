@@ -1,22 +1,31 @@
 let gutter = {};
 let serverDiff = {};
 
-new SNBlameOptions();
-
 (chrome || browser).runtime.onMessage.addListener(function (msg) {
-  let blameOptions = new SNBlameOptions();
+  if (msg.blameOptions) {
+    let blameOptions = new SNBlameOptions();
 
-  Object.keys(msg.blameOptions).forEach(option => {
-    blameOptions.setOption(option, msg.blameOptions[option], false)
-  });
+    Object.keys(msg.blameOptions).forEach((option) => {
+      blameOptions.setOption(option, msg.blameOptions[option], false);
+    });
 
-  Object.keys(gutter).forEach(field => gutter[field].updateGutter());
+    Object.keys(gutter).forEach((field) => gutter[field].updateGutter());
+    return;
+  }
+
+  if (msg.action === "sn-blame-bootstrap") {
+    window.postMessage({ type: "sn-blame-start" });
+  }
+});
+
+window.addEventListener("load", () => {
+  new SNBlameOptions();
 });
 
 window.addEventListener(
   "message",
   function (event) {
-    if (event.data?.action === "init") {
+    if (event.data?.action === "sn-blame-init") {
       const { g_ck, table, sys_id, fields } = event.data.options;
 
       getVersions(g_ck, table, sys_id, Object.keys(fields)).then((versions) => {
@@ -27,7 +36,11 @@ window.addEventListener(
             serverDiff[field]
           );
 
-          window.postMessage({ type: "diff-update", diff: currentDiff, field });
+          window.postMessage({
+            type: "sn-blame-diff-update",
+            diff: currentDiff,
+            field,
+          });
 
           let editorElement = document.querySelector(
             `[id='element.${fields[field].id}'] #debugContainer`
@@ -38,19 +51,23 @@ window.addEventListener(
       });
     }
 
-    if (event.data?.action === "scroll") {
+    if (event.data?.action === "sn-blame-scroll") {
       const { scroll, field } = event.data;
       if (!gutter[field]) return;
       gutter[field].scroll(scroll);
       gutter[field].updateGutter();
     }
 
-    if (event.data?.action === "model-change") {
+    if (event.data?.action === "sn-blame-model-change") {
       const { lines, field } = event.data;
       if (!gutter[field]) return;
       let currentDiff = getDiffsWithCurrent(lines, serverDiff[field]);
 
-      window.postMessage({ type: "diff-update", diff: currentDiff, field });
+      window.postMessage({
+        type: "sn-blame-diff-update",
+        diff: currentDiff,
+        field,
+      });
       gutter[field].updateLines(currentDiff);
     }
 
@@ -127,14 +144,16 @@ async function getVersions(g_ck, table, sys_id, scriptFields) {
     res.reverted_from = b.reverted_from.value;
     res.sys_id = b.sys_id.value;
     res.state = b.state.value;
-    res.source = b.source
+    res.source = b.source;
 
     return res;
   });
 
   return removeReverted(
     result.sort(function (a, b) {
-      return Number("0x" + b.sys_recorded_at) - Number("0x" + a.sys_recorded_at);
+      return (
+        Number("0x" + b.sys_recorded_at) - Number("0x" + a.sys_recorded_at)
+      );
     })
   );
 }
@@ -144,18 +163,18 @@ function removeReverted(versions) {
   var next = null;
 
   versions.forEach(function (element) {
-    if (next == null || next === element.sys_id ) {
+    if (next == null || next === element.sys_id) {
       result.push(element);
       next = element.reverted_from || null;
-      return
-    }    
+      return;
+    }
   });
 
   return result.reverse();
 }
 
 function getBlame(versions, key) {
-  if(versions.length === 0) return []
+  if (versions.length === 0) return [];
 
   const initialVersion = versions[0];
   const ignoreWhiteSpace = new SNBlameOptions().getOption("ignoreWhiteSpace");

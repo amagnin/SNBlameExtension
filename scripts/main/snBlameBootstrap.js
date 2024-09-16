@@ -1,4 +1,4 @@
-((monaco) => {
+let snBlamebootstrap = (monaco) => {
   if (!monaco) return;
 
   let fields = {};
@@ -74,12 +74,12 @@
     });
 
     editor.onDidScrollChange(function (scroll) {
-      window.postMessage({ action: "scroll", scroll , field});
+      window.postMessage({ action: "sn-blame-scroll", scroll , field});
     });
 
     editor.onDidChangeModelContent(function () {
       window.postMessage({
-        action: "model-change",
+        action: "sn-blame-model-change",
         lines: editor.getValue().split("\n"),
         field
       });
@@ -87,7 +87,7 @@
 
     let placeholderContentWidget = new SNBlamePlaceholderContentWidget(editor);
     window.addEventListener("message", function(event){
-        if(event.data.type !== 'diff-update' || event.data.field !== field)
+        if(event.data.type !== 'sn-blame-diff-update' || event.data.field !== field)
             return;
 
         placeholderContentWidget.updateDiff(event.data.diff);
@@ -96,7 +96,7 @@
   });
 
   window.postMessage({
-    action: "init",
+    action: "sn-blame-init",
     options: {
       fields : fields,
       g_ck,
@@ -105,4 +105,13 @@
     },
   });
 
-})(window.monaco);
+}
+
+window.addEventListener(
+  "message",
+  function (event) {
+    if(event.data.type === 'sn-blame-start' && typeof monaco !== 'undefined')
+    snBlamebootstrap(monaco)
+  }
+)
+ 
