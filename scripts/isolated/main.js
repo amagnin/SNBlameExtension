@@ -1,5 +1,6 @@
 let gutter = {};
 let serverDiff = {};
+let loaded = false;
 
 (chrome || browser).runtime.onMessage.addListener(function (msg) {
   if (msg.blameOptions) {
@@ -25,10 +26,13 @@ window.addEventListener("load", () => {
 window.addEventListener(
   "message",
   function (event) {
-    if (event.data?.action === "sn-blame-init") {
+    if (event.data?.action === "sn-blame-init" && loaded === false) {
       const { g_ck, table, sys_id, fields } = event.data.options;
 
       getVersions(g_ck, table, sys_id, Object.keys(fields)).then((versions) => {
+        if(loaded === true) return;
+        
+        loaded = true;
         Object.keys(fields).forEach((field) => {
           let editorElement = document.querySelector(
             `[id='element.${fields[field].id}'] #debugContainer`
