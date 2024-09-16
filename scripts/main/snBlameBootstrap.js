@@ -2,6 +2,7 @@ let snBlamebootstrap = (monaco) => {
   if (!monaco) return;
 
   let fields = {};
+  let fieldsScroll = {};
 
   monaco.editor.getEditors().forEach((editor) => {
     let f = editor
@@ -15,9 +16,9 @@ let snBlamebootstrap = (monaco) => {
     let field = f[f.length - 1];
 
     fields[field] = {
-        lines: editor.getValue().split("\n"),
-        id: f.join('.'),
-    }
+      lines: editor.getValue().split("\n"),
+      id: f.join("."),
+    };
 
     editor.addAction({
       id: "show-sn-blame-user",
@@ -33,7 +34,9 @@ let snBlamebootstrap = (monaco) => {
       contextMenuGroupId: "navigation",
       contextMenuOrder: 1.5,
       run: function (ed) {
-        window.postMessage("sn-blame-toggle-user-update-set");
+        window.dispatchEvent(
+          new CustomEvent("sn-blame-toggle-user-update-set")
+        );
       },
     });
 
@@ -51,7 +54,7 @@ let snBlamebootstrap = (monaco) => {
       contextMenuGroupId: "navigation",
       contextMenuOrder: 1.5,
       run: function (ed) {
-        window.postMessage("sn-blame-toggle-gutter-date");
+        window.dispatchEvent(new CustomEvent("sn-blame-toggle-gutter-date"));
       },
     });
 
@@ -69,49 +72,79 @@ let snBlamebootstrap = (monaco) => {
       contextMenuGroupId: "navigation",
       contextMenuOrder: 1.5,
       run: function (ed) {
-        window.postMessage("sn-blame-toggle-line-numbers");
+        window.dispatchEvent(new CustomEvent("sn-blame-toggle-line-numbers"));
       },
     });
 
+    /*
     editor.onDidScrollChange(function (scroll) {
-      window.postMessage({ action: "sn-blame-scroll", scroll , field});
+      window.dispatchEvent(new CustomEvent("sn-blame-scroll", {detail: {scroll, field}}));
+    });
+    */
+
+    let scrollObserver = new MutationObserver(() => {
+      let scroll = {
+        scrollHeight: editor.getScrollHeight(),
+        scrollTop: editor.getScrollTop(),
+      };
+      window.dispatchEvent(
+        new CustomEvent("sn-blame-scroll", { detail: { scroll, field } })
+      );
+    });
+
+    let editorElement = document.querySelector(
+      `[id='element.${fields[field].id}'] #debugContainer`
+    );
+
+    scrollObserver.observe(editorElement.querySelector(".margin-view-overlays"), {
+      childList: true,
+      subtree: true,
     });
 
     editor.onDidChangeModelContent(function () {
-      window.postMessage({
-        action: "sn-blame-model-change",
-        lines: editor.getValue().split("\n"),
-        field
-      });
+      window.dispatchEvent(
+        new CustomEvent("sn-blame-model-change", {
+          detail: {
+            lines: editor.getValue().split("\n"),
+            field,
+          },
+        })
+      );
     });
 
     let placeholderContentWidget = new SNBlamePlaceholderContentWidget(editor);
-    window.addEventListener("message", function(event){
-        if(event.data.type !== 'sn-blame-diff-update' || event.data.field !== field)
-            return;
+    window.addEventListener("sn-blame-diff-update", function (event) {
+      if (event.detail.field !== field) return;
 
-        placeholderContentWidget.updateDiff(event.data.diff);
-        placeholderContentWidget.onCursorChange();
-    })
+      let diff = event.detail.diff;
+
+      placeholderContentWidget.updateDiff(diff);
+      placeholderContentWidget.onCursorChange();
+    });
+
+    fieldsScroll[field] = {
+      scrollHeight: editor.getScrollHeight(),
+      scrollTop: editor.getScrollTop(),
+    };
   });
 
-  window.postMessage({
-    action: "sn-blame-init",
-    options: {
-      fields : fields,
-      g_ck,
-      table: g_form.getTableName(),
-      sys_id: g_form.getUniqueValue(),
-    },
-  });
-
-}
-
-window.addEventListener(
-  "message",
-  function (event) {
-    if(event.data.type === 'sn-blame-start' && typeof monaco !== 'undefined')
-    snBlamebootstrap(monaco)
-  }
-)
  
+
+  window.dispatchEvent(
+    new CustomEvent("sn-blame-init", {
+      detail: {
+        fields: fields,
+        g_ck,
+        table: g_form.getTableName(),
+        sys_id: g_form.getUniqueValue(),
+        fieldsScroll
+      },
+    })
+  );
+
+};
+
+window.addEventListener("message", function (event) {
+  if (event.data.type === "sn-blame-start" && typeof monaco !== "undefined")
+    snBlamebootstrap(monaco);
+});

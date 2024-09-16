@@ -23,91 +23,83 @@ window.addEventListener("load", () => {
   new SNBlameOptions();
 });
 
+window.addEventListener("sn-blame-toggle-user-update-set", () => {
+  let options = new SNBlameOptions();
+  options.setOption("showUser", !options.getOption("showUser"));
+  Object.keys(gutter).forEach((field) => gutter[field].updateGutter());
+}, false);
+
+window.addEventListener("sn-blame-toggle-gutter-date", () => {
+  let options = new SNBlameOptions();
+  options.setOption("hideGutterDate", !options.getOption("hideGutterDate"));
+  Object.keys(gutter).forEach((field) => gutter[field].updateGutter());
+}, false);
+
+window.addEventListener("sn-blame-toggle-line-numbers", () => {
+  let options = new SNBlameOptions();
+  options.setOption("debugLineNumbers", !options.getOption("debugLineNumbers"));
+  Object.keys(gutter).forEach((field) => gutter[field].updateGutter());
+}, false);
+
+window.addEventListener("sn-blame-model-change", event => {
+  const { lines, field } = event.detail;
+  if (!gutter[field]) return;
+  let currentDiff = getDiffsWithCurrent(lines, serverDiff[field]);
+
+  window.dispatchEvent(new CustomEvent("sn-blame-diff-update", {detail: {diff: currentDiff, field}}));
+
+  gutter[field].updateLines(currentDiff);
+}, false);
+
+window.addEventListener("sn-blame-scroll", event => {
+  const { scroll, field } = event.detail;
+  if (!gutter[field]) return;
+
+  gutter[field].scroll(scroll);
+  gutter[field].updateGutter();
+}, false);
+
 window.addEventListener(
-  "message",
-  function (event) {
-    if (event.data?.action === "sn-blame-init" && loaded === false) {
-      const { g_ck, table, sys_id, fields } = event.data.options;
+  "sn-blame-init",
+  event => {
+    if (loaded === true) return
+    const { g_ck, table, sys_id, fields, fieldsScroll } = event.detail;
 
-      getVersions(g_ck, table, sys_id, Object.keys(fields)).then((versions) => {
-        if(loaded === true) return;
-        
-        loaded = true;
-        Object.keys(fields).forEach((field) => {
-          let editorElement = document.querySelector(
-            `[id='element.${fields[field].id}'] #debugContainer`
-          );
+    getVersions(g_ck, table, sys_id, Object.keys(fields)).then((versions) => {
+      if(loaded === true) return;
+      
+      loaded = true;
+      Object.keys(fields).forEach((field) => {
+        let editorElement = document.querySelector(
+          `[id='element.${fields[field].id}'] #debugContainer`
+        );
 
-          if(versions.length === 0){
-            let warnDiv = document.createElement('DIV');
-            warnDiv.innerText = 'SN BLAME: NO VERSIONS AVAILABLE, CAN\'T START BLAME';
-            warnDiv.style.padding = '10px';
-            warnDiv.style.backgroundColor = 'hsl(55deg 100% 12%)';
-            warnDiv.style.margin = '10px';
-            warnDiv.style.color = 'white';
-            warnDiv.style.fontWeight = 'bold';
-            
-            editorElement.prepend(warnDiv)
-            return;
-          }
+        if(versions.length === 0){
+          let warnDiv = document.createElement('DIV');
+          warnDiv.innerText = 'SN BLAME: NO VERSIONS AVAILABLE, CAN\'T START BLAME';
+          warnDiv.style.padding = '10px';
+          warnDiv.style.backgroundColor = 'hsl(55deg 100% 12%)';
+          warnDiv.style.margin = '10px';
+          warnDiv.style.color = 'white';
+          warnDiv.style.fontWeight = 'bold';
+          
+          editorElement.prepend(warnDiv)
+          return;
+        }
 
-          serverDiff[field] = getBlame(versions, field);
-          let currentDiff = getDiffsWithCurrent(
-            fields[field].lines,
-            serverDiff[field]
-          );
+        serverDiff[field] = getBlame(versions, field);
+        let currentDiff = getDiffsWithCurrent(
+          fields[field].lines,
+          serverDiff[field]
+        );
+        window.dispatchEvent(new CustomEvent("sn-blame-diff-update", {detail: {diff: currentDiff, field}}));
 
-          window.postMessage({
-            type: "sn-blame-diff-update",
-            diff: currentDiff,
-            field,
-          });
-          gutter[field] = new MonacoBlameGutter(editorElement, currentDiff);
-          gutter[field].updateGutter();
-        });
+        gutter[field] = new MonacoBlameGutter(editorElement, currentDiff);
+        gutter[field].scroll(fieldsScroll[field]);
+        gutter[field].updateGutter();
       });
-    }
-
-    if (event.data?.action === "sn-blame-scroll") {
-      const { scroll, field } = event.data;
-      if (!gutter[field]) return;
-      gutter[field].scroll(scroll);
-      gutter[field].updateGutter();
-    }
-
-    if (event.data?.action === "sn-blame-model-change") {
-      const { lines, field } = event.data;
-      if (!gutter[field]) return;
-      let currentDiff = getDiffsWithCurrent(lines, serverDiff[field]);
-
-      window.postMessage({
-        type: "sn-blame-diff-update",
-        diff: currentDiff,
-        field,
-      });
-      gutter[field].updateLines(currentDiff);
-    }
-
-    if (event.data === "sn-blame-toggle-user-update-set") {
-      let options = new SNBlameOptions();
-      options.setOption("showUser", !options.getOption("showUser"));
-      Object.keys(gutter).forEach((field) => gutter[field].updateGutter());
-    }
-
-    if (event.data === "sn-blame-toggle-gutter-date") {
-      let options = new SNBlameOptions();
-      options.setOption("hideGutterDate", !options.getOption("hideGutterDate"));
-      Object.keys(gutter).forEach((field) => gutter[field].updateGutter());
-    }
-
-    if (event.data === "sn-blame-toggle-line-numbers") {
-      let options = new SNBlameOptions();
-      options.setOption(
-        "debugLineNumbers",
-        !options.getOption("debugLineNumbers")
-      );
-      Object.keys(gutter).forEach((field) => gutter[field].updateGutter());
-    }
+    });
+    
   },
   false
 );
