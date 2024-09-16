@@ -1,0 +1,10 @@
+body {
+    min-width: 300px;
+    background: #333a41;
+    color: white;
+}
+
+form {
+    padding-inline: 20px;
+    padding-bottom: 20px;
+}
