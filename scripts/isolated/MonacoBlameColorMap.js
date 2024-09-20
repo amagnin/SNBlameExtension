@@ -36,7 +36,7 @@ class MonacoBlameColorMap {
 
 		if(this.#index <= this.#colorDefaults.length){
 			this.#colorMap[id] = this.#colorDefaults[this.#index];
-			this.#index++
+			this.#index++;
 			return this.#colorMap[id];
 		}
 

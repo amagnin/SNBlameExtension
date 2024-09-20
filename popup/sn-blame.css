@@ -73,3 +73,22 @@ button {
     border: 1px solid;
     margin-top: 20px;
 }
+
+.gutter-size-container {
+  padding-block: 20px;
+}
+
+.gutter-size-container input{
+  width:100%
+}
+
+.gutter-size-container label{
+  display: inline;
+  padding: 0px 2px;
+}
+
+.gutter-size-container span{
+  display: inline;
+  float: right;
+  padding: 0px 2px;
+}
