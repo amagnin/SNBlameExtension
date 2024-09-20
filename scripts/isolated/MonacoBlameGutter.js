@@ -26,22 +26,6 @@ class MonacoBlameGutter {
         editorElement.prepend(this.blameGutterContainer);
     }
 
-    getGutterContainer() {
-        return this.blameGutterContainer;
-    }
-
-    startObserver() {
-        this.gutterObserver = new MutationObserver(this.updateGutter.bind(this))
-        this.gutterObserver.observe(this.editorGutter, {
-            childList : true,
-            subtree : true
-        });
-    }
-
-    disconnectObserver() {
-        this.gutterObserver.disconnect();
-    }
-
     updateLines(lines) {
         this.lines = lines;
         this.updateGutter();
