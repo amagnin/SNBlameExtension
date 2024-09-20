@@ -2,7 +2,6 @@ let snBlamebootstrap = (monaco) => {
   if (!monaco) return;
 
   let fields = {};
-  let fieldsScroll = {};
 
   monaco.editor.getEditors().forEach((editor) => {
     let f = editor
@@ -91,10 +90,13 @@ let snBlamebootstrap = (monaco) => {
       `[id='element.${fields[field].id}'] #debugContainer`
     );
 
-    scrollObserver.observe(editorElement.querySelector(".margin-view-overlays"), {
-      childList: true,
-      subtree: true,
-    });
+    scrollObserver.observe(
+      editorElement.querySelector(".margin-view-overlays"),
+      {
+        childList: true,
+        subtree: true,
+      }
+    );
 
     editor.onDidChangeModelContent(function () {
       window.dispatchEvent(
@@ -117,13 +119,19 @@ let snBlamebootstrap = (monaco) => {
       placeholderContentWidget.onCursorChange();
     });
 
-    fieldsScroll[field] = {
-      scrollHeight: editor.getScrollHeight(),
-      scrollTop: editor.getScrollTop(),
-    };
-  });
+    window.addEventListener("sn-blame-get-scroll-position", (event) => {
+      if (event.detail.field !== field) return;
+      let scroll = {
+        scrollHeight: editor.getScrollHeight(),
+        scrollTop: editor.getScrollTop(),
+      };
+  
+      window.dispatchEvent(
+        new CustomEvent("sn-blame-scroll", { detail: { scroll, field } })
+      );
+    });
 
- 
+  });
 
   window.dispatchEvent(
     new CustomEvent("sn-blame-init", {
@@ -132,14 +140,11 @@ let snBlamebootstrap = (monaco) => {
         g_ck,
         table: g_form.getTableName(),
         sys_id: g_form.getUniqueValue(),
-        fieldsScroll
       },
     })
   );
-
 };
 
-window.addEventListener("message", function (event) {
-  if (event.data.type === "sn-blame-start" && typeof monaco !== "undefined")
-    snBlamebootstrap(monaco);
+window.addEventListener("sn-blame-start", () => {
+  if (typeof monaco !== "undefined") snBlamebootstrap(monaco);
 });
