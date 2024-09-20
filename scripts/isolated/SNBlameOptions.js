@@ -30,13 +30,33 @@ class SNBlameOptions {
       } catch (e) {
         
       } finally{
-        if(!this.options.startOnAction){
-          window.postMessage({ type: "sn-blame-start"});
-        }
+        if(!this.options.startOnAction)
+          window.dispatchEvent(new CustomEvent("sn-blame-start"));
       }
     });
 
     return this;
+  }
+
+  reloadOptions(){
+    try {
+      this.options.showUser = false;
+      this.options.debugLineNumbers = false;
+      this.options.hideGutterDate = false;
+      this.options.ignoreWhiteSpace = true;
+      this.options.startOnAction = false;
+
+      let userOptions = JSON.parse(data.blameOptions)
+
+      Object.keys(userOptions).forEach((key => this.options[key] = userOptions[key]));
+
+      
+    } catch (e) {
+      
+    } finally{
+      if(!this.options.startOnAction)
+        window.dispatchEvent(new CustomEvent("sn-blame-start"));
+    }
   }
 
   getOption(id) {
