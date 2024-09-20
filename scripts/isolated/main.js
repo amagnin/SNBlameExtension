@@ -15,7 +15,7 @@ let loaded = false;
   }
 
   if (msg.action === "sn-blame-bootstrap") {
-    window.postMessage({ type: "sn-blame-start" });
+    window.dispatchEvent(new CustomEvent("sn-blame-start"));
   }
 });
 
@@ -95,7 +95,7 @@ window.addEventListener(
         window.dispatchEvent(new CustomEvent("sn-blame-diff-update", {detail: {diff: currentDiff, field}}));
 
         gutter[field] = new MonacoBlameGutter(editorElement, currentDiff);
-        gutter[field].scroll(fieldsScroll[field]);
+        window.dispatchEvent(new CustomEvent("sn-blame-get-scroll-position", {detail: {field}}));
         gutter[field].updateGutter();
       });
     });

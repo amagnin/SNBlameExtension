@@ -15,7 +15,7 @@ class MonacoBlameColorMap {
 		if(this.#colorMap[id])
 			return this.#colorMap[id];
 
-		const hue = Math.floor(Math.random() * 256); 
+		const hue = Math.floor(Math.random() * 360); 
 		const sat = Math.floor(Math.random() * 61); 
 		const lum = Math.floor(20 + (Math.random() * 31));
 
