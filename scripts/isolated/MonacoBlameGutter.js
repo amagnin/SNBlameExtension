@@ -2,6 +2,7 @@ class MonacoBlameGutter {
     static SIZE = 200;
 
     constructor(editorElement, lines, lineHeight = 19) {
+        let size = new SNBlameOptions().getOption('gutterWidth') || this.SIZE;
 
         this.editorGutter = editorElement.querySelector('.margin-view-overlays');
         this.lines = lines;
@@ -11,7 +12,7 @@ class MonacoBlameGutter {
         this.blameGutterContainer.style.overflow = 'hidden';
         this.blameGutterContainer.style.height = 'calc(100% - 38px)';
         this.blameGutterContainer.style.translate = '-100%';
-        this.blameGutterContainer.style.width = `${MonacoBlameGutter.SIZE}px`;
+        this.blameGutterContainer.style.width = `${size}px`;
 
         this.blameGutter = document.createElement('DIV');
         this.blameGutter.style.fontSize = '12px';
@@ -29,6 +30,11 @@ class MonacoBlameGutter {
     updateLines(lines) {
         this.lines = lines;
         this.updateGutter();
+    }
+
+    updateGutterSize(){
+        let size = new SNBlameOptions().getOption('gutterWidth') || this.SIZE;
+        this.blameGutterContainer.style.width = `${size}px`;
     }
 
     updateGutter() {
