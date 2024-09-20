@@ -1,7 +1,10 @@
 let options = {
     showUser : false,
+    debugLineNumbers: false,
     hideGutterDate : false,
+    ignoreWhiteSpace : true,
     startOnAction: true,
+    gutterWidth: 200,
 };
 
 document.getElementById("toggleUser").addEventListener("change", (event)=>{
@@ -23,19 +26,54 @@ document.getElementById("toggleLoadType").addEventListener("change", (event)=>{
   (chrome || browser).storage.sync.set({'blameOptions': JSON.stringify(options)});
 });
 
+document.getElementById("gutterSize").addEventListener("change", (event)=>{
+  options.gutterWidth = event.currentTarget.value;
+  document.getElementById("guttervalue").innerText = `${event.currentTarget.value}px`;
+  (chrome || browser).storage.sync.set({'blameOptions': JSON.stringify(options)});
+  updateTabs();
+});
+
 window.onload = function() {
   (chrome || browser).storage.sync.get("blameOptions", (data) => {
     try {
-      options = JSON.parse(data.blameOptions);
+      options.showUser = false;
+      options.debugLineNumbers = false;
+      options.hideGutterDate = false;
+      options.ignoreWhiteSpace = true;
+      options.startOnAction = false;
+      options.gutterWidth = 200;
+
+      let userOptions = JSON.parse(data.blameOptions)
+
+      Object.keys(userOptions).forEach((key => options[key] = userOptions[key]));
+    } catch (e) {
+      console.error('Error parsing Blame options')
+    } finally{
+      document.getElementById("guttervalue").innerText = `${options.gutterWidth}px`;
+      document.getElementById("gutterSize").value = options.gutterWidth;
       updateView();
-    } catch (e) {}
+    }
   });
 
   (chrome || browser).storage.onChanged.addListener((changes, areaName) => {
     try {
-      ({ showUser, hideGutterDate } = JSON.parse(changes.newValue.blameOptions));
+      options.showUser = false;
+      options.debugLineNumbers = false;
+      options.hideGutterDate = false;
+      options.ignoreWhiteSpace = true;
+      options.startOnAction = false;
+      options.gutterWidth = 200;
+
+      let userOptions = JSON.parse(changes.blameOptions.newValue)
+
+      Object.keys(userOptions).forEach((key => options[key] = userOptions[key]));
+    } catch (e) {
+      console.error('Error parsing Blame options')
+    } finally{
+      document.getElementById("guttervalue").innerText = `${options.gutterWidth}px`;
+      document.getElementById("gutterSize").value = options.gutterWidth;
       updateView();
-    } catch (e) {}
+    }
   });
 }
 
