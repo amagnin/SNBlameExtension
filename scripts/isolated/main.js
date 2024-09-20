@@ -10,7 +10,10 @@ let loaded = false;
       blameOptions.setOption(option, msg.blameOptions[option], false);
     });
 
-    Object.keys(gutter).forEach((field) => gutter[field].updateGutter());
+    Object.keys(gutter).forEach((field) => { 
+      gutter[field].updateGutter();
+      gutter[field].updateGutterSize();
+    });
     return;
   }
 

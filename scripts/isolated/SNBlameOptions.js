@@ -6,6 +6,7 @@ class SNBlameOptions {
     "hideGutterDate",
     "ignoreWhiteSpace",
     "startOnAction",
+    "gutterWidth"
   ];
 
   constructor() {
@@ -21,6 +22,7 @@ class SNBlameOptions {
         this.options.hideGutterDate = false;
         this.options.ignoreWhiteSpace = true;
         this.options.startOnAction = false;
+        this.options.gutterWidth = 200;
 
         let userOptions = JSON.parse(data.blameOptions)
 
