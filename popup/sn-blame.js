@@ -7,12 +7,6 @@ let options = {
     gutterWidth: 200,
 };
 
-/** CHECK NOT WORKING */
-(chrome || browser).tabs.onActivated.addListener((tabId, changeInfo, tab)=>{
-
-  console.log({tabId, changeInfo, tab})
-})
-
 document.getElementById("toggleUser").addEventListener("change", (event)=>{
     options.showUser = event.currentTarget.checked;
     (chrome || browser).storage.sync.set({'blameOptions': JSON.stringify(options)});
