@@ -22,6 +22,12 @@ let loaded = false;
   }
 });
 
+window.addEventListener("focus", ()=>{
+  let delayStart = new SNBlameOptions().getOption('startOnAction')
+  if(!delayStart)
+    window.dispatchEvent(new CustomEvent("sn-blame-start"));
+});
+
 window.addEventListener("load", () => {
   new SNBlameOptions();
 });
@@ -65,18 +71,16 @@ window.addEventListener("sn-blame-scroll", event => {
 window.addEventListener(
   "sn-blame-init",
   event => {
-    if (loaded === true) return
     const { g_ck, table, sys_id, fields, fieldsScroll } = event.detail;
 
     getVersions(g_ck, table, sys_id, Object.keys(fields)).then((versions) => {
       if(loaded === true) return;
       
-      loaded = true;
       Object.keys(fields).forEach((field) => {
         let editorElement = document.querySelector(
           `[id='element.${fields[field].id}'] #debugContainer`
         );
-
+        loaded = true;
         if(versions.length === 0){
           let warnDiv = document.createElement('DIV');
           warnDiv.innerText = 'SN BLAME: NO VERSIONS AVAILABLE, CAN\'T START BLAME';
