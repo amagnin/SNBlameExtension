@@ -2,6 +2,10 @@ class MonacoBlameGutter {
     static SIZE = 200;
 
     constructor(editorElement, lines, lineHeight = 19) {
+        this.createGutter(editorElement, lines, lineHeight)
+    }
+
+    createGutter(editorElement, lines, lineHeight){
         let size = new SNBlameOptions().getOption('gutterWidth') || this.SIZE;
 
         this.editorGutter = editorElement.querySelector('.margin-view-overlays');
@@ -124,6 +128,10 @@ class MonacoBlameGutter {
 			this.blameGutter.append(lineBlame);
             
         });
+    }
+
+    destroyGutter(){
+        this.blameGutterContainer.remove();
     }
 
     scroll(scroll) {
