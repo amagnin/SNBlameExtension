@@ -57,11 +57,12 @@
       ],
       "js": [
         "scripts/isolated/SNBlameOptions.js",
-        "scripts/isolated/main.js",
+        "scripts/isolated/MonacoBlameColorMap.js",
+        "scripts/isolated/MonacoBlameGutter.js",
+        "scripts/isolated/MonacoBlameGutterWrapper.js",
         "scripts/isolated/patienceDiff.js",
         "scripts/isolated/xml2json.js",
-        "scripts/isolated/MonacoBlameColorMap.js",
-        "scripts/isolated/MonacoBlameGutter.js"
+        "scripts/isolated/main.js"
       ],
       "all_frames": true
     }

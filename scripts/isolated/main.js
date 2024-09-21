@@ -1,19 +1,17 @@
-let gutter = {};
+
 let serverDiff = {};
 let loaded = false;
 
 (chrome || browser).runtime.onMessage.addListener(function (msg) {
   if (msg.blameOptions) {
-    let blameOptions = new SNBlameOptions();
+    const blameOptions = new SNBlameOptions();
 
     Object.keys(msg.blameOptions).forEach((option) => {
       blameOptions.setOption(option, msg.blameOptions[option], false);
     });
 
-    Object.keys(gutter).forEach((field) => { 
-      gutter[field].updateGutter();
-      gutter[field].updateGutterSize();
-    });
+    const gutters = new MonacoBlameGutterWrapper();
+    gutters.updateGutterOptions();
     return;
   }
 
@@ -23,7 +21,7 @@ let loaded = false;
 });
 
 window.addEventListener("focus", ()=>{
-  let delayStart = new SNBlameOptions().getOption('startOnAction')
+  const delayStart = new SNBlameOptions().getOption('startOnAction')
   if(!delayStart)
     window.dispatchEvent(new CustomEvent("sn-blame-start"));
 });
@@ -32,40 +30,18 @@ window.addEventListener("load", () => {
   new SNBlameOptions();
 });
 
-window.addEventListener("sn-blame-toggle-user-update-set", () => {
-  let options = new SNBlameOptions();
-  options.setOption("showUser", !options.getOption("showUser"));
-  Object.keys(gutter).forEach((field) => gutter[field].updateGutter());
-}, false);
-
-window.addEventListener("sn-blame-toggle-gutter-date", () => {
-  let options = new SNBlameOptions();
-  options.setOption("hideGutterDate", !options.getOption("hideGutterDate"));
-  Object.keys(gutter).forEach((field) => gutter[field].updateGutter());
-}, false);
-
-window.addEventListener("sn-blame-toggle-line-numbers", () => {
-  let options = new SNBlameOptions();
-  options.setOption("debugLineNumbers", !options.getOption("debugLineNumbers"));
-  Object.keys(gutter).forEach((field) => gutter[field].updateGutter());
-}, false);
 
 window.addEventListener("sn-blame-model-change", event => {
   const { lines, field } = event.detail;
-  if (!gutter[field]) return;
-  let currentDiff = getDiffsWithCurrent(lines, serverDiff[field]);
+
+  const gutters = new MonacoBlameGutterWrapper();
+  if (!gutters.gutterExists(field)) return;
+
+  const ignoreWhiteSpace = new SNBlameOptions().getOption("ignoreWhiteSpace");
+  const currentDiff = getDiffsWithCurrent(lines, serverDiff[field], ignoreWhiteSpace);
 
   window.dispatchEvent(new CustomEvent("sn-blame-diff-update", {detail: {diff: currentDiff, field}}));
-
-  gutter[field].updateLines(currentDiff);
-}, false);
-
-window.addEventListener("sn-blame-scroll", event => {
-  const { scroll, field } = event.detail;
-  if (!gutter[field]) return;
-
-  gutter[field].scroll(scroll);
-  gutter[field].updateGutter();
+  gutters.updateLines(field, currentDiff);
 }, false);
 
 window.addEventListener(
@@ -94,16 +70,19 @@ window.addEventListener(
           return;
         }
 
-        serverDiff[field] = getBlame(versions, field);
+        const ignoreWhiteSpace = new SNBlameOptions().getOption("ignoreWhiteSpace");
+        serverDiff[field] = getBlame(versions, field, ignoreWhiteSpace);
         let currentDiff = getDiffsWithCurrent(
           fields[field].lines,
-          serverDiff[field]
+          serverDiff[field],
+          ignoreWhiteSpace
         );
         window.dispatchEvent(new CustomEvent("sn-blame-diff-update", {detail: {diff: currentDiff, field}}));
 
-        gutter[field] = new MonacoBlameGutter(editorElement, currentDiff);
+        const gutters = new MonacoBlameGutterWrapper()
+
+        gutters.createGutter(field, editorElement, currentDiff);
         window.dispatchEvent(new CustomEvent("sn-blame-get-scroll-position", {detail: {field}}));
-        gutter[field].updateGutter();
       });
     });
     
@@ -189,11 +168,10 @@ function removeReverted(versions) {
   return result.reverse();
 }
 
-function getBlame(versions, key) {
+function getBlame(versions, key, ignoreWhiteSpace) {
   if (versions.length === 0) return [];
 
   const initialVersion = versions[0];
-  const ignoreWhiteSpace = new SNBlameOptions().getOption("ignoreWhiteSpace");
 
   var result = initialVersion[key].map(function (line, index) {
     return {
@@ -271,9 +249,7 @@ function getBlame(versions, key) {
   });
 }
 
-function getDiffsWithCurrent(newModelValue, serverValue) {
-  const ignoreWhiteSpace = new SNBlameOptions().getOption("ignoreWhiteSpace");
-
+function getDiffsWithCurrent(newModelValue, serverValue, ignoreWhiteSpace) {
   var changes = patienceDiff(
     serverValue.map(function (diff) {
       if (ignoreWhiteSpace) return diff.line.replace(/\s\s+/g, " ").trim();
