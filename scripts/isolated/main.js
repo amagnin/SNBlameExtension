@@ -49,7 +49,7 @@ window.addEventListener(
   event => {
     const { g_ck, table, sys_id, fields} = event.detail;
 
-    const ignoreTableList = new SNBlameOptions().getOption('ignoreTableList')
+    const ignoreTableList = new SNBlameOptions().getOption('ignoreTableList');
     if(ignoreTableList.indexOf(table) !== -1) return;
 
     getVersions(g_ck, table, sys_id, Object.keys(fields)).then((versions) => {
@@ -60,6 +60,7 @@ window.addEventListener(
           `[id='element.${fields[field].id}'] #debugContainer`
         );
         loaded = true;
+
         if(versions.length === 0){
           let warnDiv = document.createElement('DIV');
           warnDiv.innerText = 'SN BLAME: NO VERSIONS AVAILABLE, CAN\'T START BLAME';
@@ -69,7 +70,7 @@ window.addEventListener(
           warnDiv.style.color = 'white';
           warnDiv.style.fontWeight = 'bold';
           
-          editorElement.prepend(warnDiv)
+          editorElement.prepend(warnDiv);
           return;
         }
 
