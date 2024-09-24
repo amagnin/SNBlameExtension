@@ -6,8 +6,11 @@ class SNBlameOptions {
     "hideGutterDate",
     "ignoreWhiteSpace",
     "startOnAction",
-    "gutterWidth"
+    "gutterWidth",
+    "ignoreTableList"
   ];
+
+  #defaultIgnoreTableList = ['sys_update', 'sys_update_version'];
 
   constructor() {
     if (typeof SNBlameOptions.instance === "object")
@@ -15,6 +18,12 @@ class SNBlameOptions {
 
     SNBlameOptions.instance = this;
 
+    this.reloadOptions()
+
+    return this;
+  }
+
+  reloadOptions(){
     (chrome || browser).storage.sync.get("blameOptions", (data) => {
       try {
         this.options.showUser = false;
@@ -23,11 +32,13 @@ class SNBlameOptions {
         this.options.ignoreWhiteSpace = true;
         this.options.startOnAction = false;
         this.options.gutterWidth = 200;
-
+        this.options.ignoreTableList = [];
+  
         let userOptions = JSON.parse(data.blameOptions)
-
+  
         Object.keys(userOptions).forEach((key => this.options[key] = userOptions[key]));
-
+  
+        this.options.ignoreTableList = this.options.ignoreTableList.concat(this.#defaultIgnoreTableList);
         
       } catch (e) {
         
@@ -36,29 +47,6 @@ class SNBlameOptions {
           window.dispatchEvent(new CustomEvent("sn-blame-start"));
       }
     });
-
-    return this;
-  }
-
-  reloadOptions(){
-    try {
-      this.options.showUser = false;
-      this.options.debugLineNumbers = false;
-      this.options.hideGutterDate = false;
-      this.options.ignoreWhiteSpace = true;
-      this.options.startOnAction = false;
-
-      let userOptions = JSON.parse(data.blameOptions)
-
-      Object.keys(userOptions).forEach((key => this.options[key] = userOptions[key]));
-
-      
-    } catch (e) {
-      
-    } finally{
-      if(!this.options.startOnAction)
-        window.dispatchEvent(new CustomEvent("sn-blame-start"));
-    }
   }
 
   getOption(id) {
