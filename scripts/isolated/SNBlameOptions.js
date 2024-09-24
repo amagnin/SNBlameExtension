@@ -18,23 +18,24 @@ class SNBlameOptions {
 
     SNBlameOptions.instance = this;
 
-    this.reloadOptions()
+    this.reloadOptions();
 
     return this;
   }
 
   reloadOptions(){
+
+    this.options.showUser = false;
+    this.options.debugLineNumbers = false;
+    this.options.hideGutterDate = false;
+    this.options.ignoreWhiteSpace = true;
+    this.options.startOnAction = false;
+    this.options.gutterWidth = 200;
+    this.options.ignoreTableList = [];
+
     (chrome || browser).storage.sync.get("blameOptions", (data) => {
       try {
-        this.options.showUser = false;
-        this.options.debugLineNumbers = false;
-        this.options.hideGutterDate = false;
-        this.options.ignoreWhiteSpace = true;
-        this.options.startOnAction = false;
-        this.options.gutterWidth = 200;
-        this.options.ignoreTableList = [];
-  
-        let userOptions = JSON.parse(data.blameOptions)
+        let userOptions = JSON.parse(data.blameOptions);
   
         Object.keys(userOptions).forEach((key => this.options[key] = userOptions[key]));
   
@@ -61,5 +62,4 @@ class SNBlameOptions {
     }
   }
 
-  async #getStoredOptions() {}
 }
