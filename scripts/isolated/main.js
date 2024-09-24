@@ -47,7 +47,10 @@ window.addEventListener("sn-blame-model-change", event => {
 window.addEventListener(
   "sn-blame-init",
   event => {
-    const { g_ck, table, sys_id, fields, fieldsScroll } = event.detail;
+    const { g_ck, table, sys_id, fields} = event.detail;
+
+    const ignoreTableList = new SNBlameOptions().getOption('ignoreTableList')
+    if(ignoreTableList.indexOf(table) !== -1) return;
 
     getVersions(g_ck, table, sys_id, Object.keys(fields)).then((versions) => {
       if(loaded === true) return;
