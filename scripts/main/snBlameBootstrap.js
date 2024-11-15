@@ -1,5 +1,5 @@
 let snBlamebootstrap = (monaco) => {
-  if (!monaco) return;
+  if (!monaco || typeof monaco?.editor?.getEditors !== 'function') return;
 
   let fields = {};
 
