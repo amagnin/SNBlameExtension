@@ -41,7 +41,7 @@ window.addEventListener("sn-blame-model-change", event => {
   const currentDiff = getDiffsWithCurrent(lines, serverDiff[field], ignoreWhiteSpace);
 
   window.dispatchEvent(new CustomEvent("sn-blame-diff-update", {detail: {diff: currentDiff, field}}));
-  gutters.updateLines(field, currentDiff);
+  gutters.updateGutterLines(field, currentDiff);
 }, false);
 
 window.addEventListener(

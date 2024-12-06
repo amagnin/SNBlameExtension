@@ -52,22 +52,22 @@ class MonacoBlameGutterWrapper {
     }
 
     updateGutter(field){
-        if(this.#fields[field]) return;
+        if(!this.#fields[field]) return;
         this.#fields[field].updateGutter();
     }
 
     updateGutterLines(field, lines){
-        if(this.#fields[field]) return;
+        if(!this.#fields[field]) return;
         this.#fields[field].updateLines(lines);
     }
 
     updateGutterSize(field){
-        if(this.#fields[field]) return;
+        if(!this.#fields[field]) return;
         this.#fields[field].updateGutterSize();
     }
 
     destroyGutter(field){
-        if(this.#fields[field]) return;
+        if(!this.#fields[field]) return;
         this.#fields[field].destroyGutter();
     }
 
