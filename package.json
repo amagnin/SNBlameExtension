@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "acorn": "^8.14.0",
+    "acorn-walk": "^8.3.4",
+    "webpack": "^5.96.1"
+  }
+}
