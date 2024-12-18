@@ -1,51 +1,35 @@
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const webpack = require('webpack');
 const path = require('path');
+const fs = require('fs');
 
-module.exports = {
+const config = {
     mode: 'production',
-    entry: {
-        main: './src/main'
-    },
-    output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'dist')
-    },
     module: {
         rules: [
             {
                 test: /\.js$/,
                 exclude: /node_modules/
             },
-            {
-                test: /\.(png|svg|jpg|gif)$/,
-                use: [
-                    'file-loader',
-                ],
-            },
         ],
     },
-    devServer: {
-        contentBase: './dist',
-        overlay: true,
-        hot: true
-    },
-    plugins: [
-        new CopyWebpackPlugin({
-            patterns: [
-                { from: 'manifest.json', to: 'manifest.json' },
-            ],
-        }),
-        new CopyWebpackPlugin({
-            patterns: [
-                { from: 'images', to: 'images' },
-            ],
-        }),
-        new CopyWebpackPlugin({
-            patterns: [
-                { from: 'popup.html', to: 'popup.html' },
-            ],
-        }),
-        new webpack.HotModuleReplacementPlugin()
-    ],
 };
+
+const isolated = Object.assign({}, config,{
+    name: "isolated",
+    entry: fs.readdirSync('./scripts/src/isolated').reduce((acc, v) => ({ ...acc, [v]: `./scripts/src/isolated/${v}` }), {}),
+    output: {
+       path: path.join(__dirname, '/scripts/dist/isolated'),
+       filename: "[name].bundle.js"
+    },
+})
+
+const main = Object.assign({}, config ,{
+    name: "main",
+    entry: fs.readdirSync('./scripts/src/main').reduce((acc, v) => ({ ...acc, [v]: `./scripts/src/main/${v}` }), {}),
+    output: {
+       path: path.join(__dirname, '/scripts/dist/main'),
+       filename: "[name].bundle.js"
+    },
+})
+
+
+module.exports = [isolated, main];
