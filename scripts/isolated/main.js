@@ -32,8 +32,7 @@ window.addEventListener("load", () => {
 
 
 window.addEventListener("sn-blame-model-change", event => {
-  const { script, field } = event.detail;
-  const lines = script.split("\n");
+  const { lines, field } = event.detail;
 
   const gutters = new MonacoBlameGutterWrapper();
   if (!gutters.gutterExists(field)) return;
