@@ -102,7 +102,7 @@ let snBlamebootstrap = (monaco) => {
       window.dispatchEvent(
         new CustomEvent("sn-blame-model-change", {
           detail: {
-            lines: editor.getValue().split("\n"),
+            script: editor.getValue(),
             field,
           },
         })

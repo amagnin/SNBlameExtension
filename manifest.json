@@ -56,12 +56,17 @@
         "*://*/*validate_multifactor_auth_code.do*"
       ],
       "js": [
+        "scripts/libraries/acorn.js",
+        "scripts/libraries/walk.js",
+        
+        "scripts/libraries/patienceDiff.js",
+        "scripts/libraries/xml2json.js",
         "scripts/isolated/SNBlameOptions.js",
         "scripts/isolated/MonacoBlameColorMap.js",
         "scripts/isolated/MonacoBlameGutter.js",
         "scripts/isolated/MonacoBlameGutterWrapper.js",
-        "scripts/isolated/patienceDiff.js",
-        "scripts/isolated/xml2json.js",
+
+        "scripts/isolated/astParser.js",
         "scripts/isolated/main.js"
       ],
       "all_frames": true
