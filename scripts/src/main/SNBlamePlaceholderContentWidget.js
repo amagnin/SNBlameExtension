@@ -1,4 +1,6 @@
-class SNBlamePlaceholderContentWidget {
+import SNBlameDateUtils from "./SNBlameDateUtils.js";
+
+export default class SNBlamePlaceholderContentWidget {
     static ID = 'editor.widget.placeholderHint';
 
     constructor(editor) {

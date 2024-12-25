@@ -1,13 +1,6 @@
-window.addEventListener('sn-blame-model-change', (event) => {
-  const { script, field } = event.detail;
+import * as walk from 'acorn-walk'
+import * as astring from 'astring'
 
-  const astTree = acorn.parse(script, {
-    ecmaVersion: 'latest',
-    locations: true,
-    /* onComment: (block, text, start, end) => {console.log({block, text, start, end})}, */
-    });
-    runScriptIncludesCodeAnalisis(astTree);
-});
 
 const isGlideRecordNext = (type, node) => type === 'CallExpression' && /^(_){0,1}next/.test(node?.callee?.property?.name)
 const findGlideRecordArgument = (type, node) => { 
@@ -49,7 +42,28 @@ const getSNClassMethods = (astTree, serviceNowClasses) => {
                     glideRecordCalls:[],
                     functinoCalls:[],
                 }
+
+                if(property.key.name === 'initialize'){
+                    serviceNowClassesName[name][property.key.name].node = property.value
+
+                    serviceNowClassesName[name][property.key.name].keys = {}
+
+                    walk.simple(property.value, {
+                        ExpressionStatement(_node){
+                            let left = _node.expression?.left;
+                            let right = _node.expression?.right;
+                            
+                            if(left?.type === 'MemberExpression' && left?.object?.type === 'ThisExpression'){
+                                serviceNowClassesName[name][property.key.name].keys[left.property.name] = right.value || right.properties
+                            }
+                        }
+                    })
+                }
                 return;
+            }
+            if(property.value.type === 'Literal'){
+                serviceNowClassesName[name][property.key.name] = property.value.value; //?
+                return
             }
             serviceNowClassesName[name][property.key.name] =  property.value.type;
         })
@@ -57,6 +71,28 @@ const getSNClassMethods = (astTree, serviceNowClasses) => {
 
     return serviceNowClassesName
 }
+
+const getTableName = (node, serviceNowClassesName, className, key, astTree) => { 
+    if(node.type === 'Literal')
+        return node.value
+
+    if(node?.object?.type === 'ThisExpression' && serviceNowClassesName[className].initialize.keys[node?.property?.name]){
+        return serviceNowClassesName[className].initialize.keys[node?.property?.name];
+    }
+
+    if(node?.object?.type === 'ThisExpression' && serviceNowClassesName[className][node?.property?.name]){
+        return serviceNowClassesName[className][node?.property?.name];
+    }
+
+    /** if this => prototype or initialize function*/
+
+    /** if object find object */
+
+    /** if variable, find variable assignation on block? */
+
+    return node; //?
+}
+
 /**
  * runCodeAnalisis: ast static code analisis
  * 
@@ -104,7 +140,6 @@ const getSNClassMethods = (astTree, serviceNowClasses) => {
  *  WhileStatement
  *  WithStatement 
  **/
-
 function runScriptIncludesCodeAnalisis(astTree) {
     
     /** you can have more than 1 class per script include */
@@ -116,11 +151,11 @@ function runScriptIncludesCodeAnalisis(astTree) {
 
     let serviceNowClassesName;
   
-    if(serviceNowClasses.length){
+    if(serviceNowClasses.length){ 
         serviceNowClassesName = getSNClassMethods(astTree, serviceNowClasses)
     }
 
-    acorn.walk.ancestor(astTree, {
+    walk.ancestor(astTree, {
         NewExpression(_node, _state, ancestors){
             if(_node.callee.name === 'GlideRecord' || _node.callee.name === 'GlideRecordSecure'){
                 for (let i = ancestors.length - 1; i >= 0; i--) {
@@ -137,11 +172,12 @@ function runScriptIncludesCodeAnalisis(astTree) {
                     const key = ancestors[i]?.key?.name
                     if (!serviceNowClassesName[className][key])
                         continue;
-                    
-                    serviceNowClassesName[className][key].glideRecordCalls.push({
-                        table: _node.arguments[0],
-                        varName: ancestors[ancestors.length - 2]?.id?.name, /** TODO: check cornercases might not allways be true */
-                    })
+
+                    const table = getTableName(_node.arguments[0], serviceNowClassesName, className, key, astTree);
+                    /** TODO: check cornercases might not allways be true */
+                    const varName = ancestors[ancestors.length - 2]?.id?.name; 
+
+                    serviceNowClassesName[className][key].glideRecordCalls.push({table, varName}) //? {table, varName} 
                     
                     break;
                 }
@@ -149,7 +185,7 @@ function runScriptIncludesCodeAnalisis(astTree) {
             }
         },
         WhileStatement(_node, _state, ancestors) {
-            let glideRecord = acorn.walk.findNodeAt(_node.test, null, null, isGlideRecordNext)?.node;
+            let glideRecord = walk.findNodeAt(_node.test, null, null, isGlideRecordNext)?.node;
             let glideRecordArgument;
 
             if (glideRecord) {
@@ -157,14 +193,14 @@ function runScriptIncludesCodeAnalisis(astTree) {
                     let checkForGlideRecord = ancestors[i].type === 'BlockStatement';
                 
                     if (checkForGlideRecord){
-                        acorn.walk.simple(ancestors[i],{
+                        walk.simple(ancestors[i],{
                             VariableDeclarator(ancestor, state){
                                 if(ancestor.init?.type === 'NewExpression' && ancestor.init?.callee.name === 'GlideRecord')
-                                    glideRecordArgument = ancestor.init.arguments;
+                                    glideRecordArgument = ancestor.init.arguments[0];
                             },
                             AssignmentExpression(ancestor, state){
                                 if(ancestor.right?.type === 'NewExpression' && ancestor.right?.callee.name === 'GlideRecord')
-                                    glideRecordArgument = ancestor.right.arguments;
+                                    glideRecordArgument = ancestor.right.arguments[0];
                             }
                         });
                     };
@@ -174,9 +210,11 @@ function runScriptIncludesCodeAnalisis(astTree) {
                 }
             }
 
-            console.log(glideRecordArgument);
+            console.log(astring.generate(glideRecordArgument));
         },
   });
 
-  console.log(serviceNowClassesName);
+  return serviceNowClassesName;
 }
+
+export default runScriptIncludesCodeAnalisis

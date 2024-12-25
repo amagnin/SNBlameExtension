@@ -1,4 +1,7 @@
-class MonacoBlameGutterWrapper {
+import MonacoBlameGutter from "./MonacoBlameGutter.js";
+import SNBlameOptions from "./SNBlameOptions.js";
+
+export default class MonacoBlameGutterWrapper {
     #fields = {};
     #options;
 

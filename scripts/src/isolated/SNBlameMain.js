@@ -1,3 +1,26 @@
+import MonacoBlameGutterWrapper from "./MonacoBlameGutterWrapper.js";
+import SNBlameOptions from "./SNBlameOptions.js";
+import patienceDiff from "../../libraries/patienceDiff.js";
+import X2JS from "x2js";
+import * as acorn from "acorn"
+
+
+/** TEMPORAL FOR TESTING START */
+import runScriptIncludesCodeAnalisis from "../astParser/scriptIncludesStaticCodeAnalysis.js";
+
+
+window.addEventListener('sn-blame-model-change', (event) => {
+  const { script, field } = event.detail;
+
+  const astTree = acorn.parse(script, {
+    ecmaVersion: 'latest',
+    locations: true,
+    /* onComment: (block, text, start, end) => {console.log({block, text, start, end})}, */
+  });
+  console.log(runScriptIncludesCodeAnalisis(astTree));
+});
+
+/** TEMPORAL FOR TESTING END */
 
 let serverDiff = {};
 let loaded = false;
@@ -29,7 +52,6 @@ window.addEventListener("focus", ()=>{
 window.addEventListener("load", () => {
   new SNBlameOptions();
 });
-
 
 window.addEventListener("sn-blame-model-change", event => {
   const { script, field } = event.detail;
@@ -95,6 +117,9 @@ window.addEventListener(
   false
 );
 
+
+
+
 async function getVersions(g_ck, table, sys_id, scriptFields) {
   let fields = [
     "payload",
@@ -133,7 +158,7 @@ async function getVersions(g_ck, table, sys_id, scriptFields) {
 
   let body = await response.json();
   let result = body.result.map((b) => {
-    let record = parser.xml_str2json(b.payload.value).record_update[table];
+    let record = parser.xml2js(b.payload.value).record_update[table];
     let res = {};
     scriptFields.forEach((field) => {
       res[field] = record[field].split("\n");
