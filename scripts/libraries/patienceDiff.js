@@ -26,7 +26,7 @@
  *
  */
 
-patienceDiff = function( aLines, bLines, diffPlusFlag ) {
+const patienceDiff = function( aLines, bLines, diffPlusFlag ) {
 
 	//
 	// findUnique finds all unique values in arr[lo..hi], inclusive.  This
@@ -387,7 +387,7 @@ patienceDiff = function( aLines, bLines, diffPlusFlag ) {
  *
  */
 
-patienceDiffPlus = function( aLines, bLines ) {
+const patienceDiffPlus = function( aLines, bLines ) {
 
 	const difference = patienceDiff( aLines, bLines, true );
 
@@ -449,3 +449,5 @@ patienceDiffPlus = function( aLines, bLines ) {
 	return difference;
 
 }
+
+export default patienceDiff

@@ -1,4 +1,4 @@
-class SNBlameDateUtils {
+export default class SNBlameDateUtils {
   constructor() {
     if (typeof SNBlameDateUtils.instance === "object")
       return SNBlameDateUtils.instance;
@@ -45,8 +45,7 @@ class SNBlameDateUtils {
       return null;
     }
 
-    const date =
-      typeof dateParam === "object" ? dateParam : new Date(dateParam);
+    const date = typeof dateParam === "object" ? dateParam : new Date(dateParam);
     const DAY_IN_MS = 86400000; // 24 * 60 * 60 * 1000
     const today = new Date();
     const yesterday = new Date(today - DAY_IN_MS);

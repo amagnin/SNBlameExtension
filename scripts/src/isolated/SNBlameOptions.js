@@ -1,4 +1,4 @@
-class SNBlameOptions {
+export default class SNBlameOptions {
   options = {};
   #validOptions = [
     "showUser",

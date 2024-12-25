@@ -1,3 +1,5 @@
+import SNBlamePlaceholderContentWidget from "./SNBlamePlaceholderContentWidget.js";
+
 let snBlamebootstrap = (monaco) => {
   if (!monaco || typeof monaco?.editor?.getEditors !== 'function') return;
 

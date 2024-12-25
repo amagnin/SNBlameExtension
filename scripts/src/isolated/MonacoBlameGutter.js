@@ -1,4 +1,7 @@
-class MonacoBlameGutter {
+import SNBlameOptions from "./SNBlameOptions.js";
+import MonacoBlameColorMap from "./MonacoBlameColorMap.js";
+
+export default class MonacoBlameGutter {
     static SIZE = 200;
 
     constructor(editorElement, lines, lineHeight = 19) {
@@ -122,7 +125,6 @@ class MonacoBlameGutter {
 				return
             } 
             
-
 			lineBlame.style.justifyContent = 'start';
 			lineBlame.innerHTML = snBlame.getOption('debugLineNumbers') ? line.index : '';
 			this.blameGutter.append(lineBlame);
