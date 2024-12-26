@@ -45,7 +45,7 @@ let loaded = false;
 
 window.addEventListener("focus", ()=>{
   const delayStart = new SNBlameOptions().getOption('startOnAction')
-  if(!delayStart)
+  if(!delayStart && !loaded)
     window.dispatchEvent(new CustomEvent("sn-blame-start"));
 });
 
