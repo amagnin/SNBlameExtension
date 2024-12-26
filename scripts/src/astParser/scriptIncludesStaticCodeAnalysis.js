@@ -263,6 +263,11 @@ const getTableName = (node, serviceNowClassesName, className, astTree) => {
 function runScriptIncludesCodeAnalisis(astTree) {
     
     /** you can have more than 1 class per script include */
+
+    /**
+     * VariableDeclaration: var ClassName = Class.create()
+     * ExpressionStatemen: ClassName = Class.create()
+     */
     const serviceNowClasses = astTree.body.filter(node => 
         (
             node.type === 'VariableDeclaration' && 
@@ -280,17 +285,5 @@ function runScriptIncludesCodeAnalisis(astTree) {
 
     return getSNClassMethods(astTree, serviceNowClasses) ;
 }
-
-let script = fs.readFileSync("./scripts/test/sampleScripts/KBCommonSNC.js", 'utf-8');
-
-import * as acorn from 'acorn'
-const astTree = acorn.parse(script, {
-  ecmaVersion: 'latest',
-  locations: false,
-  //onComment: (block, text, start, end) => {console.log({block, text, start, end})},
-});
-
-astTree
-console.log(runScriptIncludesCodeAnalisis(astTree))
 
 export default runScriptIncludesCodeAnalisis
