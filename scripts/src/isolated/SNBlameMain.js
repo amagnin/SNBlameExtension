@@ -112,17 +112,14 @@ let LISTENERS = {
     const { tokens, field } = event.detail;
 
     tokens.forEach((token) => {
-      if(scriptIncludeCache.sys_script_include[`${token.scope}.${token.string}`]){
-        if(loadedLibs[`${token.scope}.${token.string}`]) return;
-
-        restFactory.getScriptIncludes(scriptIncludeCache.sys_script_include[`${token.scope}.${token.string}`]).then(triggerScriptIncludeLib)
-      }
+      triggerScriptIncludeLib(`${token.scope}.${token.string}`)
     })
   },
   'sn-get-scirpt_include_cache': (event) => {
     if(typeof restFactory?.getScriptIncludeCache !== 'function'){
       restFactory = SNRESTFactory(event.detail.g_ck);
     }
+
     restFactory.getScriptIncludeCache().then((cache)=>{
       scriptIncludeCache = cache;
     });
@@ -164,7 +161,6 @@ async function getVersions(g_ck, table, sys_id, scriptFields) {
   );
 
   if (!response.ok) {
-    console.log(response);
     return;
   }
 
@@ -334,21 +330,33 @@ function getDiffsWithCurrent(newModelValue, serverValue, ignoreWhiteSpace) {
   return changes;
 }
 
-function triggerScriptIncludeLib(body){
-  if(!body?.result?.script) return;
-  let scriptIncludeObject = runScriptIncludesCodeAnalisis(body.result.script);
+function triggerScriptIncludeLib(identifier){
+  if(loadedLibs[identifier]) 
+    return;
 
-  let scriptScope = body.result.api_name.split('.')[0];
+  if(!scriptIncludeCache.sys_script_include[identifier]) 
+    return;
+
+  restFactory.getScriptIncludes(scriptIncludeCache.sys_script_include[identifier]).then((body) => {
+    if(!body?.result?.script) return;
+    let scriptIncludeObject = runScriptIncludesCodeAnalisis(body.result.script);
+
+    let scriptScope = body.result.api_name.split('.')[0];
+
+    let libs = Object.keys(scriptIncludeObject).map((className) => {
+      let lib = getScriptIncludeLib(className, scriptIncludeObject[className]);
+      let ext = scriptIncludeObject[className].extends;  // need to add script include extends
+
+      return lib
+    }) ;
+
+    loadedLibs[identifier] = {scriptIncludeObject, libs};
+
+    window.dispatchEvent(new CustomEvent("sn-load-library", {
+      detail: {
+        libs,
+      },
+    }));
+  })
   
-  // need to add script include extends
-
-  let libs = Object.keys(scriptIncludeObject).map((className) => getScriptIncludeLib(className, scriptIncludeObject[className])) ;
-
-  loadedLibs[`${token.scope}.${token.string}`] = {scriptIncludeObject, libs};
-
-  window.dispatchEvent(new CustomEvent("sn-load-library", {
-    detail: {
-      libs,
-    },
-  }));
 }

@@ -111,7 +111,7 @@ let snBlamebootstrap = (monaco) => {
       };
     }
 
-    editor.onDidChangeModelContent(function (event) {
+    editor.onDidChangeModelContent(function(event) {
       window.dispatchEvent(
         new CustomEvent("sn-blame-model-change", {
           detail: {
@@ -120,6 +120,8 @@ let snBlamebootstrap = (monaco) => {
           },
         })
       );
+
+      if(window.disableTokenizerTest) return
       
       updatedLines = updatedLines.concat(event.changes.reduce((acc, ch)=> {
         let lineRange =  ch.range.endLineNumber - ch.range.startLineNumber;
@@ -132,12 +134,11 @@ let snBlamebootstrap = (monaco) => {
         }
         return acc;
       }, [])).filter((e,i,arr) => arr.indexOf(e) === i);
-
+      
       monacoDebounce(function(){
         let tokens = updatedLines.reduce((acc, lineNumber) => {
           let lineContent = model.getLineContent(lineNumber)
-          let lineTokens = monaco.editor.tokenize(lineContent, 'javascript') 
-          [0].reduce(function(acc, item, index, arr) {
+          let lineTokens = monaco.editor.tokenize(lineContent, 'javascript')[0].reduce(function(acc, item, index, arr) {
             var startIndex = item.offset;
             var endIndex = arr[index + 1] && arr[index + 1].offset;
 
@@ -155,8 +156,6 @@ let snBlamebootstrap = (monaco) => {
           }, [])
           return acc.concat(lineTokens)
         },[]);
-
-        console.log(tokens)
 
         window.dispatchEvent(
           new CustomEvent("sn-check-tokens",{
