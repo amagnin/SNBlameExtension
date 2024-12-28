@@ -3,11 +3,6 @@ import * as acorn from 'acorn';
 import * as astring from 'astring';
 
 /**
- * SNScriptIncludeCache: /api/now/syntax_editor/cache/sys_script_include
- * 
- */
-
-/**
  * 
  *  this module will Create a object containing all methods of the class and all methods on the constructor
  *  className : {
@@ -31,6 +26,8 @@ import * as astring from 'astring';
  *      extends: className;
  *  }
  *  
+ *  SNScriptIncludeCache: /api/now/syntax_editor/cache/sys_script_include
+ *  SNIntelisence: /api/now/v1/syntax_editor/intellisense/sys_script_include
  */
 
 const isGlideRecordNext = (type, node) => type === 'CallExpression' && /^(_){0,1}next/.test(node?.callee?.property?.name);
@@ -283,10 +280,10 @@ function runScriptIncludesCodeAnalisis(script) {
     let astTree = acorn.parse(script, {
         ecmaVersion: 'latest',
         locations: true,
-        /* onComment: (block, text, start, end) => {console.log({block, text, start, end})}, */
+        /* onComment: (block, text, start, end) => {}, */
     })
     
-    /** you can have more than 1 class per script include */
+    /** we can have more than 1 class per script include */
 
     /**
      * VariableDeclaration: var ClassName = Class.create()

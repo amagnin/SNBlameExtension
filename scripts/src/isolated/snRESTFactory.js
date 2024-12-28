@@ -20,7 +20,6 @@ let SNRESTFactory = function (g_ck) {
         );
 
         if (!response.ok) {
-            console.log(response);
             return;
         }
 
@@ -38,7 +37,6 @@ let SNRESTFactory = function (g_ck) {
         );
 
         if (!response.ok) {
-            console.log(response);
             return;
         }
 
