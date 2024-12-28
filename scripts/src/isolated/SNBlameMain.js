@@ -1,30 +1,14 @@
 import MonacoBlameGutterWrapper from "./MonacoBlameGutterWrapper.js";
 import SNBlameOptions from "./SNBlameOptions.js";
+import SNRESTFactory from "./SNRestFactory.js";
+
+import runScriptIncludesCodeAnalisis from "../astParser/scriptIncludesStaticCodeAnalysis.js";
+import getScriptIncludeLib from "../astParser/scriptIncludesToExtraLib.js";
+
 import patienceDiff from "../../libraries/patienceDiff.js";
 import X2JS from "x2js";
-import * as acorn from "acorn"
 
-
-/** TEMPORAL FOR TESTING START */
-import runScriptIncludesCodeAnalisis from "../astParser/scriptIncludesStaticCodeAnalysis.js";
-
-
-window.addEventListener('sn-blame-model-change', (event) => {
-  const { script, field } = event.detail;
-
-  const astTree = acorn.parse(script, {
-    ecmaVersion: 'latest',
-    locations: true,
-    /* onComment: (block, text, start, end) => {console.log({block, text, start, end})}, */
-  });
-  console.log(runScriptIncludesCodeAnalisis(astTree));
-});
-
-/** TEMPORAL FOR TESTING END */
-
-let serverDiff = {};
-let loaded = false;
-
+/** Get Updated Options from the extension popup */
 (chrome || browser).runtime.onMessage.addListener(function (msg) {
   if (msg.blameOptions) {
     const blameOptions = new SNBlameOptions();
@@ -43,34 +27,31 @@ let loaded = false;
   }
 });
 
-window.addEventListener("focus", ()=>{
-  const delayStart = new SNBlameOptions().getOption('startOnAction')
-  if(!delayStart && !loaded)
-    window.dispatchEvent(new CustomEvent("sn-blame-start"));
-});
+let serverDiff = {};
+let scriptIncludeCache = {};
+let loaded = false;
+let loadedLibs = {}
 
-window.addEventListener("load", () => {
-  new SNBlameOptions();
-});
+let restFactory;
 
-window.addEventListener("sn-blame-model-change", event => {
-  const { script, field } = event.detail;
-  const lines = script.split("\n");
-
-  const gutters = new MonacoBlameGutterWrapper();
-  if (!gutters.gutterExists(field)) return;
-
-  const ignoreWhiteSpace = new SNBlameOptions().getOption("ignoreWhiteSpace");
-  const currentDiff = getDiffsWithCurrent(lines, serverDiff[field], ignoreWhiteSpace);
-
-  window.dispatchEvent(new CustomEvent("sn-blame-diff-update", {detail: {diff: currentDiff, field}}));
-  gutters.updateGutterLines(field, currentDiff);
-}, false);
-
-window.addEventListener(
-  "sn-blame-init",
-  event => {
+let LISTENERS = {
+  'focus' : ()=>{
+    const delayStart = new SNBlameOptions().getOption('startOnAction')
+    if(!delayStart && !loaded)
+      window.dispatchEvent(new CustomEvent("sn-blame-start"));
+  },
+  'load': () => {
+    new SNBlameOptions();
+  },
+  'sn-blame-init': (event) => {
     const { g_ck, table, sys_id, fields} = event.detail;
+    restFactory = SNRESTFactory(g_ck);
+
+    window.dispatchEvent(new CustomEvent("sn-get-scirpt_include_cache", {
+      detail: {
+        g_ck,
+      },
+    }));
 
     const ignoreTableList = new SNBlameOptions().getOption('ignoreTableList');
     if(ignoreTableList.indexOf(table) !== -1) return;
@@ -114,11 +95,44 @@ window.addEventListener(
     });
     
   },
-  false
-);
+  'sn-blame-model-change': (event) => {
+    const { script, field } = event.detail;
+    const lines = script.split("\n");
+  
+    const gutters = new MonacoBlameGutterWrapper();
+    if (!gutters.gutterExists(field)) return;
+  
+    const ignoreWhiteSpace = new SNBlameOptions().getOption("ignoreWhiteSpace");
+    const currentDiff = getDiffsWithCurrent(lines, serverDiff[field], ignoreWhiteSpace);
+  
+    window.dispatchEvent(new CustomEvent("sn-blame-diff-update", {detail: {diff: currentDiff, field}}));
+    gutters.updateGutterLines(field, currentDiff);
+  },
+  'sn-check-tokens': (event) => {
+    const { tokens, field } = event.detail;
 
+    tokens.forEach((token) => {
+      if(scriptIncludeCache.sys_script_include[`${token.scope}.${token.string}`]){
+        if(loadedLibs[`${token.scope}.${token.string}`]) return;
 
+        restFactory.getScriptIncludes(scriptIncludeCache.sys_script_include[`${token.scope}.${token.string}`]).then(triggerScriptIncludeLib)
+      }
+    })
+  },
+  'sn-get-scirpt_include_cache': (event) => {
+    if(typeof restFactory?.getScriptIncludeCache !== 'function'){
+      restFactory = SNRESTFactory(event.detail.g_ck);
+    }
+    restFactory.getScriptIncludeCache().then((cache)=>{
+      scriptIncludeCache = cache;
+    });
+    
+  }
+};
 
+Object.keys(LISTENERS).forEach((key) => {
+  window.addEventListener(key, LISTENERS[key]);
+});
 
 async function getVersions(g_ck, table, sys_id, scriptFields) {
   let fields = [
@@ -318,4 +332,23 @@ function getDiffsWithCurrent(newModelValue, serverValue, ignoreWhiteSpace) {
     });
 
   return changes;
+}
+
+function triggerScriptIncludeLib(body){
+  if(!body?.result?.script) return;
+  let scriptIncludeObject = runScriptIncludesCodeAnalisis(body.result.script);
+
+  let scriptScope = body.result.api_name.split('.')[0];
+  
+  // need to add script include extends
+
+  let libs = Object.keys(scriptIncludeObject).map((className) => getScriptIncludeLib(className, scriptIncludeObject[className])) ;
+
+  loadedLibs[`${token.scope}.${token.string}`] = {scriptIncludeObject, libs};
+
+  window.dispatchEvent(new CustomEvent("sn-load-library", {
+    detail: {
+      libs,
+    },
+  }));
 }

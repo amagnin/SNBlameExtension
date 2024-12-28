@@ -100,7 +100,18 @@ let snBlamebootstrap = (monaco) => {
       }
     );
 
-    editor.onDidChangeModelContent(function () {
+    let model = editor.getModel();
+    let updatedLines = [];
+    let debounceTimer;
+
+    let monacoDebounce = function(func, timeout = 300){
+      return (...args) => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => { func.apply(this, args); }, timeout);
+      };
+    }
+
+    editor.onDidChangeModelContent(function (event) {
       window.dispatchEvent(
         new CustomEvent("sn-blame-model-change", {
           detail: {
@@ -109,6 +120,57 @@ let snBlamebootstrap = (monaco) => {
           },
         })
       );
+      
+      updatedLines = updatedLines.concat(event.changes.reduce((acc, ch)=> {
+        let lineRange =  ch.range.endLineNumber - ch.range.startLineNumber;
+        if(lineRange >= 0){
+          let count = ch.range.startLineNumber
+          while(count <= ch.range.endLineNumber){
+            acc.push(count)
+            count ++
+          }
+        }
+        return acc;
+      }, [])).filter((e,i,arr) => arr.indexOf(e) === i);
+
+      monacoDebounce(function(){
+        let tokens = updatedLines.reduce((acc, lineNumber) => {
+          let lineContent = model.getLineContent(lineNumber)
+          let lineTokens = monaco.editor.tokenize(lineContent, 'javascript') 
+          [0].reduce(function(acc, item, index, arr) {
+            var startIndex = item.offset;
+            var endIndex = arr[index + 1] && arr[index + 1].offset;
+
+            var previousStartIndex = arr[index - 1] && arr[index - 1].offset;
+            if(item.type === 'identifier.js' || item.type === 'type.identifier.js'){
+                var prevoiusString = lineContent.substring(previousStartIndex, startIndex);
+                let scope = g_form.getScope()
+                if(prevoiusString === '.'){
+                  scope = acc[acc.length - 1].string || g_form.getScope();
+                }
+                var string = lineContent.substring(startIndex, endIndex);
+                acc.push({string, type:item.type, scope})
+            }
+            return acc;
+          }, [])
+          return acc.concat(lineTokens)
+        },[]);
+
+        console.log(tokens)
+
+        window.dispatchEvent(
+          new CustomEvent("sn-check-tokens",{
+            detail: {
+              tokens: tokens,
+              field,
+            },
+          })
+        )
+
+        updatedLines = [];
+      }, 300)();      
+
+      
     });
 
     let placeholderContentWidget = new SNBlamePlaceholderContentWidget(editor);
@@ -145,6 +207,11 @@ let snBlamebootstrap = (monaco) => {
       },
     })
   );
+
+  window.addEventListener("sn-load-library", (event) => {
+    const { libs } = event.detail;
+    libs.forEach((lib)=> monaco.languages.typescript.javascriptDefaults.addExtraLib(lib));
+  })
 };
 
 window.addEventListener("sn-blame-start", () => {
