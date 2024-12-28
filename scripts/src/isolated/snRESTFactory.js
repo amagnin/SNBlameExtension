@@ -1,4 +1,4 @@
-export default snRESTFactory = function (g_ck) {
+let SNRESTFactory = function (g_ck) {
 
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -28,13 +28,10 @@ export default snRESTFactory = function (g_ck) {
         return body
     };
 
-    let getScriptIncludes = async function(name){
-        const queryParams = new URLSearchParams({
-            sysparm_query: `api_name=${name}`,
-        });
-
+    let getScriptIncludes = async function(sys_id){
+        
         const response = await fetch(
-            `/api/now/table/sys_script_include?${queryParams}`, {
+            `/api/now/table/sys_script_include/${sys_id}`, {
                 method: "GET",
                 headers,
             }
@@ -53,9 +50,27 @@ export default snRESTFactory = function (g_ck) {
 
     }
 
+    let getScriptIncludeCache = async function(){
+        const response = await fetch(
+            `/api/now/syntax_editor/cache/sys_script_include`, {
+                method: "GET",
+                headers,
+            }
+        );
+
+        let body = await response.json();
+        try{
+            return JSON.parse(body.result.result);
+        }catch(e){
+            return {};
+        }
+    }
+
     return {
         getVersions,
         getScriptIncludes,
         getProperties,
+        getScriptIncludeCache,
     }
 }
+export default SNRESTFactory;
