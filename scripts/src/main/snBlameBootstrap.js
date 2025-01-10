@@ -64,6 +64,19 @@ const snBlamebootstrap = (monaco) => {
     });
 
     editor.addAction({
+      id: "show-sn-blame-whitespace",
+      label: "SNBlame: Toggle whitespace",
+
+      precondition: null,
+      keybindingContext: null,
+      contextMenuGroupId: "navigation",
+      contextMenuOrder: 1.5,
+      run: function (ed) {
+        window.dispatchEvent(new CustomEvent("sn-blame-toggle-whitespace"));
+      },
+    });
+
+    editor.addAction({
       id: "debug-sn-blame-line-numbers",
       label: "SNBlame: Toggle line numbers",
 

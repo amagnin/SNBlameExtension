@@ -34,6 +34,11 @@ export default class MonacoBlameGutterWrapper {
             this.#options.setOption("hideGutterDate", !this.#options.getOption("hideGutterDate"));
             this.updateGutterOptions();
         }, false);
+
+        window.addEventListener("sn-blame-toggle-whitespace", () => {
+            this.#options.setOption("ignoreWhiteSpace", !this.#options.getOption("ignoreWhiteSpace"));
+            this.updateGutterOptions();
+        }, false);
         
         window.addEventListener("sn-blame-toggle-line-numbers", () => {
             this.#options.setOption("debugLineNumbers", !this.#options.getOption("debugLineNumbers"));
