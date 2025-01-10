@@ -1,7 +1,14 @@
+import MonacoBlameGutterWrapper from "./MonacoBlameGutterWrapper.js";
+import SNBlameOptions from "./SNBlameOptions.js";
+import SNRESTFactory from "./SNRestFactory.js";
 
-let serverDiff = {};
-let loaded = false;
+import runScriptIncludesCodeAnalisis from "../astParser/scriptIncludesStaticCodeAnalysis.js";
+import getScriptIncludeLib from "../astParser/scriptIncludesToExtraLib.js";
 
+import patienceDiff from "../../libraries/patienceDiff.js";
+import X2JS from "x2js";
+
+/** Get Updated Options from the extension popup */
 (chrome || browser).runtime.onMessage.addListener(function (msg) {
   if (msg.blameOptions) {
     const blameOptions = new SNBlameOptions();
@@ -20,34 +27,33 @@ let loaded = false;
   }
 });
 
-window.addEventListener("focus", ()=>{
-  const delayStart = new SNBlameOptions().getOption('startOnAction')
-  if(!delayStart)
-    window.dispatchEvent(new CustomEvent("sn-blame-start"));
-});
+let serverDiff = {};
+let scriptIncludeCache = {};
+let loaded = false;
+let loadedLibs = {}
 
-window.addEventListener("load", () => {
-  new SNBlameOptions();
-});
+let restFactory;
 
+let LISTENERS = {
+  'focus' : ()=>{
+    const delayStart = new SNBlameOptions().getOption('startOnAction')
+    if(!delayStart && !loaded)
+      window.dispatchEvent(new CustomEvent("sn-blame-start"));
+  },
+  'load': () => {
+    let options = new SNBlameOptions();
 
-window.addEventListener("sn-blame-model-change", event => {
-  const { lines, field } = event.detail;
-
-  const gutters = new MonacoBlameGutterWrapper();
-  if (!gutters.gutterExists(field)) return;
-
-  const ignoreWhiteSpace = new SNBlameOptions().getOption("ignoreWhiteSpace");
-  const currentDiff = getDiffsWithCurrent(lines, serverDiff[field], ignoreWhiteSpace);
-
-  window.dispatchEvent(new CustomEvent("sn-blame-diff-update", {detail: {diff: currentDiff, field}}));
-  gutters.updateGutterLines(field, currentDiff);
-}, false);
-
-window.addEventListener(
-  "sn-blame-init",
-  event => {
+    window.dispatchEvent(new CustomEvent("sn-blame-options", {detail: options.getAllOptions()}));
+  },
+  'sn-blame-init': (event) => {
     const { g_ck, table, sys_id, fields} = event.detail;
+    restFactory = SNRESTFactory(g_ck);
+
+    window.dispatchEvent(new CustomEvent("sn-get-scirpt_include_cache", {
+      detail: {
+        g_ck,
+      },
+    }));
 
     const ignoreTableList = new SNBlameOptions().getOption('ignoreTableList');
     if(ignoreTableList.indexOf(table) !== -1) return;
@@ -91,48 +97,50 @@ window.addEventListener(
     });
     
   },
-  false
-);
+  'sn-blame-model-change': (event) => {
+    const { script, field } = event.detail;
+    const lines = script.split("\n");
+  
+    const gutters = new MonacoBlameGutterWrapper();
+    if (!gutters.gutterExists(field)) return;
+  
+    const ignoreWhiteSpace = new SNBlameOptions().getOption("ignoreWhiteSpace");
+    const currentDiff = getDiffsWithCurrent(lines, serverDiff[field], ignoreWhiteSpace);
+  
+    window.dispatchEvent(new CustomEvent("sn-blame-diff-update", {detail: {diff: currentDiff, field}}));
+    gutters.updateGutterLines(field, currentDiff);
+  },
+  'sn-check-tokens': (event) => {
+    const { tokens, field } = event.detail;
+
+    tokens.forEach((token) => {
+      triggerScriptIncludeLib(`${token.scope}.${token.string}`)
+    })
+  },
+  'sn-get-scirpt_include_cache': (event) => {
+    if(typeof restFactory?.getScriptIncludeCache !== 'function'){
+      restFactory = SNRESTFactory(event.detail.g_ck);
+    }
+
+    restFactory.getScriptIncludeCache().then((cache)=>{
+      scriptIncludeCache = cache;
+    });
+    
+  }
+};
+
+Object.keys(LISTENERS).forEach((key) => {
+  window.addEventListener(key, LISTENERS[key]);
+});
 
 async function getVersions(g_ck, table, sys_id, scriptFields) {
-  let fields = [
-    "payload",
-    "sys_recorded_at",
-    "reverted_from",
-    "sys_id",
-    "source",
-    "state",
-  ];
-
-  const headers = new Headers();
-  headers.append("Content-Type", "application/json");
-  headers.append("Accept", "application/json");
-  headers.append("X-UserToken", g_ck);
-
-  const queryParams = new URLSearchParams({
-    sysparm_display_value: "all",
-    sysparm_fields: fields.join(","),
-    sysparm_query: `name=${table}_${sys_id}^stateINcurrent,previous`,
-  });
-
-  const response = await fetch(
-    `/api/now/table/sys_update_version?${queryParams}`,
-    {
-      method: "GET",
-      headers,
-    }
-  );
-
-  if (!response.ok) {
-    console.log(response);
-    return;
-  }
-
   var parser = new X2JS();
 
-  let body = await response.json();
+  let body = await restFactory.getVersions(table, sys_id)
+  if(!body) return;
+
   let result = body.result.map((b) => {
-    let record = parser.xml_str2json(b.payload.value).record_update[table];
+    let record = parser.xml2js(b.payload.value).record_update[table];
     let res = {};
     scriptFields.forEach((field) => {
       res[field] = record[field].split("\n");
@@ -292,4 +300,35 @@ function getDiffsWithCurrent(newModelValue, serverValue, ignoreWhiteSpace) {
     });
 
   return changes;
+}
+
+function triggerScriptIncludeLib(identifier){
+  if(loadedLibs[identifier]) 
+    return;
+
+  if(!scriptIncludeCache.sys_script_include[identifier]) 
+    return;
+
+  restFactory.getScriptIncludes(scriptIncludeCache.sys_script_include[identifier]).then((body) => {
+    if(!body?.result?.script) return;
+    let scriptIncludeObject = runScriptIncludesCodeAnalisis(body.result.script);
+
+    let scriptScope = body.result.api_name.split('.')[0];
+
+    let libs = Object.keys(scriptIncludeObject).map((className) => {
+      let lib = getScriptIncludeLib(className, scriptIncludeObject[className]);
+      let ext = scriptIncludeObject[className].extends;  // need to add script include extends
+
+      return lib
+    }) ;
+
+    loadedLibs[identifier] = {scriptIncludeObject, libs};
+
+    window.dispatchEvent(new CustomEvent("sn-load-library", {
+      detail: {
+        libs,
+      },
+    }));
+  })
+  
 }

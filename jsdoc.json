@@ -1,0 +1,52 @@
+{
+  "tags": {
+    "allowUnknownTags": false
+  },
+  "source": {
+    "include": "./scripts/src",
+    "includePattern": "\\.js$",
+    "excludePattern": "(node_modules/|docs)"
+  },
+  "plugins": ["plugins/markdown"],
+  "opts": {
+    "template": "node_modules/docdash",
+    "encoding": "utf8",
+    "destination": "docs/",
+    "recurse": true,
+    "verbose": true
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  },
+  "docdash": {
+
+    "static": true,
+    "sort": false,
+    "disqus": "",
+    "openGraph": {
+      "title": "SN Blame",
+      "type": "website",
+      "image": "",
+      "site_name": "SN Blame"
+    },
+    "meta": {
+      "title": "SN Blame",
+      "description": "ServiceNow Browser Extensions utility tool",
+      "keyword": "ServiceNow"
+    },
+    "search": true,
+    "collapse": true,
+    "typedefs": true,
+    "removeQuotes": "none",
+    "scripts": [],
+    "menu": {
+      "Github repo": {
+        "href": "https://github.com/amagnin/SNBlameExtension",
+        "target": "_blank",
+        "class": "menu-item",
+        "id": "repository"
+      }
+    }
+  }
+}

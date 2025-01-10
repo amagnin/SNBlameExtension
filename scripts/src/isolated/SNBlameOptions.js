@@ -1,4 +1,4 @@
-class SNBlameOptions {
+export default class SNBlameOptions {
   options = {};
   #validOptions = [
     "showUser",
@@ -7,7 +7,8 @@ class SNBlameOptions {
     "ignoreWhiteSpace",
     "startOnAction",
     "gutterWidth",
-    "ignoreTableList"
+    "ignoreTableList",
+    "useExtensionIntelisense"
   ];
 
   #defaultIgnoreTableList = ['sys_update', 'sys_update_version'];
@@ -30,6 +31,7 @@ class SNBlameOptions {
     this.options.hideGutterDate = false;
     this.options.ignoreWhiteSpace = true;
     this.options.startOnAction = false;
+    this.options.useExtensionIntelisense = true;
     this.options.gutterWidth = 200;
     this.options.ignoreTableList = [];
 
@@ -60,6 +62,10 @@ class SNBlameOptions {
       if (update)
         (chrome || browser).storage.sync.set({ blameOptions: JSON.stringify(this.options) });
     }
+  }
+
+  getAllOptions(){
+    return structuredClone(this.options)
   }
 
 }
