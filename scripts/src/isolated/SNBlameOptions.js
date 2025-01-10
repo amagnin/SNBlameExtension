@@ -7,7 +7,8 @@ export default class SNBlameOptions {
     "ignoreWhiteSpace",
     "startOnAction",
     "gutterWidth",
-    "ignoreTableList"
+    "ignoreTableList",
+    "useExtensionIntelisense"
   ];
 
   #defaultIgnoreTableList = ['sys_update', 'sys_update_version'];
@@ -30,6 +31,7 @@ export default class SNBlameOptions {
     this.options.hideGutterDate = false;
     this.options.ignoreWhiteSpace = true;
     this.options.startOnAction = false;
+    this.options.useExtensionIntelisense = true;
     this.options.gutterWidth = 200;
     this.options.ignoreTableList = [];
 
@@ -60,6 +62,10 @@ export default class SNBlameOptions {
       if (update)
         (chrome || browser).storage.sync.set({ blameOptions: JSON.stringify(this.options) });
     }
+  }
+
+  getAllOptions(){
+    return structuredClone(this.options)
   }
 
 }

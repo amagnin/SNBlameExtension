@@ -1,11 +1,20 @@
 let SNRESTFactory = function (g_ck) {
-
+    
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
     headers.append("Accept", "application/json");
     headers.append("X-UserToken", g_ck);
 
     let getVersions = async function (table, sys_id) {
+        const fields = [
+            "payload",
+            "sys_recorded_at",
+            "reverted_from",
+            "sys_id",
+            "source",
+            "state",
+        ];
+
         const queryParams = new URLSearchParams({
             sysparm_display_value: "all",
             sysparm_fields: fields.join(","),

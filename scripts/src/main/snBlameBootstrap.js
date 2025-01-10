@@ -1,6 +1,10 @@
 import SNBlamePlaceholderContentWidget from "./SNBlamePlaceholderContentWidget.js";
 
-let snBlamebootstrap = (monaco) => {
+const snBlameOptions = {
+  useExtensionIntelisense: false,
+}
+
+const snBlamebootstrap = (monaco) => {
   if (!monaco || typeof monaco?.editor?.getEditors !== 'function') return;
 
   let fields = {};
