@@ -42,6 +42,8 @@ let LISTENERS = {
   },
   'load': () => {
     new SNBlameOptions();
+
+    window.dispatchEvent(new CustomEvent("sn-blame-options", {detail: {diff: currentDiff, field}}));
   },
   'sn-blame-init': (event) => {
     const { g_ck, table, sys_id, fields} = event.detail;
@@ -132,41 +134,11 @@ Object.keys(LISTENERS).forEach((key) => {
 });
 
 async function getVersions(g_ck, table, sys_id, scriptFields) {
-  let fields = [
-    "payload",
-    "sys_recorded_at",
-    "reverted_from",
-    "sys_id",
-    "source",
-    "state",
-  ];
-
-  const headers = new Headers();
-  headers.append("Content-Type", "application/json");
-  headers.append("Accept", "application/json");
-  headers.append("X-UserToken", g_ck);
-
-  const queryParams = new URLSearchParams({
-    sysparm_display_value: "all",
-    sysparm_fields: fields.join(","),
-    sysparm_query: `name=${table}_${sys_id}^stateINcurrent,previous`,
-  });
-
-  const response = await fetch(
-    `/api/now/table/sys_update_version?${queryParams}`,
-    {
-      method: "GET",
-      headers,
-    }
-  );
-
-  if (!response.ok) {
-    return;
-  }
-
   var parser = new X2JS();
 
-  let body = await response.json();
+  let body = await restFactory.getVersions(table, sys_id)
+  if(!body) return;
+
   let result = body.result.map((b) => {
     let record = parser.xml2js(b.payload.value).record_update[table];
     let res = {};

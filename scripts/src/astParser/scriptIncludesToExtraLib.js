@@ -1,25 +1,44 @@
 import * as astring from 'astring';
 
+/*    
+*  to load the library to monaco:  
+*  let disposable = monaco.languages.typescript.javascriptDefaults.addExtraLib(script with the class information) or we overwride:  
+*  GlideEditorMonaco.prototype.addIntellisenseforScriptInclude  
+*   
+*  addIntellisenseforScriptInclude: loads and tracks scriptInclude Intelisense  
+*  params {Array} response - [{  
+*          Scope.ScriptInclude : {  
+*                  sysId: "5ae68cb0eb4131007128a5fc5206fefc"  
+*                  typeDefinitioN  
+*              }  
+*          }]  
+*   
+*  to remove the library from monaco:  
+*  disposable.dispose()  
+*/
+
 /**
- *  returns simplified Script of the ServiceNow Script Include ig:
- *  Class snScriptInclude { 
- *      CONSTNAT: 'someValue';
- *      constructor(){} // initialize
+ *  returns simplified Script of the ServiceNow Script Include
+ *  @example
+ *  Class snScriptInclude {   
+ *      CONSTANT: 'someValue';  
+ *      constructor(){} //initialize  
  *      method1(){}
- *  }; 
- * 
- *  snScriptIclude.somekey = function(){}
- * 
- *  to load the library to monaco:
- *  let disposable = monaco.languages.typescript.javascriptDefaults.addExtraLib(script with the class information)
- * 
- *  to remove the library from monaco:
- *  disposable.dispose()
+ *      static someStaticMember1 = function(){}  
+ *      static someStaticMember2 = function(){}   
+ *      static CONSTANT = 'literal' 
+ *  };   
+ *
+ *  @param {String} className: className of the class to generate the lib
+ *  @param {Object} scriptIncludesObject: Object generated with scriptIncludeStaticCodeAnalysis, 
+ *  containing all the relevant information of the class to generate the library for the intelisense  
  */
 
-export default function getScriptIncludeLib(className, scriptIncludesObject){
-    let classNames = Object.keys(scriptIncludesObject.classKeys).map(key=>{
-        let keyValue = scriptIncludesObject.classKeys[key]
+const getScriptIncludeLib = function(className, scriptIncludesObject){
+    const classObject = scriptIncludesObject[className];
+    
+    let classNames = Object.keys(classObject.classKeys).map(key=>{
+        let keyValue = classObject.classKeys[key]
 
         if(keyValue?.type === 'ObjectExpression')
             return `${key} = ${astring.generate(keyValue.value)}`
@@ -38,26 +57,25 @@ export default function getScriptIncludeLib(className, scriptIncludesObject){
     }).join('\n            ');
     
    
-
-    let objectKeys = Object.keys(scriptIncludesObject.keys).map((key => {
-        let keyValue = scriptIncludesObject.keys[key];
+    let objectKeys = Object.keys(classObject.static).map((key => {
+        let keyValue = classObject.static[key];
          if(keyValue?.type === 'ObjectExpression')
-            return `${className}.${key} = ${astring.generate(keyValue.value)}`
+            return `static ${key} = ${astring.generate(keyValue.value)}`
 
         if(keyValue?.type)
             return
 
         if(typeof keyValue === 'string')
-            return `${className}.${key} = ${keyValue};`
-        return `${className}.${key} = (${keyValue.args.toString()}){};`
-    })).join('\n');
-    Object.keys(scriptIncludesObject.keys);
+            return `static ${key} = ${keyValue};`
+        return `static ${key} = (${keyValue.args.toString()}){};`
+    })).join('\n      ');
 
-    let lib = `class ${className} ${typeof scriptIncludesObject.extends === 'string'? `extends ${scriptIncludesObject.extends}` : '' } {
+    let lib = `class ${className} ${typeof classObject.extends === 'string'? `extends ${classObject.extends}` : '' } {
         ${classNames}
+        ${objectKeys}
     }
-    ${objectKeys}
     `
-    lib
     return lib
 };
+
+export default getScriptIncludeLib

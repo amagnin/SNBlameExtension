@@ -4,30 +4,82 @@ import * as astring from 'astring';
 
 /**
  * 
- *  this module will Create a object containing all methods of the class and all methods on the constructor
- *  className : {
- *      classKeys: {
- *          initialize: {
+ *  this module will Create a object containing all methods of the class and all methods on the constructor  
+ *  className : {  
+ *      classKeys: {  
+ *          initialize: {  
  *              args: [],  
- *              glideRecord: [{table, variable, loop: boolean}], 
- *              dependencies: [
- *                  {className: class, methods: [method1, method2], isScriptInclude: Boolean, glideRecord: [{table, variable, loop: boolean}]},
- *                  {func: functionName, glideRecord: [{table, variable, loop: boolean}] }
- *              ]},
- *          method1 : ...,
- *          method2 : ...,
- *          constant: 'CONTSANT',
- *      }
- *      keys: {
- *          someFucntion : {args: [],  glideRecord: [{table, variable, loop: boolean}]},
- *          someConstant : 'CONTSANT',
- *          someOtherConstnat: {type: 'Object', value: {}}
- *      }
- *      extends: className;
- *  }
+ *              glideRecord: [{table, variable, loop: boolean}],  
+ *              dependencies: [  
+ *                  {className: class, methods: [method1, method2], isScriptInclude: Boolean, glideRecord: [{table, variable, loop: boolean}]},  
+ *                  {func: functionName, glideRecord: [{table, variable, loop: boolean}] }  
+ *              ]},  
+ *          method1 : ...,  
+ *          method2 : ...,  
+ *          constant: 'CONTSANT',  
+ *      }  
+ *      static: {  
+ *          someFucntion : {args: [],  glideRecord: [{table, variable, loop: boolean}]},  
+ *          someConstant : 'CONTSANT',  
+ *          someOtherConstnat: {type: 'Object', value: {}}  
+ *      }  
+ *      extends: className;  
+ *  }  
  *  
- *  SNScriptIncludeCache: /api/now/syntax_editor/cache/sys_script_include
- *  SNIntelisence: /api/now/v1/syntax_editor/intellisense/sys_script_include
+ * 
+ *  AST Node Types:  
+ *  - AssignmentExpression  
+ *  - ArrayExpression  
+ *  - BlockStatement  
+ *  - BinaryExpression  
+ *  - BreakStatement  
+ *  - CallExpression  
+ *  - CatchClause  
+ *  - ConditionalExpression  
+ *  - ContinueStatement  
+ *  - DoWhileStatement  
+ *  - DebuggerStatement  
+ *  - EmptyStatement  
+ *  - ExpressionStatement  
+ *  - ForStatement  
+ *  - ForInStatement  
+ *  - FunctionDeclaration  
+ *  - FunctionExpression  
+ *  - Identifier  
+ *  - IfStatement  
+ *  - Literal  
+ *  - LabeledStatement  
+ *  - LogicalExpression  
+ *  - MemberExpression  
+ *  - NewExpression  
+ *  - ObjectExpression  
+ *  - Program  
+ *  - Property  
+ *  - ReturnStatement  
+ *  - SequenceExpression  
+ *  - SwitchStatement  
+ *  - SwitchCase  
+ *  - ThisExpression  
+ *  - ThrowStatement  
+ *  - TryStatement  
+ *  - UnaryExpression  
+ *  - UpdateExpression  
+ *  - VariableDeclaration  
+ *  - VariableDeclarator  
+ *  - WhileStatement  
+ *  - WithStatement  
+ *   
+ *   
+ *  SNScriptIncludeCache: /api/now/syntax_editor/cache/sys_script_include  
+ *  SNIntelisence: /api/now/v1/syntax_editor/intellisense/sys_script_include  
+ */
+
+/**
+ * returns true if the node is a call to GlideRecord().next() or GlideRecord()._next() function
+ * 
+ * @param {String} type :Node Type
+ * @param {Object} node 
+ * @returns 
  */
 
 const isGlideRecordNext = (type, node) => type === 'CallExpression' && /^(_){0,1}next/.test(node?.callee?.property?.name);
@@ -37,7 +89,7 @@ const getSNClassMethods = (astTree, serviceNowClasses) => {
         if( node.type === 'VariableDeclaration')
             acc[node.declarations[0].id.name] = {
                 classKeys:{},
-                keys:{},
+                static:{},
                 extends: null
             };
 
@@ -45,7 +97,7 @@ const getSNClassMethods = (astTree, serviceNowClasses) => {
         if(node.type === 'ExpressionStatement')
             acc[node.expression.left.name] = {
                 classKeys:{},
-                keys:{},
+                static:{},
                 extends: null
             };
 
@@ -69,21 +121,21 @@ const getSNClassMethods = (astTree, serviceNowClasses) => {
         let key = node.expression.left.property.name;
 
         if(node.expression.right?.type === 'FunctionExpression'){
-            serviceNowClassesName[node.expression.left.object.name].keys[key] = {
+            serviceNowClassesName[node.expression.left.object.name].static[key] = {
                 args:[],
                 glideRecord: [],
             }
 
-            serviceNowClassesName[name].keys[key].args = node.expression.right.params.map(e=> e.name);
+            serviceNowClassesName[name].static[key].args = node.expression.right.params.map(e=> e.name);
             return
         }
 
         if(node.expression.right?.type === 'Literal'){
-            serviceNowClassesName[name].keys[key] = node.expression.right.value
+            serviceNowClassesName[name].static[key] = node.expression.right.value
             return
         }    
 
-        serviceNowClassesName[name].keys[key] =  { type: node.expression.right?.type, value: node.expression.right } ;
+        serviceNowClassesName[name].static[key] =  { type: node.expression.right?.type, value: node.expression.right } ;
        
     });
     
@@ -121,7 +173,7 @@ const getSNClassMethods = (astTree, serviceNowClasses) => {
                     /**
                      * Finds any method or constant added to the Instantiated Class by the constructor (initialize) 
                      * 
-                     * @param {Object AST Node} _node 
+                     * @param {Object} _node: AST Node 
                      * @returns undefined
                      */
                     ExpressionStatement(_node){
@@ -137,13 +189,13 @@ const getSNClassMethods = (astTree, serviceNowClasses) => {
                     /**
                      * Finds GlideRecord and GlideRecordSecure initializations on variable declarations:
                      * var grRecord = new GlideRecord('table'), and stores the info on the class and method
+                     *   
+                     * [{  
+                     *      table: String|AST Node - String if we can find the literal, otherwise the AST Node  
+                     *      variable: String - Variable Name  
+                     * }]  
                      * 
-                     * [{
-                     *      table: String|AST Node - String if we can find the literal, otherwise the AST Node
-                     *      variable: String - Variable Name
-                     * }]
-                     * 
-                     * @param {Object AST Node} _node 
+                     * @param {Object} _node: AST Node 
                      * 
                      */
                     VariableDeclarator(_node){
@@ -158,12 +210,12 @@ const getSNClassMethods = (astTree, serviceNowClasses) => {
                      * Finds GlideRecord and GlideRecordSecure initializations on variable assignment:
                      * grRecord = new GlideRecord('table'), and stores the info on the class and method
                      * 
-                     * [{
-                     *      table: String|AST Node - String if we can find the literal, otherwise the AST Node
-                     *      variable: String - Variable Name
-                     * }]
+                     * [{  
+                     *      table: String|AST Node - String if we can find the literal, otherwise the AST Node  
+                     *      variable: String - Variable Name  
+                     * }]  
                      * 
-                     * @param {Object AST Node} _node 
+                     * @param {Object} _node: AST Node 
                      * 
                      */
                     AssignmentExpression(_node){
@@ -177,7 +229,7 @@ const getSNClassMethods = (astTree, serviceNowClasses) => {
                     /**
                      * Find While statment used to loop over glideRecords and set the loop to true on the Object storing the GlideRecord information.
                      * 
-                     * @param {Object AST Node} _node 
+                     * @param {Object} _node: AST Node
                      * 
                      */
                     WhileStatement(_node) {
@@ -210,6 +262,14 @@ const getSNClassMethods = (astTree, serviceNowClasses) => {
     return serviceNowClassesName
 }
 
+/**
+ * 
+ * @param {Object} node: AST Node for the GlideRecord or GlideRecord Secure Variable initializetion or variable assignement
+ * @param {Object} serviceNowClassesName : Object being generated with the Class structure
+ * @param {String} className : Class name of the current Class beging analized (note script inclidues can define more than 1 Class)
+ * @param {Object} astTree : complete AST of the script include being analized
+ * @returns {String | Object} if the table name is found returns the name of the funciton if not it returns the entire ast node 
+ */
 const getTableName = (node, serviceNowClassesName, className, astTree) => { 
     if(node.type === 'Literal')
         return node.value
@@ -218,8 +278,8 @@ const getTableName = (node, serviceNowClassesName, className, astTree) => {
         return serviceNowClassesName[className].classKeys[node?.property?.name]; 
     }
   
-    if(node?.object?.name === className && serviceNowClassesName[className].keys[node?.property?.name]){
-        return serviceNowClassesName[className].keys[node?.property?.name]; 
+    if(node?.object?.name === className && serviceNowClassesName[className].static[node?.property?.name]){
+        return serviceNowClassesName[className].static[node?.property?.name]; 
     }
 
     /** if object find object */
@@ -231,49 +291,36 @@ const getTableName = (node, serviceNowClassesName, className, astTree) => {
 /**
  * runCodeAnalisis: ast static code analisis
  * 
- * @param {String} script_include_string script 
+ * @param {String} script: Script Includes content
+ * @returns {Object} Object containing information of all classes found on the script include
+ * @example 
+ * {
+ *   classNameOne : {  
+ *      classKeys: {  
+ *          initialize: {  
+ *              args: [],  
+ *              glideRecord: [{table, variable, loop: boolean}],  
+ *              dependencies: [  
+ *                  {className: class, methods: [method1, method2], isScriptInclude: Boolean, glideRecord: [{table, variable, loop: boolean}]},  
+ *                  {func: functionName, glideRecord: [{table, variable, loop: boolean}] }  
+ *              ]},  
+ *          method1 : ...,  
+ *          method2 : ...,  
+ *          constant: 'CONSTANT',  
+ *      }  
+ *      static: {  
+ *          someFucntion : {args: [],  glideRecord: [{table, variable, loop: boolean}]},  
+ *          someConstant : 'CONSTANT',  
+ *          someOtherConstnat: {type: 'Object', value: {}}  
+ *      }  
+ *      extends: ExtendedClassName;  
+ *  },
+ *  classNameTwo: {
+ *      classKeys: {...}
+ *      static: {...}
+ *  }  
+ * }
  * 
- * 
- *  AssignmentExpression
- *  ArrayExpression
- *  BlockStatement
- *  BinaryExpression
- *  BreakStatement
- *  CallExpression
- *  CatchClause
- *  ConditionalExpression
- *  ContinueStatement
- *  DoWhileStatement
- *  DebuggerStatement
- *  EmptyStatement
- *  ExpressionStatement
- *  ForStatement
- *  ForInStatement
- *  FunctionDeclaration
- *  FunctionExpression
- *  Identifier
- *  IfStatement
- *  Literal
- *  LabeledStatement
- *  LogicalExpression
- *  MemberExpression
- *  NewExpression
- *  ObjectExpression
- *  Program
- *  Property
- *  ReturnStatement
- *  SequenceExpression
- *  SwitchStatement
- *  SwitchCase
- *  ThisExpression
- *  ThrowStatement
- *  TryStatement
- *  UnaryExpression
- *  UpdateExpression
- *  VariableDeclaration
- *  VariableDeclarator
- *  WhileStatement
- *  WithStatement 
  **/
 function runScriptIncludesCodeAnalisis(script) {
 

@@ -1,5 +1,5 @@
 import * as acorn from 'acorn';
-import runScriptIncludesCodeAnalisis from '../src/astParser/scriptIncludesStaticCodeAnalysis.js';
+import runScriptIncludesCodeAnalisis from '../scripts/src/astParser/scriptIncludesStaticCodeAnalysis.js';
 
 import fs from 'fs';
 
@@ -7,7 +7,7 @@ import fs from 'fs';
 
 describe("Script Include Parser", function () {
   it("assert methods", function () {
-    let script = fs.readFileSync("./scripts/test/sampleScripts/ClassExtendsScriptIncludeMock.js", 'utf-8');
+    let script = fs.readFileSync("./test/sampleScripts/ClassExtendsScriptIncludeMock.js", 'utf-8');
 
     const parsedScriptInclude = runScriptIncludesCodeAnalisis(script);
 
