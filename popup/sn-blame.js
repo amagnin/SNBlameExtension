@@ -21,6 +21,13 @@ document.getElementById("toggleDate").addEventListener("change", (event)=>{
     updateTabs();
 });
 
+document.getElementById("toggleWhitespace").addEventListener("change", (event)=>{
+  options.ignoreWhiteSpace = event.currentTarget.checked;
+  (chrome || browser).storage.sync.set({'blameOptions': JSON.stringify(options)});
+  updateView();
+  updateTabs();
+});
+
 document.getElementById("toggleLoadType").addEventListener("change", (event)=>{
   options.startOnAction = event.currentTarget.checked;
   (chrome || browser).storage.sync.set({'blameOptions': JSON.stringify(options)});
@@ -87,6 +94,8 @@ let updateTabs = () => {
 let updateView = () => {
     document.getElementById("toggleUser").checked = options.showUser;
     document.getElementById("toggleDate").checked = options.hideGutterDate;
+    document.getElementById("toggleWhitespace").checked = options.ignoreWhiteSpace;
+    document.getElementById("toggleLoadType").checked = options.startOnAction;
     document.getElementById("toggleLoadType").checked = options.startOnAction;
 
     document.getElementById("user-label").textContent = options.showUser ? 'Show Update Set': 'Show User';
