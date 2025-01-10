@@ -1,4 +1,6 @@
-class SNBlamePlaceholderContentWidget {
+import SNBlameDateUtils from "./SNBlameDateUtils.js";
+
+export default class SNBlamePlaceholderContentWidget {
     static ID = 'editor.widget.placeholderHint';
 
     constructor(editor) {
@@ -23,7 +25,8 @@ class SNBlamePlaceholderContentWidget {
 			this.domNode.textContent = `SN BLAME: ${(line.author + '@' + line.sourceName)} : ${SNBlameDateUtils.timeAgo(line.date)}`;
 		else
 		    this.domNode.textContent = '';
-
+        
+        this.editor.removeContentWidget(this);
         this.editor.addContentWidget(this);
     }
 

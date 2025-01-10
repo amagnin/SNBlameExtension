@@ -36,9 +36,7 @@
         "*://*/*validate_multifactor_auth_code.do*"
       ],
       "js": [
-        "scripts/main/SNBlameDateUtils.js",
-        "scripts/main/SNBlamePlaceholderContentWidget.js",
-        "scripts/main/snBlameBootstrap.js"
+        "scripts/dist/main/bundle.js"
       ],
       "world": "MAIN",
       "all_frames": true
@@ -56,13 +54,7 @@
         "*://*/*validate_multifactor_auth_code.do*"
       ],
       "js": [
-        "scripts/isolated/SNBlameOptions.js",
-        "scripts/isolated/MonacoBlameColorMap.js",
-        "scripts/isolated/MonacoBlameGutter.js",
-        "scripts/isolated/MonacoBlameGutterWrapper.js",
-        "scripts/isolated/patienceDiff.js",
-        "scripts/isolated/xml2json.js",
-        "scripts/isolated/main.js"
+        "scripts/dist/isolated/bundle.js"
       ],
       "all_frames": true
     }

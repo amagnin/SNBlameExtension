@@ -1,4 +1,4 @@
-class MonacoBlameColorMap {
+export default class MonacoBlameColorMap {
 
 	#colorMap = {};
 	#colorDefaults = [
