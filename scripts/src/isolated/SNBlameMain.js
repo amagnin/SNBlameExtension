@@ -41,9 +41,9 @@ let LISTENERS = {
       window.dispatchEvent(new CustomEvent("sn-blame-start"));
   },
   'load': () => {
-    new SNBlameOptions();
+    let options = new SNBlameOptions();
 
-    window.dispatchEvent(new CustomEvent("sn-blame-options", {detail: {diff: currentDiff, field}}));
+    window.dispatchEvent(new CustomEvent("sn-blame-options", {detail: options.getAllOptions()}));
   },
   'sn-blame-init': (event) => {
     const { g_ck, table, sys_id, fields} = event.detail;
