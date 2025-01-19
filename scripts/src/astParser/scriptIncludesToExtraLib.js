@@ -1,6 +1,8 @@
 import * as astring from 'astring';
 
-/*    
+/**   
+* @module scriptIncludesToExtraLib 
+* @example
 *  to load the library to monaco:  
 *  let disposable = monaco.languages.typescript.javascriptDefaults.addExtraLib(script with the class information) or we overwride:  
 *  GlideEditorMonaco.prototype.addIntellisenseforScriptInclude  

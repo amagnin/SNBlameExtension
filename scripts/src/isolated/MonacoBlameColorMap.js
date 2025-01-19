@@ -1,6 +1,15 @@
-export default class MonacoBlameColorMap {
+/**
+ * Singleton managing gutter colors. keeps track of all colors used on the gutter.
+ * And allows forms containing multiple monaco editor to have the same color on all versios (blame) 
+ * @class
+ */
 
+class MonacoBlameColorMap {
+
+	/** @type {Object}*/
 	#colorMap = {};
+
+	/** @constant {Array<String>}*/
 	#colorDefaults = [
 		'#015b57',
 		'#1e3e00',
@@ -19,6 +28,7 @@ export default class MonacoBlameColorMap {
 		'#585250',
 	];
 
+	/**@type {number}*/
 	#index = 0; 
 
 	constructor(){
@@ -29,6 +39,12 @@ export default class MonacoBlameColorMap {
 		MonacoBlameColorMap.instance = this;
 		return this;
 	}
+
+	/** returns the colour matching the ID, first 15 color are harcoded to ensure suficient contrast between them,
+	 * the rest are random
+	 * 
+	 * @param {number} id: id of the color to return. the ID is stored on #colorMap to return the same color on each ID
+	*/
 
 	getColor(id){
 		if(this.#colorMap[id])
@@ -50,3 +66,5 @@ export default class MonacoBlameColorMap {
 	}
 
 }
+
+export default MonacoBlameColorMap;

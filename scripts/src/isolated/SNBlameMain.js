@@ -8,6 +8,20 @@ import getScriptIncludeLib from "../astParser/scriptIncludesToExtraLib.js";
 import patienceDiff from "../../libraries/patienceDiff.js";
 import X2JS from "x2js";
 
+/**
+ * @typedef Line
+ * @type {Object}
+ * @property onlyWhiteSpace: {boolean} true if the line contains only whitespace
+ * @property index: {number} index of the line
+ * @property author: {string} user_name of the author
+ * @property versionID: {string} sys_id of the version that updated the line
+ * @property source: {string} sys_id of the source (usualy update set, can also be a patch)
+ * @property date: {Date} Date when line was updated
+ * @property line: {string} line content
+ * @property sourceName: {string} name of the source, it can be a update set or a version if part of patch
+ * @property updateSetNotFound: {boolean} true if the update set can't be found, usualy is due to a deletion
+ */
+
 /** Get Updated Options from the extension popup */
 (chrome || browser).runtime.onMessage.addListener(function (msg) {
   if (msg.blameOptions) {
@@ -27,13 +41,28 @@ import X2JS from "x2js";
   }
 });
 
+/** @type {Object} */
 let serverDiff = {};
+/** @type {Object} */
 let scriptIncludeCache = {};
+/** @type {boolean} */
 let loaded = false;
+/** @type {Object} */
 let loadedLibs = {}
 
+/** @type {Object} */
 let restFactory;
 
+/** 
+ * @type {Object} 
+ * @property focus {function} - function for the focus event, 
+ * starts the blame when the page is in focus if was not started yet and the delayStart is false, for when the page is loaded out of focus
+ * @property load {function} - function for the load event
+ * @property sn-blame-init {function}
+ * @property sn-blame-model-change {function}
+ * @property sn-check-tokens {function}
+ * @property sn-get-scirpt_include_cache {function}
+*/
 let LISTENERS = {
   'focus' : ()=>{
     const delayStart = new SNBlameOptions().getOption('startOnAction')
