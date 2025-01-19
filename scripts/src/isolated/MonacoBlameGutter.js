@@ -1,13 +1,29 @@
 import SNBlameOptions from "./SNBlameOptions.js";
 import MonacoBlameColorMap from "./MonacoBlameColorMap.js";
 
-export default class MonacoBlameGutter {
+/**
+ * Class that creates and keeps track of the HTMLElement containing the Blame Gutter and line changes
+ * @class 
+ * 
+ * @param {HTMLElement} editorElement - html element containing the monaco editor 
+ * @param {Array<Line>} lines - lines Object containing the blame/diff
+ * @param {number} [lineHeight = 19] - editor lineHeight
+ */
+class MonacoBlameGutter {
+    /**@constant {number}*/
     static SIZE = 200;
 
     constructor(editorElement, lines, lineHeight = 19) {
         this.createGutter(editorElement, lines, lineHeight)
     }
 
+    /** 
+     * Creates the Blame Gutter next to the monaco editor
+     * 
+     * @param {HTMLElement} editorElement - html element containing the monaco editor 
+     * @param {Array<Line>} lines - lines Object containing the blame/diff
+     * @param {number} [lineHeight = 19] - editor lineHeight
+    */
     createGutter(editorElement, lines, lineHeight){
         let size = new SNBlameOptions().getOption('gutterWidth') || this.SIZE;
 
@@ -34,16 +50,26 @@ export default class MonacoBlameGutter {
         editorElement.prepend(this.blameGutterContainer);
     }
 
+    /** 
+     * Updates the blamegutter to keep track current changes
+     * @param {Array<Line>} lines new lines to update the gutter with (lines contains the new blame to keep track of local changes)
+     */
     updateLines(lines) {
         this.lines = lines;
         this.updateGutter();
     }
 
+    /**
+     * Updates the gutter width with the new size form the SNBlameOptions
+     */
     updateGutterSize(){
         let size = new SNBlameOptions().getOption('gutterWidth') || this.SIZE;
         this.blameGutterContainer.style.width = `${size}px`;
     }
 
+    /**
+     * recreates the gutter lines in view, used when scrolling since we use a virtual scroller to line the gutter lines with the monaco editor lines
+     */
     updateGutter() {
         let snBlame = new SNBlameOptions()
 
@@ -132,6 +158,9 @@ export default class MonacoBlameGutter {
         });
     }
 
+    /**
+     * removes the gutter HTMLElement the gutter 
+     */
     destroyGutter(){
         this.blameGutterContainer.remove();
     }
@@ -145,9 +174,17 @@ export default class MonacoBlameGutter {
         });
     }
 
+    /**
+     * Formats the unix timestamp to human readable date YYYY-MM-DD
+     * 
+     * @param {number} unixTimeStamp 
+     * @returns {string}
+     */
     #formatDate(unixTimeStamp) {
         let date = new Date(unixTimeStamp);
 
         return `${date.getFullYear()}/${`0${date.getMonth() + 1}`.slice(-2)}/${`0${date.getDate()}`.slice(-2)}`;
     }
 }
+
+export default MonacoBlameGutter;

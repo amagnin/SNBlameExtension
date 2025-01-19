@@ -1,5 +1,22 @@
-export default class SNBlameOptions {
+/**
+ * Singleton to hold the extension options
+ * @class
+ */
+
+class SNBlameOptions {
+
+  /**@type {Object}
+   * @property showUser {bolean}: true to show the username on the SNBlame line, false to show the update set/version name
+   * @property debugLineNumbers {bolean}: true to show the line number on the blame line
+   * @property hideGutterDate {bolean}: true to hide the date on the blame line
+   * @property ignoreWhiteSpace {bolean}: true to ignore whitespaces changes when calculating the diffs
+   * @property startOnAction {bolean}: true to start the gutter on demand instead of automaticaly
+   * @property gutterWidth {number}: width of the gutter
+   * @property ignoreTableList {Array<string>}: List of table to not run the blame
+   * @property useExtensionIntelisense {boolean}: true to use custom intelisense isntead of servicenow OOTB intelisense
+   */
   options = {};
+  
   #validOptions = [
     "showUser",
     "debugLineNumbers",
@@ -69,3 +86,5 @@ export default class SNBlameOptions {
   }
 
 }
+
+export default SNBlameOptions;

@@ -1,3 +1,10 @@
+/**
+ * Servicenow REST factory  
+ * @class
+ * 
+ * @param {string} g_ck ServiceNow user token to trigger the REST request
+ * @returns {ServiceNowRESTFactory} funcitons for all REST calls performed by the extension to the ServiceNow instance
+ */
 let SNRESTFactory = function (g_ck) {
     
     const headers = new Headers();
@@ -5,6 +12,13 @@ let SNRESTFactory = function (g_ck) {
     headers.append("Accept", "application/json");
     headers.append("X-UserToken", g_ck);
 
+    /**
+     * retrives the version for the record passed
+     * 
+     * @param {string} table table of the record
+     * @param {string} sys_id sys_id of the record
+     * @returns {Object} response as a JSON 
+     */
     let getVersions = async function (table, sys_id) {
         const fields = [
             "payload",
@@ -36,6 +50,12 @@ let SNRESTFactory = function (g_ck) {
         return body
     };
 
+    /**
+     * retrieves the script include for the given sys_id
+     * 
+     * @param {string} sys_id: sys_id of the script includes 
+     * @returns {Object} response as a JSON 
+     */
     let getScriptIncludes = async function(sys_id){
         
         const response = await fetch(
@@ -53,10 +73,19 @@ let SNRESTFactory = function (g_ck) {
         return body
     }
 
+    /**
+     * retrives the value of the system property
+     * @param {string} name name of the system property
+     * @returns {string} value of the  proeprty
+     */
     let getProperties = async function(name){
 
     }
 
+    /**
+     * get Servicenow the script includes cache object
+     * @returns {Object} script include cache object containing the scirpt name and sys_id as value pair
+     */
     let getScriptIncludeCache = async function(){
         const response = await fetch(
             `/api/now/syntax_editor/cache/sys_script_include`, {
@@ -72,6 +101,16 @@ let SNRESTFactory = function (g_ck) {
             return {};
         }
     }
+
+    /**
+     *  @typedef ServiceNowRESTFactory
+     *  @type {Object}
+     *  @property getVersions {function}  
+     *  @property getScriptIncludes {function}
+     *  @property getProperties {function}
+     *  @property getScriptIncludeCache {function}
+     */
+
 
     return {
         getVersions,
