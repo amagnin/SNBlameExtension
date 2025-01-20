@@ -21,6 +21,13 @@ const snBlamebootstrap = (monaco) => {
 
   let fields = {};
 
+  let originalMonacoIntelisense = GlideEditorMonaco.prototype.addIntellisenseforScriptInclude;
+  GlideEditorMonaco.prototype.addIntellisenseforScriptInclude = function(){
+    if(!window.disableExtensionIntelisense) return;
+
+    originalMonacoIntelisense.apply(this, arguments);
+  }
+
   monaco.editor.getEditors().forEach((editor) => {
     let f = editor
       .getContainerDomNode()
@@ -150,7 +157,7 @@ const snBlamebootstrap = (monaco) => {
         })
       );
 
-      if(window.disableTokenizerTest) return
+      if(window.disableExtensionIntelisense) return
       
       updatedLines = updatedLines.concat(event.changes.reduce((acc, ch)=> {
         let lineRange =  ch.range.endLineNumber - ch.range.startLineNumber;
@@ -174,9 +181,9 @@ const snBlamebootstrap = (monaco) => {
             var previousStartIndex = arr[index - 1] && arr[index - 1].offset;
             if(item.type === 'identifier.js' || item.type === 'type.identifier.js'){
                 var prevoiusString = lineContent.substring(previousStartIndex, startIndex);
-                let scope = g_form.getScope()
+                let scope = g_scratchpad?.scope
                 if(prevoiusString === '.'){
-                  scope = acc[acc.length - 1]?.string || g_form.getScope();
+                  scope = acc[acc.length - 1]?.string || g_scratchpad?.scope;
                 }
                 var string = lineContent.substring(startIndex, endIndex);
                 acc.push({string, type:item.type, scope})

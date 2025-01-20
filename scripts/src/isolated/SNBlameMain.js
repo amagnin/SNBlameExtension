@@ -401,6 +401,9 @@ function triggerScriptIncludeLib(identifier){
     let libs = Object.keys(scriptIncludeObject).map((className) => {
       let lib = getScriptIncludeLib(className, scriptIncludeObject[className]);
       let ext = scriptIncludeObject[className].extends;
+      
+      if (scriptScope)
+        lib = `declare namespace ${scriptScope} { ${lib} }; ${lib}`;
 
       if(!ext)
         return lib;
