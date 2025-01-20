@@ -1,9 +1,21 @@
 import SNBlamePlaceholderContentWidget from "./SNBlamePlaceholderContentWidget.js";
 
+/**
+ * @typedef MonacoEditor
+ * @type {object}
+ * @see {@link https://microsoft.github.io/monaco-editor/typedoc/modules/editor.html}
+ */
+
 const snBlameOptions = {
   useExtensionIntelisense: false,
 }
 
+/**
+ * triggers the Blame part of the extension if the monaco global object is available on the page
+ * 
+ * @param {Object} monaco ServiceNow global monaco object
+ * 
+ */
 const snBlamebootstrap = (monaco) => {
   if (!monaco || typeof monaco?.editor?.getEditors !== 'function') return;
 
@@ -164,7 +176,7 @@ const snBlamebootstrap = (monaco) => {
                 var prevoiusString = lineContent.substring(previousStartIndex, startIndex);
                 let scope = g_form.getScope()
                 if(prevoiusString === '.'){
-                  scope = acc[acc.length - 1].string || g_form.getScope();
+                  scope = acc[acc.length - 1]?.string || g_form.getScope();
                 }
                 var string = lineContent.substring(startIndex, endIndex);
                 acc.push({string, type:item.type, scope})

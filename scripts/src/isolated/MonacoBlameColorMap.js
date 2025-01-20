@@ -45,7 +45,6 @@ class MonacoBlameColorMap {
 	 * 
 	 * @param {number} id: id of the color to return. the ID is stored on #colorMap to return the same color on each ID
 	*/
-
 	getColor(id){
 		if(this.#colorMap[id])
 			return this.#colorMap[id];

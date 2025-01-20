@@ -1,4 +1,65 @@
-import MonacoBlameGutterWrapper from "./MonacoBlameGutterWrapper.js";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>isolated/SNBlameMain.js - SN Blame</title>
+    
+    <meta name="description" content="ServiceNow Browser Extensions utility tool" />
+    
+        <meta name="keywords" content="ServiceNow" />
+        <meta name="keyword" content="ServiceNow" />
+    
+    
+    
+    <meta property="og:title" content="SN Blame"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content=""/>
+    <meta property="og:site_name" content="SN Blame"/>
+    <meta property="og:url" content=""/>
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/amagnin/SNBlameExtension" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Classes</h3><ul><li><a href="MonacoBlameColorMap.html">MonacoBlameColorMap</a><ul class='methods'><li data-type='method'><a href="MonacoBlameColorMap.html#getColor">getColor</a></li></ul></li><li><a href="MonacoBlameGutter.html">MonacoBlameGutter</a><ul class='methods'><li data-type='method'><a href="MonacoBlameGutter.html#createGutter">createGutter</a></li><li data-type='method'><a href="MonacoBlameGutter.html#updateLines">updateLines</a></li><li data-type='method'><a href="MonacoBlameGutter.html#updateGutterSize">updateGutterSize</a></li><li data-type='method'><a href="MonacoBlameGutter.html#updateGutter">updateGutter</a></li><li data-type='method'><a href="MonacoBlameGutter.html#destroyGutter">destroyGutter</a></li></ul></li><li><a href="MonacoBlameGutterWrapper.html">MonacoBlameGutterWrapper</a><ul class='methods'><li data-type='method'><a href="MonacoBlameGutterWrapper.html#createGutter">createGutter</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutter">updateGutter</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutterLines">updateGutterLines</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutterSize">updateGutterSize</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#destroyGutter">destroyGutter</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutterOptions">updateGutterOptions</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#gutterExists">gutterExists</a></li></ul></li><li><a href="SNBlameOptions.html">SNBlameOptions</a><ul class='methods'><li data-type='method'><a href="SNBlameOptions.html#reloadOptions">reloadOptions</a></li><li data-type='method'><a href="SNBlameOptions.html#getOption">getOption</a></li><li data-type='method'><a href="SNBlameOptions.html#setOption">setOption</a></li><li data-type='method'><a href="SNBlameOptions.html#getAllOptions">getAllOptions</a></li></ul></li><li><a href="SNRESTFactory.html">SNRESTFactory</a><ul class='methods'><li data-type='method'><a href="SNRESTFactory.html#~getVersions">getVersions</a></li><li data-type='method'><a href="SNRESTFactory.html#~getScriptIncludes">getScriptIncludes</a></li><li data-type='method'><a href="SNRESTFactory.html#~getScope">getScope</a></li><li data-type='method'><a href="SNRESTFactory.html#~getProperties">getProperties</a></li><li data-type='method'><a href="SNRESTFactory.html#~getScriptIncludeCache">getScriptIncludeCache</a></li></ul></li><li><a href="SNBlameDateUtils.html">SNBlameDateUtils</a><ul class='methods'><li data-type='method'><a href="SNBlameDateUtils.html#.getFormattedDate">getFormattedDate</a></li><li data-type='method'><a href="SNBlameDateUtils.html#.timeAgo">timeAgo</a></li></ul></li><li><a href="SNBlamePlaceholderContentWidget.html">SNBlamePlaceholderContentWidget</a><ul class='methods'><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#updateDiff">updateDiff</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#onCursorChange">onCursorChange</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#getId">getId</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#getDomNode">getDomNode</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#getPosition">getPosition</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#dispose">dispose</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-scriptIncludesStaticCodeAnalysis.html">scriptIncludesStaticCodeAnalysis</a><ul class='methods'><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~isGlideRecordNext">isGlideRecordNext</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~ExpressionStatement">ExpressionStatement</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~VariableDeclarator">VariableDeclarator</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~AssignmentExpression">AssignmentExpression</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~WhileStatement">WhileStatement</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~getTableName">getTableName</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~runScriptIncludesCodeAnalisis">runScriptIncludesCodeAnalisis</a></li></ul></li><li><a href="module-scriptIncludesToExtraLib.html">scriptIncludesToExtraLib</a><ul class='methods'><li data-type='method'><a href="module-scriptIncludesToExtraLib.html#~getScriptIncludeLib">getScriptIncludeLib</a></li></ul></li><li><a href="module-SNBlameMain.html">SNBlameMain</a><ul class='methods'><li data-type='method'><a href="module-SNBlameMain.html#~getVersions">getVersions</a></li><li data-type='method'><a href="module-SNBlameMain.html#~removeReverted">removeReverted</a></li><li data-type='method'><a href="module-SNBlameMain.html#~getBlame">getBlame</a></li><li data-type='method'><a href="module-SNBlameMain.html#~getDiffsWithCurrent">getDiffsWithCurrent</a></li><li data-type='method'><a href="module-SNBlameMain.html#~triggerScriptIncludeLib">triggerScriptIncludeLib</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#BlameLine">BlameLine</a></li><li><a href="global.html#BlameOptions">BlameOptions</a></li><li><a href="global.html#ServiceNowRESTFactory">ServiceNowRESTFactory</a></li><li><a href="global.html#MonacoEditor">MonacoEditor</a></li><li><a href="global.html#snBlamebootstrap">snBlamebootstrap</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">isolated/SNBlameMain.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import MonacoBlameGutterWrapper from "./MonacoBlameGutterWrapper.js";
 import SNBlameOptions from "./SNBlameOptions.js";
 import SNRESTFactory from "./SNRestFactory.js";
 
@@ -70,7 +131,7 @@ let restFactory;
 let LISTENERS = {
   'focus' : ()=>{
     const delayStart = new SNBlameOptions().getOption('startOnAction')
-    if(!delayStart && !loaded)
+    if(!delayStart &amp;&amp; !loaded)
       window.dispatchEvent(new CustomEvent("sn-blame-start"));
   },
   'load': () => {
@@ -171,8 +232,8 @@ Object.keys(LISTENERS).forEach((key) => {
  * 
  * @param {string} table record table name
  * @param {string} sys_id record unique id (sys_id)
- * @param {Array<string>} scriptFields list of fields that renders using the monaco editor usualy fields of type script present on the form
- * @returns {Array<snVersions>}
+ * @param {Array&lt;string>} scriptFields list of fields that renders using the monaco editor usualy fields of type script present on the form
+ * @returns {Array&lt;snVersions>}
  */
 async function getVersions(table, sys_id, scriptFields) {
   var parser = new X2JS();
@@ -222,7 +283,7 @@ async function getVersions(table, sys_id, scriptFields) {
 /**
  * removes the irelevant versions for the version list, Versions that don't apply to the bale due to being reverted to a previous update
  *  
- * @param {Array<snVersions>} versions List of servicenow record versions
+ * @param {Array&lt;snVersions>} versions List of servicenow record versions
  * @returns {snVersions} list of versions with out the versions to ignore due to revert actions
  */
 function removeReverted(versions) {
@@ -243,10 +304,10 @@ function removeReverted(versions) {
 /**
  * Generates the balme for the given version/field combo
  * 
- * @param {Array<snVersions>} versions list of versions to generate the blame from
+ * @param {Array&lt;snVersions>} versions list of versions to generate the blame from
  * @param {string} key fieldname for the blame
  * @param {boolean} ignoreWhiteSpace if true will ignore whitespaces when comparing lines
- * @returns {Array<BlameLine>} Array of lines with the infromation of the last user/update set/patch who changed the line
+ * @returns {Array&lt;BlameLine>} Array of lines with the infromation of the last user/update set/patch who changed the line
  */
 function getBlame(versions, key, ignoreWhiteSpace) {
   if (versions.length === 0) return [];
@@ -264,7 +325,7 @@ function getBlame(versions, key, ignoreWhiteSpace) {
     };
   });
 
-  for (let i = 1; i < versions.length; i++) {
+  for (let i = 1; i &lt; versions.length; i++) {
     let left = result.map(function (l) {
       return l.line;
     });
@@ -333,10 +394,10 @@ function getBlame(versions, key, ignoreWhiteSpace) {
 /**
  * Compares the calculated blame with the current changes to hide the line if the line was updated with local changes
  * 
- * @param {Array<string>} newModelValue Array of the lines with current value of the field
- * @param {Array<BlameLine>} serverValue Array of lines with the infromation of the last user/update set/patch who changed the line
+ * @param {Array&lt;string>} newModelValue Array of the lines with current value of the field
+ * @param {Array&lt;BlameLine>} serverValue Array of lines with the infromation of the last user/update set/patch who changed the line
  * @param {boolean} ignoreWhiteSpace if true will ignore whitespaces when comparing lines
- * @returns {Array<BlameLine>} Array of lines with the infromation of the last user/update set/patch who changed the line 
+ * @returns {Array&lt;BlameLine>} Array of lines with the infromation of the last user/update set/patch who changed the line 
  */
 function getDiffsWithCurrent(newModelValue, serverValue, ignoreWhiteSpace) {
   var changes = patienceDiff(
@@ -425,3 +486,30 @@ function triggerScriptIncludeLib(identifier){
   })
   
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Mon Jan 20 2025 21:46:06 GMT+0100 (hora estándar de Europa central) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

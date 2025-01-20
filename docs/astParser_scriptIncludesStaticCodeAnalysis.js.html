@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>astParser/scriptIncludesStaticCodeAnalysis.js - SN Blame</title>
+    
+    <meta name="description" content="ServiceNow Browser Extensions utility tool" />
+    
+        <meta name="keywords" content="ServiceNow" />
+        <meta name="keyword" content="ServiceNow" />
+    
+    
+    
+    <meta property="og:title" content="SN Blame"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content=""/>
+    <meta property="og:site_name" content="SN Blame"/>
+    <meta property="og:url" content=""/>
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/amagnin/SNBlameExtension" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Classes</h3><ul><li><a href="MonacoBlameColorMap.html">MonacoBlameColorMap</a><ul class='methods'><li data-type='method'><a href="MonacoBlameColorMap.html#getColor">getColor</a></li></ul></li><li><a href="MonacoBlameGutter.html">MonacoBlameGutter</a><ul class='methods'><li data-type='method'><a href="MonacoBlameGutter.html#createGutter">createGutter</a></li><li data-type='method'><a href="MonacoBlameGutter.html#updateLines">updateLines</a></li><li data-type='method'><a href="MonacoBlameGutter.html#updateGutterSize">updateGutterSize</a></li><li data-type='method'><a href="MonacoBlameGutter.html#updateGutter">updateGutter</a></li><li data-type='method'><a href="MonacoBlameGutter.html#destroyGutter">destroyGutter</a></li></ul></li><li><a href="MonacoBlameGutterWrapper.html">MonacoBlameGutterWrapper</a><ul class='methods'><li data-type='method'><a href="MonacoBlameGutterWrapper.html#createGutter">createGutter</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutter">updateGutter</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutterLines">updateGutterLines</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutterSize">updateGutterSize</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#destroyGutter">destroyGutter</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutterOptions">updateGutterOptions</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#gutterExists">gutterExists</a></li></ul></li><li><a href="SNBlameOptions.html">SNBlameOptions</a><ul class='methods'><li data-type='method'><a href="SNBlameOptions.html#reloadOptions">reloadOptions</a></li><li data-type='method'><a href="SNBlameOptions.html#getOption">getOption</a></li><li data-type='method'><a href="SNBlameOptions.html#setOption">setOption</a></li><li data-type='method'><a href="SNBlameOptions.html#getAllOptions">getAllOptions</a></li></ul></li><li><a href="SNRESTFactory.html">SNRESTFactory</a><ul class='methods'><li data-type='method'><a href="SNRESTFactory.html#~getVersions">getVersions</a></li><li data-type='method'><a href="SNRESTFactory.html#~getScriptIncludes">getScriptIncludes</a></li><li data-type='method'><a href="SNRESTFactory.html#~getScope">getScope</a></li><li data-type='method'><a href="SNRESTFactory.html#~getProperties">getProperties</a></li><li data-type='method'><a href="SNRESTFactory.html#~getScriptIncludeCache">getScriptIncludeCache</a></li></ul></li><li><a href="SNBlameDateUtils.html">SNBlameDateUtils</a><ul class='methods'><li data-type='method'><a href="SNBlameDateUtils.html#.getFormattedDate">getFormattedDate</a></li><li data-type='method'><a href="SNBlameDateUtils.html#.timeAgo">timeAgo</a></li></ul></li><li><a href="SNBlamePlaceholderContentWidget.html">SNBlamePlaceholderContentWidget</a><ul class='methods'><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#updateDiff">updateDiff</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#onCursorChange">onCursorChange</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#getId">getId</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#getDomNode">getDomNode</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#getPosition">getPosition</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#dispose">dispose</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-scriptIncludesStaticCodeAnalysis.html">scriptIncludesStaticCodeAnalysis</a><ul class='methods'><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~isGlideRecordNext">isGlideRecordNext</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~ExpressionStatement">ExpressionStatement</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~VariableDeclarator">VariableDeclarator</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~AssignmentExpression">AssignmentExpression</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~WhileStatement">WhileStatement</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~getTableName">getTableName</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~runScriptIncludesCodeAnalisis">runScriptIncludesCodeAnalisis</a></li></ul></li><li><a href="module-scriptIncludesToExtraLib.html">scriptIncludesToExtraLib</a><ul class='methods'><li data-type='method'><a href="module-scriptIncludesToExtraLib.html#~getScriptIncludeLib">getScriptIncludeLib</a></li></ul></li><li><a href="module-SNBlameMain.html">SNBlameMain</a><ul class='methods'><li data-type='method'><a href="module-SNBlameMain.html#~getVersions">getVersions</a></li><li data-type='method'><a href="module-SNBlameMain.html#~removeReverted">removeReverted</a></li><li data-type='method'><a href="module-SNBlameMain.html#~getBlame">getBlame</a></li><li data-type='method'><a href="module-SNBlameMain.html#~getDiffsWithCurrent">getDiffsWithCurrent</a></li><li data-type='method'><a href="module-SNBlameMain.html#~triggerScriptIncludeLib">triggerScriptIncludeLib</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#BlameLine">BlameLine</a></li><li><a href="global.html#BlameOptions">BlameOptions</a></li><li><a href="global.html#ServiceNowRESTFactory">ServiceNowRESTFactory</a></li><li><a href="global.html#MonacoEditor">MonacoEditor</a></li><li><a href="global.html#snBlamebootstrap">snBlamebootstrap</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">astParser/scriptIncludesStaticCodeAnalysis.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as walk from 'acorn-walk';
+import * as acorn from 'acorn';
+import * as astring from 'astring';
+
+/**
+ *  @module scriptIncludesStaticCodeAnalysis
+ *  @see module:scriptIncludesToExtraLib
+ * 
+ *  @exports runScriptIncludesCodeAnalisis
+ * 
+ *  @example
+ *  this module will Create a object containing all methods of the class and all methods on the constructor  
+ *  className : {  
+ *      classKeys: {  
+ *          initialize: {  
+ *              args: [],  
+ *              glideRecord: [{table, variable, loop: boolean}],  
+ *              dependencies: [  
+ *                  {className: class, methods: [method1, method2], isScriptInclude: Boolean, glideRecord: [{table, variable, loop: boolean}]},  
+ *                  {func: functionName, glideRecord: [{table, variable, loop: boolean}] }  
+ *              ]},  
+ *          method1 : ...,  
+ *          method2 : ...,  
+ *          constant: 'CONTSANT',  
+ *      }  
+ *      static: {  
+ *          someFucntion : {args: [],  glideRecord: [{table, variable, loop: boolean}]},  
+ *          someConstant : 'CONTSANT',  
+ *          someOtherConstnat: {type: 'Object', value: {}}  
+ *      }  
+ *      extends: className;  
+ *  }  
+ *  
+ * 
+ *  AST Node Types:  
+ *  - AssignmentExpression  
+ *  - ArrayExpression  
+ *  - BlockStatement  
+ *  - BinaryExpression  
+ *  - BreakStatement  
+ *  - CallExpression  
+ *  - CatchClause  
+ *  - ConditionalExpression  
+ *  - ContinueStatement  
+ *  - DoWhileStatement  
+ *  - DebuggerStatement  
+ *  - EmptyStatement  
+ *  - ExpressionStatement  
+ *  - ForStatement  
+ *  - ForInStatement  
+ *  - FunctionDeclaration  
+ *  - FunctionExpression  
+ *  - Identifier  
+ *  - IfStatement  
+ *  - Literal  
+ *  - LabeledStatement  
+ *  - LogicalExpression  
+ *  - MemberExpression  
+ *  - NewExpression  
+ *  - ObjectExpression  
+ *  - Program  
+ *  - Property  
+ *  - ReturnStatement  
+ *  - SequenceExpression  
+ *  - SwitchStatement  
+ *  - SwitchCase  
+ *  - ThisExpression  
+ *  - ThrowStatement  
+ *  - TryStatement  
+ *  - UnaryExpression  
+ *  - UpdateExpression  
+ *  - VariableDeclaration  
+ *  - VariableDeclarator  
+ *  - WhileStatement  
+ *  - WithStatement  
+ *   
+ *   
+ *  SNScriptIncludeCache: /api/now/syntax_editor/cache/sys_script_include  
+ *  SNIntelisence: /api/now/v1/syntax_editor/intellisense/sys_script_include  
+ */
+
+/**
+ * returns true if the node is a call to GlideRecord().next() or GlideRecord()._next() function
+ * 
+ * @param {string} type :Node Type
+ * @param {Object} node 
+ * @return {string}
+ */
+
+const isGlideRecordNext = (type, node) => type === 'CallExpression' &amp;&amp; /^(_){0,1}next/.test(node?.callee?.property?.name);
+
+const getSNClassMethods = (astTree, serviceNowClasses) => {
+    let serviceNowClassesName = serviceNowClasses.reduce( (acc, node) => {
+        if( node.type === 'VariableDeclaration')
+            acc[node.declarations[0].id.name] = {
+                classKeys:{},
+                static:{},
+                extends: null
+            };
+
+            
+        if(node.type === 'ExpressionStatement')
+            acc[node.expression.left.name] = {
+                classKeys:{},
+                static:{},
+                extends: null
+            };
+
+        return acc
+    }, {});
+
+    const snClassPrototype = astTree.body.filter(node => 
+        node.type === 'ExpressionStatement' &amp;&amp; 
+        node.expression?.left?.property?.name === 'prototype'
+    );
+
+    astTree.body.filter(node => 
+        node.type === 'ExpressionStatement' &amp;&amp; 
+        node.expression?.left?.property?.name !== 'prototype' &amp;&amp;
+        node.expression?.left?.type === 'MemberExpression'
+    ).forEach(node => {
+        
+        if(!serviceNowClassesName[node.expression.left.object?.name]) return
+
+        let name = node.expression.left.object.name;
+        let key = node.expression.left.property.name;
+
+        if(node.expression.right?.type === 'FunctionExpression'){
+            serviceNowClassesName[node.expression.left.object.name].static[key] = {
+                args:[],
+                glideRecord: [],
+            }
+
+            serviceNowClassesName[name].static[key].args = node.expression.right.params.map(e=> e.name);
+            return
+        }
+
+        if(node.expression.right?.type === 'Literal'){
+            serviceNowClassesName[name].static[key] = node.expression.right.value
+            return
+        }    
+
+        serviceNowClassesName[name].static[key] =  { type: node.expression.right?.type, value: node.expression.right } ;
+       
+    });
+    
+    snClassPrototype.forEach(node => {
+        let name = node.expression?.left?.object?.name
+        if(!name) return;
+
+        if(node.expression?.right.type === "CallExpression" &amp;&amp; 
+            (
+                node.expression?.right.callee?.object.name !== 'Object' ||
+                node.expression?.right.callee?.property.name !== 'extendsObject'
+            ))
+            return;
+
+        
+        if((node.expression?.right?.arguments || [])[1]?.properties){
+            node.expression.right.arguments[0] //?
+            serviceNowClassesName[name].extends = astring.generate(node.expression.right.arguments[0]);
+        }
+
+        (node.expression?.right?.properties || node.expression?.right?.arguments[1].properties /** Object.extends **/ ).forEach(property => {
+
+            if(property.value.type === 'FunctionExpression'){
+                let key = property.key.name
+                serviceNowClassesName[name].classKeys[key] = {
+                    args:[],
+                    glideRecord:[],
+                    dependencies:[]
+                }
+
+                serviceNowClassesName[name].classKeys[key].args = property.value.params.map(e=> e.name)
+                let isConstructor = key === 'initialize';
+                
+                walk.simple(property.value, {
+                    /**
+                     * Finds any method or constant added to the Instantiated Class by the constructor (initialize) 
+                     * 
+                     * @param {Object} _node: AST Node 
+                     * @returns undefined
+                     */
+                    ExpressionStatement(_node){
+                        if(!isConstructor)
+                            return;
+                        let left = _node.expression?.left;
+                        let right = _node.expression?.right;
+
+                        if(left?.type === 'MemberExpression' &amp;&amp; left?.object?.type === 'ThisExpression'){
+                            serviceNowClassesName[name].classKeys[left.property.name] = right.value || right.properties
+                        }
+                    },
+                    /**
+                     * Finds GlideRecord and GlideRecordSecure initializations on variable declarations:
+                     * var grRecord = new GlideRecord('table'), and stores the info on the class and method
+                     *   
+                     * [{  
+                     *      table: String|AST Node - String if we can find the literal, otherwise the AST Node  
+                     *      variable: String - Variable Name  
+                     * }]  
+                     * 
+                     * @param {Object} _node: AST Node 
+                     * 
+                     */
+                    VariableDeclarator(_node){
+                        if(_node.init?.type === 'NewExpression' &amp;&amp; (_node.init?.callee.name === 'GlideRecord' || _node.init?.callee.name === 'GlideRecordSecure')){
+                            const table = getTableName(_node.init.arguments[0], serviceNowClassesName, name, astTree);
+                            const variable = _node.id.name;
+
+                            serviceNowClassesName[name].classKeys[key].glideRecord.push({table, variable})
+                        }
+                    },
+                    /**
+                     * Finds GlideRecord and GlideRecordSecure initializations on variable assignment:
+                     * grRecord = new GlideRecord('table'), and stores the info on the class and method
+                     * 
+                     * [{  
+                     *      table: String|AST Node - String if we can find the literal, otherwise the AST Node  
+                     *      variable: String - Variable Name  
+                     * }]  
+                     * 
+                     * @param {Object} _node: AST Node 
+                     * 
+                     */
+                    AssignmentExpression(_node){
+                        if(_node.right?.type === 'NewExpression' &amp;&amp; (_node.right?.callee.name === 'GlideRecord' || _node.right?.callee.name === 'GlideRecordSecure')){
+                            const table = getTableName(_node.right.arguments[0], serviceNowClassesName, name, astTree);
+                            const variable = _node.left.name;
+
+                            serviceNowClassesName[name].classKeys[key].glideRecord.push({table, variable}) 
+                        }
+                    },
+                    /**
+                     * Find While statment used to loop over glideRecords and set the loop to true on the Object storing the GlideRecord information.
+                     * 
+                     * @param {Object} _node: AST Node
+                     * 
+                     */
+                    WhileStatement(_node) {
+                        let glideRecord = walk.findNodeAt(_node.test, null, null, isGlideRecordNext)?.node;
+                        
+                        if (!glideRecord) 
+                            return;
+
+                        let grRecord = serviceNowClassesName[name].classKeys[key].glideRecord.find(gr => gr.variable === glideRecord.callee.object.name);
+                        
+                        if(grRecord) 
+                            grRecord.loop = true;
+                        else
+                            serviceNowClassesName[name].classKeys[key].glideRecord.push({table: null, variable: glideRecord.callee.object.name, loop: true})
+                    },
+                })
+                
+                return;
+            }
+
+            if(property.value.type === 'Literal'){
+                serviceNowClassesName[name].classKeys[property.key.name] = property.value.value;
+                return
+            }
+
+            serviceNowClassesName[name].classKeys[property.key.name] =  { type: property.value.type, value: property.value };
+        })
+    })
+    
+    return serviceNowClassesName
+}
+
+/**
+ * 
+ * @param {Object} node: AST Node for the GlideRecord or GlideRecord Secure Variable initializetion or variable assignement
+ * @param {Object} serviceNowClassesName : Object being generated with the Class structure
+ * @param {string} className : Class name of the current Class beging analized (note script inclidues can define more than 1 Class)
+ * @param {Object} astTree : complete AST of the script include being analized
+ * @returns {string | Object} if the table name is found returns the name of the funciton if not it returns the entire ast node 
+ */
+const getTableName = (node, serviceNowClassesName, className, astTree) => { 
+    if(node.type === 'Literal')
+        return node.value
+    
+    if(node?.object?.type === 'ThisExpression' &amp;&amp; serviceNowClassesName[className].classKeys[node?.property?.name]){
+        return serviceNowClassesName[className].classKeys[node?.property?.name]; 
+    }
+  
+    if(node?.object?.name === className &amp;&amp; serviceNowClassesName[className].static[node?.property?.name]){
+        return serviceNowClassesName[className].static[node?.property?.name]; 
+    }
+
+    /** if object find object */
+    /** if variable, find variable assignation on block? */
+   
+    return node;
+}
+
+/**
+ * runCodeAnalisis: ast static code analisis
+ * 
+ * @param {string} script: Script Includes content
+ * @returns {Object} Object containing information of all classes found on the script include
+ * @example 
+ * {
+ *   classNameOne : {  
+ *      classKeys: {  
+ *          initialize: {  
+ *              args: [],  
+ *              glideRecord: [{table, variable, loop: boolean}],  
+ *              dependencies: [  
+ *                  {className: class, methods: [method1, method2], isScriptInclude: Boolean, glideRecord: [{table, variable, loop: boolean}]},  
+ *                  {func: functionName, glideRecord: [{table, variable, loop: boolean}] }  
+ *              ]},  
+ *          method1 : ...,  
+ *          method2 : ...,  
+ *          constant: 'CONSTANT',  
+ *      }  
+ *      static: {  
+ *          someFucntion : {args: [],  glideRecord: [{table, variable, loop: boolean}]},  
+ *          someConstant : 'CONSTANT',  
+ *          someOtherConstnat: {type: 'Object', value: {}}  
+ *      }  
+ *      extends: ExtendedClassName;  
+ *  },
+ *  classNameTwo: {
+ *      classKeys: {...}
+ *      static: {...}
+ *  }  
+ * }
+ * 
+ **/
+function runScriptIncludesCodeAnalisis(script) {
+
+    let astTree = acorn.parse(script, {
+        ecmaVersion: 'latest',
+        locations: true,
+        /* onComment: (block, text, start, end) => {}, */
+    })
+    
+    /** we can have more than 1 class per script include */
+
+    /**
+     * VariableDeclaration: var ClassName = Class.create()
+     * ExpressionStatemen: ClassName = Class.create()
+     */
+    const serviceNowClasses = astTree.body.filter(node => 
+        (
+            node.type === 'VariableDeclaration' &amp;&amp; 
+            node?.declarations[0]?.init?.callee?.object?.name === 'Class' &amp;&amp; 
+            node?.declarations[0]?.init?.callee?.property?.name === 'create'
+        ) ||
+        (
+            node.type === 'ExpressionStatement' &amp;&amp; 
+            node?.expression?.right?.callee?.object?.name === 'Class' &amp;&amp;
+            node?.expression?.right?.callee?.property?.name === 'create'
+        )
+    );
+
+    if(serviceNowClasses.length === 0) return [];
+
+    return getSNClassMethods(astTree, serviceNowClasses) ;
+}
+
+export default runScriptIncludesCodeAnalisis;</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Mon Jan 20 2025 21:46:06 GMT+0100 (hora estándar de Europa central) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

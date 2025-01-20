@@ -2,6 +2,10 @@ import MonacoBlameGutter from "./MonacoBlameGutter.js";
 import SNBlameOptions from "./SNBlameOptions.js";
 
 /**
+ * @typedef {import('./SNBlameMain.js').BlameLine} BlameLine
+ */
+
+/**
  * Calass containing the gutter all the Blame gutters on the page.
  * @class
  */
@@ -55,7 +59,7 @@ class MonacoBlameGutterWrapper {
      * creates a blame gutter for the given field/editor combo
      * @param {string} field fieldName for the monaco editor
      * @param {HTMLElement} editorElement html element containin the monaco editor
-     * @param {Array<Line>} lines lines object for the field
+     * @param {Array<BlameLine>} lines lines object for the field
      * @param {number} [lineHeight = 19] line height of the monaco editor
     */
     createGutter(field, editorElement, lines, lineHeight = 19){
@@ -80,7 +84,7 @@ class MonacoBlameGutterWrapper {
     /** 
      * Updates the blamegutter for the given field to keep track current changes
      * @param {string} field fieldName for the monaco editor gutter to update
-     * @param {Array<Line>} lines new lines to update the gutter with (lines contains the new blame to keep track of local changes)
+     * @param {Array<BlameLine>} lines new lines to update the gutter with (lines contains the new blame to keep track of local changes)
     */
     updateGutterLines(field, lines){
         if(!this.#fields[field]) return;

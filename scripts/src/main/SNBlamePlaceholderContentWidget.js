@@ -1,6 +1,16 @@
 import SNBlameDateUtils from "./SNBlameDateUtils.js";
 
-export default class SNBlamePlaceholderContentWidget {
+/**
+ * @typedef {import('../isolated/SNBlameMain.js').BlameLine} BlameLine
+ */
+
+/**
+ * Class passed to the Monaco editor to show the placeholder next to the current cursor line
+ * @class
+ * 
+ * @param {MonacoEditor} editor Monaco editor to render the placeholder text
+ */
+class SNBlamePlaceholderContentWidget {
     static ID = 'editor.widget.placeholderHint';
 
     constructor(editor) {
@@ -11,10 +21,18 @@ export default class SNBlamePlaceholderContentWidget {
         this.onCursorChange();
     }
 
+    /**
+     * Updates the line diff stored on the class to display the last update of the line
+     * @param {Array<BlameLine>} diff new arary of lines with blame history
+     */
 	updateDiff(diff){
 		this.diff = diff;
 	}
 
+    /**
+     * called on cursor position change, to change the position and re-render the widget with the correct line blame so its allways next to the cursor
+     * 
+     */
     onCursorChange() {
         if(!this.diff)
             return;
@@ -30,10 +48,18 @@ export default class SNBlamePlaceholderContentWidget {
         this.editor.addContentWidget(this);
     }
 
+    /**
+     * required by Monaco, returns an ID to track the widget
+     * @returns {string}
+     */
     getId() {
         return SNBlamePlaceholderContentWidget.ID;
     }
 
+    /**
+     * required by Monaco, returns a HTML element to render the widget
+     * @returns {HTMLElement}
+     */
     getDomNode() {
         if (!this.domNode) {
             this.domNode = document.createElement('div');
@@ -50,6 +76,10 @@ export default class SNBlamePlaceholderContentWidget {
         return this.domNode;
     }
 
+    /**
+     * required by Monaco, returns the position to where to render the widget
+     * @returns {Object}
+     */
     getPosition() {
         let { lineNumber } = this.editor.getPosition();
         let column = this.editor.getModel().getLineContent(lineNumber).length + 1;
@@ -59,7 +89,12 @@ export default class SNBlamePlaceholderContentWidget {
         };
     }
 
+    /**
+     * called to remove the widget from monaco
+     */
     dispose() {
         this.editor.removeContentWidget(this);
     }
 }
+
+export default SNBlamePlaceholderContentWidget;
