@@ -1,4 +1,9 @@
-export default class SNBlameDateUtils {
+/**
+ * Class used to transform a date into human readable format
+ * @class
+ * 
+ */
+class SNBlameDateUtils {
   constructor() {
     if (typeof SNBlameDateUtils.instance === "object")
       return SNBlameDateUtils.instance;
@@ -7,6 +12,14 @@ export default class SNBlameDateUtils {
     return this;
   }
 
+  /**
+   * returns the given date in a human readable format, used internaly form the SNBlameDateUtils
+   * 
+   * @param {Date} date date to format
+   * @param {boolean | string} [prefomattedDate = false] if not false, will use the preformated date passed and just add hours and minutes
+   * @param {boolean} [hideYear = false] if true will not show the year, ignored id preformatedDate is not false
+   * @returns {string}
+   */
   static getFormattedDate(date, prefomattedDate = false, hideYear = false) {
     const MONTH_NAMES = [
       "January",
@@ -40,6 +53,19 @@ export default class SNBlameDateUtils {
     return `${day}. ${month} ${year}. at ${hours}:${minutes}`;
   }
 
+  /**
+   * returns the given date in a human readable format, depending on how long ago was the date is will return
+   * now, 
+   * X seconds ago, 
+   * X minutes ago, 
+   * Today, 
+   * Yesterday, 
+   * DD. MM at HH:SS, 
+   * DD. MM YYYY at HH:SS
+   * 
+   * @param {string | number | Date} dateParam date to transform in a human redable date
+   * @returns {string}
+   */
   static timeAgo(dateParam) {
     if (!dateParam) {
       return null;
@@ -74,3 +100,5 @@ export default class SNBlameDateUtils {
     return SNBlameDateUtils.getFormattedDate(date);
   }
 }
+
+export default SNBlameDateUtils;

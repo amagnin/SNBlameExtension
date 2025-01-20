@@ -5,7 +5,9 @@
 
 class SNBlameOptions {
 
-  /**@type {Object}
+  /**
+   * @typedef BlameOptions
+   * @type {Object}
    * @property showUser {bolean}: true to show the username on the SNBlame line, false to show the update set/version name
    * @property debugLineNumbers {bolean}: true to show the line number on the blame line
    * @property hideGutterDate {bolean}: true to hide the date on the blame line
@@ -17,6 +19,7 @@ class SNBlameOptions {
    */
   options = {};
   
+  /**@type {Array<string>} */
   #validOptions = [
     "showUser",
     "debugLineNumbers",
@@ -28,6 +31,7 @@ class SNBlameOptions {
     "useExtensionIntelisense"
   ];
 
+   /**@type {Array<string>} */
   #defaultIgnoreTableList = ['sys_update', 'sys_update_version'];
 
   constructor() {
@@ -41,6 +45,9 @@ class SNBlameOptions {
     return this;
   }
 
+  /**
+   * reloads the options form the extension storage
+   */
   reloadOptions(){
 
     this.options.showUser = false;
@@ -69,10 +76,22 @@ class SNBlameOptions {
     });
   }
 
+  /**
+   * returns the option with the passed ID
+   * @param {string} id id of the option to retrieve 
+   * @returns {string | boolean | number}
+   */
   getOption(id) {
     return this.options[id];
   }
 
+  /**
+   * updates the options with the given ID value
+   * 
+   * @param {string} id id of the option to update 
+   * @param {string | number | boolean} value new value
+   * @param {boolean} [update = true] if true it updates the extension storage
+   */
   setOption(id, value, update = true) {
     if (this.#validOptions.indexOf(id) !== -1) {
       this.options[id] = value;
@@ -81,6 +100,10 @@ class SNBlameOptions {
     }
   }
 
+  /**
+   * returns a clone of the current BlameOptions
+   * @returns {BlameOptions}
+   */
   getAllOptions(){
     return structuredClone(this.options)
   }

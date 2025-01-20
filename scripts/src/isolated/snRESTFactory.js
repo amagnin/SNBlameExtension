@@ -70,7 +70,29 @@ let SNRESTFactory = function (g_ck) {
         }
 
         let body = await response.json();
-        return body
+        return body;
+    }
+
+    /**
+     * retrieves the scope record
+     * 
+     * @param {string} sys_id: sys_id of the scope 
+     * @returns {Object} response as a JSON 
+     */
+    let getScope = async function(sys_id){
+        const response = await fetch(
+            `/api/now/table/sys_scope/${sys_id}`, {
+                method: "GET",
+                headers,
+            }
+        );
+
+        if (!response.ok) {
+            return;
+        }
+
+        let body = await response.json();
+        return body;
     }
 
     /**
@@ -105,16 +127,18 @@ let SNRESTFactory = function (g_ck) {
     /**
      *  @typedef ServiceNowRESTFactory
      *  @type {Object}
-     *  @property getVersions {function}  
-     *  @property getScriptIncludes {function}
-     *  @property getProperties {function}
-     *  @property getScriptIncludeCache {function}
+     *  @property getVersions {function} retrives the version for the record passed
+     *  @property getScriptIncludes {function} retrieves the script include for the given sys_id
+     *  @property getScope {function} retrives the scipe record for the given sys_id
+     *  @property getProperties {function} retrives the value of the system property
+     *  @property getScriptIncludeCache {function} retrieves Servicenow the script includes cache object
      */
 
 
     return {
         getVersions,
         getScriptIncludes,
+        getScope,
         getProperties,
         getScriptIncludeCache,
     }

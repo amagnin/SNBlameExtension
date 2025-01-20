@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>main/SNBlameDateUtils.js - SN Blame</title>
+    
+    <meta name="description" content="ServiceNow Browser Extensions utility tool" />
+    
+        <meta name="keywords" content="ServiceNow" />
+        <meta name="keyword" content="ServiceNow" />
+    
+    
+    
+    <meta property="og:title" content="SN Blame"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content=""/>
+    <meta property="og:site_name" content="SN Blame"/>
+    <meta property="og:url" content=""/>
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/amagnin/SNBlameExtension" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Classes</h3><ul><li><a href="MonacoBlameColorMap.html">MonacoBlameColorMap</a><ul class='methods'><li data-type='method'><a href="MonacoBlameColorMap.html#getColor">getColor</a></li></ul></li><li><a href="MonacoBlameGutter.html">MonacoBlameGutter</a><ul class='methods'><li data-type='method'><a href="MonacoBlameGutter.html#createGutter">createGutter</a></li><li data-type='method'><a href="MonacoBlameGutter.html#updateLines">updateLines</a></li><li data-type='method'><a href="MonacoBlameGutter.html#updateGutterSize">updateGutterSize</a></li><li data-type='method'><a href="MonacoBlameGutter.html#updateGutter">updateGutter</a></li><li data-type='method'><a href="MonacoBlameGutter.html#destroyGutter">destroyGutter</a></li></ul></li><li><a href="MonacoBlameGutterWrapper.html">MonacoBlameGutterWrapper</a><ul class='methods'><li data-type='method'><a href="MonacoBlameGutterWrapper.html#createGutter">createGutter</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutter">updateGutter</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutterLines">updateGutterLines</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutterSize">updateGutterSize</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#destroyGutter">destroyGutter</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutterOptions">updateGutterOptions</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#gutterExists">gutterExists</a></li></ul></li><li><a href="SNBlameOptions.html">SNBlameOptions</a><ul class='methods'><li data-type='method'><a href="SNBlameOptions.html#reloadOptions">reloadOptions</a></li><li data-type='method'><a href="SNBlameOptions.html#getOption">getOption</a></li><li data-type='method'><a href="SNBlameOptions.html#setOption">setOption</a></li><li data-type='method'><a href="SNBlameOptions.html#getAllOptions">getAllOptions</a></li></ul></li><li><a href="SNRESTFactory.html">SNRESTFactory</a><ul class='methods'><li data-type='method'><a href="SNRESTFactory.html#~getVersions">getVersions</a></li><li data-type='method'><a href="SNRESTFactory.html#~getScriptIncludes">getScriptIncludes</a></li><li data-type='method'><a href="SNRESTFactory.html#~getScope">getScope</a></li><li data-type='method'><a href="SNRESTFactory.html#~getProperties">getProperties</a></li><li data-type='method'><a href="SNRESTFactory.html#~getScriptIncludeCache">getScriptIncludeCache</a></li></ul></li><li><a href="SNBlameDateUtils.html">SNBlameDateUtils</a><ul class='methods'><li data-type='method'><a href="SNBlameDateUtils.html#.getFormattedDate">getFormattedDate</a></li><li data-type='method'><a href="SNBlameDateUtils.html#.timeAgo">timeAgo</a></li></ul></li><li><a href="SNBlamePlaceholderContentWidget.html">SNBlamePlaceholderContentWidget</a><ul class='methods'><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#updateDiff">updateDiff</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#onCursorChange">onCursorChange</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#getId">getId</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#getDomNode">getDomNode</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#getPosition">getPosition</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#dispose">dispose</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-scriptIncludesStaticCodeAnalysis.html">scriptIncludesStaticCodeAnalysis</a><ul class='methods'><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~isGlideRecordNext">isGlideRecordNext</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~ExpressionStatement">ExpressionStatement</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~VariableDeclarator">VariableDeclarator</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~AssignmentExpression">AssignmentExpression</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~WhileStatement">WhileStatement</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~getTableName">getTableName</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~runScriptIncludesCodeAnalisis">runScriptIncludesCodeAnalisis</a></li></ul></li><li><a href="module-scriptIncludesToExtraLib.html">scriptIncludesToExtraLib</a><ul class='methods'><li data-type='method'><a href="module-scriptIncludesToExtraLib.html#~getScriptIncludeLib">getScriptIncludeLib</a></li></ul></li><li><a href="module-SNBlameMain.html">SNBlameMain</a><ul class='methods'><li data-type='method'><a href="module-SNBlameMain.html#~getVersions">getVersions</a></li><li data-type='method'><a href="module-SNBlameMain.html#~removeReverted">removeReverted</a></li><li data-type='method'><a href="module-SNBlameMain.html#~getBlame">getBlame</a></li><li data-type='method'><a href="module-SNBlameMain.html#~getDiffsWithCurrent">getDiffsWithCurrent</a></li><li data-type='method'><a href="module-SNBlameMain.html#~triggerScriptIncludeLib">triggerScriptIncludeLib</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#BlameLine">BlameLine</a></li><li><a href="global.html#BlameOptions">BlameOptions</a></li><li><a href="global.html#ServiceNowRESTFactory">ServiceNowRESTFactory</a></li><li><a href="global.html#MonacoEditor">MonacoEditor</a></li><li><a href="global.html#snBlamebootstrap">snBlamebootstrap</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">main/SNBlameDateUtils.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Class used to transform a date into human readable format
+ * @class
+ * 
+ */
+class SNBlameDateUtils {
+  constructor() {
+    if (typeof SNBlameDateUtils.instance === "object")
+      return SNBlameDateUtils.instance;
+
+    SNBlameDateUtils.instance = this;
+    return this;
+  }
+
+  /**
+   * returns the given date in a human readable format, used internaly form the SNBlameDateUtils
+   * 
+   * @param {Date} date date to format
+   * @param {boolean | string} [prefomattedDate = false] if not false, will use the preformated date passed and just add hours and minutes
+   * @param {boolean} [hideYear = false] if true will not show the year, ignored id preformatedDate is not false
+   * @returns {string}
+   */
+  static getFormattedDate(date, prefomattedDate = false, hideYear = false) {
+    const MONTH_NAMES = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    const day = date.getDate();
+    const month = MONTH_NAMES[date.getMonth()];
+    const year = date.getFullYear();
+    const hours = `0${date.getHours()}`.slice(-2);
+    let minutes = `0${date.getMinutes()}`.slice(-2);
+
+    if (prefomattedDate) {
+      return `${prefomattedDate} at ${hours}:${minutes}`;
+    }
+
+    if (hideYear) {
+      return `${day}. ${month} at ${hours}:${minutes}`;
+    }
+
+    return `${day}. ${month} ${year}. at ${hours}:${minutes}`;
+  }
+
+  /**
+   * returns the given date in a human readable format, depending on how long ago was the date is will return
+   * now, 
+   * X seconds ago, 
+   * X minutes ago, 
+   * Today, 
+   * Yesterday, 
+   * DD. MM at HH:SS, 
+   * DD. MM YYYY at HH:SS
+   * 
+   * @param {string | number | Date} dateParam date to transform in a human redable date
+   * @returns {string}
+   */
+  static timeAgo(dateParam) {
+    if (!dateParam) {
+      return null;
+    }
+
+    const date = typeof dateParam === "object" ? dateParam : new Date(dateParam);
+    const DAY_IN_MS = 86400000; // 24 * 60 * 60 * 1000
+    const today = new Date();
+    const yesterday = new Date(today - DAY_IN_MS);
+    const seconds = Math.round((today - date) / 1000);
+    const minutes = Math.round(seconds / 60);
+    const isToday = today.toDateString() === date.toDateString();
+    const isYesterday = yesterday.toDateString() === date.toDateString();
+    const isThisYear = today.getFullYear() === date.getFullYear();
+
+    if (seconds &lt; 5) {
+      return "now";
+    } else if (seconds &lt; 60) {
+      return `${seconds} seconds ago`;
+    } else if (seconds &lt; 90) {
+      return "about a minute ago";
+    } else if (minutes &lt; 60) {
+      return `${minutes} minutes ago`;
+    } else if (isToday) {
+      return SNBlameDateUtils.getFormattedDate(date, "Today");
+    } else if (isYesterday) {
+      return SNBlameDateUtils.getFormattedDate(date, "Yesterday");
+    } else if (isThisYear) {
+      return SNBlameDateUtils.getFormattedDate(date, false, true);
+    }
+
+    return SNBlameDateUtils.getFormattedDate(date);
+  }
+}
+
+export default SNBlameDateUtils;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Mon Jan 20 2025 21:46:06 GMT+0100 (hora estándar de Europa central) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

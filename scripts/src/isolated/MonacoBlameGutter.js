@@ -2,11 +2,15 @@ import SNBlameOptions from "./SNBlameOptions.js";
 import MonacoBlameColorMap from "./MonacoBlameColorMap.js";
 
 /**
+ * @typedef {import('./SNBlameMain.js').BlameLine} BlameLine
+ */
+
+/**
  * Class that creates and keeps track of the HTMLElement containing the Blame Gutter and line changes
  * @class 
  * 
  * @param {HTMLElement} editorElement - html element containing the monaco editor 
- * @param {Array<Line>} lines - lines Object containing the blame/diff
+ * @param {Array<BlameLine>} lines - lines Object containing the blame/diff
  * @param {number} [lineHeight = 19] - editor lineHeight
  */
 class MonacoBlameGutter {
@@ -21,7 +25,7 @@ class MonacoBlameGutter {
      * Creates the Blame Gutter next to the monaco editor
      * 
      * @param {HTMLElement} editorElement - html element containing the monaco editor 
-     * @param {Array<Line>} lines - lines Object containing the blame/diff
+     * @param {Array<BlameLine>} lines - lines Object containing the blame/diff
      * @param {number} [lineHeight = 19] - editor lineHeight
     */
     createGutter(editorElement, lines, lineHeight){
@@ -52,7 +56,7 @@ class MonacoBlameGutter {
 
     /** 
      * Updates the blamegutter to keep track current changes
-     * @param {Array<Line>} lines new lines to update the gutter with (lines contains the new blame to keep track of local changes)
+     * @param {Array<BlameLine>} lines new lines to update the gutter with (lines contains the new blame to keep track of local changes)
      */
     updateLines(lines) {
         this.lines = lines;
