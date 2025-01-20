@@ -1,6 +1,11 @@
 import * as astring from 'astring';
 
-/*    
+/**   
+* @module scriptIncludesToExtraLib
+* @see module:scriptIncludesStaticCodeAnalysis
+*
+* @exports getScriptIncludeLib
+* @example
 *  to load the library to monaco:  
 *  let disposable = monaco.languages.typescript.javascriptDefaults.addExtraLib(script with the class information) or we overwride:  
 *  GlideEditorMonaco.prototype.addIntellisenseforScriptInclude  
@@ -35,7 +40,7 @@ import * as astring from 'astring';
  */
 
 const getScriptIncludeLib = function(className, scriptIncludesObject){
-    const classObject = scriptIncludesObject[className];
+    const classObject = scriptIncludesObject;
     
     let classNames = Object.keys(classObject.classKeys).map(key=>{
         let keyValue = classObject.classKeys[key]

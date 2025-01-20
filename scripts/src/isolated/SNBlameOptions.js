@@ -1,5 +1,25 @@
-export default class SNBlameOptions {
+/**
+ * Singleton to hold the extension options
+ * @class
+ */
+
+class SNBlameOptions {
+
+  /**
+   * @typedef BlameOptions
+   * @type {Object}
+   * @property showUser {bolean}: true to show the username on the SNBlame line, false to show the update set/version name
+   * @property debugLineNumbers {bolean}: true to show the line number on the blame line
+   * @property hideGutterDate {bolean}: true to hide the date on the blame line
+   * @property ignoreWhiteSpace {bolean}: true to ignore whitespaces changes when calculating the diffs
+   * @property startOnAction {bolean}: true to start the gutter on demand instead of automaticaly
+   * @property gutterWidth {number}: width of the gutter
+   * @property ignoreTableList {Array<string>}: List of table to not run the blame
+   * @property useExtensionIntelisense {boolean}: true to use custom intelisense isntead of servicenow OOTB intelisense
+   */
   options = {};
+  
+  /**@type {Array<string>} */
   #validOptions = [
     "showUser",
     "debugLineNumbers",
@@ -11,6 +31,7 @@ export default class SNBlameOptions {
     "useExtensionIntelisense"
   ];
 
+   /**@type {Array<string>} */
   #defaultIgnoreTableList = ['sys_update', 'sys_update_version'];
 
   constructor() {
@@ -24,6 +45,9 @@ export default class SNBlameOptions {
     return this;
   }
 
+  /**
+   * reloads the options form the extension storage
+   */
   reloadOptions(){
 
     this.options.showUser = false;
@@ -52,10 +76,22 @@ export default class SNBlameOptions {
     });
   }
 
+  /**
+   * returns the option with the passed ID
+   * @param {string} id id of the option to retrieve 
+   * @returns {string | boolean | number}
+   */
   getOption(id) {
     return this.options[id];
   }
 
+  /**
+   * updates the options with the given ID value
+   * 
+   * @param {string} id id of the option to update 
+   * @param {string | number | boolean} value new value
+   * @param {boolean} [update = true] if true it updates the extension storage
+   */
   setOption(id, value, update = true) {
     if (this.#validOptions.indexOf(id) !== -1) {
       this.options[id] = value;
@@ -64,8 +100,14 @@ export default class SNBlameOptions {
     }
   }
 
+  /**
+   * returns a clone of the current BlameOptions
+   * @returns {BlameOptions}
+   */
   getAllOptions(){
     return structuredClone(this.options)
   }
 
 }
+
+export default SNBlameOptions;
