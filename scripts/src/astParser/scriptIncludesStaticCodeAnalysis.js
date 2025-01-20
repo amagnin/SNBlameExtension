@@ -3,7 +3,12 @@ import * as acorn from 'acorn';
 import * as astring from 'astring';
 
 /**
+ *  @module scriptIncludesStaticCodeAnalysis
+ *  @see module:scriptIncludesToExtraLib
  * 
+ *  @exports runScriptIncludesCodeAnalisis
+ * 
+ *  @example
  *  this module will Create a object containing all methods of the class and all methods on the constructor  
  *  className : {  
  *      classKeys: {  
@@ -77,9 +82,9 @@ import * as astring from 'astring';
 /**
  * returns true if the node is a call to GlideRecord().next() or GlideRecord()._next() function
  * 
- * @param {String} type :Node Type
+ * @param {string} type :Node Type
  * @param {Object} node 
- * @returns 
+ * @return {string}
  */
 
 const isGlideRecordNext = (type, node) => type === 'CallExpression' && /^(_){0,1}next/.test(node?.callee?.property?.name);
@@ -266,9 +271,9 @@ const getSNClassMethods = (astTree, serviceNowClasses) => {
  * 
  * @param {Object} node: AST Node for the GlideRecord or GlideRecord Secure Variable initializetion or variable assignement
  * @param {Object} serviceNowClassesName : Object being generated with the Class structure
- * @param {String} className : Class name of the current Class beging analized (note script inclidues can define more than 1 Class)
+ * @param {string} className : Class name of the current Class beging analized (note script inclidues can define more than 1 Class)
  * @param {Object} astTree : complete AST of the script include being analized
- * @returns {String | Object} if the table name is found returns the name of the funciton if not it returns the entire ast node 
+ * @returns {string | Object} if the table name is found returns the name of the funciton if not it returns the entire ast node 
  */
 const getTableName = (node, serviceNowClassesName, className, astTree) => { 
     if(node.type === 'Literal')
@@ -291,7 +296,7 @@ const getTableName = (node, serviceNowClassesName, className, astTree) => {
 /**
  * runCodeAnalisis: ast static code analisis
  * 
- * @param {String} script: Script Includes content
+ * @param {string} script: Script Includes content
  * @returns {Object} Object containing information of all classes found on the script include
  * @example 
  * {
@@ -354,4 +359,4 @@ function runScriptIncludesCodeAnalisis(script) {
     return getSNClassMethods(astTree, serviceNowClasses) ;
 }
 
-export default runScriptIncludesCodeAnalisis
+export default runScriptIncludesCodeAnalisis;
