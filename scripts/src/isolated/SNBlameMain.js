@@ -144,10 +144,10 @@ let LISTENERS = {
     gutters.updateGutterLines(field, currentDiff);
   },
   'sn-check-tokens': (event) => {
-    const { tokens, field } = event.detail;
+    const { tokens, field, currentScope } = event.detail;
 
     tokens.forEach((token) => {
-      triggerScriptIncludeLib(`${token.scope}.${token.string}`)
+      triggerScriptIncludeLib(`${token.scope}.${token.string}`, currentScope)
     })
   },
   'sn-get-scirpt_include_cache': (event) => {
@@ -384,7 +384,7 @@ function getDiffsWithCurrent(newModelValue, serverValue, ignoreWhiteSpace) {
  * @param {string} identifier 
  *
  */
-function triggerScriptIncludeLib(identifier){
+function triggerScriptIncludeLib(identifier, currentScope){
   if(loadedLibs[identifier]) 
     return;
 
@@ -403,7 +403,7 @@ function triggerScriptIncludeLib(identifier){
       let ext = scriptIncludeObject[className].extends;
       
       if (scriptScope)
-        lib = `declare namespace ${scriptScope} { ${lib} }; ${lib}`;
+        lib = `declare namespace ${scriptScope} { ${lib} }; ${(currentScope === scriptScope || !scriptScope || !currentScope) ? lib : ''}`;
 
       if(!ext)
         return lib;
@@ -424,7 +424,7 @@ function triggerScriptIncludeLib(identifier){
       },
     }));
 
-    scriptExtends.forEach((lib) => triggerScriptIncludeLib(lib));
+    scriptExtends.forEach((lib) => triggerScriptIncludeLib(lib, currentScope));
   })
   
 }

@@ -198,6 +198,7 @@ const snBlamebootstrap = (monaco) => {
             detail: {
               tokens: tokens,
               field,
+              currentScope: g_scratchpad?.scope,
             },
           })
         )
