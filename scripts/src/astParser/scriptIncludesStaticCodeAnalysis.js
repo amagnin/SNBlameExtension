@@ -2,6 +2,8 @@ import * as walk from 'acorn-walk';
 import * as acorn from 'acorn';
 import * as astring from 'astring';
 
+import walkerFunctions, * as walkFunctions  from './walkerFunctions.js';
+
 /**
  *  @module scriptIncludesStaticCodeAnalysis
  *  @see module:scriptIncludesToExtraLib
@@ -89,7 +91,7 @@ import * as astring from 'astring';
 
 const isGlideRecordNext = (type, node) => type === 'CallExpression' && /^(_){0,1}next/.test(node?.callee?.property?.name);
 
-const getSNClassMethods = (astTree, serviceNowClasses) => {
+const getSNClassMethods = (astTree, serviceNowClasses, scriptIncludeCache, currentScope, availableScopes) => {
     let serviceNowClassesName = serviceNowClasses.reduce( (acc, node) => {
         if( node.type === 'VariableDeclaration')
             acc[node.declarations[0].id.name] = {
@@ -182,6 +184,7 @@ const getSNClassMethods = (astTree, serviceNowClasses) => {
                      * @returns undefined
                      */
                     ExpressionStatement(_node){
+                        let scriptIncludeCall = walkerFunctions.findScriptIncludeCalls(_node, scriptIncludeCache, currentScope, availableScopes);
                         if(!isConstructor)
                             return;
                         let left = _node.expression?.left;
@@ -327,7 +330,7 @@ const getTableName = (node, serviceNowClassesName, className, astTree) => {
  * }
  * 
  **/
-function runScriptIncludesCodeAnalisis(script) {
+function runScriptIncludesCodeAnalisis(script, scriptIncludeCache, currentScope, availableScopes) {
 
     let astTree = acorn.parse(script, {
         ecmaVersion: 'latest',
@@ -356,7 +359,7 @@ function runScriptIncludesCodeAnalisis(script) {
 
     if(serviceNowClasses.length === 0) return [];
 
-    return getSNClassMethods(astTree, serviceNowClasses) ;
+    return getSNClassMethods(astTree, serviceNowClasses, scriptIncludeCache, currentScope, availableScopes) ;
 }
 
 export default runScriptIncludesCodeAnalisis;

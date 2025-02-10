@@ -2,11 +2,16 @@ import MonacoBlameGutterWrapper from "./MonacoBlameGutterWrapper.js";
 import SNBlameOptions from "./SNBlameOptions.js";
 import SNRESTFactory from "./SNRestFactory.js";
 
+import StaticCodeAnalisisUtil from "../astParser/staticCodeAnalysisUtil.js";
 import runScriptIncludesCodeAnalisis from "../astParser/scriptIncludesStaticCodeAnalysis.js";
 import getScriptIncludeLib from "../astParser/scriptIncludesToExtraLib.js";
 
 import patienceDiff from "../../libraries/patienceDiff.js";
 import X2JS from "x2js";
+
+import * as acorn from "acorn";
+import * as acornLoose from 'acorn-loose';
+import * as walk from 'acorn-walk';
 
 /**
  * @typedef BlameLine
@@ -47,8 +52,6 @@ import X2JS from "x2js";
 
 /** @type {Object} */
 let serverDiff = {};
-/** @type {Object} */
-let scriptIncludeCache = {};
 /** @type {boolean} */
 let loaded = false;
 /** @type {Object} */
@@ -56,6 +59,9 @@ let loadedLibs = {}
 
 /** @type {ServiceNowRESTFactory} */
 let restFactory;
+
+/** @type {StaticCodeAnalisisUtil}*/
+let staticCodeAnalisisUtil;
 
 /** 
  * @type {Object} 
@@ -156,8 +162,30 @@ let LISTENERS = {
     }
 
     restFactory.getScriptIncludeCache().then((cache)=>{
-      scriptIncludeCache = cache;
+      staticCodeAnalisisUtil = new StaticCodeAnalisisUtil(cache);
+      
+      //window.dispatchEvent(new CustomEvent("sn-blame-trigger-full-script-intelisense"));
     });
+
+  },
+  'sn-check-full-script': (event) => {
+    const {script, field, currentScope} = event.detail;
+
+    let scriptBody;
+    try {
+      scriptBody = acorn.parse(script)
+    }catch(e){
+      scriptBody = acornLoose.parse(script)
+    }
+    
+    walk.simple(scriptBody, {
+      ExpressionStatement(node){
+        /**find classes */
+      },
+      VariableDeclaration(node){
+        /**find classes */
+      },
+    })
     
   }
 };
@@ -380,51 +408,35 @@ function getDiffsWithCurrent(newModelValue, serverValue, ignoreWhiteSpace) {
 }
 
 /**
- * WIP
- * @param {string} identifier 
- *
+ * TODO: refactor
+ * gets the script inlcude with the given identifier form the server, and parses it to use it as monaco extra library
+ *   
+ * @param {string} identifier script include identifier {scope.classname}
+ * @param {string} currentScope scope of the current record
+ * 
  */
-function triggerScriptIncludeLib(identifier, currentScope){
-  if(loadedLibs[identifier]) 
+async function triggerScriptIncludeLib(identifier, currentScope){
+  if(staticCodeAnalisisUtil.getLoadedLibraries(identifier)) 
     return;
 
-  if(!scriptIncludeCache.sys_script_include[identifier]) 
+  if(!staticCodeAnalisisUtil.getScriptCacheSysID(identifier)) 
     return;
 
-  restFactory.getScriptIncludes(scriptIncludeCache.sys_script_include[identifier]).then((body) => {
-    if(!body?.result?.script) return;
-    let scriptIncludeObject = runScriptIncludesCodeAnalisis(body.result.script);
+  let body = await restFactory.getScriptIncludes(staticCodeAnalisisUtil.getScriptCacheSysID(identifier))
+  if(!body?.result?.script) return
 
-    let scriptScope = body.result.api_name.split('.')[0];
-    let scriptExtends = [];
+  let scriptInclideScope = body.result.api_name.split('.')[0];
 
-    let libs = Object.keys(scriptIncludeObject).map((className) => {
-      let lib = getScriptIncludeLib(className, scriptIncludeObject[className]);
-      let ext = scriptIncludeObject[className].extends;
-      
-      if (scriptScope)
-        lib = `declare namespace ${scriptScope} { ${lib} }; ${(currentScope === scriptScope || !scriptScope || !currentScope) ? lib : ''}`;
+  let scriptIncludeObject = await staticCodeAnalisisUtil.runScriptIncludesCodeAnalisis(body.result.script, identifier, currentScope, scriptInclideScope);
 
-      if(!ext)
-        return lib;
+  window.dispatchEvent(new CustomEvent("sn-load-library", {
+    detail: {
+      libs : scriptIncludeObject.libs,
+    },
+  }));
 
-      if(ext.split('.').length === 2)
-        scriptExtends.push(ext);
-      else
-        scriptExtends.push(`${scriptScope}.${ext}`);
+  scriptIncludeObject.scriptExtends.forEach((className) => 
+    triggerScriptIncludeLib(className, className.split('.')[1] ? className.split('.')[0] : currentScope)
+  );
 
-      return lib;
-    }) ;
-
-    loadedLibs[identifier] = {scriptIncludeObject, libs};
-
-    window.dispatchEvent(new CustomEvent("sn-load-library", {
-      detail: {
-        libs,
-      },
-    }));
-
-    scriptExtends.forEach((lib) => triggerScriptIncludeLib(lib, currentScope));
-  })
-  
 }
