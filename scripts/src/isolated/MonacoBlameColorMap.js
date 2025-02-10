@@ -43,13 +43,15 @@ class MonacoBlameColorMap {
 	/** returns the colour matching the ID, first 15 color are harcoded to ensure suficient contrast between them,
 	 * the rest are random
 	 * 
-	 * @param {number} id: id of the color to return. the ID is stored on #colorMap to return the same color on each ID
+	 * @param {string} id: id of the color to return. the ID is stored on #colorMap to return the same color on each ID
+	 * 
+	 * @returns {string}: hsl color to hsl(hue, sat%, lum%)
 	*/
 	getColor(id){
 		if(this.#colorMap[id])
 			return this.#colorMap[id];
 
-		if(this.#index <= this.#colorDefaults.length){
+		if(this.#index < this.#colorDefaults.length){
 			this.#colorMap[id] = this.#colorDefaults[this.#index];
 			this.#index++;
 			return this.#colorMap[id];
