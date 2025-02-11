@@ -1,1935 +1,1224 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <title>SNBlameMain - SN Blame</title>
-    
-    <meta name="description" content="ServiceNow Browser Extensions utility tool" />
-    
-        <meta name="keywords" content="ServiceNow" />
-        <meta name="keyword" content="ServiceNow" />
-    
-    
-    
-    <meta property="og:title" content="SN Blame"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:image" content=""/>
-    <meta property="og:site_name" content="SN Blame"/>
-    <meta property="og:url" content=""/>
-    
+
+    <meta
+      name="description"
+      content="ServiceNow Browser Extensions utility tool"
+    />
+
+    <meta name="keywords" content="ServiceNow" />
+    <meta name="keyword" content="ServiceNow" />
+
+    <meta property="og:title" content="SN Blame" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="" />
+    <meta property="og:site_name" content="SN Blame" />
+    <meta property="og:url" content="" />
+
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css" />
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css" />
     <script src="scripts/nav.js" defer></script>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
 
-<input type="checkbox" id="nav-trigger" class="nav-trigger" />
-<label for="nav-trigger" class="navicon-button x">
-  <div class="navicon"></div>
-</label>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+    <label for="nav-trigger" class="navicon-button x">
+      <div class="navicon"></div>
+    </label>
 
-<label for="nav-trigger" class="overlay"></label>
+    <label for="nav-trigger" class="overlay"></label>
 
-<nav >
-    
-    <input type="text" id="nav-search" placeholder="Search" />
-    
-    
-    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/amagnin/SNBlameExtension" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Classes</h3><ul><li><a href="MonacoBlameColorMap.html">MonacoBlameColorMap</a><ul class='methods'><li data-type='method'><a href="MonacoBlameColorMap.html#getColor">getColor</a></li></ul></li><li><a href="MonacoBlameGutter.html">MonacoBlameGutter</a><ul class='methods'><li data-type='method'><a href="MonacoBlameGutter.html#createGutter">createGutter</a></li><li data-type='method'><a href="MonacoBlameGutter.html#updateLines">updateLines</a></li><li data-type='method'><a href="MonacoBlameGutter.html#updateGutterSize">updateGutterSize</a></li><li data-type='method'><a href="MonacoBlameGutter.html#updateGutter">updateGutter</a></li><li data-type='method'><a href="MonacoBlameGutter.html#destroyGutter">destroyGutter</a></li></ul></li><li><a href="MonacoBlameGutterWrapper.html">MonacoBlameGutterWrapper</a><ul class='methods'><li data-type='method'><a href="MonacoBlameGutterWrapper.html#createGutter">createGutter</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutter">updateGutter</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutterLines">updateGutterLines</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutterSize">updateGutterSize</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#destroyGutter">destroyGutter</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutterOptions">updateGutterOptions</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#gutterExists">gutterExists</a></li></ul></li><li><a href="SNBlameOptions.html">SNBlameOptions</a><ul class='methods'><li data-type='method'><a href="SNBlameOptions.html#reloadOptions">reloadOptions</a></li><li data-type='method'><a href="SNBlameOptions.html#getOption">getOption</a></li><li data-type='method'><a href="SNBlameOptions.html#setOption">setOption</a></li><li data-type='method'><a href="SNBlameOptions.html#getAllOptions">getAllOptions</a></li></ul></li><li><a href="SNRESTFactory.html">SNRESTFactory</a><ul class='methods'><li data-type='method'><a href="SNRESTFactory.html#~getVersions">getVersions</a></li><li data-type='method'><a href="SNRESTFactory.html#~getScriptIncludes">getScriptIncludes</a></li><li data-type='method'><a href="SNRESTFactory.html#~getScope">getScope</a></li><li data-type='method'><a href="SNRESTFactory.html#~getProperties">getProperties</a></li><li data-type='method'><a href="SNRESTFactory.html#~getScriptIncludeCache">getScriptIncludeCache</a></li></ul></li><li><a href="SNBlameDateUtils.html">SNBlameDateUtils</a><ul class='methods'><li data-type='method'><a href="SNBlameDateUtils.html#.getFormattedDate">getFormattedDate</a></li><li data-type='method'><a href="SNBlameDateUtils.html#.timeAgo">timeAgo</a></li></ul></li><li><a href="SNBlamePlaceholderContentWidget.html">SNBlamePlaceholderContentWidget</a><ul class='methods'><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#updateDiff">updateDiff</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#onCursorChange">onCursorChange</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#getId">getId</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#getDomNode">getDomNode</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#getPosition">getPosition</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#dispose">dispose</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-scriptIncludesStaticCodeAnalysis.html">scriptIncludesStaticCodeAnalysis</a><ul class='methods'><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~isGlideRecordNext">isGlideRecordNext</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~ExpressionStatement">ExpressionStatement</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~VariableDeclarator">VariableDeclarator</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~AssignmentExpression">AssignmentExpression</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~WhileStatement">WhileStatement</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~getTableName">getTableName</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~runScriptIncludesCodeAnalisis">runScriptIncludesCodeAnalisis</a></li></ul></li><li><a href="module-scriptIncludesToExtraLib.html">scriptIncludesToExtraLib</a><ul class='methods'><li data-type='method'><a href="module-scriptIncludesToExtraLib.html#~getScriptIncludeLib">getScriptIncludeLib</a></li></ul></li><li><a href="module-SNBlameMain.html">SNBlameMain</a><ul class='methods'><li data-type='method'><a href="module-SNBlameMain.html#~getVersions">getVersions</a></li><li data-type='method'><a href="module-SNBlameMain.html#~removeReverted">removeReverted</a></li><li data-type='method'><a href="module-SNBlameMain.html#~getBlame">getBlame</a></li><li data-type='method'><a href="module-SNBlameMain.html#~getDiffsWithCurrent">getDiffsWithCurrent</a></li><li data-type='method'><a href="module-SNBlameMain.html#~triggerScriptIncludeLib">triggerScriptIncludeLib</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#BlameLine">BlameLine</a></li><li><a href="global.html#BlameOptions">BlameOptions</a></li><li><a href="global.html#ServiceNowRESTFactory">ServiceNowRESTFactory</a></li><li><a href="global.html#MonacoEditor">MonacoEditor</a></li><li><a href="global.html#snBlamebootstrap">snBlamebootstrap</a></li><li><a href="global.html#MonacoToken">MonacoToken</a></li></ul>
-    
-</nav>
+    <nav>
+      <input type="text" id="nav-search" placeholder="Search" />
 
-<div id="main">
-    
-    <h1 class="page-title">SNBlameMain</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        
-    
-</header>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-
-            
-        
-        </div>
-    
-
-    
-
-    
-
-    
-    
-    
-
-     
-
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="~serverDiff"><span class="type-signature type-signature-inner">(inner) </span>serverDiff<span class="type-signature"> :Object</span></h4>
-
-
-
-
-
-<dl class="details">
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="isolated_SNBlameMain.js.html">isolated/SNBlameMain.js</a>, <a href="isolated_SNBlameMain.js.html#line49">line 49</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-    <h5 class="h5-types">Type:</h5>
-    <ul>
+      <h2><a href="index.html">Home</a></h2>
+      <h2>
+        <a
+          href="https://github.com/amagnin/SNBlameExtension"
+          target="_blank"
+          class="menu-item"
+          id="repository"
+          >Github repo</a
+        >
+      </h2>
+      <h3>Classes</h3>
+      <ul>
         <li>
-            
-<span class="param-type">Object</span>
-
-
-
+          <a href="StaticCodeAnalisisUtil.html">StaticCodeAnalisisUtil</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#updateCache">updateCache</a>
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#getScriptCacheSysID"
+                >getScriptCacheSysID</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#getLoadedLibraries"
+                >getLoadedLibraries</a
+              >
+            </li>
+          </ul>
         </li>
-    </ul>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="~scriptIncludeCache"><span class="type-signature type-signature-inner">(inner) </span>scriptIncludeCache<span class="type-signature"> :Object</span></h4>
-
-
-
-
-
-<dl class="details">
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="isolated_SNBlameMain.js.html">isolated/SNBlameMain.js</a>, <a href="isolated_SNBlameMain.js.html#line51">line 51</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-    <h5 class="h5-types">Type:</h5>
-    <ul>
         <li>
-            
-<span class="param-type">Object</span>
-
-
-
+          <a href="MonacoBlameColorMap.html">MonacoBlameColorMap</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="MonacoBlameColorMap.html#getColor">getColor</a>
+            </li>
+          </ul>
         </li>
-    </ul>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="~loaded"><span class="type-signature type-signature-inner">(inner) </span>loaded<span class="type-signature"> :boolean</span></h4>
-
-
-
-
-
-<dl class="details">
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="isolated_SNBlameMain.js.html">isolated/SNBlameMain.js</a>, <a href="isolated_SNBlameMain.js.html#line53">line 53</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-    <h5 class="h5-types">Type:</h5>
-    <ul>
         <li>
-            
-<span class="param-type">boolean</span>
-
-
-
+          <a href="MonacoBlameGutter.html">MonacoBlameGutter</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#createGutter">createGutter</a>
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#updateLines">updateLines</a>
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#updateGutterSize"
+                >updateGutterSize</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#updateGutter">updateGutter</a>
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#destroyGutter">destroyGutter</a>
+            </li>
+          </ul>
         </li>
-    </ul>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="~loadedLibs"><span class="type-signature type-signature-inner">(inner) </span>loadedLibs<span class="type-signature"> :Object</span></h4>
-
-
-
-
-
-<dl class="details">
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="isolated_SNBlameMain.js.html">isolated/SNBlameMain.js</a>, <a href="isolated_SNBlameMain.js.html#line55">line 55</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-    <h5 class="h5-types">Type:</h5>
-    <ul>
         <li>
-            
-<span class="param-type">Object</span>
-
-
-
+          <a href="MonacoBlameGutterWrapper.html">MonacoBlameGutterWrapper</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#createGutter"
+                >createGutter</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#updateGutter"
+                >updateGutter</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#updateGutterLines"
+                >updateGutterLines</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#updateGutterSize"
+                >updateGutterSize</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#destroyGutter"
+                >destroyGutter</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#updateGutterOptions"
+                >updateGutterOptions</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#gutterExists"
+                >gutterExists</a
+              >
+            </li>
+          </ul>
         </li>
-    </ul>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="~restFactory"><span class="type-signature type-signature-inner">(inner) </span>restFactory<span class="type-signature"> :<a href="global.html#ServiceNowRESTFactory">ServiceNowRESTFactory</a></span></h4>
-
-
-
-
-
-<dl class="details">
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="isolated_SNBlameMain.js.html">isolated/SNBlameMain.js</a>, <a href="isolated_SNBlameMain.js.html#line58">line 58</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-    <h5 class="h5-types">Type:</h5>
-    <ul>
         <li>
-            
-<span class="param-type"><a href="global.html#ServiceNowRESTFactory">ServiceNowRESTFactory</a></span>
-
-
-
+          <a href="SNBlameOptions.html">SNBlameOptions</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="SNBlameOptions.html#reloadOptions">reloadOptions</a>
+            </li>
+            <li data-type="method">
+              <a href="SNBlameOptions.html#getOption">getOption</a>
+            </li>
+            <li data-type="method">
+              <a href="SNBlameOptions.html#setOption">setOption</a>
+            </li>
+            <li data-type="method">
+              <a href="SNBlameOptions.html#getAllOptions">getAllOptions</a>
+            </li>
+          </ul>
         </li>
-    </ul>
+        <li>
+          <a href="SNRESTFactory.html">SNRESTFactory</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="SNRESTFactory.html#~getVersions">getVersions</a>
+            </li>
+            <li data-type="method">
+              <a href="SNRESTFactory.html#~getScriptIncludes"
+                >getScriptIncludes</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNRESTFactory.html#~getScope">getScope</a>
+            </li>
+            <li data-type="method">
+              <a href="SNRESTFactory.html#~getProperties">getProperties</a>
+            </li>
+            <li data-type="method">
+              <a href="SNRESTFactory.html#~getScriptIncludeCache"
+                >getScriptIncludeCache</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="SNBlameDateUtils.html">SNBlameDateUtils</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="SNBlameDateUtils.html#.getFormattedDate"
+                >getFormattedDate</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlameDateUtils.html#.timeAgo">timeAgo</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="SNBlamePlaceholderContentWidget.html"
+            >SNBlamePlaceholderContentWidget</a
+          >
+          <ul class="methods">
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#updateDiff"
+                >updateDiff</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#onCursorChange"
+                >onCursorChange</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#getId">getId</a>
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#getDomNode"
+                >getDomNode</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#getPosition"
+                >getPosition</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#dispose">dispose</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <h3>Modules</h3>
+      <ul>
+        <li>
+          <a href="module-scriptIncludesStaticCodeAnalysis.html"
+            >scriptIncludesStaticCodeAnalysis</a
+          >
+          <ul class="methods">
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~isGlideRecordNext"
+                >isGlideRecordNext</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~ExpressionStatement"
+                >ExpressionStatement</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~VariableDeclarator"
+                >VariableDeclarator</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~AssignmentExpression"
+                >AssignmentExpression</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~WhileStatement"
+                >WhileStatement</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~getTableName"
+                >getTableName</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~runScriptIncludesCodeAnalisis"
+                >runScriptIncludesCodeAnalisis</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="module-scriptIncludesToExtraLib.html"
+            >scriptIncludesToExtraLib</a
+          >
+          <ul class="methods">
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesToExtraLib.html#~getScriptIncludeLib"
+                >getScriptIncludeLib</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="module-SNBlameMain.html">SNBlameMain</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="module-SNBlameMain.html#~getVersions">getVersions</a>
+            </li>
+            <li data-type="method">
+              <a href="module-SNBlameMain.html#~removeReverted"
+                >removeReverted</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="module-SNBlameMain.html#~getBlame">getBlame</a>
+            </li>
+            <li data-type="method">
+              <a href="module-SNBlameMain.html#~getDiffsWithCurrent"
+                >getDiffsWithCurrent</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="module-SNBlameMain.html#~triggerScriptIncludeLib"
+                >triggerScriptIncludeLib</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <h3>Global</h3>
+      <ul>
+        <li><a href="global.html#isGlideRecordNext">isGlideRecordNext</a></li>
+        <li>
+          <a href="global.html#getConstructorContextExpresions"
+            >getConstructorContextExpresions</a
+          >
+        </li>
+        <li>
+          <a href="global.html#getGlideRecordFromDeclaration"
+            >getGlideRecordFromDeclaration</a
+          >
+        </li>
+        <li>
+          <a href="global.html#getGlideRecordFromAssignment"
+            >getGlideRecordFromAssignment</a
+          >
+        </li>
+        <li>
+          <a href="global.html#checkNestedWhileRecord"
+            >checkNestedWhileRecord</a
+          >
+        </li>
+        <li><a href="global.html#removeParentesis">removeParentesis</a></li>
+        <li><a href="global.html#ScriptIncludesCall">ScriptIncludesCall</a></li>
+        <li><a href="global.html#BlameLine">BlameLine</a></li>
+        <li><a href="global.html#BlameOptions">BlameOptions</a></li>
+        <li>
+          <a href="global.html#ServiceNowRESTFactory">ServiceNowRESTFactory</a>
+        </li>
+        <li><a href="global.html#MonacoEditor">MonacoEditor</a></li>
+        <li><a href="global.html#snBlamebootstrap">snBlamebootstrap</a></li>
+        <li><a href="global.html#MonacoToken">MonacoToken</a></li>
+      </ul>
+    </nav>
 
+    <div id="main">
+      <h1 class="page-title">SNBlameMain</h1>
 
+      <section>
+        <header></header>
 
+        <article>
+          <div class="container-overview"></div>
 
+          <h3 class="subsection-title">Members</h3>
 
+          <h4 class="name" id="~serverDiff">
+            <span class="type-signature type-signature-inner">(inner) </span
+            >serverDiff<span class="type-signature"> :Object</span>
+          </h4>
 
-        
-            
-<h4 class="name" id="~LISTENERS"><span class="type-signature type-signature-inner">(inner) </span>LISTENERS<span class="type-signature"> :Object</span></h4>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_SNBlameMain.js.html"
+                    >isolated/SNBlameMain.js</a
+                  >, <a href="isolated_SNBlameMain.js.html#line54">line 54</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
 
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type">Object</span>
+            </li>
+          </ul>
 
+          <h4 class="name" id="~loaded">
+            <span class="type-signature type-signature-inner">(inner) </span
+            >loaded<span class="type-signature"> :boolean</span>
+          </h4>
 
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_SNBlameMain.js.html"
+                    >isolated/SNBlameMain.js</a
+                  >, <a href="isolated_SNBlameMain.js.html#line56">line 56</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
 
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type">boolean</span>
+            </li>
+          </ul>
 
-<dl class="details">
-    
+          <h4 class="name" id="~loadedLibs">
+            <span class="type-signature type-signature-inner">(inner) </span
+            >loadedLibs<span class="type-signature"> :Object</span>
+          </h4>
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="isolated_SNBlameMain.js.html">isolated/SNBlameMain.js</a>, <a href="isolated_SNBlameMain.js.html#line70">line 70</a>
-    </li></ul></dd>
-    
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_SNBlameMain.js.html"
+                    >isolated/SNBlameMain.js</a
+                  >, <a href="isolated_SNBlameMain.js.html#line58">line 58</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
 
-    
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type">Object</span>
+            </li>
+          </ul>
 
-    
+          <h4 class="name" id="~restFactory">
+            <span class="type-signature type-signature-inner">(inner) </span
+            >restFactory<span class="type-signature">
+              :<a href="global.html#ServiceNowRESTFactory"
+                >ServiceNowRESTFactory</a
+              ></span
+            >
+          </h4>
 
-    
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_SNBlameMain.js.html"
+                    >isolated/SNBlameMain.js</a
+                  >, <a href="isolated_SNBlameMain.js.html#line61">line 61</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
 
-    
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type"
+                ><a href="global.html#ServiceNowRESTFactory"
+                  >ServiceNowRESTFactory</a
+                ></span
+              >
+            </li>
+          </ul>
 
-    
+          <h4 class="name" id="~staticCodeAnalisisUtil">
+            <span class="type-signature type-signature-inner">(inner) </span
+            >staticCodeAnalisisUtil<span class="type-signature">
+              :<a href="StaticCodeAnalisisUtil.html"
+                >StaticCodeAnalisisUtil</a
+              ></span
+            >
+          </h4>
 
-    
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_SNBlameMain.js.html"
+                    >isolated/SNBlameMain.js</a
+                  >, <a href="isolated_SNBlameMain.js.html#line64">line 64</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
 
-    
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type"
+                ><a href="StaticCodeAnalisisUtil.html"
+                  >StaticCodeAnalisisUtil</a
+                ></span
+              >
+            </li>
+          </ul>
 
-    
+          <h4 class="name" id="~LISTENERS">
+            <span class="type-signature type-signature-inner">(inner) </span
+            >LISTENERS<span class="type-signature"> :Object</span>
+          </h4>
 
-    
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_SNBlameMain.js.html"
+                    >isolated/SNBlameMain.js</a
+                  >, <a href="isolated_SNBlameMain.js.html#line76">line 76</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
 
-    
+          <h5 class="subsection-title">Properties:</h5>
 
-    
+          <table class="props">
+            <thead>
+              <tr>
+                <th>Name</th>
 
-    
+                <th>Type</th>
 
-    
+                <th class="last">Description</th>
+              </tr>
+            </thead>
 
-    
-
-    
-</dl>
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
+            <tbody>
+              <tr>
                 <td class="name"><code>focus</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
+                <td class="type">
+                  <span class="param-type">function</span>
+                </td>
 
+                <td class="description last">
+                  <p>
+                    function for the focus event, starts the blame when the page
+                    is in focus if was not started yet and the delayStart is
+                    false, for when the page is loaded out of focus
+                  </p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>function for the focus event,
-starts the blame when the page is in focus if was not started yet and the delayStart is false, for when the page is loaded out of focus</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>load</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
+                <td class="type">
+                  <span class="param-type">function</span>
+                </td>
 
+                <td class="description last">
+                  <p>function for the load event</p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>function for the load event</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>sn-blame-init</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
+                <td class="type">
+                  <span class="param-type">function</span>
+                </td>
 
+                <td class="description last"></td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>sn-blame-model-change</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
+                <td class="type">
+                  <span class="param-type">function</span>
+                </td>
 
+                <td class="description last"></td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>sn-check-tokens</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
+                <td class="type">
+                  <span class="param-type">function</span>
+                </td>
 
+                <td class="description last"></td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>sn-get-scirpt_include_cache</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-    <h5 class="h5-types">Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Object</span>
-
-
-
-        </li>
-    </ul>
-
-
-
-
-
-
-        
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="~getVersions"><span class="type-signature type-signature-async, inner">(async, inner) </span>getVersions<span class="signature">(table, sys_id, scriptFields)</span><span class="type-signature"> &rarr; {Array.&lt;snVersions>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Calls snRESTFactory getVersions to retrive all versions form the given record</p></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="isolated_SNBlameMain.js.html">isolated/SNBlameMain.js</a>, <a href="isolated_SNBlameMain.js.html#line177">line 177</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
+                <td class="type">
+                  <span class="param-type">function</span>
+                </td>
+
+                <td class="description last"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type">Object</span>
+            </li>
+          </ul>
+
+          <h3 class="subsection-title">Methods</h3>
+
+          <h4 class="name" id="~getVersions">
+            <span class="type-signature type-signature-async, inner"
+              >(async, inner) </span
+            >getVersions<span class="signature"
+              >(table, sys_id, scriptFields)</span
+            ><span class="type-signature"> &rarr; {Array.&lt;snVersions>}</span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    Calls snRESTFactory getVersions to retrive all versions form
+                    the given record
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_SNBlameMain.js.html"
+                    >isolated/SNBlameMain.js</a
+                  >, <a href="isolated_SNBlameMain.js.html#line205">line 205</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
                 <td class="name"><code>table</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
+                <td class="description last"><p>record table name</p></td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>record table name</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>sys_id</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
+                <td class="description last">
+                  <p>record unique id (sys_id)</p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>record unique id (sys_id)</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>scriptFields</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;string></span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>list of fields that renders using the monaco editor usualy fields of type script present on the form</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array.&lt;snVersions></span>
-
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~removeReverted"><span class="type-signature type-signature-inner">(inner) </span>removeReverted<span class="signature">(versions)</span><span class="type-signature"> &rarr; {snVersions}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>removes the irelevant versions for the version list, Versions that don't apply to the bale due to being reverted to a previous update</p></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="isolated_SNBlameMain.js.html">isolated/SNBlameMain.js</a>, <a href="isolated_SNBlameMain.js.html#line228">line 228</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
+                <td class="type">
+                  <span class="param-type">Array.&lt;string></span>
+                </td>
+
+                <td class="description last">
+                  <p>
+                    list of fields that renders using the monaco editor usualy
+                    fields of type script present on the form
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-returns">Returns:</h5>
+
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type">Array.&lt;snVersions></span>
+            </dd>
+          </dl>
+
+          <h4 class="name" id="~removeReverted">
+            <span class="type-signature type-signature-inner">(inner) </span
+            >removeReverted<span class="signature">(versions)</span
+            ><span class="type-signature"> &rarr; {snVersions}</span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    removes the irelevant versions for the version list,
+                    Versions that don't apply to the bale due to being reverted
+                    to a previous update
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_SNBlameMain.js.html"
+                    >isolated/SNBlameMain.js</a
+                  >, <a href="isolated_SNBlameMain.js.html#line256">line 256</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
                 <td class="name"><code>versions</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;snVersions></span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>List of servicenow record versions</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>list of versions with out the versions to ignore due to revert actions</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">snVersions</span>
-
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~getBlame"><span class="type-signature type-signature-inner">(inner) </span>getBlame<span class="signature">(versions, key, ignoreWhiteSpace)</span><span class="type-signature"> &rarr; {Array.&lt;<a href="global.html#BlameLine">BlameLine</a>>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Generates the balme for the given version/field combo</p></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="isolated_SNBlameMain.js.html">isolated/SNBlameMain.js</a>, <a href="isolated_SNBlameMain.js.html#line251">line 251</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
+                <td class="type">
+                  <span class="param-type">Array.&lt;snVersions></span>
+                </td>
+
+                <td class="description last">
+                  <p>List of servicenow record versions</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>
+              list of versions with out the versions to ignore due to revert
+              actions
+            </p>
+          </div>
+
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type">snVersions</span>
+            </dd>
+          </dl>
+
+          <h4 class="name" id="~getBlame">
+            <span class="type-signature type-signature-inner">(inner) </span
+            >getBlame<span class="signature"
+              >(versions, key, ignoreWhiteSpace)</span
+            ><span class="type-signature">
+              &rarr; {Array.&lt;<a href="global.html#BlameLine">BlameLine</a
+              >>}</span
+            >
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>Generates the balme for the given version/field combo</p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_SNBlameMain.js.html"
+                    >isolated/SNBlameMain.js</a
+                  >, <a href="isolated_SNBlameMain.js.html#line279">line 279</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
                 <td class="name"><code>versions</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;snVersions></span>
+                <td class="type">
+                  <span class="param-type">Array.&lt;snVersions></span>
+                </td>
 
+                <td class="description last">
+                  <p>list of versions to generate the blame from</p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>list of versions to generate the blame from</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>key</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
+                <td class="description last"><p>fieldname for the blame</p></td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>fieldname for the blame</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>ignoreWhiteSpace</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>if true will ignore whitespaces when comparing lines</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>Array of lines with the infromation of the last user/update set/patch who changed the line</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array.&lt;<a href="global.html#BlameLine">BlameLine</a>></span>
-
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~getDiffsWithCurrent"><span class="type-signature type-signature-inner">(inner) </span>getDiffsWithCurrent<span class="signature">(newModelValue, serverValue, ignoreWhiteSpace)</span><span class="type-signature"> &rarr; {Array.&lt;<a href="global.html#BlameLine">BlameLine</a>>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Compares the calculated blame with the current changes to hide the line if the line was updated with local changes</p></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="isolated_SNBlameMain.js.html">isolated/SNBlameMain.js</a>, <a href="isolated_SNBlameMain.js.html#line341">line 341</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
+                <td class="type">
+                  <span class="param-type">boolean</span>
+                </td>
+
+                <td class="description last">
+                  <p>if true will ignore whitespaces when comparing lines</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>
+              Array of lines with the infromation of the last user/update
+              set/patch who changed the line
+            </p>
+          </div>
+
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type"
+                >Array.&lt;<a href="global.html#BlameLine">BlameLine</a>></span
+              >
+            </dd>
+          </dl>
+
+          <h4 class="name" id="~getDiffsWithCurrent">
+            <span class="type-signature type-signature-inner">(inner) </span
+            >getDiffsWithCurrent<span class="signature"
+              >(newModelValue, serverValue, ignoreWhiteSpace)</span
+            ><span class="type-signature">
+              &rarr; {Array.&lt;<a href="global.html#BlameLine">BlameLine</a
+              >>}</span
+            >
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    Compares the calculated blame with the current changes to
+                    hide the line if the line was updated with local changes
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_SNBlameMain.js.html"
+                    >isolated/SNBlameMain.js</a
+                  >, <a href="isolated_SNBlameMain.js.html#line369">line 369</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
                 <td class="name"><code>newModelValue</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;string></span>
+                <td class="type">
+                  <span class="param-type">Array.&lt;string></span>
+                </td>
 
+                <td class="description last">
+                  <p>Array of the lines with current value of the field</p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Array of the lines with current value of the field</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>serverValue</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;<a href="global.html#BlameLine">BlameLine</a>></span>
+                <td class="type">
+                  <span class="param-type"
+                    >Array.&lt;<a href="global.html#BlameLine">BlameLine</a
+                    >></span
+                  >
+                </td>
 
+                <td class="description last">
+                  <p>
+                    Array of lines with the infromation of the last user/update
+                    set/patch who changed the line
+                  </p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Array of lines with the infromation of the last user/update set/patch who changed the line</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>ignoreWhiteSpace</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>if true will ignore whitespaces when comparing lines</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>Array of lines with the infromation of the last user/update set/patch who changed the line</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array.&lt;<a href="global.html#BlameLine">BlameLine</a>></span>
-
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~triggerScriptIncludeLib"><span class="type-signature type-signature-inner">(inner) </span>triggerScriptIncludeLib<span class="signature">(identifier, currentScope)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>gets the script inlcude with the given identifier form the server, and parses it to use it as monaco extra library</p></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="isolated_SNBlameMain.js.html">isolated/SNBlameMain.js</a>, <a href="isolated_SNBlameMain.js.html#line389">line 389</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
+                <td class="type">
+                  <span class="param-type">boolean</span>
+                </td>
+
+                <td class="description last">
+                  <p>if true will ignore whitespaces when comparing lines</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>
+              Array of lines with the infromation of the last user/update
+              set/patch who changed the line
+            </p>
+          </div>
+
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type"
+                >Array.&lt;<a href="global.html#BlameLine">BlameLine</a>></span
+              >
+            </dd>
+          </dl>
+
+          <h4 class="name" id="~triggerScriptIncludeLib">
+            <span class="type-signature type-signature-async, inner"
+              >(async, inner) </span
+            >triggerScriptIncludeLib<span class="signature"
+              >(identifier, currentScope)</span
+            ><span class="type-signature"></span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    TODO: refactor gets the script inlcude with the given
+                    identifier form the server, and parses it to use it as
+                    monaco extra library
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_SNBlameMain.js.html"
+                    >isolated/SNBlameMain.js</a
+                  >, <a href="isolated_SNBlameMain.js.html#line418">line 418</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
                 <td class="name"><code>identifier</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
+                <td class="description last">
+                  <p>script include identifier {scope.classname}</p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>script include identifier {scope.classname}</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>currentScope</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
+                <td class="description last">
+                  <p>scope of the current record</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
+          <h3 class="subsection-title">Type Definitions</h3>
 
-            
-            </td>
+          <h4 class="name" id="~snVersions">snVersions</h4>
 
-            
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_SNBlameMain.js.html"
+                    >isolated/SNBlameMain.js</a
+                  >, <a href="isolated_SNBlameMain.js.html#line228">line 228</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
 
-            
+          <h5 class="subsection-title">Properties:</h5>
 
-            <td class="description last"><p>scope of the current record</p></td>
-        </tr>
+          <table class="props">
+            <thead>
+              <tr>
+                <th>Name</th>
 
-    
-    </tbody>
-</table>
+                <th>Type</th>
 
+                <th class="last">Description</th>
+              </tr>
+            </thead>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-
-    
-        <h3 class="subsection-title">Type Definitions</h3>
-
-        
-                
-<h4 class="name" id="~snVersions">snVersions</h4>
-
-
-
-
-
-<dl class="details">
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="isolated_SNBlameMain.js.html">isolated/SNBlameMain.js</a>, <a href="isolated_SNBlameMain.js.html#line200">line 200</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
+            <tbody>
+              <tr>
                 <td class="name"><code>sys_updated_by</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
+                <td class="description last">
+                  <p>timestap last updated time usualy same as created time</p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>timestap last updated time usualy same as created time</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>sys_updated_on</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
+                <td class="description last">
+                  <p>timestap last updated time</p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>timestap last updated time</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>sys_recorded_at</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
+                <td class="description last">
+                  <p>unix timestamp in HEX when the version was created</p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>unix timestamp in HEX when the version was created</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>reverted_from</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
+                <td class="description last">
+                  <p>
+                    if the version was reverted sys_id of the version reverted
+                    to
+                  </p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>if the version was reverted sys_id of the version reverted to</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>sys_id</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
+                <td class="description last">
+                  <p>unique identifier of the version</p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>unique identifier of the version</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>state</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
+                <td class="description last">
+                  <p>state of the version current|previous|reverted</p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>state of the version current|previous|reverted</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>source</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
+                <td class="description last">
+                  <p>sys_id of the source (update set or patch)</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type">Object</span>
+            </li>
+          </ul>
+        </article>
+      </section>
+    </div>
 
-            
-            </td>
+    <br class="clear" />
 
-            
+    <footer>
+      Documentation generated by
+      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Tue Feb 11
+      2025 01:33:34 GMT+0100 (hora estándar de Europa central) using the
+      <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    </footer>
 
-            
+    <script>
+      prettyPrint();
+    </script>
+    <script src="scripts/polyfill.js"></script>
+    <script src="scripts/linenumber.js"></script>
 
-            <td class="description last"><p>sys_id of the source (update set or patch)</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-    <h5 class="h5-types">Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Object</span>
-
-
-
-        </li>
-    </ul>
-
-
-
-
-
-
-            
-    
-
-    
-</article>
-
-</section>
-
-
-
-
-    
-    
-</div>
-
-<br class="clear">
-
-<footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Tue Jan 21 2025 11:54:41 GMT+0100 (hora estándar de Europa central) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
-</footer>
-
-<script>prettyPrint();</script>
-<script src="scripts/polyfill.js"></script>
-<script src="scripts/linenumber.js"></script>
-
-<script src="scripts/search.js" defer></script>
-
-
-
-</body>
+    <script src="scripts/search.js" defer></script>
+  </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>scriptIncludesToExtraLib - SN Blame</title>
+    <title>astParser/staticCodeAnalysisUtil.js - SN Blame</title>
 
     <meta
       name="description"
@@ -356,106 +356,128 @@
     </nav>
 
     <div id="main">
-      <h1 class="page-title">scriptIncludesToExtraLib</h1>
+      <h1 class="page-title">astParser/staticCodeAnalysisUtil.js</h1>
 
       <section>
-        <header></header>
-
         <article>
-          <div class="container-overview"></div>
+          <pre
+            class="prettyprint source linenums"
+          ><code>import runScriptIncludesCodeAnalisis from "./scriptIncludesStaticCodeAnalysis.js";
+import getScriptIncludeLib from "./scriptIncludesToExtraLib.js";
 
-          <h3 class="subsection-title">Methods</h3>
+/**
+ * static code analysis utility class
+ * 
+ * @class
+ */
+class StaticCodeAnalisisUtil {
+    #scriptIncludeCache = {};
+    #availableScopes = [];
+    #loadedLibraries = {};
 
-          <h4 class="name" id="~getScriptIncludeLib">
-            <span class="type-signature type-signature-inner">(inner) </span
-            >getScriptIncludeLib<span class="signature"
-              >(className:, scriptIncludesObject:)</span
-            ><span class="type-signature"></span>
-          </h4>
+    constructor(scriptIncludeCache){
+        this.#scriptIncludeCache = scriptIncludeCache.sys_script_include ? scriptIncludeCache.sys_script_include : scriptIncludeCache;
 
-          <dl class="details">
-            <dt class="tag-description">Description:</dt>
-            <dd class="tag-description">
-              <ul class="dummy">
-                <li>
-                  <p>
-                    returns simplified Script of the ServiceNow Script Include
-                  </p>
-                </li>
-              </ul>
-            </dd>
+        this.#availableScopes = Object.keys(scriptIncludeCache)
+            .map(key => key.split('.')[0])
+            .filter((value, index, self) => self.indexOf(value) === index);
 
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="astParser_scriptIncludesToExtraLib.js.html"
-                    >astParser/scriptIncludesToExtraLib.js</a
-                  >,
-                  <a href="astParser_scriptIncludesToExtraLib.js.html#line42"
-                    >line 42</a
-                  >
-                </li>
-              </ul>
-            </dd>
-          </dl>
+        if(typeof StaticCodeAnalisisUtil.instance === 'object' )
+            return StaticCodeAnalisisUtil.instance;
 
-          <h5 class="h5-examples">Example</h5>
+        StaticCodeAnalisisUtil.instance = this;
+        return this;
+    }
 
-          <pre class="prettyprint"><code>Class snScriptInclude {   
-     CONSTANT: 'someValue';  
-     constructor(){} //initialize  
-     method1(){}
-     static someStaticMember1 = function(){}  
-     static someStaticMember2 = function(){}   
-     static CONSTANT = 'literal' 
- };   
+    /**
+     * updates the scriptIncludeCache
+     * 
+     * @param {Object} scriptIncludeCache node to analyze
+     * 
+     */
+    updateCache(scriptIncludeCache){
+        this.#scriptIncludeCache = scriptIncludeCache.sys_script_include ? scriptIncludeCache.sys_script_include : scriptIncludeCache;
 
- </code></pre>
+        this.#availableScopes = Object.keys(scriptIncludeCache)
+            .map(key => key.split('.')[0])
+            .filter((value, index, self) => self.indexOf(value) === index);
+    }
 
-          <h5 class="h5-parameters">Parameters:</h5>
+    /**
+     * @param {string} className CLass name to get the script cache sys_id
+    */
+    getScriptCacheSysID(className){
+        return this.#scriptIncludeCache[className];
+    }
 
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
+    /**
+     * 
+     * @param {string} className class name to get the loaded libraries 
+     * @returns 
+     */
+    getLoadedLibraries(className){
+        return this.#loadedLibraries[className];
+    }
 
-                <th>Type</th>
+    async getScriptIncludeParsedCache(className){
+        return await new Promise((resolve, reject) => {
+            (chrome || browser).storage.local.get(`scriptIncludeCache-${className}`, function (result) {
+              if (result[`scriptIncludeCache-${className}`] === undefined) {
+                resolve();
+              } else {
+                try{
+                    resolve(JSON.parse(result[`scriptIncludeCache-${className}`]));
+                }catch(e){
+                    reject();
+                }
+              }
+            });
+        });
+    }
 
-                <th class="last">Description</th>
-              </tr>
-            </thead>
+    updateScriptIncludeParsedCache(className, scriptCache){
+        (chrome || browser).storage.local.set({[`scriptIncludeCache-${className}`]: JSON.stringify(scriptCache)});
+    }
 
-            <tbody>
-              <tr>
-                <td class="name"><code>className:</code></td>
+    async runScriptIncludesCodeAnalisis(scriptToParse, className, currentScope, scriptInclideScope){
+        if(!this.#scriptIncludeCache[className]) return;
 
-                <td class="type">
-                  <span class="param-type">String</span>
-                </td>
+        if(this.#loadedLibraries[className]) return this.#loadedLibraries[className];
 
-                <td class="description last">
-                  <p>className of the class to generate the lib</p>
-                </td>
-              </tr>
+        let parsedScript = await this.getScriptIncludeParsedCache(className);
+        if(parsedScript) return parsedScript;
 
-              <tr>
-                <td class="name"><code>scriptIncludesObject:</code></td>
+        parsedScript = runScriptIncludesCodeAnalisis(scriptToParse, this.#scriptIncludeCache, currentScope, this.#availableScopes);
+        let scriptExtends = [];
 
-                <td class="type">
-                  <span class="param-type">Object</span>
-                </td>
+        let libs = Object.keys(parsedScript).map((className) => {
+            let lib = getScriptIncludeLib(className, parsedScript[className]);
+            let ext = parsedScript[className].extends;
+            
+            if (scriptInclideScope)
+            lib = `declare namespace ${scriptInclideScope} { ${lib} }; ${(currentScope === scriptInclideScope || !scriptInclideScope || !currentScope) ? lib : ''}`;
 
-                <td class="description last">
-                  <p>
-                    Object generated with scriptIncludeStaticCodeAnalysis,
-                    containing all the relevant information of the class to
-                    generate the library for the intelisense
-                  </p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+            if(!ext)
+                return lib;
+
+            if(ext.split('.').length === 2)
+                scriptExtends.push(ext);
+            else
+                scriptExtends.push(`${scriptInclideScope}.${ext}`);
+
+            return lib;
+        });
+
+        this.#loadedLibraries[className] = {parsedScript, libs};
+        this.updateScriptIncludeParsedCache(className, {parsedScript, libs});
+
+        return {parsedScript, libs, scriptExtends};
+    }
+
+
+}
+
+export default StaticCodeAnalisisUtil;</code></pre>
         </article>
       </section>
     </div>

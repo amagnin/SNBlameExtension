@@ -12,12 +12,13 @@
     "jasmine": "^5.5.0",
     "jsdoc": "^4.0.4",
     "jsdom": "^26.0.0",
+    "prettier": "^3.5.0",
     "webpack": "^5.96.1",
     "webpack-cli": "^5.1.4"
   },
   "scripts": {
     "build": "webpack --mode production",
     "test": "jasmine --config=jasmine.mjs",
-    "doc": "jsdoc -c jsdoc.json"
+    "doc": "jsdoc -c jsdoc.json & prettier --write docs/*.html"
   }
 }
