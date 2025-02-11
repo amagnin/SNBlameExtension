@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>scriptIncludesToExtraLib - SN Blame</title>
+    <title>StaticCodeAnalisisUtil - SN Blame</title>
 
     <meta
       name="description"
@@ -356,20 +356,50 @@
     </nav>
 
     <div id="main">
-      <h1 class="page-title">scriptIncludesToExtraLib</h1>
+      <h1 class="page-title">StaticCodeAnalisisUtil</h1>
 
       <section>
-        <header></header>
+        <header>
+          <h2>StaticCodeAnalisisUtil</h2>
+
+          <div class="class-description usertext">
+            <p>static code analysis utility class</p>
+          </div>
+        </header>
 
         <article>
-          <div class="container-overview"></div>
+          <div class="container-overview">
+            <h2>Constructor</h2>
+
+            <h4 class="name" id="StaticCodeAnalisisUtil">
+              <span class="type-signature"></span>new
+              StaticCodeAnalisisUtil<span class="signature">()</span
+              ><span class="type-signature"></span>
+            </h4>
+
+            <dl class="details">
+              <dt class="tag-source">Source:</dt>
+              <dd class="tag-source">
+                <ul class="dummy">
+                  <li>
+                    <a href="astParser_staticCodeAnalysisUtil.js.html"
+                      >astParser/staticCodeAnalysisUtil.js</a
+                    >,
+                    <a href="astParser_staticCodeAnalysisUtil.js.html#line9"
+                      >line 9</a
+                    >
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
 
           <h3 class="subsection-title">Methods</h3>
 
-          <h4 class="name" id="~getScriptIncludeLib">
-            <span class="type-signature type-signature-inner">(inner) </span
-            >getScriptIncludeLib<span class="signature"
-              >(className:, scriptIncludesObject:)</span
+          <h4 class="name" id="updateCache">
+            <span class="type-signature"></span>updateCache<span
+              class="signature"
+              >(scriptIncludeCache)</span
             ><span class="type-signature"></span>
           </h4>
 
@@ -377,11 +407,7 @@
             <dt class="tag-description">Description:</dt>
             <dd class="tag-description">
               <ul class="dummy">
-                <li>
-                  <p>
-                    returns simplified Script of the ServiceNow Script Include
-                  </p>
-                </li>
+                <li><p>updates the scriptIncludeCache</p></li>
               </ul>
             </dd>
 
@@ -389,29 +415,16 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="astParser_scriptIncludesToExtraLib.js.html"
-                    >astParser/scriptIncludesToExtraLib.js</a
+                  <a href="astParser_staticCodeAnalysisUtil.js.html"
+                    >astParser/staticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_scriptIncludesToExtraLib.js.html#line42"
-                    >line 42</a
+                  <a href="astParser_staticCodeAnalysisUtil.js.html#line34"
+                    >line 34</a
                   >
                 </li>
               </ul>
             </dd>
           </dl>
-
-          <h5 class="h5-examples">Example</h5>
-
-          <pre class="prettyprint"><code>Class snScriptInclude {   
-     CONSTANT: 'someValue';  
-     constructor(){} //initialize  
-     method1(){}
-     static someStaticMember1 = function(){}  
-     static someStaticMember2 = function(){}   
-     static CONSTANT = 'literal' 
- };   
-
- </code></pre>
 
           <h5 class="h5-parameters">Parameters:</h5>
 
@@ -428,34 +441,120 @@
 
             <tbody>
               <tr>
-                <td class="name"><code>className:</code></td>
-
-                <td class="type">
-                  <span class="param-type">String</span>
-                </td>
-
-                <td class="description last">
-                  <p>className of the class to generate the lib</p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>scriptIncludesObject:</code></td>
+                <td class="name"><code>scriptIncludeCache</code></td>
 
                 <td class="type">
                   <span class="param-type">Object</span>
                 </td>
 
+                <td class="description last"><p>node to analyze</p></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4 class="name" id="getScriptCacheSysID">
+            <span class="type-signature"></span>getScriptCacheSysID<span
+              class="signature"
+              >(className)</span
+            ><span class="type-signature"></span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="astParser_staticCodeAnalysisUtil.js.html"
+                    >astParser/staticCodeAnalysisUtil.js</a
+                  >,
+                  <a href="astParser_staticCodeAnalysisUtil.js.html#line45"
+                    >line 45</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>className</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
                 <td class="description last">
-                  <p>
-                    Object generated with scriptIncludeStaticCodeAnalysis,
-                    containing all the relevant information of the class to
-                    generate the library for the intelisense
-                  </p>
+                  <p>CLass name to get the script cache sys_id</p>
                 </td>
               </tr>
             </tbody>
           </table>
+
+          <h4 class="name" id="getLoadedLibraries">
+            <span class="type-signature"></span>getLoadedLibraries<span
+              class="signature"
+              >(className)</span
+            ><span class="type-signature"></span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="astParser_staticCodeAnalysisUtil.js.html"
+                    >astParser/staticCodeAnalysisUtil.js</a
+                  >,
+                  <a href="astParser_staticCodeAnalysisUtil.js.html#line54"
+                    >line 54</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>className</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>class name to get the loaded libraries</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-returns">Returns:</h5>
         </article>
       </section>
     </div>
