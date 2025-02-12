@@ -1,4 +1,9 @@
 import * as astring from 'astring';
+import * as walk from 'acorn-walk';
+
+/**
+ * @module walkerFunctions
+ */
 
 /**
  * returns true if the node is a call to GlideRecord().next() or GlideRecord()._next() function
@@ -19,8 +24,21 @@ const getConstructorContextExpresions = function(_node){
     let left = _node.expression?.left;
     let right = _node.expression?.right;
 
-    if(left?.type === 'MemberExpression' && left?.object?.type === 'ThisExpression'){
-        return right.value || right.properties
+    if(right?.type === 'FunctionExpression'){
+        return {
+            type: right.type,
+            key: left.property.name,
+            args: right.params.map(param => param.name), 
+        }
+    }
+
+    if(left?.type === 'MemberExpression' && left?.object?.type === 'ThisExpression' && (right.value !== undefined || right.properties)){
+        let typeofLiteral = right.value !== undefined ? typeof right.value : right.properties 
+        return {
+            type: right?.type,
+            key: left.property.name, 
+            value: right.value || right.properties,
+        }
     }
 };
 
@@ -64,13 +82,19 @@ const getGlideRecordFromAssignment = function(_node){
  * @param {Object} _node: AST Node
  * 
  */
-const checkNestedWhileRecord = function(_node) {
+const checkNestedWhileRecord = function(_node, classObject) {
     let glideRecord = walk.findNodeAt(_node.test, null, null, isGlideRecordNext)?.node;
     
     if (!glideRecord) 
         return;
 
-    return glideRecord.callee.object.name;
+    let grRecord = classObject.glideRecord.find(gr => gr.variable === glideRecord.callee.object.name);
+    if(grRecord){
+        /**TODO: Refactor */
+        grRecord.loop = true;
+        return ;
+    } else
+        return {table: null, variable: glideRecord, loop: true}
 };
 
 /**

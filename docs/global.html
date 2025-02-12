@@ -237,32 +237,8 @@
           <ul class="methods">
             <li data-type="method">
               <a
-                href="module-scriptIncludesStaticCodeAnalysis.html#~isGlideRecordNext"
-                >isGlideRecordNext</a
-              >
-            </li>
-            <li data-type="method">
-              <a
-                href="module-scriptIncludesStaticCodeAnalysis.html#~ExpressionStatement"
-                >ExpressionStatement</a
-              >
-            </li>
-            <li data-type="method">
-              <a
-                href="module-scriptIncludesStaticCodeAnalysis.html#~VariableDeclarator"
-                >VariableDeclarator</a
-              >
-            </li>
-            <li data-type="method">
-              <a
-                href="module-scriptIncludesStaticCodeAnalysis.html#~AssignmentExpression"
-                >AssignmentExpression</a
-              >
-            </li>
-            <li data-type="method">
-              <a
-                href="module-scriptIncludesStaticCodeAnalysis.html#~WhileStatement"
-                >WhileStatement</a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~getSNClassMethods"
+                >getSNClassMethods</a
               >
             </li>
             <li data-type="method">
@@ -288,6 +264,44 @@
               <a
                 href="module-scriptIncludesToExtraLib.html#~getScriptIncludeLib"
                 >getScriptIncludeLib</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="module-walkerFunctions.html">walkerFunctions</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="module-walkerFunctions.html#~isGlideRecordNext"
+                >isGlideRecordNext</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-walkerFunctions.html#~getConstructorContextExpresions"
+                >getConstructorContextExpresions</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-walkerFunctions.html#~getGlideRecordFromDeclaration"
+                >getGlideRecordFromDeclaration</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-walkerFunctions.html#~getGlideRecordFromAssignment"
+                >getGlideRecordFromAssignment</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="module-walkerFunctions.html#~checkNestedWhileRecord"
+                >checkNestedWhileRecord</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="module-walkerFunctions.html#~removeParentesis"
+                >removeParentesis</a
               >
             </li>
           </ul>
@@ -321,29 +335,6 @@
       </ul>
       <h3>Global</h3>
       <ul>
-        <li><a href="global.html#isGlideRecordNext">isGlideRecordNext</a></li>
-        <li>
-          <a href="global.html#getConstructorContextExpresions"
-            >getConstructorContextExpresions</a
-          >
-        </li>
-        <li>
-          <a href="global.html#getGlideRecordFromDeclaration"
-            >getGlideRecordFromDeclaration</a
-          >
-        </li>
-        <li>
-          <a href="global.html#getGlideRecordFromAssignment"
-            >getGlideRecordFromAssignment</a
-          >
-        </li>
-        <li>
-          <a href="global.html#checkNestedWhileRecord"
-            >checkNestedWhileRecord</a
-          >
-        </li>
-        <li><a href="global.html#removeParentesis">removeParentesis</a></li>
-        <li><a href="global.html#ScriptIncludesCall">ScriptIncludesCall</a></li>
         <li><a href="global.html#BlameLine">BlameLine</a></li>
         <li><a href="global.html#BlameOptions">BlameOptions</a></li>
         <li>
@@ -369,403 +360,6 @@
           </div>
 
           <h3 class="subsection-title">Methods</h3>
-
-          <h4 class="name" id="isGlideRecordNext">
-            <span class="type-signature"></span>isGlideRecordNext<span
-              class="signature"
-              >(type, node)</span
-            ><span class="type-signature"> &rarr; {string}</span>
-          </h4>
-
-          <dl class="details">
-            <dt class="tag-description">Description:</dt>
-            <dd class="tag-description">
-              <ul class="dummy">
-                <li>
-                  <p>
-                    returns true if the node is a call to GlideRecord().next()
-                    or GlideRecord()._next() function
-                  </p>
-                </li>
-              </ul>
-            </dd>
-
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="astParser_walkerFunctions.js.html"
-                    >astParser/walkerFunctions.js</a
-                  >,
-                  <a href="astParser_walkerFunctions.js.html#line10">line 10</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-
-          <h5 class="h5-parameters">Parameters:</h5>
-
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-
-                <th>Type</th>
-
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="name"><code>type</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                </td>
-
-                <td class="description last"><p>:Node Type</p></td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>node</code></td>
-
-                <td class="type">
-                  <span class="param-type">Object</span>
-                </td>
-
-                <td class="description last"></td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h5 class="h5-returns">Returns:</h5>
-
-          <dl class="param-type">
-            <dt>Type</dt>
-            <dd>
-              <span class="param-type">string</span>
-            </dd>
-          </dl>
-
-          <h4 class="name" id="getConstructorContextExpresions">
-            <span class="type-signature"></span
-            >getConstructorContextExpresions<span class="signature"
-              >(_node:)</span
-            ><span class="type-signature"></span>
-          </h4>
-
-          <dl class="details">
-            <dt class="tag-description">Description:</dt>
-            <dd class="tag-description">
-              <ul class="dummy">
-                <li>
-                  <p>
-                    Finds any method or constant added to the Instantiated Class
-                    by the constructor (initialize)
-                  </p>
-                </li>
-              </ul>
-            </dd>
-
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="astParser_walkerFunctions.js.html"
-                    >astParser/walkerFunctions.js</a
-                  >,
-                  <a href="astParser_walkerFunctions.js.html#line18">line 18</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-
-          <h5 class="h5-parameters">Parameters:</h5>
-
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-
-                <th>Type</th>
-
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="name"><code>_node:</code></td>
-
-                <td class="type">
-                  <span class="param-type">Object</span>
-                </td>
-
-                <td class="description last"><p>AST Node</p></td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h5 class="h5-returns">Returns:</h5>
-
-          <div class="param-desc">
-            <p>undefined</p>
-          </div>
-
-          <h4 class="name" id="getGlideRecordFromDeclaration">
-            <span class="type-signature"></span
-            >getGlideRecordFromDeclaration<span class="signature">(_node:)</span
-            ><span class="type-signature"></span>
-          </h4>
-
-          <dl class="details">
-            <dt class="tag-description">Description:</dt>
-            <dd class="tag-description">
-              <ul class="dummy">
-                <li>
-                  <p>
-                    Finds GlideRecord and GlideRecordSecure initializations on
-                    variable declarations: var grRecord = new
-                    GlideRecord('table'), and stores the info on the class and
-                    method
-                  </p>
-                  <p>
-                    [{<br />
-                    table: String|AST Node - String if we can find the literal,
-                    otherwise the AST Node<br />
-                    variable: String - Variable Name<br />
-                    }]
-                  </p>
-                </li>
-              </ul>
-            </dd>
-
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="astParser_walkerFunctions.js.html"
-                    >astParser/walkerFunctions.js</a
-                  >,
-                  <a href="astParser_walkerFunctions.js.html#line39">line 39</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-
-          <h5 class="h5-parameters">Parameters:</h5>
-
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-
-                <th>Type</th>
-
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="name"><code>_node:</code></td>
-
-                <td class="type">
-                  <span class="param-type">Object</span>
-                </td>
-
-                <td class="description last"><p>AST Node</p></td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h4 class="name" id="getGlideRecordFromAssignment">
-            <span class="type-signature"></span
-            >getGlideRecordFromAssignment<span class="signature">(_node:)</span
-            ><span class="type-signature"></span>
-          </h4>
-
-          <dl class="details">
-            <dt class="tag-description">Description:</dt>
-            <dd class="tag-description">
-              <ul class="dummy">
-                <li>
-                  <p>
-                    Finds GlideRecord and GlideRecordSecure initializations on
-                    variable assignment: grRecord = new GlideRecord('table'),
-                    and stores the info on the class and method
-                  </p>
-                  <p>
-                    [{<br />
-                    table: String|AST Node - String if we can find the literal,
-                    otherwise the AST Node<br />
-                    variable: String - Variable Name<br />
-                    }]
-                  </p>
-                </li>
-              </ul>
-            </dd>
-
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="astParser_walkerFunctions.js.html"
-                    >astParser/walkerFunctions.js</a
-                  >,
-                  <a href="astParser_walkerFunctions.js.html#line56">line 56</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-
-          <h5 class="h5-parameters">Parameters:</h5>
-
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-
-                <th>Type</th>
-
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="name"><code>_node:</code></td>
-
-                <td class="type">
-                  <span class="param-type">Object</span>
-                </td>
-
-                <td class="description last"><p>AST Node</p></td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h4 class="name" id="checkNestedWhileRecord">
-            <span class="type-signature"></span>checkNestedWhileRecord<span
-              class="signature"
-              >(_node:)</span
-            ><span class="type-signature"></span>
-          </h4>
-
-          <dl class="details">
-            <dt class="tag-description">Description:</dt>
-            <dd class="tag-description">
-              <ul class="dummy">
-                <li>
-                  <p>
-                    Find While statment used to loop over glideRecords and set
-                    the loop to true on the Object storing the GlideRecord
-                    information.
-                  </p>
-                </li>
-              </ul>
-            </dd>
-
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="astParser_walkerFunctions.js.html"
-                    >astParser/walkerFunctions.js</a
-                  >,
-                  <a href="astParser_walkerFunctions.js.html#line67">line 67</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-
-          <h5 class="h5-parameters">Parameters:</h5>
-
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-
-                <th>Type</th>
-
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="name"><code>_node:</code></td>
-
-                <td class="type">
-                  <span class="param-type">Object</span>
-                </td>
-
-                <td class="description last"><p>AST Node</p></td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h4 class="name" id="removeParentesis">
-            <span class="type-signature"></span>removeParentesis<span
-              class="signature"
-              >(string)</span
-            ><span class="type-signature"></span>
-          </h4>
-
-          <dl class="details">
-            <dt class="tag-description">Description:</dt>
-            <dd class="tag-description">
-              <ul class="dummy">
-                <li>
-                  <p>
-                    removes all the content between parentesis including nested
-                    parentesis, up to 5 levels deep
-                  </p>
-                </li>
-              </ul>
-            </dd>
-
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="astParser_walkerFunctions.js.html"
-                    >astParser/walkerFunctions.js</a
-                  >,
-                  <a href="astParser_walkerFunctions.js.html#line81">line 81</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-
-          <h5 class="h5-parameters">Parameters:</h5>
-
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-
-                <th>Type</th>
-
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="name"><code>string</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                </td>
-
-                <td class="description last"></td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h5 class="h5-returns">Returns:</h5>
 
           <h4 class="name" id="snBlamebootstrap">
             <span class="type-signature"></span>snBlamebootstrap<span
@@ -828,124 +422,6 @@
           </table>
 
           <h3 class="subsection-title">Type Definitions</h3>
-
-          <h4 class="name" id="ScriptIncludesCall">ScriptIncludesCall</h4>
-
-          <dl class="details">
-            <dt class="tag-description">Description:</dt>
-            <dd class="tag-description">
-              <ul class="dummy">
-                <li>
-                  <p>
-                    returns the scriptInclude and method called on the node if
-                    it is a scriptInclude call
-                  </p>
-                </li>
-              </ul>
-            </dd>
-
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="astParser_walkerFunctions.js.html"
-                    >astParser/walkerFunctions.js</a
-                  >,
-                  <a href="astParser_walkerFunctions.js.html#line91">line 91</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-
-          <h5 class="subsection-title">Properties:</h5>
-
-          <table class="props">
-            <thead>
-              <tr>
-                <th>Name</th>
-
-                <th>Type</th>
-
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="name"><code>type:</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                </td>
-
-                <td class="description last">
-                  <p>node type where the scriptInclude was found</p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>line:</code></td>
-
-                <td class="type">
-                  <span class="param-type">number</span>
-                </td>
-
-                <td class="description last">
-                  <p>line number where the scriptInclude was found</p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>scriptInclude:</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                </td>
-
-                <td class="description last">
-                  <p>class name of the scriptInclude</p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>id:</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                </td>
-
-                <td class="description last">
-                  <p>sys_id of the scriptInclude</p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>method:</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                </td>
-
-                <td class="description last">
-                  <p>method called on the scriptInclude</p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div class="description usertext">
-            <p>
-              returns the scriptInclude and method called on the node if it is a
-              scriptInclude call
-            </p>
-          </div>
-
-          <h5 class="h5-types">Type:</h5>
-          <ul>
-            <li>
-              <span class="param-type">Object</span>
-            </li>
-          </ul>
 
           <h4 class="name" id="BlameLine">BlameLine</h4>
 
@@ -1456,8 +932,8 @@
 
     <footer>
       Documentation generated by
-      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Tue Feb 11
-      2025 01:33:34 GMT+0100 (hora estándar de Europa central) using the
+      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Thu Feb 13
+      2025 00:14:34 GMT+0100 (hora estándar de Europa central) using the
       <a href="https://github.com/clenemt/docdash">docdash</a> theme.
     </footer>
 

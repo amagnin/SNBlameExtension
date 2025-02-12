@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>SNBlameOptions - SN Blame</title>
+    <title>walkerFunctions - SN Blame</title>
 
     <meta
       name="description"
@@ -347,95 +347,43 @@
     </nav>
 
     <div id="main">
-      <h1 class="page-title">SNBlameOptions</h1>
+      <h1 class="page-title">walkerFunctions</h1>
 
       <section>
-        <header>
-          <h2>SNBlameOptions</h2>
-
-          <div class="class-description usertext">
-            <p>Singleton to hold the extension options</p>
-          </div>
-        </header>
+        <header></header>
 
         <article>
-          <div class="container-overview">
-            <h2>Constructor</h2>
-
-            <h4 class="name" id="SNBlameOptions">
-              <span class="type-signature"></span>new SNBlameOptions<span
-                class="signature"
-                >()</span
-              ><span class="type-signature"></span>
-            </h4>
-
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="isolated_SNBlameOptions.js.html"
-                      >isolated/SNBlameOptions.js</a
-                    >,
-                    <a href="isolated_SNBlameOptions.js.html#line6">line 6</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-          </div>
+          <div class="container-overview"></div>
 
           <h3 class="subsection-title">Methods</h3>
 
-          <h4 class="name" id="reloadOptions">
-            <span class="type-signature"></span>reloadOptions<span
-              class="signature"
-              >()</span
-            ><span class="type-signature"></span>
+          <h4 class="name" id="~isGlideRecordNext">
+            <span class="type-signature type-signature-inner">(inner) </span
+            >isGlideRecordNext<span class="signature">(type, node)</span
+            ><span class="type-signature"> &rarr; {string}</span>
           </h4>
 
           <dl class="details">
             <dt class="tag-description">Description:</dt>
             <dd class="tag-description">
               <ul class="dummy">
-                <li><p>reloads the options form the extension storage</p></li>
-              </ul>
-            </dd>
-
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
                 <li>
-                  <a href="isolated_SNBlameOptions.js.html"
-                    >isolated/SNBlameOptions.js</a
-                  >,
-                  <a href="isolated_SNBlameOptions.js.html#line51">line 51</a>
+                  <p>
+                    returns true if the node is a call to GlideRecord().next()
+                    or GlideRecord()._next() function
+                  </p>
                 </li>
               </ul>
             </dd>
-          </dl>
-
-          <h4 class="name" id="getOption">
-            <span class="type-signature"></span>getOption<span class="signature"
-              >(id)</span
-            ><span class="type-signature"> &rarr; {string|boolean|number}</span>
-          </h4>
-
-          <dl class="details">
-            <dt class="tag-description">Description:</dt>
-            <dd class="tag-description">
-              <ul class="dummy">
-                <li><p>returns the option with the passed ID</p></li>
-              </ul>
-            </dd>
 
             <dt class="tag-source">Source:</dt>
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="isolated_SNBlameOptions.js.html"
-                    >isolated/SNBlameOptions.js</a
+                  <a href="astParser_walkerFunctions.js.html"
+                    >astParser/walkerFunctions.js</a
                   >,
-                  <a href="isolated_SNBlameOptions.js.html#line84">line 84</a>
+                  <a href="astParser_walkerFunctions.js.html#line15">line 15</a>
                 </li>
               </ul>
             </dd>
@@ -456,15 +404,23 @@
 
             <tbody>
               <tr>
-                <td class="name"><code>id</code></td>
+                <td class="name"><code>type</code></td>
 
                 <td class="type">
                   <span class="param-type">string</span>
                 </td>
 
-                <td class="description last">
-                  <p>id of the option to retrieve</p>
+                <td class="description last"><p>:Node Type</p></td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>node</code></td>
+
+                <td class="type">
+                  <span class="param-type">Object</span>
                 </td>
+
+                <td class="description last"></td>
               </tr>
             </tbody>
           </table>
@@ -475,19 +431,13 @@
             <dt>Type</dt>
             <dd>
               <span class="param-type">string</span>
-              |
-
-              <span class="param-type">boolean</span>
-              |
-
-              <span class="param-type">number</span>
             </dd>
           </dl>
 
-          <h4 class="name" id="setOption">
-            <span class="type-signature"></span>setOption<span class="signature"
-              >(id, value, update<span class="signature-attributes">opt</span
-              >)</span
+          <h4 class="name" id="~getConstructorContextExpresions">
+            <span class="type-signature type-signature-inner">(inner) </span
+            >getConstructorContextExpresions<span class="signature"
+              >(_node:)</span
             ><span class="type-signature"></span>
           </h4>
 
@@ -495,7 +445,12 @@
             <dt class="tag-description">Description:</dt>
             <dd class="tag-description">
               <ul class="dummy">
-                <li><p>updates the options with the given ID value</p></li>
+                <li>
+                  <p>
+                    Finds any method or constant added to the Instantiated Class
+                    by the constructor (initialize)
+                  </p>
+                </li>
               </ul>
             </dd>
 
@@ -503,10 +458,10 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="isolated_SNBlameOptions.js.html"
-                    >isolated/SNBlameOptions.js</a
+                  <a href="astParser_walkerFunctions.js.html"
+                    >astParser/walkerFunctions.js</a
                   >,
-                  <a href="isolated_SNBlameOptions.js.html#line95">line 95</a>
+                  <a href="astParser_walkerFunctions.js.html#line23">line 23</a>
                 </li>
               </ul>
             </dd>
@@ -521,85 +476,54 @@
 
                 <th>Type</th>
 
-                <th>Attributes</th>
-
-                <th>Default</th>
-
                 <th class="last">Description</th>
               </tr>
             </thead>
 
             <tbody>
               <tr>
-                <td class="name"><code>id</code></td>
+                <td class="name"><code>_node:</code></td>
 
                 <td class="type">
-                  <span class="param-type">string</span>
+                  <span class="param-type">Object</span>
                 </td>
 
-                <td class="attributes"></td>
-
-                <td class="default"></td>
-
-                <td class="description last">
-                  <p>id of the option to update</p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>value</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                  |
-
-                  <span class="param-type">number</span>
-                  |
-
-                  <span class="param-type">boolean</span>
-                </td>
-
-                <td class="attributes"></td>
-
-                <td class="default"></td>
-
-                <td class="description last"><p>new value</p></td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>update</code></td>
-
-                <td class="type">
-                  <span class="param-type">boolean</span>
-                </td>
-
-                <td class="attributes">&lt;optional><br /></td>
-
-                <td class="default">
-                  <code>true</code>
-                </td>
-
-                <td class="description last">
-                  <p>if true it updates the extension storage</p>
-                </td>
+                <td class="description last"><p>AST Node</p></td>
               </tr>
             </tbody>
           </table>
 
-          <h4 class="name" id="getAllOptions">
-            <span class="type-signature"></span>getAllOptions<span
-              class="signature"
-              >()</span
-            ><span class="type-signature">
-              &rarr; {<a href="global.html#BlameOptions">BlameOptions</a>}</span
-            >
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>undefined</p>
+          </div>
+
+          <h4 class="name" id="~getGlideRecordFromDeclaration">
+            <span class="type-signature type-signature-inner">(inner) </span
+            >getGlideRecordFromDeclaration<span class="signature">(_node:)</span
+            ><span class="type-signature"></span>
           </h4>
 
           <dl class="details">
             <dt class="tag-description">Description:</dt>
             <dd class="tag-description">
               <ul class="dummy">
-                <li><p>returns a clone of the current BlameOptions</p></li>
+                <li>
+                  <p>
+                    Finds GlideRecord and GlideRecordSecure initializations on
+                    variable declarations: var grRecord = new
+                    GlideRecord('table'), and stores the info on the class and
+                    method
+                  </p>
+                  <p>
+                    [{<br />
+                    table: String|AST Node - String if we can find the literal,
+                    otherwise the AST Node<br />
+                    variable: String - Variable Name<br />
+                    }]
+                  </p>
+                </li>
               </ul>
             </dd>
 
@@ -607,25 +531,349 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="isolated_SNBlameOptions.js.html"
-                    >isolated/SNBlameOptions.js</a
+                  <a href="astParser_walkerFunctions.js.html"
+                    >astParser/walkerFunctions.js</a
                   >,
-                  <a href="isolated_SNBlameOptions.js.html#line107">line 107</a>
+                  <a href="astParser_walkerFunctions.js.html#line57">line 57</a>
                 </li>
               </ul>
             </dd>
           </dl>
 
-          <h5 class="h5-returns">Returns:</h5>
+          <h5 class="h5-parameters">Parameters:</h5>
 
-          <dl class="param-type">
-            <dt>Type</dt>
-            <dd>
-              <span class="param-type"
-                ><a href="global.html#BlameOptions">BlameOptions</a></span
-              >
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>_node:</code></td>
+
+                <td class="type">
+                  <span class="param-type">Object</span>
+                </td>
+
+                <td class="description last"><p>AST Node</p></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4 class="name" id="~getGlideRecordFromAssignment">
+            <span class="type-signature type-signature-inner">(inner) </span
+            >getGlideRecordFromAssignment<span class="signature">(_node:)</span
+            ><span class="type-signature"></span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    Finds GlideRecord and GlideRecordSecure initializations on
+                    variable assignment: grRecord = new GlideRecord('table'),
+                    and stores the info on the class and method
+                  </p>
+                  <p>
+                    [{<br />
+                    table: String|AST Node - String if we can find the literal,
+                    otherwise the AST Node<br />
+                    variable: String - Variable Name<br />
+                    }]
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="astParser_walkerFunctions.js.html"
+                    >astParser/walkerFunctions.js</a
+                  >,
+                  <a href="astParser_walkerFunctions.js.html#line74">line 74</a>
+                </li>
+              </ul>
             </dd>
           </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>_node:</code></td>
+
+                <td class="type">
+                  <span class="param-type">Object</span>
+                </td>
+
+                <td class="description last"><p>AST Node</p></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4 class="name" id="~checkNestedWhileRecord">
+            <span class="type-signature type-signature-inner">(inner) </span
+            >checkNestedWhileRecord<span class="signature">(_node:)</span
+            ><span class="type-signature"></span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    Find While statment used to loop over glideRecords and set
+                    the loop to true on the Object storing the GlideRecord
+                    information.
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="astParser_walkerFunctions.js.html"
+                    >astParser/walkerFunctions.js</a
+                  >,
+                  <a href="astParser_walkerFunctions.js.html#line85">line 85</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>_node:</code></td>
+
+                <td class="type">
+                  <span class="param-type">Object</span>
+                </td>
+
+                <td class="description last"><p>AST Node</p></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4 class="name" id="~removeParentesis">
+            <span class="type-signature type-signature-inner">(inner) </span
+            >removeParentesis<span class="signature">(string)</span
+            ><span class="type-signature"></span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    removes all the content between parentesis including nested
+                    parentesis, up to 5 levels deep
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="astParser_walkerFunctions.js.html"
+                    >astParser/walkerFunctions.js</a
+                  >,
+                  <a href="astParser_walkerFunctions.js.html#line105"
+                    >line 105</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>string</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-returns">Returns:</h5>
+
+          <h3 class="subsection-title">Type Definitions</h3>
+
+          <h4 class="name" id="~ScriptIncludesCall">ScriptIncludesCall</h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    returns the scriptInclude and method called on the node if
+                    it is a scriptInclude call
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="astParser_walkerFunctions.js.html"
+                    >astParser/walkerFunctions.js</a
+                  >,
+                  <a href="astParser_walkerFunctions.js.html#line115"
+                    >line 115</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="subsection-title">Properties:</h5>
+
+          <table class="props">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>type:</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>node type where the scriptInclude was found</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>line:</code></td>
+
+                <td class="type">
+                  <span class="param-type">number</span>
+                </td>
+
+                <td class="description last">
+                  <p>line number where the scriptInclude was found</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>scriptInclude:</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>class name of the scriptInclude</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>id:</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>sys_id of the scriptInclude</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>method:</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>method called on the scriptInclude</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="description usertext">
+            <p>
+              returns the scriptInclude and method called on the node if it is a
+              scriptInclude call
+            </p>
+          </div>
+
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type">Object</span>
+            </li>
+          </ul>
         </article>
       </section>
     </div>

@@ -36,6 +36,21 @@ describe("Script Include Parser", function () {
       })
     );
 
+    expect(parsedScriptInclude.SampleScriptOne.classKeys.methodFour.glideRecord[0]).toEqual(
+      jasmine.objectContaining({ 
+        table: 'table_name_on_constant', 
+        variable: 'grRecord'
+      })
+    );
+
+    expect(parsedScriptInclude.SampleScriptOne.classKeys.methodFive.glideRecord[0]).toEqual(
+      jasmine.objectContaining({ 
+        table: 'table_name', 
+        variable: 'grRecord', 
+        loop: true 
+      })
+    );
+
     expect(parsedScriptInclude.SampleScriptOne.classKeys.methodTwo.glideRecord[0].loop).toBeUndefined()
 
   });
