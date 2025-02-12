@@ -1,9 +1,6 @@
-import * as acorn from 'acorn';
 import runScriptIncludesCodeAnalisis from '../../scripts/src/astParser/scriptIncludesStaticCodeAnalysis.js';
 
 import fs from 'fs';
-
-
 
 describe("Script Include Parser", function () {
   it("should generate an object with the correct structure", function () {
