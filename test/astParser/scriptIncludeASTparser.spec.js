@@ -6,7 +6,7 @@ import fs from 'fs';
 
 
 describe("Script Include Parser", function () {
-  it("assert methods", function () {
+  it("should generate an object with the correct structure", function () {
     let script = fs.readFileSync("./test/sampleScripts/ClassExtendsScriptIncludeMock.js", 'utf-8');
 
     const parsedScriptInclude = runScriptIncludesCodeAnalisis(script, {}, 'global', ['global']);
