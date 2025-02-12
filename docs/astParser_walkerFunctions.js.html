@@ -237,32 +237,8 @@
           <ul class="methods">
             <li data-type="method">
               <a
-                href="module-scriptIncludesStaticCodeAnalysis.html#~isGlideRecordNext"
-                >isGlideRecordNext</a
-              >
-            </li>
-            <li data-type="method">
-              <a
-                href="module-scriptIncludesStaticCodeAnalysis.html#~ExpressionStatement"
-                >ExpressionStatement</a
-              >
-            </li>
-            <li data-type="method">
-              <a
-                href="module-scriptIncludesStaticCodeAnalysis.html#~VariableDeclarator"
-                >VariableDeclarator</a
-              >
-            </li>
-            <li data-type="method">
-              <a
-                href="module-scriptIncludesStaticCodeAnalysis.html#~AssignmentExpression"
-                >AssignmentExpression</a
-              >
-            </li>
-            <li data-type="method">
-              <a
-                href="module-scriptIncludesStaticCodeAnalysis.html#~WhileStatement"
-                >WhileStatement</a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~getSNClassMethods"
+                >getSNClassMethods</a
               >
             </li>
             <li data-type="method">
@@ -288,6 +264,44 @@
               <a
                 href="module-scriptIncludesToExtraLib.html#~getScriptIncludeLib"
                 >getScriptIncludeLib</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="module-walkerFunctions.html">walkerFunctions</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="module-walkerFunctions.html#~isGlideRecordNext"
+                >isGlideRecordNext</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-walkerFunctions.html#~getConstructorContextExpresions"
+                >getConstructorContextExpresions</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-walkerFunctions.html#~getGlideRecordFromDeclaration"
+                >getGlideRecordFromDeclaration</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-walkerFunctions.html#~getGlideRecordFromAssignment"
+                >getGlideRecordFromAssignment</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="module-walkerFunctions.html#~checkNestedWhileRecord"
+                >checkNestedWhileRecord</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="module-walkerFunctions.html#~removeParentesis"
+                >removeParentesis</a
               >
             </li>
           </ul>
@@ -321,29 +335,6 @@
       </ul>
       <h3>Global</h3>
       <ul>
-        <li><a href="global.html#isGlideRecordNext">isGlideRecordNext</a></li>
-        <li>
-          <a href="global.html#getConstructorContextExpresions"
-            >getConstructorContextExpresions</a
-          >
-        </li>
-        <li>
-          <a href="global.html#getGlideRecordFromDeclaration"
-            >getGlideRecordFromDeclaration</a
-          >
-        </li>
-        <li>
-          <a href="global.html#getGlideRecordFromAssignment"
-            >getGlideRecordFromAssignment</a
-          >
-        </li>
-        <li>
-          <a href="global.html#checkNestedWhileRecord"
-            >checkNestedWhileRecord</a
-          >
-        </li>
-        <li><a href="global.html#removeParentesis">removeParentesis</a></li>
-        <li><a href="global.html#ScriptIncludesCall">ScriptIncludesCall</a></li>
         <li><a href="global.html#BlameLine">BlameLine</a></li>
         <li><a href="global.html#BlameOptions">BlameOptions</a></li>
         <li>
@@ -363,6 +354,11 @@
           <pre
             class="prettyprint source linenums"
           ><code>import * as astring from 'astring';
+import * as walk from 'acorn-walk';
+
+/**
+ * @module walkerFunctions
+ */
 
 /**
  * returns true if the node is a call to GlideRecord().next() or GlideRecord()._next() function
@@ -383,8 +379,21 @@ const getConstructorContextExpresions = function(_node){
     let left = _node.expression?.left;
     let right = _node.expression?.right;
 
-    if(left?.type === 'MemberExpression' &amp;&amp; left?.object?.type === 'ThisExpression'){
-        return right.value || right.properties
+    if(right?.type === 'FunctionExpression'){
+        return {
+            type: right.type,
+            key: left.property.name,
+            args: right.params.map(param => param.name), 
+        }
+    }
+
+    if(left?.type === 'MemberExpression' &amp;&amp; left?.object?.type === 'ThisExpression' &amp;&amp; (right.value !== undefined || right.properties)){
+        let typeofLiteral = right.value !== undefined ? typeof right.value : right.properties 
+        return {
+            type: right?.type,
+            key: left.property.name, 
+            value: right.value || right.properties,
+        }
     }
 };
 
@@ -428,13 +437,19 @@ const getGlideRecordFromAssignment = function(_node){
  * @param {Object} _node: AST Node
  * 
  */
-const checkNestedWhileRecord = function(_node) {
+const checkNestedWhileRecord = function(_node, classObject) {
     let glideRecord = walk.findNodeAt(_node.test, null, null, isGlideRecordNext)?.node;
     
     if (!glideRecord) 
         return;
 
-    return glideRecord.callee.object.name;
+    let grRecord = classObject.glideRecord.find(gr => gr.variable === glideRecord.callee.object.name);
+    if(grRecord){
+        /**TODO: Refactor */
+        grRecord.loop = true;
+        return ;
+    } else
+        return {table: null, variable: glideRecord, loop: true}
 };
 
 /**
@@ -596,8 +611,8 @@ export default {
 
     <footer>
       Documentation generated by
-      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Tue Feb 11
-      2025 01:33:34 GMT+0100 (hora estándar de Europa central) using the
+      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Thu Feb 13
+      2025 00:14:34 GMT+0100 (hora estándar de Europa central) using the
       <a href="https://github.com/clenemt/docdash">docdash</a> theme.
     </footer>
 

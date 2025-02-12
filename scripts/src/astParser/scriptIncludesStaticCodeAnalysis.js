@@ -81,16 +81,17 @@ import walkerFunctions, * as walkFunctions  from './walkerFunctions.js';
  *  SNIntelisence: /api/now/v1/syntax_editor/intellisense/sys_script_include  
  */
 
+
 /**
- * returns true if the node is a call to GlideRecord().next() or GlideRecord()._next() function
+ * function to traverse the AST tree of the scirpt include and identify class static methods, methods, GlideRecord Calls other script include invactions, etc
  * 
- * @param {string} type :Node Type
- * @param {Object} node 
- * @return {string}
+ * @param {Object} astTree AST Tree of the Script include to analize
+ * @param {Object} serviceNowClasses Variable declaration or Expressions statment on the body of the script, typicaly it should be the static methods, or a new class instantiation
+ * @param {Object} scriptIncludeCache Servicenow Script include hash map (scope.className:sys_id)
+ * @param {string} currentScope The script scope
+ * @param {Array<string>} availableScopes All the available scopes on the isntance that has at least 1 script include (retrieved from the scriptIncludeCache)
+ * @returns {Object} simplified representation of the ServiceNow Script include.
  */
-
-const isGlideRecordNext = (type, node) => type === 'CallExpression' && /^(_){0,1}next/.test(node?.callee?.property?.name);
-
 const getSNClassMethods = (astTree, serviceNowClasses, scriptIncludeCache, currentScope, availableScopes) => {
     let serviceNowClassesName = serviceNowClasses.reduce( (acc, node) => {
         if( node.type === 'VariableDeclaration')
@@ -174,84 +175,50 @@ const getSNClassMethods = (astTree, serviceNowClasses, scriptIncludeCache, curre
                 }
 
                 serviceNowClassesName[name].classKeys[key].args = property.value.params.map(e=> e.name)
+                serviceNowClassesName[name].classKeys[key].scriptIncludeCalls = [];
                 let isConstructor = key === 'initialize';
                 
                 walk.simple(property.value, {
-                    /**
-                     * Finds any method or constant added to the Instantiated Class by the constructor (initialize) 
-                     * 
-                     * @param {Object} _node: AST Node 
-                     * @returns undefined
-                     */
                     ExpressionStatement(_node){
                         let scriptIncludeCall = walkerFunctions.findScriptIncludeCalls(_node, scriptIncludeCache, currentScope, availableScopes);
+                        if(scriptIncludeCall)
+                            serviceNowClassesName[name].classKeys[key].scriptIncludeCalls.push(scriptIncludeCall);
+
                         if(!isConstructor)
                             return;
-                        let left = _node.expression?.left;
-                        let right = _node.expression?.right;
+                        
+                        /** Find class member assignment on constructor*/
+                        let constructorExpression = walkerFunctions.getConstructorContextExpresions(_node);
+                        
+                        if(constructorExpression?.type === 'Literal'){
+                            serviceNowClassesName[name].classKeys[constructorExpression.key] = constructorExpression.value
+                        }
 
-                        if(left?.type === 'MemberExpression' && left?.object?.type === 'ThisExpression'){
-                            serviceNowClassesName[name].classKeys[left.property.name] = right.value || right.properties
+                        if(constructorExpression?.type === 'FunctionExpression'){
+                            serviceNowClassesName[name].classKeys[constructorExpression.key] = {
+                                args: constructorExpression.args,
+                                glideRecord: []
+                            }
                         }
                     },
-                    /**
-                     * Finds GlideRecord and GlideRecordSecure initializations on variable declarations:
-                     * var grRecord = new GlideRecord('table'), and stores the info on the class and method
-                     *   
-                     * [{  
-                     *      table: String|AST Node - String if we can find the literal, otherwise the AST Node  
-                     *      variable: String - Variable Name  
-                     * }]  
-                     * 
-                     * @param {Object} _node: AST Node 
-                     * 
-                     */
                     VariableDeclarator(_node){
-                        if(_node.init?.type === 'NewExpression' && (_node.init?.callee.name === 'GlideRecord' || _node.init?.callee.name === 'GlideRecordSecure')){
-                            const table = getTableName(_node.init.arguments[0], serviceNowClassesName, name, astTree);
-                            const variable = _node.id.name;
-
+                        let {tableNode, variable} = walkerFunctions.getGlideRecordFromDeclaration(_node) || {};
+                        if(tableNode && variable){
+                            let table = getTableName(tableNode, serviceNowClassesName, name, astTree)
                             serviceNowClassesName[name].classKeys[key].glideRecord.push({table, variable})
                         }
                     },
-                    /**
-                     * Finds GlideRecord and GlideRecordSecure initializations on variable assignment:
-                     * grRecord = new GlideRecord('table'), and stores the info on the class and method
-                     * 
-                     * [{  
-                     *      table: String|AST Node - String if we can find the literal, otherwise the AST Node  
-                     *      variable: String - Variable Name  
-                     * }]  
-                     * 
-                     * @param {Object} _node: AST Node 
-                     * 
-                     */
                     AssignmentExpression(_node){
-                        if(_node.right?.type === 'NewExpression' && (_node.right?.callee.name === 'GlideRecord' || _node.right?.callee.name === 'GlideRecordSecure')){
-                            const table = getTableName(_node.right.arguments[0], serviceNowClassesName, name, astTree);
-                            const variable = _node.left.name;
-
-                            serviceNowClassesName[name].classKeys[key].glideRecord.push({table, variable}) 
-                        }
+                        let {tableNode, variable} = walkerFunctions.getGlideRecordFromAssignment(_node) || {};
+                        if(tableNode && variable){
+                            let table = getTableName(tableNode, serviceNowClassesName, name, astTree)
+                            serviceNowClassesName[name].classKeys[key].glideRecord.push({table, variable})
+                        }                
                     },
-                    /**
-                     * Find While statment used to loop over glideRecords and set the loop to true on the Object storing the GlideRecord information.
-                     * 
-                     * @param {Object} _node: AST Node
-                     * 
-                     */
                     WhileStatement(_node) {
-                        let glideRecord = walk.findNodeAt(_node.test, null, null, isGlideRecordNext)?.node;
-                        
-                        if (!glideRecord) 
-                            return;
-
-                        let grRecord = serviceNowClassesName[name].classKeys[key].glideRecord.find(gr => gr.variable === glideRecord.callee.object.name);
-                        
-                        if(grRecord) 
-                            grRecord.loop = true;
-                        else
-                            serviceNowClassesName[name].classKeys[key].glideRecord.push({table: null, variable: glideRecord.callee.object.name, loop: true})
+                        let glideRecord = walkerFunctions.checkNestedWhileRecord(_node, serviceNowClassesName[name].classKeys[key]);
+                        if (glideRecord) 
+                            serviceNowClassesName[name].classKeys[key].glideRecord.push(glideRecord);       
                     },
                 })
                 

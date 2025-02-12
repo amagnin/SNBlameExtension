@@ -10,6 +10,7 @@ SampleScriptOne.prototype =  Object.extendsObject(SampleExtends, {
     },
 
     methodOne: function(value, valueTwo){
+        /** GlideRecord Call from VariableDeclarator */
         var grRecord = new GlideRecord(this.CONSTANT);
         grRecord.addQuery('field', '!=', value);
         grRecord.addQuery('field1', '!=', valueTwo);
@@ -22,6 +23,7 @@ SampleScriptOne.prototype =  Object.extendsObject(SampleExtends, {
     },
 
     methodTwo: function(){
+        /** GlideRecord Call from VariableDeclarator */
         var grRecord = new GlideRecord('table_name');
         grRecord.addQuery('field', '!=', 'value');
         grRecord.addQuery('field1', '!=', 'value');
@@ -37,6 +39,32 @@ SampleScriptOne.prototype =  Object.extendsObject(SampleExtends, {
         var someVariable = new SampleScriptOne().methodTree()
 
         return someVariable;
+    },
+
+    methodFour: function(value, valueTwo){
+        /** GlideRecord Call from AssignmentExpression */
+        var grRecord
+        grRecord = new GlideRecord(this.CONSTANT);
+        grRecord.addQuery('field', '!=', value);
+        grRecord.addQuery('field1', '!=', valueTwo);
+        grRecord.query();
+
+        return grRecord.hasNext();
+    },
+
+    methodFive: function(){
+        /** GlideRecord Call from AssignmentExpression */
+        var grRecord
+        grRecord = new GlideRecord('table_name');
+        grRecord.addQuery('field', '!=', 'value');
+        grRecord.addQuery('field1', '!=', 'value');
+        grRecord.setLimit(1);
+        grRecord.query();
+
+        while(grRecord.next()){
+            grRecord.field = value
+            grRecord.update();
+        }
     },
 
     type: 'SampleScriptOne'
