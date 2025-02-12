@@ -2,7 +2,7 @@ import * as walk from 'acorn-walk';
 import * as acorn from 'acorn';
 import * as astring from 'astring';
 
-import walkerFunctions, * as walkFunctions  from './walkerFunctions.js';
+import walkerFunctions from './walkerFunctions.js';
 
 /**
  *  @module scriptIncludesStaticCodeAnalysis
