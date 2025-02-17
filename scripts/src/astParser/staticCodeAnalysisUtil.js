@@ -1,5 +1,10 @@
 import runScriptIncludesCodeAnalisis from "./scriptIncludesStaticCodeAnalysis.js";
 import getScriptIncludeLib from "./scriptIncludesToExtraLib.js";
+import walkerFunctions from './walkerFunctions.js';
+
+import * as acorn from 'acorn';
+import * as acornLoose from 'acorn-loose';
+import * as walk from 'acorn-walk';
 
 /**
  * static code analysis utility class
@@ -108,6 +113,32 @@ class StaticCodeAnalisisUtil {
         this.updateScriptIncludeParsedCache(className, {parsedScript, libs});
 
         return {parsedScript, libs, scriptExtends};
+    }
+
+    findScriptIncludeCall(stringScript, scope){
+        let scriptBody;
+        let scriptIncludeCalls = [];
+
+        try {
+            scriptBody = acorn.parse(stringScript)
+        }catch(e){
+            scriptBody = acornLoose.parse(stringScript)
+        }
+        
+        walk.simple(scriptBody, {
+              ExpressionStatement(_node){
+                  let scirptInlcludes = walkerFunctions.findScriptIncludeCalls(_node, scriptIncludeCache, scope, availableScopes);
+                  if(scirptInlcludes)
+                    scriptIncludeCalls.push(scirptInlcludes)
+              },
+              AssignmentExpression(_node){
+                let scirptInlcludes = walkerFunctions.findScriptIncludeCalls(_node, scriptIncludeCache, scope, availableScopes);
+                  if(scirptInlcludes)
+                    scriptIncludeCalls.push(scirptInlcludes)
+            },
+          })
+        
+          return scriptIncludeCalls;
     }
 
 
