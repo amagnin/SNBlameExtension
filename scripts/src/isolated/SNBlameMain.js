@@ -419,7 +419,7 @@ async function triggerScriptIncludeLib(identifier, currentScope){
 /** 
  * finds script inclulde calls only on the current script (accepts malformed scripts) will add intelisense for the found script includes.
  * @param {string} scriptString script to parse and find script include calls
- * @param {stirng} scope current scope 
+ * @param {string} scope current scope 
 */
 function findScriptIncludeCall(scriptString, scope){
   let scriptIncludeCalls = staticCodeAnalisisUtil.findScriptIncludeCall(scriptString, scope);
