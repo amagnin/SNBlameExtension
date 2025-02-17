@@ -3,15 +3,9 @@ import SNBlameOptions from "./SNBlameOptions.js";
 import SNRESTFactory from "./SNRestFactory.js";
 
 import StaticCodeAnalisisUtil from "../astParser/staticCodeAnalysisUtil.js";
-import runScriptIncludesCodeAnalisis from "../astParser/scriptIncludesStaticCodeAnalysis.js";
-import getScriptIncludeLib from "../astParser/scriptIncludesToExtraLib.js";
 
 import patienceDiff from "../../libraries/patienceDiff.js";
 import X2JS from "x2js";
-
-import * as acorn from "acorn";
-import * as acornLoose from 'acorn-loose';
-import * as walk from 'acorn-walk';
 
 /**
  * @typedef BlameLine
@@ -54,8 +48,6 @@ import * as walk from 'acorn-walk';
 let serverDiff = {};
 /** @type {boolean} */
 let loaded = false;
-/** @type {Object} */
-let loadedLibs = {}
 
 /** @type {ServiceNowRESTFactory} */
 let restFactory;
@@ -169,24 +161,9 @@ let LISTENERS = {
 
   },
   'sn-check-full-script': (event) => {
-    const {script, field, currentScope} = event.detail;
-
-    let scriptBody;
-    try {
-      scriptBody = acorn.parse(script)
-    }catch(e){
-      scriptBody = acornLoose.parse(script)
-    }
+    const {script, currentScope} = event.detail;
     
-    walk.simple(scriptBody, {
-      ExpressionStatement(node){
-        /**find classes */
-      },
-      VariableDeclaration(node){
-        /**find classes */
-      },
-    })
-    
+    findScriptIncludeCall(script, currentScope);
   }
 };
 
@@ -408,7 +385,6 @@ function getDiffsWithCurrent(newModelValue, serverValue, ignoreWhiteSpace) {
 }
 
 /**
- * TODO: refactor
  * gets the script inlcude with the given identifier form the server, and parses it to use it as monaco extra library
  *   
  * @param {string} identifier script include identifier {scope.classname}
@@ -426,7 +402,6 @@ async function triggerScriptIncludeLib(identifier, currentScope){
   if(!body?.result?.script) return
 
   let scriptInclideScope = body.result.api_name.split('.')[0];
-
   let scriptIncludeObject = await staticCodeAnalisisUtil.runScriptIncludesCodeAnalisis(body.result.script, identifier, currentScope, scriptInclideScope);
 
   window.dispatchEvent(new CustomEvent("sn-load-library", {
@@ -439,4 +414,14 @@ async function triggerScriptIncludeLib(identifier, currentScope){
     triggerScriptIncludeLib(className, className.split('.')[1] ? className.split('.')[0] : currentScope)
   );
 
+}
+
+/** 
+ * finds script inclulde calls only on the current script (accepts malformed scripts) will add intelisense for the found script includes.
+ * @param {string} scriptString script to parse and find script include calls
+ * @param {stirng} scope current scope 
+*/
+function findScriptIncludeCall(scriptString, scope){
+  let scriptIncludeCalls = staticCodeAnalisisUtil.findScriptIncludeCall(scriptString, scope);
+  scriptIncludeCalls.forEach(scriptIncludeCall => triggerScriptIncludeLib(scriptIncludeCall.scriptInclude, scope));
 }

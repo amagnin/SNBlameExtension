@@ -236,6 +236,32 @@ const findScriptIncludeCalls = function(_node, scriptIncludeCache, scriptScope, 
                 }
         }
     }
+
+    if(_node.type === 'AssignmentExpression' && _node.right?.type === 'CallExpression'){
+        let nodeValue = removeParentesis(astring.generate(_node.right.callee)).split('.'); 
+        if(_node.right.callee.object?.type === 'NewExpression')
+            nodeValue[0] =  removeParentesis(astring.generate(_node.right.callee.object.callee)).split('.')[0];
+        
+        if(availableScopes.indexOf(nodeValue[0]) !== -1){
+            if(scriptIncludeCache[`${nodeValue[0]}.${nodeValue[1]}`]) 
+                return {
+                    type : 'AssignmentExpression',
+                    line : _node.loc?.start?.line,
+                    scriptInclude: `${nodeValue[0]}.${nodeValue[1]}`,
+                    id: scriptIncludeCache[`${nodeValue[0]}.${nodeValue[1]}`],
+                    method: nodeValue[2] ? nodeValue[2] : null
+                } 
+        }else{
+            if(scriptIncludeCache[`${scriptScope}.${nodeValue[0]}`] && IGNORE_EXPLICIT_NAMESPACE_SCRIPT_INCLUDES.indexOf(nodeValue[0]) === -1)
+                return {
+                    type : 'AssignmentExpression',
+                    line : _node.loc?.start?.line,
+                    scriptInclude: `${scriptScope}.${nodeValue[0]}`,
+                    id: scriptIncludeCache[`${scriptScope}.${nodeValue[0]}`],
+                    method: nodeValue[1] ? nodeValue[1] : null
+                }
+        }
+    }
 }
 
 export default {
@@ -246,4 +272,3 @@ export default {
     checkNestedWhileRecord, 
     findScriptIncludeCalls
 };
-
