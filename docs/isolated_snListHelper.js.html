@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>isolated/snRESTFactory.js - SN Blame</title>
+    <title>isolated/snListHelper.js - SN Blame</title>
 
     <meta
       name="description"
@@ -325,188 +325,59 @@
     </nav>
 
     <div id="main">
-      <h1 class="page-title">isolated/snRESTFactory.js</h1>
+      <h1 class="page-title">isolated/snListHelper.js</h1>
 
       <section>
         <article>
-          <pre class="prettyprint source linenums"><code>/**
- *  @typedef ServiceNowRESTFactory
- *  @type {Object}
- *  @property getVersions {function} retrives the version for the record passed
- *  @property getScriptIncludes {function} retrieves the script include for the given sys_id
- *  @property getRecords {function} retrives the a list of records for the given table 
- *  @property getScope {function} retrives the scope record for the given sys_id
- *  @property getProperties {function} retrives the value of the system property
- *  @property getScriptIncludeCache {function} retrieves Servicenow the script includes cache object
- */
+          <pre
+            class="prettyprint source linenums"
+          ><code>import SNRESTFactory from "./SNRestFactory.js";
+import StaticCodeAnalisisUtil from "../astParser/staticCodeAnalysisUtil.js";
 
 /**
- * Servicenow REST factory  
- * @class
- * 
- * @param {string} g_ck ServiceNow user token to trigger the REST request
- * @returns {ServiceNowRESTFactory} funcitons for all REST calls performed by the extension to the ServiceNow instance
- */
+* @typedef {import('./SNRestFactory.js').ServiceNowRESTFactory} ServiceNowRESTFactory
+*/
 
-let SNRESTFactory = function (g_ck) {
-    
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Accept", "application/json");
-    headers.append("X-UserToken", g_ck);
-
-    /**
-     * retrives the version for the record passed
-     * 
-     * @param {string} table table of the record
-     * @param {string} sys_id sys_id of the record
-     * @returns {Object} response as a JSON 
-     */
-    let getVersions = async function (table, sys_id) {
-        const fields = [
-            "payload",
-            "sys_recorded_at",
-            "reverted_from",
-            "sys_id",
-            "source",
-            "state",
-        ];
-
-        const queryParams = new URLSearchParams({
-            sysparm_display_value: "all",
-            sysparm_fields: fields.join(","),
-            sysparm_query: `name=${table}_${sys_id}^stateINcurrent,previous`,
-        });
-
-        const response = await fetch(
-            `/api/now/table/sys_update_version?${queryParams}`, {
-                method: "GET",
-                headers,
-            }
-        );
-
-        if (!response.ok) {
-            return;
-        }
-
-        let body = await response.json();
-        return body
-    };
-
-    /**
-     * retrieves the script include for the given sys_id
-     * 
-     * @param {string} sys_id: sys_id of the script includes 
-     * @returns {Object} response as a JSON 
-     */
-    let getScriptIncludes = async function(sys_id){
+export default function(){
+    let restFactory;
+    let staticCodeAnalisisUtil;
+    const LISTENERS =  {
+        'sn-list-helper': async (event) => {
+            const {table, sysIDList, g_ck} = event.detail;
+            let scriptList;
         
-        const response = await fetch(
-            `/api/now/table/sys_script_include/${sys_id}?sysparm_fields=api_name,sys_id,script,name,sys_scope,active,sys_policy`, {
-                method: "GET",
-                headers,
+            if(!restFactory)
+                restFactory = SNRESTFactory(g_ck);
+
+            if(!staticCodeAnalisisUtil){
+                let values = await Promise.all([
+                    restFactory.getScriptIncludeCache(),
+                    restFactory.getRecords(table, null, `sys_idIN${sysIDList.join(',')}`), 
+                ]);
+                
+                staticCodeAnalisisUtil = new StaticCodeAnalisisUtil(values[0]);
+                scriptList = values[1].result;
             }
-        );
-
-        if (!response.ok) {
-            return;
-        }
-
-        let body = await response.json();
-        return body;
-    }
-
-    /**
-     * Retrieves a list of records from the given table/filter combo
-     * @param {string} table table name to retrieve the records from 
-     * @param {?Array&lt;string>} fields list of fields to retrieve
-     * @param {?string} filter ServiceNow encoded query 
-     * @returns {Object} response as a JSON 
-     */
-    let getRecords = async function(table, fields, filter){
-
-        const params = new URLSearchParams();
-        if(fields)
-            params.append('sysparm_fields', fields.join(','));
-        if(filter)
-            params.append('sysparm_query', filter);
-
-        const response = await fetch(
-            `/api/now/table/${table}?${params.toString()}`, {
-                method: "GET",
-                headers,
+            else{
+                scriptList = await restFactory.getRecords(table, null, `sys_idIN${sysIDList.join(',')}`).result;
             }
-        );
 
-        if (!response.ok) {
-            return;
-        }
-
-        let body = await response.json();
-        return body;
+            let parsedScripts = scriptList.map((script => {
+                let scriptInfo = staticCodeAnalisisUtil.runScriptAnalisis(script.script, 'global');
+                scriptInfo.sys_id = script.sys_id
+                scriptInfo.scope = script.sys_scope.value
+                return 
+            
+            }));
+            console.log(parsedScripts, null, 2);
+                
+        },
     }
 
-    /**
-     * retrieves the scope record
-     * 
-     * @param {string} sys_id: sys_id of the scope 
-     * @returns {Object} response as a JSON 
-     */
-    let getScope = async function(sys_id){
-        const response = await fetch(
-            `/api/now/table/sys_scope/${sys_id}`, {
-                method: "GET",
-                headers,
-            }
-        );
-
-        if (!response.ok) {
-            return;
-        }
-
-        let body = await response.json();
-        return body;
-    }
-
-    /**
-     * retrives the value of the system property
-     * @param {string} name name of the system property
-     * @returns {string} value of the  proeprty
-     */
-    let getProperties = async function(name){
-
-    }
-
-    /**
-     * get Servicenow the script includes cache object
-     * @returns {Object} script include cache object containing the scirpt name and sys_id as value pair
-     */
-    let getScriptIncludeCache = async function(){
-        const response = await fetch(
-            `/api/now/syntax_editor/cache/sys_script_include`, {
-                method: "GET",
-                headers,
-            }
-        );
-
-        let body = await response.json();
-        try{
-            return JSON.parse(body.result.result);
-        }catch(e){
-            return {};
-        }
-    }
-
-    return {
-        getVersions,
-        getScriptIncludes,
-        getRecords,
-        getScope,
-        getProperties,
-        getScriptIncludeCache,
-    }
-}
-export default SNRESTFactory;</code></pre>
+    Object.keys(LISTENERS).forEach((key) => {
+        window.addEventListener(key, LISTENERS[key]);
+    });
+}</code></pre>
         </article>
       </section>
     </div>

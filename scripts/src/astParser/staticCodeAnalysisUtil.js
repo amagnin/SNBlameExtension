@@ -16,10 +16,15 @@ class StaticCodeAnalisisUtil {
     #availableScopes = [];
     #loadedLibraries = {};
 
+    static ACORN_OPTIONS = {
+        ecmaVersion: 'latest',
+        locations: true,
+    }
+
     constructor(scriptIncludeCache){
         this.#scriptIncludeCache = scriptIncludeCache.sys_script_include ? scriptIncludeCache.sys_script_include : scriptIncludeCache;
 
-        this.#availableScopes = Object.keys(scriptIncludeCache)
+        this.#availableScopes = Object.keys(this.#scriptIncludeCache)
             .map(key => key.split('.')[0])
             .filter((value, index, self) => self.indexOf(value) === index);
 
@@ -61,6 +66,7 @@ class StaticCodeAnalisisUtil {
     }
 
     async getScriptIncludeParsedCache(className){
+        return null;
         return await new Promise((resolve, reject) => {
             (chrome || browser).storage.local.get(`scriptIncludeCache-${className}`, function (result) {
               if (result[`scriptIncludeCache-${className}`] === undefined) {
@@ -115,27 +121,90 @@ class StaticCodeAnalisisUtil {
         return {parsedScript, libs, scriptExtends};
     }
 
+    runScriptAnalisis(stringScript, scriptScope){
+
+        const getTableName = (node, astTree) => { 
+            if(node.type === 'Literal')
+                return node.value
+
+            return node;
+        }
+
+        let scriptBody
+        try {
+            scriptBody = acorn.parse(stringScript, StaticCodeAnalisisUtil.ACORN_OPTIONS)
+        }catch(e){
+            scriptBody = acornLoose.parse(stringScript, StaticCodeAnalisisUtil.ACORN_OPTIONS)
+        }
+
+        let scriptObj = {
+            glideRecord: [],
+            scriptIncludeCalls:[],
+        }
+
+        let self = this;
+
+        walk.simple(scriptBody, {
+            VariableDeclarator(_node){
+                let {tableNode, variable} = walkerFunctions.getGlideRecordFromDeclaration(_node) || {};
+                if(tableNode && variable){
+                    let table = getTableName(tableNode);
+                    scriptObj.glideRecord.push({table, variable});
+                }
+            },
+            AssignmentExpression(_node){
+                let {tableNode, variable} = walkerFunctions.getGlideRecordFromAssignment(_node) || {};
+                if(tableNode && variable){
+                    let table = getTableName(tableNode);
+                    scriptObj.glideRecord.push({table, variable});
+                }
+                
+                let scirptInlcludes = walkerFunctions.findScriptIncludeCalls(_node, self.#scriptIncludeCache, scriptScope, self.#availableScopes);
+                if(scirptInlcludes)
+                    scriptObj.scriptIncludeCalls.push(scirptInlcludes);
+            },
+            ExpressionStatement(_node){
+                let scirptInlcludes = walkerFunctions.findScriptIncludeCalls(_node, self.#scriptIncludeCache, scriptScope, self.#availableScopes);
+                if(scirptInlcludes)
+                    scriptObj.scriptIncludeCalls.push(scirptInlcludes);
+            },
+            WhileStatement(_node) {
+                let glideRecord = walkerFunctions.checkNestedWhileRecord(_node, scriptObj);
+                if (glideRecord) 
+                    scriptObj.glideRecord.push(glideRecord);       
+            },
+        })
+
+        return scriptObj;
+    }
+
     findScriptIncludeCall(stringScript, scope){
         let scriptBody;
         let scriptIncludeCalls = [];
+        let self = this;
 
         try {
-            scriptBody = acorn.parse(stringScript)
+            scriptBody = acorn.parse(stringScript, StaticCodeAnalisisUtil.ACORN_OPTIONS)
         }catch(e){
-            scriptBody = acornLoose.parse(stringScript)
+            scriptBody = acornLoose.parse(stringScript, StaticCodeAnalisisUtil.ACORN_OPTIONS)
         }
         
         walk.simple(scriptBody, {
-              ExpressionStatement(_node){
-                  let scirptInlcludes = walkerFunctions.findScriptIncludeCalls(_node, scriptIncludeCache, scope, availableScopes);
-                  if(scirptInlcludes)
-                    scriptIncludeCalls.push(scirptInlcludes)
+            ExpressionStatement(_node){
+                let scirptInlcludes = walkerFunctions.findScriptIncludeCalls(_node, self.#scriptIncludeCache, scope, self.#availableScopes);
+                if(scirptInlcludes)
+                    scriptIncludeCalls.push(scirptInlcludes);
               },
-              AssignmentExpression(_node){
-                let scirptInlcludes = walkerFunctions.findScriptIncludeCalls(_node, scriptIncludeCache, scope, availableScopes);
-                  if(scirptInlcludes)
-                    scriptIncludeCalls.push(scirptInlcludes)
+            AssignmentExpression(_node){
+                let scirptInlcludes = walkerFunctions.findScriptIncludeCalls(_node, self.#scriptIncludeCache, scope, self.#availableScopes);
+                if(scirptInlcludes)
+                    scriptIncludeCalls.push(scirptInlcludes);
             },
+            VariableDeclarator(_node){
+                let scirptInlcludes = walkerFunctions.findScriptIncludeCalls(_node, self.#scriptIncludeCache, scope, self.#availableScopes);
+                if(scirptInlcludes)
+                    scriptIncludeCalls.push(scirptInlcludes);
+            }
           })
         
           return scriptIncludeCalls;

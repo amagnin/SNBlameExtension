@@ -56,7 +56,7 @@ const getScriptIncludeLib = function(className, scriptIncludesObject){
         }
         
         if(typeof keyValue === 'string')
-            return `${key} = ${keyValue};`
+            return `${key} = '${keyValue}';`
             
         return `${key}(${keyValue?.args?.toString()}){}`
     }).join('\n            ');
@@ -71,7 +71,7 @@ const getScriptIncludeLib = function(className, scriptIncludesObject){
             return
 
         if(typeof keyValue === 'string')
-            return `static ${key} = ${keyValue};`
+            return `static ${key} = '${keyValue}';`
         return `static ${key} = (${keyValue.args.toString()}){};`
     })).join('\n      ');
 

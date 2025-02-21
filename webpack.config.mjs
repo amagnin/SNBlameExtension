@@ -18,7 +18,7 @@ const config = {
 
 const isolated = Object.assign({}, config,{
     name: "isolated",
-    entry: './scripts/src/isolated/SNBlameMain.js',
+    entry: './scripts/src/isolated/isolatedMain.js',
     output: {
        path: path.join(__dirname, '/scripts/dist/isolated'),
        filename: "bundle.js"
@@ -32,7 +32,7 @@ const isolated = Object.assign({}, config,{
 
 const main = Object.assign({}, config ,{
     name: "main",
-    entry: './scripts/src/main/snBlameBootstrap.js',
+    entry: './scripts/src/main/main.js',
     output: {
        path: path.join(__dirname, '/scripts/dist/main'),
        filename: "bundle.js"

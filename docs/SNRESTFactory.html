@@ -169,6 +169,9 @@
               >
             </li>
             <li data-type="method">
+              <a href="SNRESTFactory.html#~getRecords">getRecords</a>
+            </li>
+            <li data-type="method">
               <a href="SNRESTFactory.html#~getScope">getScope</a>
             </li>
             <li data-type="method">
@@ -306,42 +309,17 @@
             </li>
           </ul>
         </li>
-        <li>
-          <a href="module-SNBlameMain.html">SNBlameMain</a>
-          <ul class="methods">
-            <li data-type="method">
-              <a href="module-SNBlameMain.html#~getVersions">getVersions</a>
-            </li>
-            <li data-type="method">
-              <a href="module-SNBlameMain.html#~removeReverted"
-                >removeReverted</a
-              >
-            </li>
-            <li data-type="method">
-              <a href="module-SNBlameMain.html#~getBlame">getBlame</a>
-            </li>
-            <li data-type="method">
-              <a href="module-SNBlameMain.html#~getDiffsWithCurrent"
-                >getDiffsWithCurrent</a
-              >
-            </li>
-            <li data-type="method">
-              <a href="module-SNBlameMain.html#~triggerScriptIncludeLib"
-                >triggerScriptIncludeLib</a
-              >
-            </li>
-          </ul>
-        </li>
+        <li><a href="module-SNBlameMain.html">SNBlameMain</a></li>
       </ul>
       <h3>Global</h3>
       <ul>
         <li><a href="global.html#BlameLine">BlameLine</a></li>
+        <li><a href="global.html#snVersions">snVersions</a></li>
         <li><a href="global.html#BlameOptions">BlameOptions</a></li>
         <li>
           <a href="global.html#ServiceNowRESTFactory">ServiceNowRESTFactory</a>
         </li>
         <li><a href="global.html#MonacoEditor">MonacoEditor</a></li>
-        <li><a href="global.html#snBlamebootstrap">snBlamebootstrap</a></li>
         <li><a href="global.html#MonacoToken">MonacoToken</a></li>
       </ul>
     </nav>
@@ -381,7 +359,8 @@
                   <li>
                     <a href="isolated_snRESTFactory.js.html"
                       >isolated/snRESTFactory.js</a
-                    >, <a href="isolated_snRESTFactory.js.html#line8">line 8</a>
+                    >,
+                    <a href="isolated_snRESTFactory.js.html#line20">line 20</a>
                   </li>
                 </ul>
               </dd>
@@ -459,7 +438,7 @@
                 <li>
                   <a href="isolated_snRESTFactory.js.html"
                     >isolated/snRESTFactory.js</a
-                  >, <a href="isolated_snRESTFactory.js.html#line22">line 22</a>
+                  >, <a href="isolated_snRESTFactory.js.html#line34">line 34</a>
                 </li>
               </ul>
             </dd>
@@ -537,7 +516,7 @@
                 <li>
                   <a href="isolated_snRESTFactory.js.html"
                     >isolated/snRESTFactory.js</a
-                  >, <a href="isolated_snRESTFactory.js.html#line59">line 59</a>
+                  >, <a href="isolated_snRESTFactory.js.html#line71">line 71</a>
                 </li>
               </ul>
             </dd>
@@ -584,6 +563,113 @@
             </dd>
           </dl>
 
+          <h4 class="name" id="~getRecords">
+            <span class="type-signature type-signature-async, inner"
+              >(async, inner) </span
+            >getRecords<span class="signature"
+              >(table, fields<span class="signature-attributes">nullable</span>,
+              filter<span class="signature-attributes">nullable</span>)</span
+            ><span class="type-signature"> &rarr; {Object}</span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    Retrieves a list of records from the given table/filter
+                    combo
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_snRESTFactory.js.html"
+                    >isolated/snRESTFactory.js</a
+                  >, <a href="isolated_snRESTFactory.js.html#line95">line 95</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th>Attributes</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>table</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="attributes"></td>
+
+                <td class="description last">
+                  <p>table name to retrieve the records from</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>fields</code></td>
+
+                <td class="type">
+                  <span class="param-type">Array.&lt;string></span>
+                </td>
+
+                <td class="attributes">&lt;nullable><br /></td>
+
+                <td class="description last">
+                  <p>list of fields to retrieve</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>filter</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="attributes">&lt;nullable><br /></td>
+
+                <td class="description last">
+                  <p>ServiceNow encoded query</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>response as a JSON</p>
+          </div>
+
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type">Object</span>
+            </dd>
+          </dl>
+
           <h4 class="name" id="~getScope">
             <span class="type-signature type-signature-async, inner"
               >(async, inner) </span
@@ -605,7 +691,8 @@
                 <li>
                   <a href="isolated_snRESTFactory.js.html"
                     >isolated/snRESTFactory.js</a
-                  >, <a href="isolated_snRESTFactory.js.html#line82">line 82</a>
+                  >,
+                  <a href="isolated_snRESTFactory.js.html#line124">line 124</a>
                 </li>
               </ul>
             </dd>
@@ -672,7 +759,7 @@
                   <a href="isolated_snRESTFactory.js.html"
                     >isolated/snRESTFactory.js</a
                   >,
-                  <a href="isolated_snRESTFactory.js.html#line103">line 103</a>
+                  <a href="isolated_snRESTFactory.js.html#line145">line 145</a>
                 </li>
               </ul>
             </dd>
@@ -741,7 +828,7 @@
                   <a href="isolated_snRESTFactory.js.html"
                     >isolated/snRESTFactory.js</a
                   >,
-                  <a href="isolated_snRESTFactory.js.html#line111">line 111</a>
+                  <a href="isolated_snRESTFactory.js.html#line153">line 153</a>
                 </li>
               </ul>
             </dd>
@@ -770,8 +857,8 @@
 
     <footer>
       Documentation generated by
-      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Thu Feb 13
-      2025 00:14:34 GMT+0100 (hora estándar de Europa central) using the
+      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Fri Feb 21
+      2025 14:12:55 GMT+0100 (hora estándar de Europa central) using the
       <a href="https://github.com/clenemt/docdash">docdash</a> theme.
     </footer>
 

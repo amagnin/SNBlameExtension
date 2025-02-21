@@ -20,10 +20,10 @@ describe('getScriptIncludeLib', () => {
     expect(result).toContain('class TestClass');
     expect(result).toContain('constructor(arg1,arg2){}');
     expect(result).toContain('method1(){}');
-    expect(result).toContain('CONSTANT = someValue;');
+    expect(result).toContain('CONSTANT = \'someValue\';');
     expect(result).toContain('static someStaticMember1 = (){};');
     expect(result).toContain('static someStaticMember2 = (){};');
-    expect(result).toContain('static CONSTANT = literal;');
+    expect(result).toContain('static CONSTANT = \'literal\';');
   });
 
   it('should generate a class definition with object expressions', () => {
