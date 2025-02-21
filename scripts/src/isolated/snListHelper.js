@@ -1,5 +1,5 @@
 import SNRESTFactory from "./SNRestFactory.js";
-import StaticCodeAnalisisUtil from "../astParser/staticCodeAnalysisUtil.js";
+import StaticCodeAnalisisUtil from "../astParser/StaticCodeAnalysisUtil.js";
 
 /**
 * @typedef {import('./SNRestFactory.js').ServiceNowRESTFactory} ServiceNowRESTFactory
