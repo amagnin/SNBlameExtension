@@ -16,6 +16,10 @@ describe('SNRESTFactory', () => {
     expect(factory.getScriptIncludes).toBeDefined();
   });
 
+  it('should have getRecords method', () => {
+    expect(factory.getRecords).toBeDefined();
+  });
+
   it('should have getScope method', () => {
     expect(factory.getScope).toBeDefined();
   });

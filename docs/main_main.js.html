@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>isolated/snRESTFactory.js - SN Blame</title>
+    <title>main/main.js - SN Blame</title>
 
     <meta
       name="description"
@@ -325,188 +325,280 @@
     </nav>
 
     <div id="main">
-      <h1 class="page-title">isolated/snRESTFactory.js</h1>
+      <h1 class="page-title">main/main.js</h1>
 
       <section>
         <article>
-          <pre class="prettyprint source linenums"><code>/**
- *  @typedef ServiceNowRESTFactory
- *  @type {Object}
- *  @property getVersions {function} retrives the version for the record passed
- *  @property getScriptIncludes {function} retrieves the script include for the given sys_id
- *  @property getRecords {function} retrives the a list of records for the given table 
- *  @property getScope {function} retrives the scope record for the given sys_id
- *  @property getProperties {function} retrives the value of the system property
- *  @property getScriptIncludeCache {function} retrieves Servicenow the script includes cache object
- */
+          <pre
+            class="prettyprint source linenums"
+          ><code>import SNBlamePlaceholderContentWidget from "./SNBlamePlaceholderContentWidget.js";
 
 /**
- * Servicenow REST factory  
- * @class
- * 
- * @param {string} g_ck ServiceNow user token to trigger the REST request
- * @returns {ServiceNowRESTFactory} funcitons for all REST calls performed by the extension to the ServiceNow instance
+ * Closure
  */
+(function snBlamebootstrap(){
+  /**
+   * @typedef MonacoEditor
+   * @type {object}
+   * @see {@link https://microsoft.github.io/monaco-editor/typedoc/modules/editor.html}
+   */
 
-let SNRESTFactory = function (g_ck) {
-    
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Accept", "application/json");
-    headers.append("X-UserToken", g_ck);
+  const snBlameOptions = {
+    useExtensionIntelisense: true,
+  }
+
+  /**
+   * triggers the Blame part of the extension if the monaco global object is available on the page
+   * 
+   * @param {Object} monaco ServiceNow global monaco object
+   * 
+   */
+  const snBlamebootstrap = (monaco) => {
+    if (!monaco || typeof monaco?.editor?.getEditors !== 'function') return;
+
+    let fields = {};
+
+    let originalMonacoIntelisense = GlideEditorMonaco.prototype.addIntellisenseforScriptInclude;
+    GlideEditorMonaco.prototype.addIntellisenseforScriptInclude = function(){
+      if(snBlameOptions.useExtensionIntelisense) return;
+
+      originalMonacoIntelisense.apply(this, arguments);
+    }
 
     /**
-     * retrives the version for the record passed
-     * 
-     * @param {string} table table of the record
-     * @param {string} sys_id sys_id of the record
-     * @returns {Object} response as a JSON 
-     */
-    let getVersions = async function (table, sys_id) {
-        const fields = [
-            "payload",
-            "sys_recorded_at",
-            "reverted_from",
-            "sys_id",
-            "source",
-            "state",
-        ];
+     * @typedef MonacoToken
+     * @type {Object}
+     * @property offset {number} start index of the token on the line
+     * @property type {string} type of token {'keyword.js' | 'identifier.js' | 'type.identifier.js'}
+     * @property language {string} language of the monaco editor
+    */
 
-        const queryParams = new URLSearchParams({
-            sysparm_display_value: "all",
-            sysparm_fields: fields.join(","),
-            sysparm_query: `name=${table}_${sys_id}^stateINcurrent,previous`,
-        });
-
-        const response = await fetch(
-            `/api/now/table/sys_update_version?${queryParams}`, {
-                method: "GET",
-                headers,
-            }
-        );
-
-        if (!response.ok) {
-            return;
-        }
-
-        let body = await response.json();
-        return body
+    const fullScriptIntelisense = function(editor, field){
+      window.dispatchEvent(
+        new CustomEvent("sn-check-full-script",{
+          detail: {
+            script: editor.getValue(),
+            field,
+            currentScope: g_scratchpad?.scope,
+          },
+        })
+      )
     };
 
-    /**
-     * retrieves the script include for the given sys_id
-     * 
-     * @param {string} sys_id: sys_id of the script includes 
-     * @returns {Object} response as a JSON 
-     */
-    let getScriptIncludes = async function(sys_id){
+    monaco.editor.getEditors().forEach((editor) => {
+      let f = editor
+        .getContainerDomNode()
+        .siblings()
+        .find(function (e) {
+          return e.tagName.toUpperCase() === "TEXTAREA";
+        })
+        .id.split(".");
+
+      let field = f[f.length - 1];
+
+      fields[field] = {
+        lines: editor.getValue().split("\n"),
+        id: f.join("."),
+      };
+
+      editor.addAction({
+        id: "show-sn-blame-user",
+        label: "SNBlame: Toggle User/Update set",
+
+        keybindings: [
+          monaco.KeyMod.CtrlCmd | monaco.KeyCode.F10,
+          monaco.KeyMod.chord(monaco.KeyMod.CtrlCmd | monaco.KeyCode.F10),
+        ],
+
+        precondition: null,
+        keybindingContext: null,
+        contextMenuGroupId: "navigation",
+        contextMenuOrder: 1.5,
+        run: function (ed) {
+          window.dispatchEvent(
+            new CustomEvent("sn-blame-toggle-user-update-set")
+          );
+        },
+      });
+
+      editor.addAction({
+        id: "show-sn-blame-gutter-date",
+        label: "SNBlame: Toggle gutter date",
+
+        keybindings: [
+          monaco.KeyMod.CtrlCmd | monaco.KeyCode.F9,
+          monaco.KeyMod.chord(monaco.KeyMod.CtrlCmd | monaco.KeyCode.F9),
+        ],
+
+        precondition: null,
+        keybindingContext: null,
+        contextMenuGroupId: "navigation",
+        contextMenuOrder: 1.5,
+        run: function (ed) {
+          window.dispatchEvent(new CustomEvent("sn-blame-toggle-gutter-date"));
+        },
+      });
+
+      editor.addAction({
+        id: "show-sn-blame-whitespace",
+        label: "SNBlame: Toggle whitespace",
+
+        precondition: null,
+        keybindingContext: null,
+        contextMenuGroupId: "navigation",
+        contextMenuOrder: 1.5,
+        run: function (ed) {
+          window.dispatchEvent(new CustomEvent("sn-blame-toggle-whitespace"));
+        },
+      });
+
+      editor.addAction({
+        id: "debug-sn-blame-line-numbers",
+        label: "SNBlame: Toggle line numbers",
+
+        keybindings: [
+          monaco.KeyMod.CtrlCmd | monaco.KeyCode.F8,
+          monaco.KeyMod.chord(monaco.KeyMod.CtrlCmd | monaco.KeyCode.F8),
+        ],
+
+        precondition: null,
+        keybindingContext: null,
+        contextMenuGroupId: "navigation",
+        contextMenuOrder: 1.5,
+        run: function (ed) {
+          window.dispatchEvent(new CustomEvent("sn-blame-toggle-line-numbers"));
+        },
+      });
+
+      /** Mutation observer on the monaco gutter is smoother than the editor.onDidScrollChange **/
+      let scrollObserver = new MutationObserver(() => {
+        let scroll = {
+          scrollHeight: editor.getScrollHeight(),
+          scrollTop: editor.getScrollTop(),
+        };
+        window.dispatchEvent(
+          new CustomEvent("sn-blame-scroll", { detail: { scroll, field } })
+        );
+      });
+
+      let editorElement = document.querySelector(
+        `[id='element.${fields[field].id}'] #debugContainer`
+      );
+
+      scrollObserver.observe(
+        editorElement.querySelector(".margin-view-overlays"),
+        {
+          childList: true,
+          subtree: true,
+        }
+      );
+
+      let model = editor.getModel();
+      let updatedLines = [];
+      let debounceTimer;
+
+      let monacoDebounce = function(func, timeout = 300){
+        return (...args) => {
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(() => { func.apply(this, args); }, timeout);
+        };
+      }
+
+      editor.onDidChangeModelContent(function(event) {
+        window.dispatchEvent(
+          new CustomEvent("sn-blame-model-change", {
+            detail: {
+              script: editor.getValue(),
+              field,
+            },
+          })
+        );
+
+        if(!snBlameOptions.useExtensionIntelisense) return
         
-        const response = await fetch(
-            `/api/now/table/sys_script_include/${sys_id}?sysparm_fields=api_name,sys_id,script,name,sys_scope,active,sys_policy`, {
-                method: "GET",
-                headers,
+        updatedLines = updatedLines.concat(event.changes.reduce((acc, ch)=> {
+          let lineRange =  ch.range.endLineNumber - ch.range.startLineNumber;
+          if(lineRange >= 0){
+            let count = ch.range.startLineNumber
+            while(count &lt;= ch.range.endLineNumber){
+              acc.push(count)
+              count ++
             }
+          }
+          return acc;
+        }, [])).filter((e,i,arr) => arr.indexOf(e) === i);
+        
+        monacoDebounce(function(){
+          let lines = updatedLines.map(lineNumber => model.getLineContent(lineNumber));
+
+          window.dispatchEvent(
+            new CustomEvent("sn-check-lines",{
+              detail: {
+                lines: lines,
+                field,
+                currentScope: g_scratchpad?.scope,
+              },
+            })
+          )
+
+          updatedLines = [];
+        }, 500)();      
+
+        
+      });
+
+      let placeholderContentWidget = new SNBlamePlaceholderContentWidget(editor);
+      window.addEventListener("sn-blame-diff-update", function (event) {
+        if (event.detail.field !== field) return;
+
+        let diff = event.detail.diff;
+
+        placeholderContentWidget.updateDiff(diff);
+        placeholderContentWidget.onCursorChange();
+      });
+
+      window.addEventListener("sn-blame-get-scroll-position", (event) => {
+        if (event.detail.field !== field) return;
+        let scroll = {
+          scrollHeight: editor.getScrollHeight(),
+          scrollTop: editor.getScrollTop(),
+        };
+    
+        window.dispatchEvent(
+          new CustomEvent("sn-blame-scroll", { detail: { scroll, field } })
         );
+      });
 
-        if (!response.ok) {
-            return;
-        }
+      window.addEventListener("sn-blame-trigger-full-script-intelisense", function (event) {
+        if(snBlameOptions.useExtensionIntelisense)
+          fullScriptIntelisense(editor, field);
+      });
 
-        let body = await response.json();
-        return body;
-    }
+    });
 
-    /**
-     * Retrieves a list of records from the given table/filter combo
-     * @param {string} table table name to retrieve the records from 
-     * @param {?Array&lt;string>} fields list of fields to retrieve
-     * @param {?string} filter ServiceNow encoded query 
-     * @returns {Object} response as a JSON 
-     */
-    let getRecords = async function(table, fields, filter){
+    window.dispatchEvent(
+      new CustomEvent("sn-blame-init", {
+        detail: {
+          fields: fields,
+          g_ck,
+          table: g_form.getTableName(),
+          sys_id: g_form.getUniqueValue(),
+        },
+      })
+    );
 
-        const params = new URLSearchParams();
-        if(fields)
-            params.append('sysparm_fields', fields.join(','));
-        if(filter)
-            params.append('sysparm_query', filter);
+    window.addEventListener("sn-load-library", (event) => {
+      const { libs } = event.detail;
+      libs.forEach((lib)=> monaco.languages.typescript.javascriptDefaults.addExtraLib(lib));
+    })
 
-        const response = await fetch(
-            `/api/now/table/${table}?${params.toString()}`, {
-                method: "GET",
-                headers,
-            }
-        );
+    
+  };
 
-        if (!response.ok) {
-            return;
-        }
-
-        let body = await response.json();
-        return body;
-    }
-
-    /**
-     * retrieves the scope record
-     * 
-     * @param {string} sys_id: sys_id of the scope 
-     * @returns {Object} response as a JSON 
-     */
-    let getScope = async function(sys_id){
-        const response = await fetch(
-            `/api/now/table/sys_scope/${sys_id}`, {
-                method: "GET",
-                headers,
-            }
-        );
-
-        if (!response.ok) {
-            return;
-        }
-
-        let body = await response.json();
-        return body;
-    }
-
-    /**
-     * retrives the value of the system property
-     * @param {string} name name of the system property
-     * @returns {string} value of the  proeprty
-     */
-    let getProperties = async function(name){
-
-    }
-
-    /**
-     * get Servicenow the script includes cache object
-     * @returns {Object} script include cache object containing the scirpt name and sys_id as value pair
-     */
-    let getScriptIncludeCache = async function(){
-        const response = await fetch(
-            `/api/now/syntax_editor/cache/sys_script_include`, {
-                method: "GET",
-                headers,
-            }
-        );
-
-        let body = await response.json();
-        try{
-            return JSON.parse(body.result.result);
-        }catch(e){
-            return {};
-        }
-    }
-
-    return {
-        getVersions,
-        getScriptIncludes,
-        getRecords,
-        getScope,
-        getProperties,
-        getScriptIncludeCache,
-    }
-}
-export default SNRESTFactory;</code></pre>
+  window.addEventListener("sn-blame-start", () => {
+    if (typeof monaco !== "undefined") snBlamebootstrap(monaco);
+  });
+})();</code></pre>
         </article>
       </section>
     </div>

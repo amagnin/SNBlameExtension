@@ -1,7 +1,7 @@
 import SNBlameDateUtils from "./SNBlameDateUtils.js";
 
 /**
- * @typedef {import('../isolated/SNBlameMain.js').BlameLine} BlameLine
+ * @typedef {import('../isolated/snBlameMain.js').BlameLine} BlameLine
  */
 
 /**

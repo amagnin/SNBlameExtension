@@ -1,10 +1,22 @@
 /**
+ *  @typedef ServiceNowRESTFactory
+ *  @type {Object}
+ *  @property getVersions {function} retrives the version for the record passed
+ *  @property getScriptIncludes {function} retrieves the script include for the given sys_id
+ *  @property getRecords {function} retrives the a list of records for the given table 
+ *  @property getScope {function} retrives the scope record for the given sys_id
+ *  @property getProperties {function} retrives the value of the system property
+ *  @property getScriptIncludeCache {function} retrieves Servicenow the script includes cache object
+ */
+
+/**
  * Servicenow REST factory  
  * @class
  * 
  * @param {string} g_ck ServiceNow user token to trigger the REST request
  * @returns {ServiceNowRESTFactory} funcitons for all REST calls performed by the extension to the ServiceNow instance
  */
+
 let SNRESTFactory = function (g_ck) {
     
     const headers = new Headers();
@@ -59,7 +71,37 @@ let SNRESTFactory = function (g_ck) {
     let getScriptIncludes = async function(sys_id){
         
         const response = await fetch(
-            `/api/now/table/sys_script_include/${sys_id}`, {
+            `/api/now/table/sys_script_include/${sys_id}?sysparm_fields=api_name,sys_id,script,name,sys_scope,active,sys_policy`, {
+                method: "GET",
+                headers,
+            }
+        );
+
+        if (!response.ok) {
+            return;
+        }
+
+        let body = await response.json();
+        return body;
+    }
+
+    /**
+     * Retrieves a list of records from the given table/filter combo
+     * @param {string} table table name to retrieve the records from 
+     * @param {?Array<string>} fields list of fields to retrieve
+     * @param {?string} filter ServiceNow encoded query 
+     * @returns {Object} response as a JSON 
+     */
+    let getRecords = async function(table, fields, filter){
+
+        const params = new URLSearchParams();
+        if(fields)
+            params.append('sysparm_fields', fields.join(','));
+        if(filter)
+            params.append('sysparm_query', filter);
+
+        const response = await fetch(
+            `/api/now/table/${table}?${params.toString()}`, {
                 method: "GET",
                 headers,
             }
@@ -124,20 +166,10 @@ let SNRESTFactory = function (g_ck) {
         }
     }
 
-    /**
-     *  @typedef ServiceNowRESTFactory
-     *  @type {Object}
-     *  @property getVersions {function} retrives the version for the record passed
-     *  @property getScriptIncludes {function} retrieves the script include for the given sys_id
-     *  @property getScope {function} retrives the scipe record for the given sys_id
-     *  @property getProperties {function} retrives the value of the system property
-     *  @property getScriptIncludeCache {function} retrieves Servicenow the script includes cache object
-     */
-
-
     return {
         getVersions,
         getScriptIncludes,
+        getRecords,
         getScope,
         getProperties,
         getScriptIncludeCache,

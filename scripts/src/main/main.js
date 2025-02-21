@@ -11,10 +11,8 @@ import SNBlamePlaceholderContentWidget from "./SNBlamePlaceholderContentWidget.j
    */
 
   const snBlameOptions = {
-    useExtensionIntelisense: false,
+    useExtensionIntelisense: true,
   }
-
-
 
   /**
    * triggers the Blame part of the extension if the monaco global object is available on the page
@@ -29,7 +27,7 @@ import SNBlamePlaceholderContentWidget from "./SNBlamePlaceholderContentWidget.j
 
     let originalMonacoIntelisense = GlideEditorMonaco.prototype.addIntellisenseforScriptInclude;
     GlideEditorMonaco.prototype.addIntellisenseforScriptInclude = function(){
-      if(!window.disableExtensionIntelisense) return;
+      if(snBlameOptions.useExtensionIntelisense) return;
 
       originalMonacoIntelisense.apply(this, arguments);
     }
@@ -42,46 +40,7 @@ import SNBlamePlaceholderContentWidget from "./SNBlamePlaceholderContentWidget.j
      * @property language {string} language of the monaco editor
     */
 
-    /**
-     * Reduce function to get array of posible script includes (classes)
-     * 
-     * @param {Array<string>} acc Accumulator
-     * @param {MonacoToken} item Token Element from the Array to reduce
-     * @param {number} index index of the item
-     * @param {Array<MonacoToken>} arr full array
-     * @returns {Array<string>}
-     */
-    const snBlameGetPosibleClassTokens = (lineContent) => (acc, item, index, arr) => {
-      let startIndex = item.offset;
-      let endIndex = arr[index + 1] && arr[index + 1].offset;
-
-      let previousStartIndex = arr[index - 1] && arr[index - 1].offset;
-      if(item.type === 'identifier.js' || item.type === 'type.identifier.js'){
-          let prevoiusString = lineContent.substring(previousStartIndex, startIndex);
-          let scope = g_scratchpad?.scope
-          if(prevoiusString === '.'){
-            scope = acc[acc.length - 1]?.string || g_scratchpad?.scope;
-          }
-          let string = lineContent.substring(startIndex, endIndex);
-          acc.push({string, type:item.type, scope})
-      }
-      return acc;
-    };
-
     const fullScriptIntelisense = function(editor, field){
-      /*let model = editor.getModel(); 
-      let lineCount = model.getLineCount();
-      let count = 1;
-      let tokens = []
-
-      while(count <= lineCount){
-        let lineContent = model.getLineContent(count)
-        let lineTokens = monaco.editor.tokenize(lineContent, 'javascript')[0].reduce(snBlameGetPosibleClassTokens(lineContent), [])
-
-        tokens = tokens.concat(lineTokens);
-        count++;
-      }*/
-
       window.dispatchEvent(
         new CustomEvent("sn-check-full-script",{
           detail: {
@@ -222,7 +181,7 @@ import SNBlamePlaceholderContentWidget from "./SNBlamePlaceholderContentWidget.j
           })
         );
 
-        if(window.disableExtensionIntelisense) return
+        if(!snBlameOptions.useExtensionIntelisense) return
         
         updatedLines = updatedLines.concat(event.changes.reduce((acc, ch)=> {
           let lineRange =  ch.range.endLineNumber - ch.range.startLineNumber;
@@ -237,16 +196,12 @@ import SNBlamePlaceholderContentWidget from "./SNBlamePlaceholderContentWidget.j
         }, [])).filter((e,i,arr) => arr.indexOf(e) === i);
         
         monacoDebounce(function(){
-          let tokens = updatedLines.reduce((acc, lineNumber) => {
-            let lineContent = model.getLineContent(lineNumber)
-            let lineTokens = monaco.editor.tokenize(lineContent, 'javascript')[0].reduce(snBlameGetPosibleClassTokens(lineContent), [])
-            return acc.concat(lineTokens)
-          },[]);
+          let lines = updatedLines.map(lineNumber => model.getLineContent(lineNumber));
 
           window.dispatchEvent(
-            new CustomEvent("sn-check-tokens",{
+            new CustomEvent("sn-check-lines",{
               detail: {
-                tokens: tokens,
+                lines: lines,
                 field,
                 currentScope: g_scratchpad?.scope,
               },
@@ -254,7 +209,7 @@ import SNBlamePlaceholderContentWidget from "./SNBlamePlaceholderContentWidget.j
           )
 
           updatedLines = [];
-        }, 300)();      
+        }, 500)();      
 
         
       });
@@ -282,7 +237,7 @@ import SNBlamePlaceholderContentWidget from "./SNBlamePlaceholderContentWidget.j
       });
 
       window.addEventListener("sn-blame-trigger-full-script-intelisense", function (event) {
-        if(!window.disableExtensionIntelisense)
+        if(snBlameOptions.useExtensionIntelisense)
           fullScriptIntelisense(editor, field);
       });
 
@@ -303,6 +258,8 @@ import SNBlamePlaceholderContentWidget from "./SNBlamePlaceholderContentWidget.j
       const { libs } = event.detail;
       libs.forEach((lib)=> monaco.languages.typescript.javascriptDefaults.addExtraLib(lib));
     })
+
+    
   };
 
   window.addEventListener("sn-blame-start", () => {
