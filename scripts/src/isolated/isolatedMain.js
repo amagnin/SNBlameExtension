@@ -1,7 +1,7 @@
 import MonacoBlameGutterWrapper from "./MonacoBlameGutterWrapper.js";
 import SNBlameOptions from "./SNBlameOptions.js";
-import snBlame from "./snBlame.js";
-import snListHelper from "./snListHelper.js";
+import snBlame from "./snIsolatedBlame.js";
+import snListHelper from "./snIsolatedListHelper.js";
 
 /**
  * @typedef BlameLine
@@ -15,8 +15,6 @@ import snListHelper from "./snListHelper.js";
  * @property line: {string} line content
  * @property sourceName: {string} name of the source, it can be a update set or a version if part of patch
  * @property updateSetNotFound: {boolean} true if the update set can't be found, usualy is due to a deletion
- * 
- * @typedef {import('./SNRestFactory.js').ServiceNowRESTFactory} ServiceNowRESTFactory
  */
 
 /** 

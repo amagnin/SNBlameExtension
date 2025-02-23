@@ -14,6 +14,10 @@ const config = {
             },
         ],
     },
+    performance: {
+        maxEntrypointSize: 768000,
+        maxAssetSize: 768000,
+    },
 };
 
 const isolated = Object.assign({}, config,{
