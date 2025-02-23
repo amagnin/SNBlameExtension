@@ -68,6 +68,43 @@
                 >getLoadedLibraries</a
               >
             </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#getScriptIncludeParsedCache"
+                >getScriptIncludeParsedCache</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="StaticCodeAnalisisUtil.html#updateScriptIncludeParsedCache"
+                >updateScriptIncludeParsedCache</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="StaticCodeAnalisisUtil.html#runScriptIncludesCodeAnalisis"
+                >runScriptIncludesCodeAnalisis</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#runScriptAnalisis"
+                >runScriptAnalisis</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#findScriptIncludeCall"
+                >findScriptIncludeCall</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#setAvailableSNScopes"
+                >setAvailableSNScopes</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#getScopeFromID"
+                >getScopeFromID</a
+              >
+            </li>
           </ul>
         </li>
         <li>
@@ -158,27 +195,27 @@
           </ul>
         </li>
         <li>
-          <a href="SNRESTFactory.html">SNRESTFactory</a>
+          <a href="snRESTFactory.html">snRESTFactory</a>
           <ul class="methods">
             <li data-type="method">
-              <a href="SNRESTFactory.html#~getVersions">getVersions</a>
+              <a href="snRESTFactory.html#~getVersions">getVersions</a>
             </li>
             <li data-type="method">
-              <a href="SNRESTFactory.html#~getScriptIncludes"
+              <a href="snRESTFactory.html#~getScriptIncludes"
                 >getScriptIncludes</a
               >
             </li>
             <li data-type="method">
-              <a href="SNRESTFactory.html#~getRecords">getRecords</a>
+              <a href="snRESTFactory.html#~getRecords">getRecords</a>
             </li>
             <li data-type="method">
-              <a href="SNRESTFactory.html#~getScope">getScope</a>
+              <a href="snRESTFactory.html#~getScope">getScope</a>
             </li>
             <li data-type="method">
-              <a href="SNRESTFactory.html#~getProperties">getProperties</a>
+              <a href="snRESTFactory.html#~getProperties">getProperties</a>
             </li>
             <li data-type="method">
-              <a href="SNRESTFactory.html#~getScriptIncludeCache"
+              <a href="snRESTFactory.html#~getScriptIncludeCache"
                 >getScriptIncludeCache</a
               >
             </li>
@@ -320,7 +357,6 @@
           <a href="global.html#ServiceNowRESTFactory">ServiceNowRESTFactory</a>
         </li>
         <li><a href="global.html#MonacoEditor">MonacoEditor</a></li>
-        <li><a href="global.html#MonacoToken">MonacoToken</a></li>
       </ul>
     </nav>
 
@@ -387,8 +423,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line44"
-                    >line 44</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line45"
+                    >line 45</a
                   >
                 </li>
               </ul>
@@ -425,10 +461,21 @@
             <span class="type-signature"></span>getScriptCacheSysID<span
               class="signature"
               >(className)</span
-            ><span class="type-signature"></span>
+            ><span class="type-signature"> &rarr; {Object}</span>
           </h4>
 
           <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    returns the parsed script object if it was already parsed
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
             <dt class="tag-source">Source:</dt>
             <dd class="tag-source">
               <ul class="dummy">
@@ -436,8 +483,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line55"
-                    >line 55</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line58"
+                    >line 58</a
                   >
                 </li>
               </ul>
@@ -472,14 +519,41 @@
             </tbody>
           </table>
 
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>
+              object containing class methods and static methods, and general
+              information about the script
+            </p>
+          </div>
+
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type">Object</span>
+            </dd>
+          </dl>
+
           <h4 class="name" id="getLoadedLibraries">
             <span class="type-signature"></span>getLoadedLibraries<span
               class="signature"
               >(className)</span
-            ><span class="type-signature"></span>
+            ><span class="type-signature"> &rarr; {string}</span>
           </h4>
 
           <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    returns the library of a class if it was already generated
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
             <dt class="tag-source">Source:</dt>
             <dd class="tag-source">
               <ul class="dummy">
@@ -487,8 +561,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line64"
-                    >line 64</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line68"
+                    >line 68</a
                   >
                 </li>
               </ul>
@@ -524,6 +598,589 @@
           </table>
 
           <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>string of the lib to be loaded directly to monaco</p>
+          </div>
+
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type">string</span>
+            </dd>
+          </dl>
+
+          <h4 class="name" id="getScriptIncludeParsedCache">
+            <span class="type-signature type-signature-async">(async) </span
+            >getScriptIncludeParsedCache<span class="signature"
+              >(className)</span
+            ><span class="type-signature"> &rarr; {Object}</span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    TODO: cache invalidation mechanism (removed scirpt for now)
+                    stores the script includes object form the extension cache
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html"
+                    >astParser/StaticCodeAnalysisUtil.js</a
+                  >,
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line79"
+                    >line 79</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>className</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>CLass name to get the script cache sys_id</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>
+              object containing class methods and static methods, and general
+              information about the script
+            </p>
+          </div>
+
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type">Object</span>
+            </dd>
+          </dl>
+
+          <h4 class="name" id="updateScriptIncludeParsedCache">
+            <span class="type-signature"></span
+            >updateScriptIncludeParsedCache<span class="signature"
+              >(className, scriptCache)</span
+            ><span class="type-signature"></span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    TODO: cache invalidation mechanism (removed scirpt for now)
+                    saves the script include to the extension storage to REST
+                    calls for classes already parsed
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html"
+                    >astParser/StaticCodeAnalysisUtil.js</a
+                  >,
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line103"
+                    >line 103</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>className</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"></td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>scriptCache</code></td>
+
+                <td class="type">
+                  <span class="param-type">Object</span>
+                </td>
+
+                <td class="description last"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4 class="name" id="runScriptIncludesCodeAnalisis">
+            <span class="type-signature type-signature-async">(async) </span
+            >runScriptIncludesCodeAnalisis<span class="signature"
+              >(scriptToParse, className, currentScope,
+              scriptIncludesScope)</span
+            ><span class="type-signature"> &rarr; {string}</span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    Executes the script include parser and returns the libraries
+                    to be loaded on monaco for the intelisense
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html"
+                    >astParser/StaticCodeAnalysisUtil.js</a
+                  >,
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line117"
+                    >line 117</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>scriptToParse</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>scirpt include script as a string to parse</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>className</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>scirpt inlcudes name (className)</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>currentScope</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>scope where the script include is called from</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>scriptIncludesScope</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>socpe of the scirpt includes</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>script library string to load on monaco IDE</p>
+          </div>
+
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type">string</span>
+            </dd>
+          </dl>
+
+          <h4 class="name" id="runScriptAnalisis">
+            <span class="type-signature"></span>runScriptAnalisis<span
+              class="signature"
+              >(stringScript, scriptScope)</span
+            ><span class="type-signature"> &rarr; {Object}</span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    returns an object with the information of the script, scirpt
+                    include calls (class calls), GlideRecord Calls (what tables
+                    are used), etc
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html"
+                    >astParser/StaticCodeAnalysisUtil.js</a
+                  >,
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line159"
+                    >line 159</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>stringScript</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>string script to analize</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>scriptScope</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>scope of the script to analize</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>object contianing ifnormation of the script</p>
+          </div>
+
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type">Object</span>
+            </dd>
+          </dl>
+
+          <h4 class="name" id="findScriptIncludeCall">
+            <span class="type-signature"></span>findScriptIncludeCall<span
+              class="signature"
+              >(stringScript, scope)</span
+            ><span class="type-signature"></span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    retrieves all the script include calls, and the method used
+                    if is a one liner ig: new
+                    global.AuthUtils().getAvailableLanguages();
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html"
+                    >astParser/StaticCodeAnalysisUtil.js</a
+                  >,
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line223"
+                    >line 223</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>stringScript</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>
+                    string of the scirpt to find scirpt include call
+                    isntantiation or calls
+                  </p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>scope</code></td>
+
+                <td class="type">
+                  <span class="param-type">stringScript</span>
+                </td>
+
+                <td class="description last"><p>scope of the script</p></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>list of script include calls (class calls)</p>
+          </div>
+
+          <h4 class="name" id="setAvailableSNScopes">
+            <span class="type-signature"></span>setAvailableSNScopes<span
+              class="signature"
+              >(records)</span
+            ><span class="type-signature"></span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    Stores the map for all the available scopes on the instance
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html"
+                    >astParser/StaticCodeAnalysisUtil.js</a
+                  >,
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line259"
+                    >line 259</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>records</code></td>
+
+                <td class="type">
+                  <span class="param-type">Object</span>
+                </td>
+
+                <td class="description last">
+                  <p>
+                    JSON of the sys_scope records, with the fields sys_id and
+                    scope
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4 class="name" id="getScopeFromID">
+            <span class="type-signature"></span>getScopeFromID<span
+              class="signature"
+              >(id)</span
+            ><span class="type-signature"> &rarr; {string}</span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>returns the scope 'name' of asociated to the sys_id</p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html"
+                    >astParser/StaticCodeAnalysisUtil.js</a
+                  >,
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line272"
+                    >line 272</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>id</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last"><p>sys_id of the scope</p></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>scope</p>
+          </div>
+
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type">string</span>
+            </dd>
+          </dl>
         </article>
       </section>
     </div>
@@ -532,8 +1189,8 @@
 
     <footer>
       Documentation generated by
-      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Fri Feb 21
-      2025 19:33:19 GMT+0100 (hora estándar de Europa central) using the
+      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Sun Feb 23
+      2025 22:45:59 GMT+0100 (hora estándar de Europa central) using the
       <a href="https://github.com/clenemt/docdash">docdash</a> theme.
     </footer>
 
