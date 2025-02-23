@@ -1,14 +1,16 @@
 import MonacoBlameGutterWrapper from "./MonacoBlameGutterWrapper.js";
 import SNBlameOptions from "./SNBlameOptions.js";
-import SNRESTFactory from "./SNRestFactory.js";
+import snRESTFactory from "./snRESTFactory.js";
 
 import StaticCodeAnalisisUtil from "../astParser/StaticCodeAnalysisUtil.js";
 
 import patienceDiff from "../../libraries/patienceDiff.js";
 import X2JS from "x2js";
 
-
 export default function(){
+    /**@typedef {import('./snRESTFactory.js').ServiceNowRESTFactory} ServiceNowRESTFactory */
+    /**@typedef {import('./isolatedMain.js').BlameLine} BlameLine */
+
     /** @type {Object} */
     let serverDiff = {};
     /** @type {boolean} */
@@ -34,7 +36,7 @@ export default function(){
     'focus' : ()=>{
         const delayStart = new SNBlameOptions().getOption('startOnAction')
         if(!delayStart && !loaded)
-        window.dispatchEvent(new CustomEvent("sn-blame-start"));
+            window.dispatchEvent(new CustomEvent("sn-blame-start"));
     },
     'load': () => {
         let options = new SNBlameOptions();
@@ -43,7 +45,7 @@ export default function(){
     },
     'sn-blame-init': (event) => {
         const { g_ck, table, sys_id, fields} = event.detail;
-        restFactory = SNRESTFactory(g_ck);
+        restFactory = snRESTFactory(g_ck);
 
         window.dispatchEvent(new CustomEvent("sn-get-scirpt_include_cache", {
         detail: {
@@ -115,7 +117,7 @@ export default function(){
     },
     'sn-get-scirpt_include_cache': (event) => {
         if(typeof restFactory?.getScriptIncludeCache !== 'function'){
-        restFactory = SNRESTFactory(event.detail.g_ck);
+        restFactory = snRESTFactory(event.detail.g_ck);
         }
 
         restFactory.getScriptIncludeCache().then((cache)=>{
@@ -134,7 +136,7 @@ export default function(){
     };
 
     Object.keys(LISTENERS).forEach((key) => {
-    window.addEventListener(key, LISTENERS[key]);
+        window.addEventListener(key, LISTENERS[key]);
     });
 
     /**

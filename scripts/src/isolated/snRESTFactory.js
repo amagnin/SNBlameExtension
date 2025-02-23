@@ -17,7 +17,7 @@
  * @returns {ServiceNowRESTFactory} funcitons for all REST calls performed by the extension to the ServiceNow instance
  */
 
-let SNRESTFactory = function (g_ck) {
+let snRESTFactory = function (g_ck) {
     
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -175,4 +175,4 @@ let SNRESTFactory = function (g_ck) {
         getScriptIncludeCache,
     }
 }
-export default SNRESTFactory;
+export default snRESTFactory;

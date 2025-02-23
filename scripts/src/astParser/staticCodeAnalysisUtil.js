@@ -15,6 +15,7 @@ class StaticCodeAnalisisUtil {
     #scriptIncludeCache = {};
     #availableScopes = [];
     #loadedLibraries = {};
+    #allScopeMap = {};
 
     static ACORN_OPTIONS = {
         ecmaVersion: 'latest',
@@ -50,21 +51,31 @@ class StaticCodeAnalisisUtil {
     }
 
     /**
+     * returns the parsed script object if it was already parsed  
      * @param {string} className CLass name to get the script cache sys_id
+     * @returns {Object} object containing class methods and static methods, and general information about the script
     */
     getScriptCacheSysID(className){
         return this.#scriptIncludeCache[className];
     }
 
     /**
+     * returns the library of a class if it was already generated
      * 
      * @param {string} className class name to get the loaded libraries 
-     * @returns 
+     * @returns {string} string of the lib to be loaded directly to monaco
      */
     getLoadedLibraries(className){
         return this.#loadedLibraries[className];
     }
 
+    /**
+     * TODO: cache invalidation mechanism (removed scirpt for now) 
+     * stores the script includes object form the extension cache
+     * 
+     * @param {string} className CLass name to get the script cache sys_id
+     * @returns {Object} object containing class methods and static methods, and general information about the script
+     */
     async getScriptIncludeParsedCache(className){
         return null;
         return await new Promise((resolve, reject) => {
@@ -82,11 +93,28 @@ class StaticCodeAnalisisUtil {
         });
     }
 
+    /**
+     * TODO: cache invalidation mechanism (removed scirpt for now) 
+     * saves the script include to the extension storage to REST calls for classes already parsed
+     * 
+     * @param {string} className 
+     * @param {Object} scriptCache 
+     */
     updateScriptIncludeParsedCache(className, scriptCache){
+        return null
         (chrome || browser).storage.local.set({[`scriptIncludeCache-${className}`]: JSON.stringify(scriptCache)});
     }
 
-    async runScriptIncludesCodeAnalisis(scriptToParse, className, currentScope, scriptInclideScope){
+    /**
+     * Executes the script include parser and returns the libraries to be loaded on monaco for the intelisense
+     * 
+     * @param {string} scriptToParse scirpt include script as a string to parse
+     * @param {string} className scirpt inlcudes name (className)
+     * @param {string} currentScope scope where the script include is called from
+     * @param {string} scriptIncludesScope socpe of the scirpt includes
+     * @returns {string} script library string to load on monaco IDE
+     */
+    async runScriptIncludesCodeAnalisis(scriptToParse, className, currentScope, scriptIncludesScope){
         if(!this.#scriptIncludeCache[className]) return;
 
         if(this.#loadedLibraries[className]) return this.#loadedLibraries[className];
@@ -101,8 +129,8 @@ class StaticCodeAnalisisUtil {
             let lib = getScriptIncludeLib(className, parsedScript[className]);
             let ext = parsedScript[className].extends;
             
-            if (scriptInclideScope)
-            lib = `declare namespace ${scriptInclideScope} { ${lib} }; ${(currentScope === scriptInclideScope || !scriptInclideScope || !currentScope) ? lib : ''}`;
+            if (scriptIncludesScope)
+            lib = `declare namespace ${scriptIncludesScope} { ${lib} }; ${(currentScope === scriptIncludesScope || !scriptIncludesScope || !currentScope) ? lib : ''}`;
 
             if(!ext)
                 return lib;
@@ -110,7 +138,7 @@ class StaticCodeAnalisisUtil {
             if(ext.split('.').length === 2)
                 scriptExtends.push(ext);
             else
-                scriptExtends.push(`${scriptInclideScope}.${ext}`);
+                scriptExtends.push(`${scriptIncludesScope}.${ext}`);
 
             return lib;
         });
@@ -121,6 +149,13 @@ class StaticCodeAnalisisUtil {
         return {parsedScript, libs, scriptExtends};
     }
 
+    /**
+     * returns an object with the information of the script, scirpt include calls (class calls), GlideRecord Calls (what tables are used), etc
+     * 
+     * @param {string} stringScript string script to analize
+     * @param {string} scriptScope scope of the script to analize
+     * @returns {Object} object contianing ifnormation of the script
+     */
     runScriptAnalisis(stringScript, scriptScope){
 
         const getTableName = (node, astTree) => { 
@@ -178,6 +213,13 @@ class StaticCodeAnalisisUtil {
         return scriptObj;
     }
 
+    /**
+     * retrieves all the script include calls, and the method used if is a one liner ig: new global.AuthUtils().getAvailableLanguages();
+     * 
+     * @param {string} stringScript string of the scirpt to find scirpt include call isntantiation or calls
+     * @param {stringScript} scope scope of the script
+     * @returns list of script include calls (class calls)
+     */
     findScriptIncludeCall(stringScript, scope){
         let scriptBody;
         let scriptIncludeCalls = [];
@@ -210,7 +252,26 @@ class StaticCodeAnalisisUtil {
           return scriptIncludeCalls;
     }
 
+    /**
+     * Stores the map for all the available scopes on the instance
+     * @param {Object} records JSON of the sys_scope records, with the fields sys_id and scope 
+     */
+    setAvailableSNScopes(records){
+        this.#allScopeMap = records.reduce((acc, record)=> {
+            acc[record.sys_id] = record.scope;
+            return acc
+        }, this.#allScopeMap)
+    }
 
+    /**
+     * returns the scope 'name' of asociated to the sys_id
+     * 
+     * @param {string} id sys_id of the scope
+     * @returns {string} scope
+     */
+    getScopeFromID(id){
+        return this.#allScopeMap[id];
+    }
 }
 
 export default StaticCodeAnalisisUtil;
