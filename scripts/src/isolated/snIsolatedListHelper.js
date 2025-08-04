@@ -1,5 +1,6 @@
 import snRESTFactory from "./snRESTFactory.js";
 import StaticCodeAnalisisUtil from "../astParser/StaticCodeAnalysisUtil.js";
+import CacheManager from "./CacheManager.js";
 
 /**
 * @typedef {import('./snRESTFactory.js').ServiceNowRESTFactory} ServiceNowRESTFactory
@@ -8,6 +9,8 @@ import StaticCodeAnalisisUtil from "../astParser/StaticCodeAnalysisUtil.js";
 export default function(){
     let restFactory;
     let staticCodeAnalisisUtil;
+    const cacheManager = new CacheManager();
+
     const LISTENERS =  {
         'sn-list-helper': async (event) => {
             const {table, sysIDList, g_ck} = event.detail;

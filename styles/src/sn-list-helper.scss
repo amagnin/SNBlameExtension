@@ -1,0 +1,54 @@
+.sn-blame{
+    display: inline-flex;
+}
+
+.btn-sn-blame {
+    border:none;
+    background-color: transparent;
+    color: RGB(var(--now-text-link--primary--color, var(--now-color--secondary-1, 1, 119, 142)));
+    cursor: pointer;
+}
+
+.sn-blame-dialog{
+    width: 80%;
+    max-width: 600px;
+    height: 80%;
+    max-height: 600px;
+    overflow: auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background-color: RGB(var(--now-color_background--primary, var(--now-color--neutral-0, 255, 255, 255)));
+    color: RGB(var(--now-color_text--primary, var(--now-color--neutral-18, 22, 27, 28)));
+}
+
+.sn-blame-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.sn-blame-dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .sn-blame-close {
+        background: none;
+        border: none;
+        color: RGB(var(--now-text-link--primary--color, var(--now-color--secondary-1, 1, 119, 142)));
+        cursor: pointer;
+        min-width: 0;
+        border: none;
+        font-size: 20px;
+        width: 30px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-start;
+        padding: 0;
+        box-shadow: none;
+    }
+
+    .sn-blame-h2{
+        margin-top: 0px;
+    }
+}
