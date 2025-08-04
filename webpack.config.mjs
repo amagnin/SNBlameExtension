@@ -1,52 +1,94 @@
-import path from 'path'
-import { fileURLToPath } from 'url'
+import path from "path";
+import { fileURLToPath } from "url";
+import fs from "fs";
+import webpack from "webpack";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import IgnoreEmitPlugin from "ignore-emit-webpack-plugin";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const manifest = JSON.parse(fs.readFileSync("./manifest.json", "utf8"));
+
+const appConstants = new webpack.DefinePlugin({
+  __VERSION__: JSON.stringify(manifest.version),
+  __BUILD_DATE__: JSON.stringify(new Date().toISOString()),
+});
+
 const config = {
-    mode: 'production',
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/
-            },
-        ],
-    },
-    performance: {
-        maxEntrypointSize: 768000,
-        maxAssetSize: 768000,
-    },
+  mode: "production",
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  performance: {
+    maxEntrypointSize: 768000,
+    maxAssetSize: 768000,
+  },
+  plugins: [appConstants],
 };
 
-const isolated = Object.assign({}, config,{
-    name: "isolated",
-    entry: './scripts/src/isolated/isolatedMain.js',
-    output: {
-       path: path.join(__dirname, '/scripts/dist/isolated'),
-       filename: "bundle.js"
-    },
-    optimization: {
-        minimize: false,
-        checkWasmTypes: false,
-    },
-    watch:true,
-})
+const isolated = Object.assign({}, config, {
+  name: "isolated",
+  entry: "./scripts/src/isolated/isolatedMain.js",
+  output: {
+    path: path.join(__dirname, "/scripts/dist/isolated"),
+    filename: "bundle.js",
+  },
+  optimization: {
+    minimize: false,
+    checkWasmTypes: false,
+  },
+  watch: true,
+});
 
-const main = Object.assign({}, config ,{
-    name: "main",
-    entry: './scripts/src/main/main.js',
-    output: {
-       path: path.join(__dirname, '/scripts/dist/main'),
-       filename: "bundle.js"
-    },
-    optimization: {
-        minimize: false,
-        checkWasmTypes: false,
-    },
-    watch:true,
-})
+const main = Object.assign({}, config, {
+  name: "main",
+  entry: "./scripts/src/main/main.js",
+  output: {
+    path: path.join(__dirname, "/scripts/dist/main"),
+    filename: "bundle.js",
+  },
+  optimization: {
+    minimize: false,
+    checkWasmTypes: false,
+  },
+  watch: true,
+});
 
+const styles = {
+  name: "styles",
+  entry: "./styles/src/sn-blame.scss",
+  output: {
+    path: path.join(__dirname, "/styles/dist"),
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(scss|css)$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            
+          },
+          "css-loader",
+          "sass-loader",
+        ]
+      },
+    ],
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+    }),
+    new IgnoreEmitPlugin(['main.js'])
+  ],
+  watch: true,
+};
 
-export default [isolated, main]
+export default [isolated, main, styles];

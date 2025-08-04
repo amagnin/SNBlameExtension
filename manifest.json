@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "SN Blame",
   "description": "ServiceNow Productivity extension, to support developers",
-  "version": "1.0",
+  "version": "1.1.0",
   "action": {
     "default_popup": "popup/sn-blame.html",
     "default_icon": {
@@ -37,6 +37,9 @@
       ],
       "js": [
         "scripts/dist/main/bundle.js"
+      ],
+      "css": [
+        "styles/dist/main.css"
       ],
       "world": "MAIN",
       "all_frames": true

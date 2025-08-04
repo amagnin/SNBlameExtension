@@ -1,4 +1,5 @@
 node_modules
 scripts/dist
+styles/dist
 test/OOBsampleScripts
 test/QuokkaTests

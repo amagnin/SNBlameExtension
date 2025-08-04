@@ -17,11 +17,15 @@ export default function snListHelper() {
 
   const TABLE_LIST = ALLOWED_TABLES.map((t) => t.table);
 
+  let dialog = null;
+  let dialogContent = null;
+  let parsedScripts = [];
+
   if (!/_list(\.do)?$/i.test(location.pathname)) 
     return;
 
   window.addEventListener("sn-list-helper-response", (event) => {
-    const { parsedScripts } = event.detail;
+    parsedScripts = event.detail.parsedScripts;
     console.log(parsedScripts);
   });
 
@@ -36,10 +40,64 @@ export default function snListHelper() {
 
     let tableObject = ALLOWED_TABLES.find((t) => t.table === table);
 
+    dialog = document.createElement("dialog");
+    dialog.classList.add("sn-blame-dialog");
+
+    let dialogHeader = document.createElement("header");
+    dialogHeader.classList.add("sn-blame-dialog-header");
+    dialogHeader.innerHTML = `<h2 class="sn-blame-h2">Dialog Title</h2>`;
+
+    let dialogCloseButton = document.createElement("button");
+    dialogCloseButton.classList.add("sn-blame-close");  
+    dialogCloseButton.onclick = () => dialog.close();
+    dialogCloseButton.innerHTML = '<i class="icon-cross"></i>';
+    dialogHeader.appendChild(dialogCloseButton);
+
+    dialog.appendChild(dialogHeader);
+    dialogContent = document.createElement("div");
+    dialogContent.classList.add("sn-blame-dialog-content");
+    dialog.appendChild(dialogContent);
+
+    document.body.appendChild(dialog);
+
     let sysIDList = Array.from(
       document.querySelectorAll(`#${table}_table tr`)
     )
-      .map((e) => e.getAttribute("sys_id"))
+      .map((e) => {
+        let recordID = e.getAttribute("sys_id");
+        if(!recordID) 
+          return null;
+
+        let div = document.createElement("div");
+        div.classList.add("sn-blame", `sn-blame-sys-id_${recordID}`);
+
+        let button = document.createElement("button");
+        button.classList.add("btn", "btn-sn-blame", "compact", "icon-glasses");
+
+        button.onclick = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          dialogContent.innerHTML = "";
+          dialog.setAttribute("sys_id", recordID);
+          dialog.setAttribute("table", table);
+
+          let scriptInfo = parsedScripts.find((s) => s.sys_id === recordID);
+          if (!scriptInfo) 
+            return;
+
+          let scriptContent = document.createElement("pre");
+          scriptContent.textContent = JSON.stringify(scriptInfo, null, 2);
+          dialogContent.appendChild(scriptContent);
+
+          dialog.showModal();
+        };
+
+        div.appendChild(button)
+        e.querySelectorAll('.list_decoration_cell')[1].prepend(div)
+
+        return recordID;
+      })
       .filter((e) => e);
 
     window.dispatchEvent(

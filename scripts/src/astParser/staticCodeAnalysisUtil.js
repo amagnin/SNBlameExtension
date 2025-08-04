@@ -208,6 +208,11 @@ class StaticCodeAnalisisUtil {
                 if (glideRecord) 
                     scriptObj.glideRecord.push(glideRecord);       
             },
+            MemberExpression(_node) {
+                let scirptInlcludes = walkerFunctions.findScriptIncludeCalls(_node, self.#scriptIncludeCache, scriptScope, self.#availableScopes);
+                if(scirptInlcludes)
+                    scriptObj.scriptIncludeCalls.push(scirptInlcludes);
+            },
         })
 
         return scriptObj;
@@ -246,7 +251,12 @@ class StaticCodeAnalisisUtil {
                 let scirptInlcludes = walkerFunctions.findScriptIncludeCalls(_node, self.#scriptIncludeCache, scope, self.#availableScopes);
                 if(scirptInlcludes)
                     scriptIncludeCalls.push(scirptInlcludes);
-            }
+            },
+            MemberExpression(_node) {
+                let scirptInlcludes = walkerFunctions.findScriptIncludeCalls(_node, self.#scriptIncludeCache, scope, self.#availableScopes);
+                if(scirptInlcludes)
+                    scriptIncludeCalls.push(scirptInlcludes);
+            },
           })
         
           return scriptIncludeCalls;

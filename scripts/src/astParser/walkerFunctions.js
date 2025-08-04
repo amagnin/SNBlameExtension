@@ -237,6 +237,10 @@ const findScriptIncludeCalls = function(_node, scriptIncludeCache, scriptScope, 
         }
     }
 
+    /** ig:
+     * someVariable = new global.ChangeCheckConflictsSNC().getBoolPropertyValue()  
+     * someVariable = global.ChangeCheckConflictsSNC.getBoolPropertyValue() 
+     * */
     if(_node.type === 'AssignmentExpression' && _node.right?.type === 'CallExpression'){
         let nodeValue = removeParentesis(astring.generate(_node.right.callee)).split('.'); 
         if(_node.right.callee.object?.type === 'NewExpression')
@@ -261,6 +265,29 @@ const findScriptIncludeCalls = function(_node, scriptIncludeCache, scriptScope, 
                     method: nodeValue[1] ? nodeValue[1] : null
                 }
         }
+    }
+
+    /** ig:
+     * var grRecord = new GlideRecord(global.ChangeCheckConflictsSNC.MAINTENANCE_WINDOW);
+     */
+    if(_node.type === 'MemberExpression'){
+        if(_node.object?.type === "Identifier" && scriptIncludeCache[`${scriptScope}.${_node.object.name}`])
+            return {
+                type: 'MemberExpression',
+                line: _node.loc?.start?.line,
+                scriptInclude: `${scriptScope}.${_node.object.name}`,
+                id: scriptIncludeCache[`${scriptScope}.${_node.object.name}`],
+                method: _node.property.name
+            }   
+        if(_node.object?.type === "MemberExpression" && scriptIncludeCache[`${_node.object?.object?.name}.${_node.object?.property?.name}`])
+            return {
+                type: 'MemberExpression',
+                line: _node.loc?.start?.line,
+                scriptInclude: `${_node.object?.object?.name}.${_node.object?.property?.name}`,
+                id: scriptIncludeCache[`${_node.object?.object?.name}.${_node.object?.property?.name}`],
+                method: _node.property.name
+            }
+        
     }
 }
 
