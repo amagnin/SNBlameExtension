@@ -21,27 +21,19 @@ export default function snListHelper() {
   let dialogContent = null;
   let parsedScripts = [];
 
-  if (!/_list(\.do)?$/i.test(location.pathname)) 
-    return;
-
-  window.addEventListener("sn-list-helper-response", (event) => {
-    parsedScripts = event.detail.parsedScripts;
-    console.log(parsedScripts);
-  });
-
-  window.addEventListener("sn-list-helper-start", (event) => {
-    let table = location.pathname
-      .replace(/_list(\.do)?$/i, "")
-      .slice(1)
-      .toLowerCase();
-
-    if (TABLE_LIST.indexOf(table) === -1) 
-        return;
-
-    let tableObject = ALLOWED_TABLES.find((t) => t.table === table);
-
+  const createDialog = () => {
     dialog = document.createElement("dialog");
     dialog.classList.add("sn-blame-dialog");
+
+    let dialogWrapper = document.createElement("div");
+    dialogWrapper.classList.add("sn-blame-dialog-wrapper");
+
+    dialog.appendChild(dialogWrapper);
+    dialog.addEventListener("click", (e) => {
+      if (e.target === dialog) {
+        dialog.close();
+      }
+    });
 
     let dialogHeader = document.createElement("header");
     dialogHeader.classList.add("sn-blame-dialog-header");
@@ -53,22 +45,63 @@ export default function snListHelper() {
     dialogCloseButton.innerHTML = '<i class="icon-cross"></i>';
     dialogHeader.appendChild(dialogCloseButton);
 
-    dialog.appendChild(dialogHeader);
+    dialogWrapper.appendChild(dialogHeader);
     dialogContent = document.createElement("div");
     dialogContent.classList.add("sn-blame-dialog-content");
-    dialog.appendChild(dialogContent);
+    dialogWrapper.appendChild(dialogContent);
 
     document.body.appendChild(dialog);
+  }
 
-    let sysIDList = Array.from(
-      document.querySelectorAll(`#${table}_table tr`)
-    )
-      .map((e) => {
-        let recordID = e.getAttribute("sys_id");
-        if(!recordID) 
-          return null;
+  const parseScriptInfo = (scriptInfo) => {
+    
+    let glideRecordHTML = scriptInfo.glideRecord.reduce((htmlStr, element) => {
+      if (element.variable && typeof element.table === 'string') {
+        htmlStr += `<tr class="sn-blame-gr-table">
+            <td class="sn-blame-gr-variable">${element.variable}</th>
+            <td class="sn-blame-gr-table"><a href="/${element.table}_list.do?sys_id=${element.table}">${element.table}<a></th>
+          </tr>`;
+      }
 
-        let div = document.createElement("div");
+      if (element.variable && typeof element.table !== 'string') {
+        htmlStr += `<tr class="sn-blame-gr-table">
+            <td class="sn-blame-gr-variable">${element.variable}</th>
+            <td class="sn-blame-gr-table">${element.table}</th>
+          </tr>`;
+      }
+
+      return htmlStr;
+    }, `<h4><i class="icon-search-database"></i>GlideRecord Calls</h4>
+             <table class='sn-blame-dialog-list'>
+             <tr>
+              <th>Variable</th>
+              <th>Table</th>
+             </tr>`) + "</table>";
+
+    let scriptIncludeHTML = scriptInfo.scriptIncludeCalls.reduce((htmlStr, scriptCall) => {
+      if (scriptCall.scriptInclude) {
+        htmlStr += `<li>
+            <span class="sn-blame-si-script-include">${scriptCall.scriptInclude}</span>
+            <span class="sn-blame-si-method">${scriptCall.method || ''}</span>
+            <span class="sn-blame-si-line">Line: ${scriptCall.line}</span>
+          </li>`;
+      }
+      return htmlStr
+    }, `<h4><i class="icon-document-code"></i>Script Include Calls</h4><ul class='sn-blame-dialog-list'>`) + "</ul>";
+ 
+    let scriptContent = `<h4><i class="icon-global"></i>Scope: ${scriptInfo.scope}</h4>`;
+    
+    if(scriptInfo.glideRecord.length > 0)
+      scriptContent += `<hr> ${glideRecordHTML}`;
+
+    if(scriptInfo.scriptIncludeCalls.length > 0)
+      scriptContent += `<hr> ${scriptIncludeHTML}`;
+
+    return scriptContent;
+  }
+
+  const createlistButton = (table, recordID) => {
+    let div = document.createElement("div");
         div.classList.add("sn-blame", `sn-blame-sys-id_${recordID}`);
 
         let button = document.createElement("button");
@@ -87,14 +120,44 @@ export default function snListHelper() {
             return;
 
           let scriptContent = document.createElement("pre");
-          scriptContent.textContent = JSON.stringify(scriptInfo, null, 2);
+          scriptContent.innerHTML = parseScriptInfo(scriptInfo);
           dialogContent.appendChild(scriptContent);
+
+          dialog.querySelector(".sn-blame-h2").textContent = `Script Analysis for ${scriptInfo.displayName || recordID}`;
 
           dialog.showModal();
         };
 
         div.appendChild(button)
-        e.querySelectorAll('.list_decoration_cell')[1].prepend(div)
+
+        return div;
+  }
+
+  const hookSNBlameListHelper = () => {
+    let table = location.pathname
+      .replace(/_list(\.do)?$/i, "")
+      .slice(1)
+      .toLowerCase();
+
+    if (TABLE_LIST.indexOf(table) === -1) 
+        return;
+
+    let snTableNode = document.querySelector(`#${table}_table`);
+    if (!snTableNode) 
+      return;
+
+    let tableObject = ALLOWED_TABLES.find((t) => t.table === table);
+    createDialog();
+
+    let sysIDList = Array.from(
+      document.querySelectorAll(`#${table}_table tr`)
+    )
+      .map((e) => {
+        let recordID = e.getAttribute("sys_id");
+        if(!recordID) 
+          return null;
+
+        e.querySelectorAll('.list_decoration_cell')[1].prepend(createlistButton(table, recordID));
 
         return recordID;
       })
@@ -111,5 +174,25 @@ export default function snListHelper() {
         },
       })
     );
+  }
+
+  if (!/_list(\.do)?$/i.test(location.pathname)) 
+    return;
+
+  window.addEventListener("sn-list-helper-response", (event) => {
+    document.querySelectorAll(".sn-blame").forEach((el) => {
+      el.style.visibility = "visible";
+    });
+
+    parsedScripts = event.detail.parsedScripts;
+    console.log(parsedScripts);
   });
+
+  window.addEventListener("sn-list-helper-start", (event) => {
+    hookSNBlameListHelper(event);
+  });
+
+  CustomEvent.on("partial.page.reload", (event) => {
+    hookSNBlameListHelper(event);
+  })
 }
