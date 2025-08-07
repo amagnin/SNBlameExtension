@@ -4,7 +4,7 @@ describe('getScriptIncludeLib', () => {
   it('should generate a class definition with constructor and methods', () => {
     const className = 'TestClass';
     const scriptIncludesObject = {
-      classKeys: {
+      methods: {
         initialize: { args: ['arg1', 'arg2'] },
         method1: { args: [] },
         CONSTANT: 'someValue'
@@ -29,7 +29,7 @@ describe('getScriptIncludeLib', () => {
   it('should generate a class definition with object expressions', () => {
     const className = 'TestClass';
     const scriptIncludesObject = {
-      classKeys: {
+      methods: {
         obj: { type: 'ObjectExpression', value: { value: 'value', type: 'Literal' } }
       },
       static: {
@@ -49,7 +49,7 @@ describe('getScriptIncludeLib', () => {
     const className = 'TestClass';
     const scriptIncludesObject = {
       extends: 'BaseClass',
-      classKeys: {},
+      methods: {},
       static: {}
     };
 
