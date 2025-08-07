@@ -1,6 +1,8 @@
 .sn-blame {
   display: inline-flex;
   visibility: hidden;
+  position: relative;
+  overflow: hidden;
 }
 
 .btn-sn-blame {
@@ -13,6 +15,14 @@
     )
   );
   cursor: pointer;
+
+  &.icon-glasses:disabled:after {
+    content: "";
+    border: 1px solid red;
+    width: 100%;
+    position: absolute;
+    rotate: -45deg;
+  }
 }
 
 .sn-blame-dialog {
@@ -67,7 +77,6 @@
   margin-bottom: 20px;
 
   .sn-blame-close {
-    
     align-self: self-start;
     background: none;
     border: none;
@@ -98,12 +107,27 @@ table.sn-blame-dialog-list {
   width: calc(100% - 40px);
   margin: 20px;
 
-  tr {
+  tbody{
     border: 1px solid;
+    border-radius: 4px;
+  }
+
+  tr {
+    border-top: 1px solid;
+    &.sn-blame-si-table.no-border-top-bottom {
+      border-top: none !important;
+      border-bottom: none !important;
+    }
   }
 
   td {
     padding: 2px 5px;
+    &.sn-blame-si-script-include {
+      white-space: nowrap;
+    }
+    &.sn-blame-si-method {
+      white-space: nowrap;
+    }
   }
 
   tr:nth-child(even) {

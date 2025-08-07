@@ -42,8 +42,8 @@ import * as astring from 'astring';
 const getScriptIncludeLib = function(className, scriptIncludesObject){
     const classObject = scriptIncludesObject;
     
-    let classNames = Object.keys(classObject.classKeys).map(key=>{
-        let keyValue = classObject.classKeys[key]
+    let classNames = Object.keys(classObject.methods).map(key=>{
+        let keyValue = classObject.methods[key]
 
         if(keyValue?.type === 'ObjectExpression')
             return `${key} = ${astring.generate(keyValue.value)}`

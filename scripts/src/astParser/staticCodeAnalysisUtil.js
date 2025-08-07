@@ -5,6 +5,7 @@ import walkerFunctions from './walkerFunctions.js';
 import * as acorn from 'acorn';
 import * as acornLoose from 'acorn-loose';
 import * as walk from 'acorn-walk';
+import * as astring from 'astring';
 
 /**
  * static code analysis utility class
@@ -162,7 +163,7 @@ class StaticCodeAnalisisUtil {
             if(node.type === 'Literal')
                 return node.value
 
-            return node;
+            return {type : node.type, value: astring.generate(node)};
         }
 
         let scriptBody
@@ -218,6 +219,10 @@ class StaticCodeAnalisisUtil {
         return scriptObj;
     }
 
+    runScriptInlcudesAnalisis(stringScript, scriptScope){
+        return runScriptIncludesCodeAnalisis(stringScript, this.#scriptIncludeCache, scriptScope, this.#availableScopes)
+    }
+
     /**
      * retrieves all the script include calls, and the method used if is a one liner ig: new global.AuthUtils().getAvailableLanguages();
      * 
@@ -271,6 +276,14 @@ class StaticCodeAnalisisUtil {
             acc[record.sys_id] = record.scope;
             return acc
         }, this.#allScopeMap)
+    }
+
+    /**
+     * returns the list of all the available scopes
+     * @returns {Object} list of all the available scopes, with sys_id as key and scope name as value
+     */
+    getAvailableSNScopes(){
+        return this.#allScopeMap;
     }
 
     /**

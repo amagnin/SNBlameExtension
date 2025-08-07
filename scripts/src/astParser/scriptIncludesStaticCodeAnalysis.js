@@ -13,7 +13,7 @@ import walkerFunctions from './walkerFunctions.js';
  *  @example
  *  this module will Create a object containing all methods of the class and all methods on the constructor  
  *  className : {  
- *      classKeys: {  
+ *      methods: {  
  *          initialize: {  
  *              args: [],  
  *              glideRecord: [{table, variable, loop: boolean}],  
@@ -96,7 +96,7 @@ const getSNClassMethods = (astTree, serviceNowClasses, scriptIncludeCache, curre
     let serviceNowClassesName = serviceNowClasses.reduce( (acc, node) => {
         if( node.type === 'VariableDeclaration')
             acc[node.declarations[0].id.name] = {
-                classKeys:{},
+                methods:{},
                 static:{},
                 extends: null
             };
@@ -104,7 +104,7 @@ const getSNClassMethods = (astTree, serviceNowClasses, scriptIncludeCache, curre
             
         if(node.type === 'ExpressionStatement')
             acc[node.expression.left.name] = {
-                classKeys:{},
+                methods:{},
                 static:{},
                 extends: null
             };
@@ -168,21 +168,21 @@ const getSNClassMethods = (astTree, serviceNowClasses, scriptIncludeCache, curre
 
             if(property.value.type === 'FunctionExpression'){
                 let key = property.key.name
-                serviceNowClassesName[name].classKeys[key] = {
+                serviceNowClassesName[name].methods[key] = {
                     args:[],
                     glideRecord:[],
                     dependencies:[]
                 }
 
-                serviceNowClassesName[name].classKeys[key].args = property.value.params.map(e=> e.name)
-                serviceNowClassesName[name].classKeys[key].scriptIncludeCalls = [];
+                serviceNowClassesName[name].methods[key].args = property.value.params.map(e=> e.name)
+                serviceNowClassesName[name].methods[key].scriptIncludeCalls = [];
                 let isConstructor = key === 'initialize';
                 
                 walk.simple(property.value, {
                     ExpressionStatement(_node){
                         let scriptIncludeCall = walkerFunctions.findScriptIncludeCalls(_node, scriptIncludeCache, currentScope, availableScopes);
                         if(scriptIncludeCall)
-                            serviceNowClassesName[name].classKeys[key].scriptIncludeCalls.push(scriptIncludeCall);
+                            serviceNowClassesName[name].methods[key].scriptIncludeCalls.push(scriptIncludeCall);
 
                         if(!isConstructor)
                             return;
@@ -191,11 +191,11 @@ const getSNClassMethods = (astTree, serviceNowClasses, scriptIncludeCache, curre
                         let constructorExpression = walkerFunctions.getConstructorContextExpresions(_node);
                         
                         if(constructorExpression?.type === 'Literal'){
-                            serviceNowClassesName[name].classKeys[constructorExpression.key] = constructorExpression.value
+                            serviceNowClassesName[name].methods[constructorExpression.key] = constructorExpression.value
                         }
 
                         if(constructorExpression?.type === 'FunctionExpression'){
-                            serviceNowClassesName[name].classKeys[constructorExpression.key] = {
+                            serviceNowClassesName[name].methods[constructorExpression.key] = {
                                 args: constructorExpression.args,
                                 glideRecord: []
                             }
@@ -205,20 +205,20 @@ const getSNClassMethods = (astTree, serviceNowClasses, scriptIncludeCache, curre
                         let {tableNode, variable} = walkerFunctions.getGlideRecordFromDeclaration(_node) || {};
                         if(tableNode && variable){
                             let table = getTableName(tableNode, serviceNowClassesName, name, astTree)
-                            serviceNowClassesName[name].classKeys[key].glideRecord.push({table, variable})
+                            serviceNowClassesName[name].methods[key].glideRecord.push({table, variable})
                         }
                     },
                     AssignmentExpression(_node){
                         let {tableNode, variable} = walkerFunctions.getGlideRecordFromAssignment(_node) || {};
                         if(tableNode && variable){
                             let table = getTableName(tableNode, serviceNowClassesName, name, astTree)
-                            serviceNowClassesName[name].classKeys[key].glideRecord.push({table, variable})
+                            serviceNowClassesName[name].methods[key].glideRecord.push({table, variable})
                         }                
                     },
                     WhileStatement(_node) {
-                        let glideRecord = walkerFunctions.checkNestedWhileRecord(_node, serviceNowClassesName[name].classKeys[key]);
+                        let glideRecord = walkerFunctions.checkNestedWhileRecord(_node, serviceNowClassesName[name].methods[key]);
                         if (glideRecord) 
-                            serviceNowClassesName[name].classKeys[key].glideRecord.push(glideRecord);       
+                            serviceNowClassesName[name].methods[key].glideRecord.push(glideRecord);       
                     },
                 })
                 
@@ -226,11 +226,11 @@ const getSNClassMethods = (astTree, serviceNowClasses, scriptIncludeCache, curre
             }
 
             if(property.value.type === 'Literal'){
-                serviceNowClassesName[name].classKeys[property.key.name] = property.value.value;
+                serviceNowClassesName[name].methods[property.key.name] = property.value.value;
                 return
             }
 
-            serviceNowClassesName[name].classKeys[property.key.name] =  { type: property.value.type, value: property.value };
+            serviceNowClassesName[name].methods[property.key.name] =  { type: property.value.type, value: property.value };
         })
     })
     
@@ -249,8 +249,8 @@ const getTableName = (node, serviceNowClassesName, className, astTree) => {
     if(node.type === 'Literal')
         return node.value
     
-    if(node?.object?.type === 'ThisExpression' && serviceNowClassesName[className].classKeys[node?.property?.name]){
-        return serviceNowClassesName[className].classKeys[node?.property?.name]; 
+    if(node?.object?.type === 'ThisExpression' && serviceNowClassesName[className].methods[node?.property?.name]){
+        return serviceNowClassesName[className].methods[node?.property?.name]; 
     }
   
     if(node?.object?.name === className && serviceNowClassesName[className].static[node?.property?.name]){
@@ -271,7 +271,7 @@ const getTableName = (node, serviceNowClassesName, className, astTree) => {
  * @example 
  * {
  *   classNameOne : {  
- *      classKeys: {  
+ *      methods: {  
  *          initialize: {  
  *              args: [],  
  *              glideRecord: [{table, variable, loop: boolean}],  
@@ -291,7 +291,7 @@ const getTableName = (node, serviceNowClassesName, className, astTree) => {
  *      extends: ExtendedClassName;  
  *  },
  *  classNameTwo: {
- *      classKeys: {...}
+ *      methods: {...}
  *      static: {...}
  *  }  
  * }

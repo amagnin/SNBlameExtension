@@ -94,7 +94,7 @@ const checkNestedWhileRecord = function(_node, classObject) {
         grRecord.loop = true;
         return ;
     } else
-        return {table: null, variable: glideRecord, loop: true}
+        return {table: null, variable: glideRecord?.callee?.object?.name, loop: true, notInitializedOnBlock: true}; 
 };
 
 /**

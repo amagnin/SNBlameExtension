@@ -2,15 +2,15 @@ export default function snListHelper() {
   const ALLOWED_TABLES = [
     {
       table: "sys_script",
-      fields: ["script"],
+      serverScriptField: "script",
     },
     {
       table: "sys_script_include",
-      fields: ["script"],
+      serverScriptField: "script",
     },
     {
       table: "sp_widget",
-      fields: ["script"],
+      serverScriptField: "script",
       clientFields: ["client_script", "link"],
     },
   ];
@@ -40,7 +40,7 @@ export default function snListHelper() {
     dialogHeader.innerHTML = `<h2 class="sn-blame-h2">Dialog Title</h2>`;
 
     let dialogCloseButton = document.createElement("button");
-    dialogCloseButton.classList.add("sn-blame-close");  
+    dialogCloseButton.classList.add("sn-blame-close");
     dialogCloseButton.onclick = () => dialog.close();
     dialogCloseButton.innerHTML = '<i class="icon-cross"></i>';
     dialogHeader.appendChild(dialogCloseButton);
@@ -51,87 +51,119 @@ export default function snListHelper() {
     dialogWrapper.appendChild(dialogContent);
 
     document.body.appendChild(dialog);
-  }
+  };
 
   const parseScriptInfo = (scriptInfo) => {
-    
-    let glideRecordHTML = scriptInfo.glideRecord.reduce((htmlStr, element) => {
-      if (element.variable && typeof element.table === 'string') {
-        htmlStr += `<tr class="sn-blame-gr-table">
+    let glideRecordHTML =
+      scriptInfo.glideRecord.filter(gr => !gr.notInitializedOnBlock).reduce(
+        (htmlStr, element) => {
+          if (element.variable && typeof element.table === "string") {
+            htmlStr += `<tr class="sn-blame-gr-table">
             <td class="sn-blame-gr-variable">${element.variable}</th>
             <td class="sn-blame-gr-table"><a href="/${element.table}_list.do?sys_id=${element.table}">${element.table}<a></th>
           </tr>`;
-      }
+          }
 
-      if (element.variable && typeof element.table !== 'string') {
-        htmlStr += `<tr class="sn-blame-gr-table">
+          if (element.variable && typeof element.table !== "string") {
+            htmlStr += `<tr class="sn-blame-gr-table">
             <td class="sn-blame-gr-variable">${element.variable}</th>
-            <td class="sn-blame-gr-table">${element.table}</th>
+            <td class="sn-blame-gr-table">Type: ${element.table.type} - ${element.table.value}</th>
           </tr>`;
-      }
+          }
 
-      return htmlStr;
-    }, `<h4><i class="icon-search-database"></i>GlideRecord Calls</h4>
+          return htmlStr;
+        },
+        `<h4><i class="icon-search-database"></i>GlideRecord Calls</h4>
              <table class='sn-blame-dialog-list'>
              <tr>
               <th>Variable</th>
               <th>Table</th>
-             </tr>`) + "</table>";
+             </tr>`
+      ) + "</table>";
 
-    let scriptIncludeHTML = scriptInfo.scriptIncludeCalls.reduce((htmlStr, scriptCall) => {
-      if (scriptCall.scriptInclude) {
-        htmlStr += `<li>
-            <span class="sn-blame-si-script-include">${scriptCall.scriptInclude}</span>
-            <span class="sn-blame-si-method">${scriptCall.method || ''}</span>
-            <span class="sn-blame-si-line">Line: ${scriptCall.line}</span>
-          </li>`;
-      }
-      return htmlStr
-    }, `<h4><i class="icon-document-code"></i>Script Include Calls</h4><ul class='sn-blame-dialog-list'>`) + "</ul>";
- 
+    let scriptIncludeHTML =
+      scriptInfo.scriptIncludeCalls
+        .sort((a, b) => a.scriptInclude.localeCompare(b.scriptInclude))
+        .reduce((acc, scriptCall) => {
+          let callExists = acc.find((s => s.id === scriptCall.id && s.method === scriptCall.method))
+          if(callExists){
+            callExists.line += ', ' + scriptCall.line;
+          }else
+            acc.push(scriptCall);
+            return acc;
+        },[])
+        .reduce(
+          (htmlStr, scriptCall, index, arr) => {
+            if (scriptCall.id === scriptInfo.sys_id) {
+              return htmlStr;
+            }
+
+            if (scriptCall.scriptInclude) {
+              let sameAsPrevious =
+                arr[index - 1] &&
+                scriptCall.id === arr[index - 1].id;
+
+              htmlStr += `<tr class="sn-blame-si-table ${sameAsPrevious ? `no-border-top-bottom` : ""}">
+            <td class="sn-blame-si-script-include">${sameAsPrevious ? "" : `<a href="/sys_script_include.do?sys_id=${scriptCall.id}">${scriptCall.scriptInclude}<a>`}</td>
+            <td class="sn-blame-si-method">${scriptCall.method || ""}</td>
+            <td class="sn-blame-si-line">${scriptCall.line}</td>
+          </tr>`;
+            }
+            return htmlStr;
+          },
+          `<h4><i class="icon-document-code"></i>Script Include Calls</h4>
+              <table class='sn-blame-dialog-list'>
+                <tr>
+                  <th>Script Include</th>
+                  <th>Method</th>
+                  <th>Line(s)</th>
+                </tr>`
+        ) + "</table>";
+
     let scriptContent = `<h4><i class="icon-global"></i>Scope: ${scriptInfo.scope}</h4>`;
-    
-    if(scriptInfo.glideRecord.length > 0)
+
+    if (scriptInfo.glideRecord.length > 0)
       scriptContent += `<hr> ${glideRecordHTML}`;
 
-    if(scriptInfo.scriptIncludeCalls.length > 0)
+    if (scriptInfo.scriptIncludeCalls.length > 0)
       scriptContent += `<hr> ${scriptIncludeHTML}`;
 
     return scriptContent;
-  }
+  };
 
   const createlistButton = (table, recordID) => {
     let div = document.createElement("div");
-        div.classList.add("sn-blame", `sn-blame-sys-id_${recordID}`);
+    div.classList.add("sn-blame", `sn-blame-sys-id_${recordID}`);
+    div.setAttribute("sys_id", recordID);
 
-        let button = document.createElement("button");
-        button.classList.add("btn", "btn-sn-blame", "compact", "icon-glasses");
+    let button = document.createElement("button");
+    button.classList.add("btn", "btn-sn-blame", "compact", "icon-glasses");
 
-        button.onclick = (e) => {
-          e.preventDefault();
-          e.stopPropagation();
+    button.onclick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-          dialogContent.innerHTML = "";
-          dialog.setAttribute("sys_id", recordID);
-          dialog.setAttribute("table", table);
+      dialogContent.innerHTML = "";
+      dialog.setAttribute("sys_id", recordID);
+      dialog.setAttribute("table", table);
 
-          let scriptInfo = parsedScripts.find((s) => s.sys_id === recordID);
-          if (!scriptInfo) 
-            return;
+      let scriptInfo = parsedScripts.find((s) => s.sys_id === recordID);
+      if (!scriptInfo) return;
 
-          let scriptContent = document.createElement("pre");
-          scriptContent.innerHTML = parseScriptInfo(scriptInfo);
-          dialogContent.appendChild(scriptContent);
+      let scriptContent = document.createElement("pre");
+      scriptContent.innerHTML = parseScriptInfo(scriptInfo);
+      dialogContent.appendChild(scriptContent);
 
-          dialog.querySelector(".sn-blame-h2").textContent = `Script Analysis for ${scriptInfo.displayName || recordID}`;
+      dialog.querySelector(".sn-blame-h2").textContent =
+        `[SN-BLAME] - ${scriptInfo.displayName || recordID}`;
 
-          dialog.showModal();
-        };
+      dialog.showModal();
+    };
 
-        div.appendChild(button)
+    div.appendChild(button);
 
-        return div;
-  }
+    return div;
+  };
 
   const hookSNBlameListHelper = () => {
     let table = location.pathname
@@ -139,25 +171,22 @@ export default function snListHelper() {
       .slice(1)
       .toLowerCase();
 
-    if (TABLE_LIST.indexOf(table) === -1) 
-        return;
+    if (TABLE_LIST.indexOf(table) === -1) return;
 
     let snTableNode = document.querySelector(`#${table}_table`);
-    if (!snTableNode) 
-      return;
+    if (!snTableNode) return;
 
     let tableObject = ALLOWED_TABLES.find((t) => t.table === table);
     createDialog();
 
-    let sysIDList = Array.from(
-      document.querySelectorAll(`#${table}_table tr`)
-    )
+    let sysIDList = Array.from(document.querySelectorAll(`#${table}_table tr`))
       .map((e) => {
         let recordID = e.getAttribute("sys_id");
-        if(!recordID) 
-          return null;
+        if (!recordID) return null;
 
-        e.querySelectorAll('.list_decoration_cell')[1].prepend(createlistButton(table, recordID));
+        e.querySelectorAll(".list_decoration_cell")[1].prepend(
+          createlistButton(table, recordID)
+        );
 
         return recordID;
       })
@@ -169,22 +198,29 @@ export default function snListHelper() {
           table,
           sysIDList,
           g_ck: window.g_ck,
-          fields: tableObject.fields || null,
+          field: tableObject.serverScriptField || null,
           clientFields: tableObject.clientFields || null,
         },
       })
     );
-  }
+  };
 
-  if (!/_list(\.do)?$/i.test(location.pathname)) 
-    return;
+  if (!/_list(\.do)?$/i.test(location.pathname)) return;
 
   window.addEventListener("sn-list-helper-response", (event) => {
+    parsedScripts = event.detail.parsedScripts;
     document.querySelectorAll(".sn-blame").forEach((el) => {
       el.style.visibility = "visible";
+      if (
+        !el.getAttribute("sys_id") ||
+        parsedScripts.find((s) => s.sys_id === el.getAttribute("sys_id"))
+          ?.protected === true
+      ) {
+        el.querySelector("button").setAttribute("disabled", "disabled");
+        el.setAttribute("title", "Script is protected, no analysis available");
+      }
     });
 
-    parsedScripts = event.detail.parsedScripts;
     console.log(parsedScripts);
   });
 
@@ -194,5 +230,5 @@ export default function snListHelper() {
 
   CustomEvent.on("partial.page.reload", (event) => {
     hookSNBlameListHelper(event);
-  })
+  });
 }
