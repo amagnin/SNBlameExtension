@@ -1,6 +1,13 @@
 class CacheManager {
   #version = __VERSION__;
   #maxCacheTime = 1000 * 60 * 60;
+
+  /** 
+   * see feasibility:
+   * if we check all keys on start and invalidate the ones that changed, we can increase the maxCacheSize to a few days to make it feel faster
+   * we need to keep the last updated time of the scirpt include in the cache if it changed we invalidate the cache and do not reload until next use
+   * most sctript includes are not changed that often if ever
+   */
   
   constructor(){
     if(typeof CacheManager.instance === 'object' )
@@ -8,6 +15,10 @@ class CacheManager {
 
 		CacheManager.instance = this;
 		return this;
+  }
+
+  getAllBlameCacheKeys(){
+    return Object.keys(localStorage).filter(key => key.startsWith('sn-blame-'));
   }
 
   invalidateScriptIncludeCache(className) {
@@ -23,7 +34,6 @@ class CacheManager {
   }
 
   setScriptIncludeCache(className, data) {
-    
     return this.setCache(`script-include-${className}`, data);
   }
 
