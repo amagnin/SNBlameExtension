@@ -1,6 +1,7 @@
 import runScriptIncludesCodeAnalisis from "./scriptIncludesStaticCodeAnalysis.js";
 import getScriptIncludeLib from "./scriptIncludesToExtraLib.js";
 import walkerFunctions from './walkerFunctions.js';
+import CacheManager from "../isolated/CacheManager.js";
 
 import * as acorn from 'acorn';
 import * as acornLoose from 'acorn-loose';
@@ -72,30 +73,6 @@ class StaticCodeAnalisisUtil {
 
     /**
      * TODO: cache invalidation mechanism (removed scirpt for now) 
-     * stores the script includes object form the extension cache
-     * 
-     * @param {string} className CLass name to get the script cache sys_id
-     * @returns {Object} object containing class methods and static methods, and general information about the script
-     */
-    async getScriptIncludeParsedCache(className){
-        return null;
-        return await new Promise((resolve, reject) => {
-            (chrome || browser).storage.local.get(`scriptIncludeCache-${className}`, function (result) {
-              if (result[`scriptIncludeCache-${className}`] === undefined) {
-                resolve();
-              } else {
-                try{
-                    resolve(JSON.parse(result[`scriptIncludeCache-${className}`]));
-                }catch(e){
-                    reject();
-                }
-              }
-            });
-        });
-    }
-
-    /**
-     * TODO: cache invalidation mechanism (removed scirpt for now) 
      * saves the script include to the extension storage to REST calls for classes already parsed
      * 
      * @param {string} className 
@@ -109,8 +86,8 @@ class StaticCodeAnalisisUtil {
     /**
      * Executes the script include parser and returns the libraries to be loaded on monaco for the intelisense
      * 
-     * @param {string} scriptToParse scirpt include script as a string to parse
-     * @param {string} className scirpt inlcudes name (className)
+     * @param {string} scriptToParse script include script as a string to parse
+     * @param {string} className script inlcudes name (className)
      * @param {string} currentScope scope where the script include is called from
      * @param {string} scriptIncludesScope socpe of the scirpt includes
      * @returns {string} script library string to load on monaco IDE
@@ -120,7 +97,9 @@ class StaticCodeAnalisisUtil {
 
         if(this.#loadedLibraries[className]) return this.#loadedLibraries[className];
 
-        let parsedScript = await this.getScriptIncludeParsedCache(className);
+        let cacheManager = new CacheManager();
+
+        let parsedScript = cacheManager.getScriptIncludeCache(className);
         if(parsedScript) return parsedScript;
 
         parsedScript = runScriptIncludesCodeAnalisis(scriptToParse, this.#scriptIncludeCache, currentScope, this.#availableScopes);

@@ -1,3 +1,6 @@
+import CacheManager from "./CacheManager.js";
+
+
 /**
  *  @typedef ServiceNowRESTFactory
  *  @type {Object}
@@ -23,6 +26,8 @@ let snRESTFactory = function (g_ck) {
     headers.append("Content-Type", "application/json");
     headers.append("Accept", "application/json");
     headers.append("X-UserToken", g_ck);
+
+    const cacheManager = new CacheManager();
 
     /**
      * retrives the version for the record passed
@@ -92,7 +97,11 @@ let snRESTFactory = function (g_ck) {
      * @param {?string} filter ServiceNow encoded query 
      * @returns {Object} response as a JSON 
      */
-    let getRecords = async function(table, fields, filter){
+    let getRecords = async function(table, fields, filter, cacheKey){
+
+        if(cacheKey && cacheManager.getCache(cacheKey)){
+            return cacheManager.getCache(cacheKey);
+        }
 
         const params = new URLSearchParams();
         if(fields)
@@ -112,6 +121,9 @@ let snRESTFactory = function (g_ck) {
         }
 
         let body = await response.json();
+        if( body?.result?.length !== 0 && cacheKey)
+            cacheManager.setCache(cacheKey, body);
+
         return body;
     }
 
