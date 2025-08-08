@@ -1,7 +1,5 @@
 import snRESTFactory from "./snRESTFactory.js";
 import StaticCodeAnalisisUtil from "../astParser/StaticCodeAnalysisUtil.js";
-import CacheManager from "./CacheManager.js";
-import runScriptIncludesCodeAnalisis from "../astParser/scriptIncludesStaticCodeAnalysis.js";
 
 /**
 * @typedef {import('./snRESTFactory.js').ServiceNowRESTFactory} ServiceNowRESTFactory
@@ -10,7 +8,6 @@ import runScriptIncludesCodeAnalisis from "../astParser/scriptIncludesStaticCode
 export default function(){
     let restFactory;
     let staticCodeAnalisisUtil;
-    const cacheManager = new CacheManager();
 
     const LISTENERS =  {
         'sn-list-helper': async (event) => {
@@ -23,9 +20,8 @@ export default function(){
             if(!staticCodeAnalisisUtil){
                 let values = await Promise.all([
                     restFactory.getScriptIncludeCache(),
-                    /** add cache ?? */
                     restFactory.getRecords(table, null, `sys_idIN${sysIDList.join(',')}`),
-                    restFactory.getRecords('sys_scope', ['sys_id, scope']) 
+                    restFactory.getRecords('sys_scope', ['sys_id, scope'], null, 'sn-scope-cache') 
                 ]);
                
                 staticCodeAnalisisUtil = new StaticCodeAnalisisUtil(values[0]);
@@ -34,7 +30,6 @@ export default function(){
 
             }
             else{
-                /** add cache ?? */
                 scriptList = (await restFactory.getRecords(table, null, `sys_idIN${sysIDList.join(',')}`)).result;
             }
 

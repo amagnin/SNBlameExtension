@@ -4,6 +4,7 @@ import fs from "fs";
 import webpack from "webpack";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import IgnoreEmitPlugin from "ignore-emit-webpack-plugin";
+import TerserJSPlugin from "terser-webpack-plugin";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -40,8 +41,18 @@ const isolated = Object.assign({}, config, {
     filename: "bundle.js",
   },
   optimization: {
-    minimize: false,
+    minimize: true,
     checkWasmTypes: false,
+    minimizer: [ new TerserJSPlugin({
+        terserOptions: {
+          compress: false,
+          mangle: false,
+          format: {
+            comments: /license/i,
+            beautify: true, // optional: to preserve formatting
+          },
+        }
+      })],
   },
   watch: true,
 });
@@ -54,8 +65,18 @@ const main = Object.assign({}, config, {
     filename: "bundle.js",
   },
   optimization: {
-    minimize: false,
+    minimize: true,
     checkWasmTypes: false,
+    minimizer: [ new TerserJSPlugin({
+        terserOptions: {
+          compress: false,
+          mangle: false,
+          format: {
+            comments: false,
+            beautify: true, // optional: to preserve formatting
+          },
+        }
+      })],
   },
   watch: true,
 });
