@@ -1,55 +1,57 @@
 class CacheManager {
-  #version = __VERSION__;
-  #maxCacheTime = 1000 * 60 * 60;
-
-  /** 
-   * see feasibility:
-   * if we check all keys on start and invalidate the ones that changed, we can increase the maxCacheSize to a few days to make it feel faster
-   * we need to keep the last updated time of the scirpt include in the cache if it changed we invalidate the cache and do not reload until next use
-   * most sctript includes are not changed that often if ever
-   */
+  static #version = (function(){ try { return __VERSION__ } catch(e){ return '1.0.0'}})();
+  static #maxCacheTime = 1000 * 60 * 60;
   
-  constructor(){
+  constructor(snRestFactory){
     if(typeof CacheManager.instance === 'object' )
 			return CacheManager.instance;
 
 		CacheManager.instance = this;
+    CacheManager.restFactory = snRestFactory;
+
 		return this;
   }
 
-  getAllBlameCacheKeys(){
-    return Object.keys(localStorage).filter(key => key.startsWith('sn-blame-'));
+  static getAllBlameCacheKeys(){
+     Object.keys(localStorage).filter(key => key.startsWith('sn-blame'))
   }
 
-  invalidateScriptIncludeCache(className) {
+  static invalidateScriptIncludeCache(className) {
     localStorage.removeItem(`script-include-${className}`); 
   }
 
-  invalidateCache(key) {
+  static invalidateCache(key) {
     localStorage.removeItem(`sn-blame-${key}`);
   }
 
-  getScriptIncludeCache(className) {
-    return this.getCache(`script-include-${className}`);
+  static getScriptIncludeCache(className) {
+    return CacheManager.getCache(`script-include-${className}`);
   }
 
-  setScriptIncludeCache(className, data) {
-    return this.setCache(`script-include-${className}`, data);
+  static setScriptIncludeCache(className, data) {
+    return CacheManager.setCache(`script-include-${className}`, data);
   }
 
-  getCache(key) {
-    const cache = JSON.parse(localStorage.getItem(`sn-blame-${key}`));
+  static getCache(key) {
+    let cache;
+    
+    try{
+      cache = JSON.parse(localStorage.getItem(`sn-blame-${key}`));
+    }catch(e){
+      return null;
+    }
+
     if (!cache) {
       return null;
     }
 
     const now = new Date().getTime();
-    if (now - cache.timestamp > this.#maxCacheTime) {
+    if (now - cache.timestamp > CacheManager.#maxCacheTime) {
       localStorage.removeItem(key);
       return null;
     }
 
-    if (this.#version !== cache.version) {
+    if (CacheManager.#version !== cache.version) {
       localStorage.removeItem(key);
       return null;
     }
@@ -57,7 +59,7 @@ class CacheManager {
     return cache.data;
   }
 
-  setCache(key, data) {
+  static setCache(key, data) {
     const cache = {
       version: this.#version,
       timestamp: new Date().getTime(),
@@ -65,6 +67,50 @@ class CacheManager {
     };
 
     localStorage.setItem(`sn-blame-${key}`, JSON.stringify(cache));
+  }
+
+  checkScriptIncludeCache(){
+    Object.keys(localStorage).filter(key => key.startsWith('sn-blame-script-include-')).map((key) =>{
+      let cache;
+      try{
+        cache = JSON.parse(localStorage.getItem(key));
+      }catch(e){
+        return null;
+      }
+
+      if(!cache)
+        return;
+
+      if(!batch[batch.length - 1] || batch[batch.length - 1].length > 100){
+        batch.push([]);
+      }
+
+      batch[batch.length - 1].push({
+        sys_id: cache.sys_id,
+        name: cache.name,
+        sys_updated_on: cache.sys_updated_on,
+        sys_update_count: cache.sys_updated_count
+      })
+
+      return batch
+    }, batch).forEach((batch)=>{
+      let filter = []
+      let recordMap = {}
+      
+      batch.forEach((record)=> {
+        filter.push(record.sys_id);
+        recordMap[record.sys_id] = record;
+      }, []).join(',');
+
+      CacheManager.restFactory.getRecords('sys_script_includes', ['sys_id', 'name', 'sys_updated_on', 'sys_update_count'], 'sys_idIN' + filter.join(','), null).then((body)=>{
+        body.result.forEach((record) =>{
+          if(recordMap[record.sys_id].sys_updated_on !== record.sys_updated_on || recordMap[record.sys_id].sys_update_count !== record.sys_update_count)
+            CacheManager.invalidateScriptIncludeCache(recordMap[record.sys_id].name)
+        })
+      }).catch((err)=>{
+        batch.forEach(record => CacheManager.invalidateScriptIncludeCache(record.name));
+      })
+    })
   }
 
 }

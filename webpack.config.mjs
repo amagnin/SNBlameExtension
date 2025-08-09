@@ -49,7 +49,7 @@ const isolated = Object.assign({}, config, {
           mangle: false,
           format: {
             comments: /license/i,
-            beautify: true, // optional: to preserve formatting
+            beautify: true, 
           },
         }
       })],
@@ -73,7 +73,7 @@ const main = Object.assign({}, config, {
           mangle: false,
           format: {
             comments: false,
-            beautify: true, // optional: to preserve formatting
+            beautify: true, 
           },
         }
       })],
