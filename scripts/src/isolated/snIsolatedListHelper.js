@@ -1,5 +1,6 @@
 import snRESTFactory from "./snRESTFactory.js";
 import StaticCodeAnalisisUtil from "../astParser/StaticCodeAnalysisUtil.js";
+import CacheManager from "./CacheManager.js";
 
 /**
 * @typedef {import('./snRESTFactory.js').ServiceNowRESTFactory} ServiceNowRESTFactory
@@ -7,6 +8,7 @@ import StaticCodeAnalisisUtil from "../astParser/StaticCodeAnalysisUtil.js";
 
 export default function(){
     let restFactory;
+    let cacheManager;
     let staticCodeAnalisisUtil;
 
     const LISTENERS =  {
@@ -16,6 +18,9 @@ export default function(){
         
             if(!restFactory)
                 restFactory = snRESTFactory(g_ck);
+
+            if(!cacheManager)
+                cacheManager = new CacheManager(snRESTFactory);
 
             if(!staticCodeAnalisisUtil){
                 let values = await Promise.all([
@@ -27,7 +32,6 @@ export default function(){
                 staticCodeAnalisisUtil = new StaticCodeAnalisisUtil(values[0]);
                 staticCodeAnalisisUtil.setAvailableSNScopes(values[2].result)
                 scriptList = values[1].result;
-
             }
             else{
                 scriptList = (await restFactory.getRecords(table, null, `sys_idIN${sysIDList.join(',')}`)).result;
@@ -55,10 +59,7 @@ export default function(){
                 return scriptInfo
             }));
 
-            let parsedScriptIncludes = {}
-
-            //not working as I expected, need to check later
-            // parsedScripts = await Promise.all(parsedScripts.map(async (script) => {
+            let parsedScriptIncludes = {};
 
             let scriptIncludes = await Promise.all(parsedScripts.reduce((acc, script) => {
                 if(!script.scriptIncludeCalls || script.scriptIncludeCalls.length === 0)

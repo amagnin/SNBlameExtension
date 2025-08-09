@@ -27,8 +27,6 @@ let snRESTFactory = function (g_ck) {
     headers.append("Accept", "application/json");
     headers.append("X-UserToken", g_ck);
 
-    const cacheManager = new CacheManager();
-
     /**
      * retrives the version for the record passed
      * 
@@ -99,8 +97,8 @@ let snRESTFactory = function (g_ck) {
      */
     let getRecords = async function(table, fields, filter, cacheKey){
 
-        if(cacheKey && cacheManager.getCache(cacheKey)){
-            return cacheManager.getCache(cacheKey);
+        if(cacheKey){
+            return CacheManager.getCache(cacheKey);
         }
 
         const params = new URLSearchParams();
@@ -122,7 +120,7 @@ let snRESTFactory = function (g_ck) {
 
         let body = await response.json();
         if( body?.result?.length !== 0 && cacheKey)
-            cacheManager.setCache(cacheKey, body);
+            CacheManager.setCache(cacheKey, body);
 
         return body;
     }
