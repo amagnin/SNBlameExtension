@@ -2,6 +2,8 @@ import MonacoBlameGutterWrapper from "./MonacoBlameGutterWrapper.js";
 import SNBlameOptions from "./SNBlameOptions.js";
 import snBlame from "./snIsolatedBlame.js";
 import snListHelper from "./snIsolatedListHelper.js";
+import CacheManager from "./CacheManager.js";
+import snRESTFactory from "./snRESTFactory.js";
 
 /**
  * @typedef BlameLine
@@ -39,6 +41,11 @@ import snListHelper from "./snIsolatedListHelper.js";
     window.dispatchEvent(new CustomEvent("sn-blame-start"));
   }
 });
+
+ window.addEventListener('sn-blame-validate-cache', (event)=>{
+  const { g_ck } = event.detail;
+  new CacheManager().validateScriptIncludeCache(snRESTFactory(g_ck));
+ });
 
 snBlame();
 snListHelper();

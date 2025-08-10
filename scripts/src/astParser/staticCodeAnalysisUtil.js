@@ -50,6 +50,7 @@ class StaticCodeAnalisisUtil {
         this.#availableScopes = Object.keys(scriptIncludeCache)
             .map(key => key.split('.')[0])
             .filter((value, index, self) => self.indexOf(value) === index);
+
     }
 
     /**
@@ -97,9 +98,8 @@ class StaticCodeAnalisisUtil {
 
         if(this.#loadedLibraries[className]) return this.#loadedLibraries[className];
 
-        let cacheManager = new CacheManager();
-
-        let parsedScript = cacheManager.getScriptIncludeCache(className);
+    
+        let parsedScript = CacheManager.getScriptIncludeCache(this.#scriptIncludeCache[className]);
         if(parsedScript) return parsedScript;
 
         parsedScript = runScriptIncludesCodeAnalisis(scriptToParse, this.#scriptIncludeCache, currentScope, this.#availableScopes);
@@ -126,6 +126,7 @@ class StaticCodeAnalisisUtil {
         this.#loadedLibraries[className] = {parsedScript, libs};
         this.updateScriptIncludeParsedCache(className, {parsedScript, libs});
 
+        CacheManager.setScriptIncludeCache(this.#scriptIncludeCache[className], parsedScript);
         return {parsedScript, libs, scriptExtends};
     }
 

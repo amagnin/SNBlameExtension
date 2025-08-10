@@ -69,11 +69,6 @@
               >
             </li>
             <li data-type="method">
-              <a href="StaticCodeAnalisisUtil.html#getScriptIncludeParsedCache"
-                >getScriptIncludeParsedCache</a
-              >
-            </li>
-            <li data-type="method">
               <a
                 href="StaticCodeAnalisisUtil.html#updateScriptIncludeParsedCache"
                 >updateScriptIncludeParsedCache</a
@@ -98,6 +93,11 @@
             <li data-type="method">
               <a href="StaticCodeAnalisisUtil.html#setAvailableSNScopes"
                 >setAvailableSNScopes</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#getAvailableSNScopes"
+                >getAvailableSNScopes</a
               >
             </li>
             <li data-type="method">
@@ -356,6 +356,9 @@
         <li>
           <a href="global.html#ServiceNowRESTFactory">ServiceNowRESTFactory</a>
         </li>
+        <li>
+          <a href="global.html#snBlameRecordWatcher">snBlameRecordWatcher</a>
+        </li>
         <li><a href="global.html#MonacoEditor">MonacoEditor</a></li>
       </ul>
     </nav>
@@ -390,8 +393,8 @@
                     <a href="astParser_StaticCodeAnalysisUtil.js.html"
                       >astParser/StaticCodeAnalysisUtil.js</a
                     >,
-                    <a href="astParser_StaticCodeAnalysisUtil.js.html#line14"
-                      >line 14</a
+                    <a href="astParser_StaticCodeAnalysisUtil.js.html#line16"
+                      >line 16</a
                     >
                   </li>
                 </ul>
@@ -423,8 +426,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line45"
-                    >line 45</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line47"
+                    >line 47</a
                   >
                 </li>
               </ul>
@@ -483,8 +486,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line58"
-                    >line 58</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line61"
+                    >line 61</a
                   >
                 </li>
               </ul>
@@ -561,8 +564,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line68"
-                    >line 68</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line71"
+                    >line 71</a
                   >
                 </li>
               </ul>
@@ -610,85 +613,6 @@
             </dd>
           </dl>
 
-          <h4 class="name" id="getScriptIncludeParsedCache">
-            <span class="type-signature type-signature-async">(async) </span
-            >getScriptIncludeParsedCache<span class="signature"
-              >(className)</span
-            ><span class="type-signature"> &rarr; {Object}</span>
-          </h4>
-
-          <dl class="details">
-            <dt class="tag-description">Description:</dt>
-            <dd class="tag-description">
-              <ul class="dummy">
-                <li>
-                  <p>
-                    TODO: cache invalidation mechanism (removed scirpt for now)
-                    stores the script includes object form the extension cache
-                  </p>
-                </li>
-              </ul>
-            </dd>
-
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html"
-                    >astParser/StaticCodeAnalysisUtil.js</a
-                  >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line79"
-                    >line 79</a
-                  >
-                </li>
-              </ul>
-            </dd>
-          </dl>
-
-          <h5 class="h5-parameters">Parameters:</h5>
-
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-
-                <th>Type</th>
-
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="name"><code>className</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                </td>
-
-                <td class="description last">
-                  <p>CLass name to get the script cache sys_id</p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h5 class="h5-returns">Returns:</h5>
-
-          <div class="param-desc">
-            <p>
-              object containing class methods and static methods, and general
-              information about the script
-            </p>
-          </div>
-
-          <dl class="param-type">
-            <dt>Type</dt>
-            <dd>
-              <span class="param-type">Object</span>
-            </dd>
-          </dl>
-
           <h4 class="name" id="updateScriptIncludeParsedCache">
             <span class="type-signature"></span
             >updateScriptIncludeParsedCache<span class="signature"
@@ -717,8 +641,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line103"
-                    >line 103</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line82"
+                    >line 82</a
                   >
                 </li>
               </ul>
@@ -789,8 +713,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line117"
-                    >line 117</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line96"
+                    >line 96</a
                   >
                 </li>
               </ul>
@@ -819,7 +743,7 @@
                 </td>
 
                 <td class="description last">
-                  <p>scirpt include script as a string to parse</p>
+                  <p>script include script as a string to parse</p>
                 </td>
               </tr>
 
@@ -831,7 +755,7 @@
                 </td>
 
                 <td class="description last">
-                  <p>scirpt inlcudes name (className)</p>
+                  <p>script inlcudes name (className)</p>
                 </td>
               </tr>
 
@@ -902,8 +826,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line159"
-                    >line 159</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line140"
+                    >line 140</a
                   >
                 </li>
               </ul>
@@ -991,8 +915,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line223"
-                    >line 223</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line213"
+                    >line 213</a
                   >
                 </li>
               </ul>
@@ -1072,8 +996,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line259"
-                    >line 259</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line254"
+                    >line 254</a
                   >
                 </li>
               </ul>
@@ -1111,6 +1035,52 @@
             </tbody>
           </table>
 
+          <h4 class="name" id="getAvailableSNScopes">
+            <span class="type-signature"></span>getAvailableSNScopes<span
+              class="signature"
+              >()</span
+            ><span class="type-signature"> &rarr; {Object}</span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li><p>returns the list of all the available scopes</p></li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html"
+                    >astParser/StaticCodeAnalysisUtil.js</a
+                  >,
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line265"
+                    >line 265</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>
+              list of all the available scopes, with sys_id as key and scope
+              name as value
+            </p>
+          </div>
+
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type">Object</span>
+            </dd>
+          </dl>
+
           <h4 class="name" id="getScopeFromID">
             <span class="type-signature"></span>getScopeFromID<span
               class="signature"
@@ -1135,8 +1105,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line272"
-                    >line 272</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line275"
+                    >line 275</a
                   >
                 </li>
               </ul>
@@ -1189,8 +1159,8 @@
 
     <footer>
       Documentation generated by
-      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Sun Feb 23
-      2025 22:45:59 GMT+0100 (hora estándar de Europa central) using the
+      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Sun Aug 10
+      2025 14:59:44 GMT+0200 (hora de verano de Europa central) using the
       <a href="https://github.com/clenemt/docdash">docdash</a> theme.
     </footer>
 
