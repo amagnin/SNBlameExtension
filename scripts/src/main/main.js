@@ -9,3 +9,12 @@ snBlamebootstrap();
 
 snListHelper();
 listenerForCacheInvalidation();
+
+
+window.dispatchEvent(
+    new CustomEvent("sn-blame-validate-cache", {
+        detail: {
+            g_ck,
+        },
+    })
+);

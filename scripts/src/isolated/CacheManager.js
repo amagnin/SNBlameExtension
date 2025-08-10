@@ -2,12 +2,11 @@ class CacheManager {
   static #version = (function(){ try { return __VERSION__ } catch(e){ return '1.0.0'}})();
   static #maxCacheTime = 1000 * 60 * 60;
   
-  constructor(snRestFactory){
+  constructor(){
     if(typeof CacheManager.instance === 'object' )
 			return CacheManager.instance;
 
 		CacheManager.instance = this;
-    CacheManager.restFactory = snRestFactory;
 
 		return this;
   }
@@ -69,7 +68,10 @@ class CacheManager {
     localStorage.setItem(`sn-blame-${key}`, JSON.stringify(cache));
   }
 
-  checkScriptIncludeCache(){
+  validateScriptIncludeCache(restFactory){
+    if(!restFactory)
+      return;
+
     Object.keys(localStorage).filter(key => key.startsWith('sn-blame-script-include-')).map((key) =>{
       let cache;
       try{
@@ -93,7 +95,7 @@ class CacheManager {
       })
 
       return batch
-    }, batch).forEach((batch)=>{
+    }, []).forEach((batch)=>{
       let filter = []
       let recordMap = {}
       
@@ -102,7 +104,7 @@ class CacheManager {
         recordMap[record.sys_id] = record;
       }, []).join(',');
 
-      CacheManager.restFactory.getRecords('sys_script_includes', ['sys_id', 'name', 'sys_updated_on', 'sys_update_count'], 'sys_idIN' + filter.join(','), null).then((body)=>{
+      restFactory.getRecords('sys_script_includes', ['sys_id', 'name', 'sys_updated_on', 'sys_update_count'], 'sys_idIN' + filter.join(','), null).then((body)=>{
         body.result.forEach((record) =>{
           if(recordMap[record.sys_id].sys_updated_on !== record.sys_updated_on || recordMap[record.sys_id].sys_update_count !== record.sys_update_count)
             CacheManager.invalidateScriptIncludeCache(recordMap[record.sys_id].name)

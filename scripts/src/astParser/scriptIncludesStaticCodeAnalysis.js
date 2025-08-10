@@ -287,8 +287,10 @@ const getSNClassMethods = (astTree, serviceNowClasses, scriptIncludeCache, curre
 
         if(node.expression?.right.type === "CallExpression" && 
             (
-                node.expression?.right.callee?.object.name !== 'Object' ||
-                node.expression?.right.callee?.property.name !== 'extendsObject'
+                node.expression?.right.callee?.object?.name !== 'Object' ||
+                node.expression?.right.callee?.property?.name !== 'extendsObject' ||
+                /** analysis for patern ClassName.prototype = (function(){ return [object]})() missing */
+                node.expression?.right.callee?.type === 'FunctionExpression'
             ))
             return;
 
@@ -298,7 +300,10 @@ const getSNClassMethods = (astTree, serviceNowClasses, scriptIncludeCache, curre
             serviceNowClassesName[name].extends = astring.generate(node.expression.right.arguments[0]);
         }
 
-        (node.expression?.right?.properties || node.expression?.right?.arguments[1].properties /** Object.extends **/ ).forEach(property => {
+        (
+            node.expression?.right?.properties || 
+            node.expression?.right?.arguments[1].properties /** Object.extends **/ ||
+            node.expression?.right?.arguments[2].properties /** Object.extends **/ ).forEach(property => {
 
             if(property.value.type === 'FunctionExpression'){
                 let key = property.key.name

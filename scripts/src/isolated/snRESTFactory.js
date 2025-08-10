@@ -71,7 +71,12 @@ let snRESTFactory = function (g_ck) {
      * @param {string} sys_id: sys_id of the script includes 
      * @returns {Object} response as a JSON 
      */
-    let getScriptIncludes = async function(sys_id){
+    let getScriptIncludes = async function(sys_id, ignoreCache){
+        if(!ignoreCache){
+            let cache = CacheManager.getCache('script-includes-map');
+            if(cache)
+                return cache;
+        }
         
         const response = await fetch(
             `/api/now/table/sys_script_include/${sys_id}?sysparm_fields=api_name,sys_id,script,name,sys_scope,active,sys_policy`, {
@@ -85,6 +90,8 @@ let snRESTFactory = function (g_ck) {
         }
 
         let body = await response.json();
+        CacheManager.setCache('script-includes-map', body);
+
         return body;
     }
 
@@ -96,9 +103,11 @@ let snRESTFactory = function (g_ck) {
      * @returns {Object} response as a JSON 
      */
     let getRecords = async function(table, fields, filter, cacheKey){
-
+        
         if(cacheKey){
-            return CacheManager.getCache(cacheKey);
+            let cache  = CacheManager.getCache(cacheKey)
+            if(cache)
+                return cache;
         }
 
         const params = new URLSearchParams();

@@ -1,6 +1,5 @@
 import snRESTFactory from "./snRESTFactory.js";
 import StaticCodeAnalisisUtil from "../astParser/StaticCodeAnalysisUtil.js";
-import CacheManager from "./CacheManager.js";
 
 /**
 * @typedef {import('./snRESTFactory.js').ServiceNowRESTFactory} ServiceNowRESTFactory
@@ -8,7 +7,6 @@ import CacheManager from "./CacheManager.js";
 
 export default function(){
     let restFactory;
-    let cacheManager;
     let staticCodeAnalisisUtil;
 
     const LISTENERS =  {
@@ -18,9 +16,6 @@ export default function(){
         
             if(!restFactory)
                 restFactory = snRESTFactory(g_ck);
-
-            if(!cacheManager)
-                cacheManager = new CacheManager(snRESTFactory);
 
             if(!staticCodeAnalisisUtil){
                 let values = await Promise.all([
