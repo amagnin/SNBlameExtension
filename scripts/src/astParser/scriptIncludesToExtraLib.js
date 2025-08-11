@@ -72,7 +72,9 @@ const getScriptIncludeLib = function(className, scriptIncludesObject){
 
         if(typeof keyValue === 'string')
             return `static ${key} = '${keyValue}';`
-        return `static ${key} = (${keyValue.args.toString()}){};`
+        if(keyValue?.args)
+            return `static ${key} = (${keyValue.args.toString()}){};`
+
     })).join('\n      ');
 
     let lib = `class ${className} ${typeof classObject.extends === 'string'? `extends ${classObject.extends}` : '' } {

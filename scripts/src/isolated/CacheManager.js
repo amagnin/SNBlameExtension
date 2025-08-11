@@ -24,18 +24,18 @@ class CacheManager {
   }
 
   static getScriptIncludeCache(className) {
-    return CacheManager.getCache(`script-include-${className}`);
+    return CacheManager.getCache(`script-include-${className}`)?.data;
   }
 
-  static setScriptIncludeCache(className, data) {
-    return CacheManager.setCache(`script-include-${className}`, data);
+  static setScriptIncludeCache(className, data, scriptIncludeDetails) {
+    return CacheManager.setCache(`script-include-${className}`, { data,  ...scriptIncludeDetails});
   }
 
   static getCache(key) {
     let cache;
     
     try{
-      cache = JSON.parse(localStorage.getItem(`sn-blame-${key}`));
+      cache = JSON.parse(localStorage.getItem(`sn-blame-${key}`)); 
     }catch(e){
       return null;
     }
@@ -91,8 +91,9 @@ class CacheManager {
         sys_id: cache.sys_id,
         name: cache.name,
         sys_updated_on: cache.sys_updated_on,
-        sys_update_count: cache.sys_updated_count
+        sys_mod_count: cache.sys_mod_count
       })
+
 
       return batch
     }, []).forEach((batch)=>{
