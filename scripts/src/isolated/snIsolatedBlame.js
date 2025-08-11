@@ -1,6 +1,7 @@
 import MonacoBlameGutterWrapper from "./MonacoBlameGutterWrapper.js";
 import SNBlameOptions from "./SNBlameOptions.js";
 import snRESTFactory from "./snRESTFactory.js";
+import CacheManager from "./CacheManager.js";
 
 import StaticCodeAnalisisUtil from "../astParser/StaticCodeAnalysisUtil.js";
 
@@ -385,11 +386,16 @@ export default function () {
   async function triggerScriptIncludeLib(identifier, currentScope) {
     if (staticCodeAnalisisUtil.getLoadedLibraries(identifier)) return;
 
-    if (!staticCodeAnalisisUtil.getScriptCacheSysID(identifier)) return;
+    let scriptID = staticCodeAnalisisUtil.getScriptIncludeSysID(identifier)
 
-    let body = await restFactory.getScriptIncludes(
-      staticCodeAnalisisUtil.getScriptCacheSysID(identifier)
-    );
+    if (!scriptID) return;
+
+    let scriptCache = CacheManager.getScriptIncludeCache(scriptID)
+    if(scriptCache){
+      return triggerScriptAnalysisEvent(scriptCache, currentScope)
+    }
+
+    let body = await restFactory.getScriptIncludes(scriptID);
     if (!body?.result?.script) return;
 
     let scriptInclideScope = body.result.api_name.split(".")[0];
@@ -398,9 +404,19 @@ export default function () {
         body.result.script,
         identifier,
         currentScope,
-        scriptInclideScope
+        scriptInclideScope,
       );
+    
+    CacheManager.setScriptIncludeCache(scriptID, scriptIncludeObject, {
+          sys_id:  body.result.sys_id,
+          sys_mod_count: body.result.sys_mod_count,
+          sys_updated_on: body.result.sys_updated_on,
+        });
+        
+    triggerScriptAnalysisEvent(scriptIncludeObject, currentScope)
+  }
 
+  function triggerScriptAnalysisEvent(scriptIncludeObject, currentScope){
     window.dispatchEvent(
       new CustomEvent("sn-load-library", {
         detail: {

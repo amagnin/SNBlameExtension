@@ -72,12 +72,6 @@ let snRESTFactory = function (g_ck) {
      * @returns {Object} response as a JSON 
      */
     let getScriptIncludes = async function(sys_id, ignoreCache){
-        if(!ignoreCache){
-            let cache = CacheManager.getCache('script-includes-map');
-            if(cache)
-                return cache;
-        }
-        
         const response = await fetch(
             `/api/now/table/sys_script_include/${sys_id}?sysparm_fields=api_name,sys_id,script,name,sys_scope,active,sys_policy`, {
                 method: "GET",
@@ -90,7 +84,6 @@ let snRESTFactory = function (g_ck) {
         }
 
         let body = await response.json();
-        CacheManager.setCache('script-includes-map', body);
 
         return body;
     }
@@ -169,7 +162,14 @@ let snRESTFactory = function (g_ck) {
      * get Servicenow the script includes cache object
      * @returns {Object} script include cache object containing the scirpt name and sys_id as value pair
      */
-    let getScriptIncludeCache = async function(){
+    let getScriptIncludeCache = async function(ignoreCache){
+        if(!ignoreCache){
+            let cache = CacheManager.getCache('script-includes-map');
+            if(cache)
+                return cache;
+        }
+        
+
         const response = await fetch(
             `/api/now/syntax_editor/cache/sys_script_include`, {
                 method: "GET",
@@ -178,8 +178,11 @@ let snRESTFactory = function (g_ck) {
         );
 
         let body = await response.json();
+        
         try{
-            return JSON.parse(body.result.result);
+            let result = JSON.parse(body.result.result);
+            CacheManager.setCache('script-includes-map', result);
+            return result
         }catch(e){
             return {};
         }

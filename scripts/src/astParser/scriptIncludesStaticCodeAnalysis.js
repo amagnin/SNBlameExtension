@@ -394,8 +394,8 @@ const getTableName = (node, serviceNowClassesName, className, astTree) => {
  * }
  * 
  **/
-function runScriptIncludesCodeAnalisis(script, scriptIncludeCache, currentScope, availableScopes) {
-
+function runScriptIncludeCodeParsing(script, scriptIncludeCache, currentScope, availableScopes, scriptIncludeDetails) {
+    
     let astTree
     try {
         astTree = acorn.parse(script, ACORN_OPTIONS)
@@ -430,7 +430,7 @@ function runScriptIncludesCodeAnalisis(script, scriptIncludeCache, currentScope,
 
     if(serviceNowClasses.length === 0) return [];
 
-    return getSNClassMethods(astTree, serviceNowClasses, scriptIncludeCache, currentScope, availableScopes) ;
+    return getSNClassMethods(astTree, serviceNowClasses, scriptIncludeCache, currentScope, availableScopes);
 }
 
-export default runScriptIncludesCodeAnalisis;
+export default runScriptIncludeCodeParsing;
