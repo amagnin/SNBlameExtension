@@ -7,6 +7,8 @@ import * as acornLoose from 'acorn-loose';
 import * as walk from 'acorn-walk';
 import * as astring from 'astring';
 
+import * as config from '../../../config.json';
+
 /**
  * static code analysis utility class
  * 
@@ -17,6 +19,8 @@ class StaticCodeAnalisisUtil {
     #availableScopes = [];
     #loadedLibraries = {};
     #allScopeMap = {};
+
+    #TABLE_CONFIG_MAP = config
 
     static ACORN_OPTIONS = {
         ecmaVersion: 'latest',
