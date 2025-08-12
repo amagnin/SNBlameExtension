@@ -1,0 +1,21 @@
+{
+    "defaultFields": ["sys_id", "sys_updated_on", "sys_mod_count", "sys_name"],
+    "sys_script": {
+        "scriptFields": ["script"],
+        "mainScriptField": "script",
+        "dataFields": {
+            "when": "string",
+            "abort_action" : "bool",
+            "action_delete" : "bool",
+            "action_insert" : "bool",
+            "action_query" : "bool",
+            "action_update" : "bool",
+            "filter_condition" : "encoded_query",
+            "rol_condition": "string",
+            "condition": "script",
+            "sys_policy": "string"
+        }
+    },
+    "sys_script_include":{},
+    "sp_widget":{}
+}

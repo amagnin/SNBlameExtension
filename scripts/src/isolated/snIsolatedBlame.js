@@ -412,7 +412,7 @@ export default function () {
           sys_mod_count: body.result.sys_mod_count,
           sys_updated_on: body.result.sys_updated_on,
         });
-        
+
     triggerScriptAnalysisEvent(scriptIncludeObject, currentScope)
   }
 
@@ -443,7 +443,7 @@ export default function () {
       scriptString,
       scope
     );
-    scriptIncludeCalls.forEach((scriptIncludeCall) =>
+    scriptIncludeCalls.filter((script,index,arr) => arr.findIndex(s=> s.scriptInclude === script.scriptInclude) === index).forEach((scriptIncludeCall) =>
       triggerScriptIncludeLib(scriptIncludeCall.scriptInclude, scope)
     );
   }
