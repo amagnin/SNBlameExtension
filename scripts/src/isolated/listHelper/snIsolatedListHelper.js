@@ -1,8 +1,8 @@
-import snRESTFactory from "./snRESTFactory.js";
-import StaticCodeAnalisisUtil from "../astParser/StaticCodeAnalysisUtil.js";
+import snRESTFactory from "../snRESTFactory.js";
+import StaticCodeAnalisisUtil from "../../astParser/StaticCodeAnalysisUtil.js";
 
 /**
-* @typedef {import('./snRESTFactory.js').ServiceNowRESTFactory} ServiceNowRESTFactory
+* @typedef {import('../snRESTFactory.js').ServiceNowRESTFactory} ServiceNowRESTFactory
 */
 
 export default function(){

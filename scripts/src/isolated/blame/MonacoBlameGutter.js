@@ -1,8 +1,8 @@
-import SNBlameOptions from "./SNBlameOptions.js";
+import SNBlameOptions from "../SNBlameOptions.js";
 import MonacoBlameColorMap from "./MonacoBlameColorMap.js";
 
 /**
- * @typedef {import('./isolatedMain.js').BlameLine} BlameLine
+ * @typedef {import('../isolatedMain.js').BlameLine} BlameLine
  */
 
 /**

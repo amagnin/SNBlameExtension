@@ -6,7 +6,7 @@
  */
 
 function snBlameRecordWatcher(table, onMessage) {
-  var amb = g_ambClient || top.g_ambClient;
+  var amb = typeof g_ambClient !== 'undefined'?  g_ambClient : top.g_ambClient;
   if (!amb) {
     console.warn("snBlameRecordWatcher: g_ambClient not found");
     return;
@@ -34,7 +34,7 @@ export default function listenerForCacheInvalidation() {
           sys_id: message.data.sys_id,
           table: message.data.table_name,
           action: message.data.operation,
-          scriptChange: message.data.changes.find(change => change.field_name === 'script') || null,
+          scriptChange: message.data.changes.indexOf('script') !== -1,
         },
       })
     );
