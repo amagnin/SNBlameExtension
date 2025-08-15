@@ -1,7 +1,7 @@
-import MonacoBlameGutterWrapper from "./MonacoBlameGutterWrapper.js";
+import MonacoBlameGutterWrapper from "./blame/MonacoBlameGutterWrapper.js";
 import SNBlameOptions from "./SNBlameOptions.js";
-import snBlame from "./snIsolatedBlame.js";
-import snListHelper from "./snIsolatedListHelper.js";
+import snBlame from "./blame/snIsolatedBlame.js";
+import snListHelper from "./listHelper/snIsolatedListHelper.js";
 import CacheManager from "./CacheManager.js";
 import snRESTFactory from "./snRESTFactory.js";
 
@@ -46,6 +46,21 @@ import snRESTFactory from "./snRESTFactory.js";
   const { g_ck } = event.detail;
   new CacheManager().validateScriptIncludeCache(snRESTFactory(g_ck));
  });
+
+ window.addEventListener('sn-blame-invalidate-cache', (event)=>{
+  const { sys_id, action, scriptChange, table} = event.detail
+  
+  if(!sys_id) 
+    return
+
+  if(action === 'insert') 
+    return
+
+  if(action === 'update' && !scriptChange) 
+    return
+
+  CacheManager.invalidateScriptIncludeCache(sys_id)
+ })
 
 snBlame();
 snListHelper();

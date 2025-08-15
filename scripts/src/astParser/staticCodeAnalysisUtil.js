@@ -20,7 +20,7 @@ class StaticCodeAnalisisUtil {
     #loadedLibraries = {};
     #allScopeMap = {};
 
-    #TABLE_CONFIG_MAP = config
+    #TABLE_CONFIG_MAP = config.default;
 
     static ACORN_OPTIONS = {
         ecmaVersion: 'latest',
@@ -32,6 +32,9 @@ class StaticCodeAnalisisUtil {
             return StaticCodeAnalisisUtil.instance;
 
         this.#scriptIncludeMap = scriptIncludeMap.sys_script_include ? scriptIncludeMap.sys_script_include : scriptIncludeMap;
+        // removing the prototype.js script include form the list
+        if(this.#scriptIncludeMap['global.Class'])
+            delete this.#scriptIncludeMap['global.Class'];
 
         this.#availableScopes = Object.keys(this.#scriptIncludeMap)
             .map(key => key.split('.')[0])
@@ -39,6 +42,15 @@ class StaticCodeAnalisisUtil {
 
         StaticCodeAnalisisUtil.instance = this;
         return this;
+    }
+
+    getTableRequiredField(tableName){
+        if(!this.#TABLE_CONFIG_MAP[tableName])
+            return [this.#TABLE_CONFIG_MAP.defaultFields];
+
+        let dataFields = Object.keys(this.#TABLE_CONFIG_MAP[tableName].dataFields || {}) || [];
+
+        return this.#TABLE_CONFIG_MAP.defaultFields.concat(dataFields).concat(this.#TABLE_CONFIG_MAP[tableName].scriptFields || []);
     }
 
     /**
@@ -74,8 +86,7 @@ class StaticCodeAnalisisUtil {
     getLoadedLibraries(className){
         return this.#loadedLibraries[className];
     }
-
-    
+ 
     /**
      * Executes the script include parser and returns the libraries to be loaded on monaco for the intelisense
      * 
@@ -85,7 +96,7 @@ class StaticCodeAnalisisUtil {
      * @param {string} scriptIncludesScope socpe of the scirpt includes
      * @returns {string} script library string to load on monaco IDE
      */
-    async runScriptIncludesCodeAnalisis(scriptToParse, className, currentScope, scriptIncludesScope){
+    runScriptIncludesCodeAnalisis(scriptToParse, className, currentScope, scriptIncludesScope){
         if(!this.#scriptIncludeMap[className]) return;
 
         if(this.#loadedLibraries[className]) return this.#loadedLibraries[className];
@@ -228,7 +239,7 @@ class StaticCodeAnalisisUtil {
                 if(scirptInlcludes)
                     scriptIncludeCalls.push(scirptInlcludes);
             },
-          })
+        })
         
           return scriptIncludeCalls;
     }

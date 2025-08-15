@@ -1,16 +1,16 @@
 import MonacoBlameGutterWrapper from "./MonacoBlameGutterWrapper.js";
-import SNBlameOptions from "./SNBlameOptions.js";
-import snRESTFactory from "./snRESTFactory.js";
-import CacheManager from "./CacheManager.js";
+import SNBlameOptions from "../SNBlameOptions.js";
+import snRESTFactory from "../snRESTFactory.js";
+import CacheManager from "../CacheManager.js";
 
-import StaticCodeAnalisisUtil from "../astParser/StaticCodeAnalysisUtil.js";
+import StaticCodeAnalisisUtil from "../../astParser/StaticCodeAnalysisUtil.js";
 
-import patienceDiff from "../../libraries/patienceDiff.js";
+import patienceDiff from "../../../libraries/patienceDiff.js";
 import X2JS from "x2js";
 
 export default function () {
-  /**@typedef {import('./snRESTFactory.js').ServiceNowRESTFactory} ServiceNowRESTFactory */
-  /**@typedef {import('./isolatedMain.js').BlameLine} BlameLine */
+  /**@typedef {import('../snRESTFactory.js').ServiceNowRESTFactory} ServiceNowRESTFactory */
+  /**@typedef {import('../isolatedMain.js').BlameLine} BlameLine */
 
   /** @type {Object} */
   let serverDiff = {};
@@ -379,41 +379,50 @@ export default function () {
   /**
    * gets the script inlcude with the given identifier form the server, and parses it to use it as monaco extra library
    *
-   * @param {string} identifier script include identifier {scope.classname}
+   * @param {string} scriptIDList script include sys_id list
    * @param {string} currentScope scope of the current record
    *
    */
-  async function triggerScriptIncludeLib(identifier, currentScope) {
-    if (staticCodeAnalisisUtil.getLoadedLibraries(identifier)) return;
+  async function triggerScriptIncludeLib(scriptIDList, currentScope) {
+    if (!scriptIDList || scriptIDList.length === 0) return;
 
-    let scriptID = staticCodeAnalisisUtil.getScriptIncludeSysID(identifier)
+    let notCachedScriptList = []
+    scriptIDList.forEach((scriptID) => {
+      let scriptCache = CacheManager.getScriptIncludeCache(scriptID)
+      if(!scriptCache){
+        notCachedScriptList.push(scriptID)
+        return
+      }
 
-    if (!scriptID) return;
+      triggerScriptAnalysisEvent(scriptCache, currentScope)
+    })
 
-    let scriptCache = CacheManager.getScriptIncludeCache(scriptID)
-    if(scriptCache){
-      return triggerScriptAnalysisEvent(scriptCache, currentScope)
-    }
-
-    let body = await restFactory.getScriptIncludes(scriptID);
-    if (!body?.result?.script) return;
-
-    let scriptInclideScope = body.result.api_name.split(".")[0];
-    let scriptIncludeObject =
-      await staticCodeAnalisisUtil.runScriptIncludesCodeAnalisis(
-        body.result.script,
-        identifier,
-        currentScope,
-        scriptInclideScope,
-      );
+    if(notCachedScriptList.length === 0)
+      return;
     
-    CacheManager.setScriptIncludeCache(scriptID, scriptIncludeObject, {
-          sys_id:  body.result.sys_id,
-          sys_mod_count: body.result.sys_mod_count,
-          sys_updated_on: body.result.sys_updated_on,
-        });
 
-    triggerScriptAnalysisEvent(scriptIncludeObject, currentScope)
+    let body = await restFactory.getRecords('sys_script_include',staticCodeAnalisisUtil.getTableRequiredField('sys_script_include'), `sys_idIN=${notCachedScriptList.join(',')}`);
+    if (!body?.result) return;
+
+    body.result.forEach(scriptInclude => {
+      let scriptInclideScope = scriptInclude.api_name.split(".")[0];
+      let scriptIncludeObject =
+        staticCodeAnalisisUtil.runScriptIncludesCodeAnalisis(
+          scriptInclude.script,
+          scriptInclude.api_name,
+          currentScope,
+          scriptInclideScope
+        );
+    
+      CacheManager.setScriptIncludeCache(scriptInclude.sys_id, scriptIncludeObject, {
+            sys_id:  scriptInclude.sys_id,
+            sys_mod_count: scriptInclude.sys_mod_count,
+            sys_updated_on: scriptInclude.sys_updated_on,
+          });
+
+      triggerScriptAnalysisEvent(scriptIncludeObject, currentScope)
+
+    })
   }
 
   function triggerScriptAnalysisEvent(scriptIncludeObject, currentScope){
@@ -427,7 +436,7 @@ export default function () {
 
     scriptIncludeObject.scriptExtends.forEach((className) =>
       triggerScriptIncludeLib(
-        className,
+        [staticCodeAnalisisUtil.getLoadedLibraries(className)],
         className.split(".")[1] ? className.split(".")[0] : currentScope
       )
     );
@@ -443,8 +452,12 @@ export default function () {
       scriptString,
       scope
     );
-    scriptIncludeCalls.filter((script,index,arr) => arr.findIndex(s=> s.scriptInclude === script.scriptInclude) === index).forEach((scriptIncludeCall) =>
-      triggerScriptIncludeLib(scriptIncludeCall.scriptInclude, scope)
-    );
+
+    let scriptIDList = scriptIncludeCalls
+      .filter((script,index,arr) => arr.findIndex(s=> s.scriptInclude === script.scriptInclude) === index)
+      .map(identifier => staticCodeAnalisisUtil.getScriptIncludeSysID(identifier.scriptInclude))
+      .filter(s=>!!s);
+
+      triggerScriptIncludeLib(scriptIDList, scope);
   }
 }

@@ -1,5 +1,5 @@
 {
-    "defaultFields": ["sys_id", "sys_updated_on", "sys_mod_count", "sys_name"],
+    "defaultFields": ["sys_id", "sys_updated_on", "sys_mod_count", "sys_name", "sys_scope"],
     "sys_script": {
         "scriptFields": ["script"],
         "mainScriptField": "script",
@@ -16,6 +16,22 @@
             "sys_policy": "string"
         }
     },
-    "sys_script_include":{},
-    "sp_widget":{}
+    "sys_script_include":{
+        "scriptFields": ["script"],
+        "mainScriptField": "script",
+        "dataFields": {
+            "api_name":"string",
+            "sys_policy": "string"
+        }
+    },
+    "sp_widget":{
+        "scriptFields": ["script", "client_script", "link"],
+        "mainScriptField": "script",
+        "dataFields": {
+            "id": "string",
+            "name": "string",
+            "public": "bool",
+            "roles": "string"
+        }
+    }
 }

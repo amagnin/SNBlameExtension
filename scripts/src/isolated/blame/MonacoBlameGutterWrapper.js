@@ -1,8 +1,8 @@
 import MonacoBlameGutter from "./MonacoBlameGutter.js";
-import SNBlameOptions from "./SNBlameOptions.js";
+import SNBlameOptions from "../SNBlameOptions.js";
 
 /**
- * @typedef {import('./isolatedMain.js').BlameLine} BlameLine
+ * @typedef {import('../isolatedMain.js').BlameLine} BlameLine
  */
 
 /**
