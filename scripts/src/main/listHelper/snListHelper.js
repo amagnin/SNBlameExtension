@@ -228,7 +228,7 @@ export default function snListHelper() {
     hookSNBlameListHelper(event);
   });
 
-  CustomEvent.on("partial.page.reload", (event) => {
+  CustomEvent.on ? CustomEvent.on("partial.page.reload", (event) => {
     hookSNBlameListHelper(event);
-  });
+  }): console.log('can\'t hook event');
 }

@@ -1,4 +1,4 @@
-import snBlamebootstrap from "./snBlame.js";
+import snBlamebootstrap from "./blame/snBlame.js";
 import snListHelper from "./listHelper/snListHelper.js";
 import listenerForCacheInvalidation from "./simpleRecordWatcher.js";
 
