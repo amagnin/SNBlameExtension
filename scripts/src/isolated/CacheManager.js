@@ -1,3 +1,5 @@
+
+
 class CacheManager {
   static #version = (function () {
     try {
@@ -7,11 +9,31 @@ class CacheManager {
     }
   })();
   static #maxCacheTime = 1000 * 60 * 60;
+  #snBlameDB;
 
   constructor() {
     if (typeof CacheManager.instance === "object") return CacheManager.instance;
 
     CacheManager.instance = this;
+    /*
+    this.#snBlameDB = openDB('sn-blame', 1, {
+      upgrade(db, oldVersion, newVersion, transaction, event) {
+        const scriptInlcudeTable = db.createObjectStore('script_include', {
+          keyPath: 'sys_id',
+          autoIncrement: true,
+      });
+        scriptInlcudeTable.createIndex('date', 'date');
+      },
+      blocked(currentVersion, blockedVersion, event) {
+        console.log(currentVersion, blockedVersion, event)
+      },
+      blocking(currentVersion, blockedVersion, event) {
+        console.log(currentVersion, blockedVersion, event)
+      },
+      terminated() {
+        console.log('TERMINATED')
+      },
+    })*/
 
     return this;
   }
@@ -22,6 +44,9 @@ class CacheManager {
 
   static invalidateScriptIncludeCache(sys_id) {
     CacheManager.invalidateCache(`script-include-${sys_id}`);
+
+    //await this.#snBlameDB.delete('script_include', sys_id)
+
   }
 
   static invalidateCache(key) {
@@ -30,6 +55,9 @@ class CacheManager {
 
   static getScriptIncludeCache(sys_id) {
     return CacheManager.getCache(`script-include-${sys_id}`)?.data;
+
+    //await this.#snBlameDB.get('script_include',sys_id)
+
   }
 
   static setScriptIncludeCache(sys_id, data, scriptIncludeDetails) {
@@ -37,6 +65,11 @@ class CacheManager {
       data,
       ...scriptIncludeDetails,
     });
+
+    /*await this.#snBlameDB.put('script_include', {
+      data,
+      ...scriptIncludeDetails,
+    }, sys_id)*/
   }
 
   static getCache(key) {
@@ -73,7 +106,11 @@ class CacheManager {
       data: data,
     };
 
-    localStorage.setItem(`sn-blame-${key}`, JSON.stringify(cache));
+    try{
+      localStorage.setItem(`sn-blame-${key}`, JSON.stringify(cache));
+    } catch (e) {  
+      console.log('Quota exceeded!'); //data wasn't successfully saved due to quota exceed so throw an error
+    }
   }
 
   validateScriptIncludeCache(restFactory) {
