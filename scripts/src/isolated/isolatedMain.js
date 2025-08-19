@@ -44,7 +44,7 @@ import snRESTFactory from "./snRESTFactory.js";
 
  window.addEventListener('sn-blame-validate-cache', (event)=>{
   const { g_ck } = event.detail;
-  new CacheManager().validateScriptIncludeCache(snRESTFactory(g_ck));
+  new CacheManager().conectDB().then(result => result.validateScriptIncludeCache(snRESTFactory(g_ck)))
  });
 
  window.addEventListener('sn-blame-invalidate-cache', (event)=>{
@@ -59,7 +59,7 @@ import snRESTFactory from "./snRESTFactory.js";
   if(action === 'update' && !scriptChange) 
     return
 
-  CacheManager.invalidateScriptIncludeCache(sys_id)
+  new CacheManager().conectDB().then(result => result.invalidateScriptIncludeCache(sys_id));
  })
 
 snBlame();

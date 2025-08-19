@@ -284,21 +284,20 @@ class StaticCodeAnalisisUtil {
     if (!scriptIDList || scriptIDList.length === 0) return;
 
     let scriptList = [];
-
     let notCachedScriptList = []
-    scriptIDList.forEach(async (scriptID) => {
-      let scriptCache = CacheManager.getScriptIncludeCache(scriptID)
-      if(!scriptCache){
-        notCachedScriptList.push(scriptID)
-        return;
-      }
+    let cacheManager = await new CacheManager().conectDB();
 
-      
-      scriptList.concat(await this.triggerScriptAnalysisEvent(scriptCache, currentScope, restFactory, eventTriggerFN))
-      if(typeof eventTriggerFN === 'function')
-        eventTriggerFN(scriptCache, currentScope)
+    let cachedScriptList = await Promise.all(scriptIDList.map(scriptID => cacheManager.getScriptIncludeCache(scriptID)))
+    await scriptIDList.forEach(async(scriptID, index) => {
+        if(!cachedScriptList[index]){
+            notCachedScriptList.push(scriptID)
+            return;
+        }
 
-      scriptList.push(scriptCache)
+        scriptList.push(cachedScriptList[index])
+        /*scriptList.concat(await this.triggerScriptAnalysisEvent(scriptCache, currentScope, restFactory, eventTriggerFN))
+        if(typeof eventTriggerFN === 'function')
+            eventTriggerFN(scriptCache, currentScope);*/
     })
 
     if(notCachedScriptList.length === 0)
@@ -320,15 +319,15 @@ class StaticCodeAnalisisUtil {
           scriptIncludeScope
         );
     
-      CacheManager.setScriptIncludeCache(scriptInclude.sys_id, scriptIncludeObject, {
-            sys_id:  scriptInclude.sys_id,
-            sys_mod_count: scriptInclude.sys_mod_count,
-            sys_updated_on: scriptInclude.sys_updated_on,
-          });
+      cacheManager.setScriptIncludeCache(scriptInclude.sys_id, scriptIncludeObject, {
+        sys_id:  scriptInclude.sys_id,
+        sys_mod_count: scriptInclude.sys_mod_count,
+        sys_updated_on: scriptInclude.sys_updated_on,
+      });
 
-      scriptList = scriptList.concat(await this.triggerScriptAnalysisEvent(scriptIncludeObject, currentScope || scriptIncludeScope, restFactory, eventTriggerFN));
+      /*scriptList = scriptList.concat(await this.triggerScriptAnalysisEvent(scriptIncludeObject, currentScope || scriptIncludeScope, restFactory, eventTriggerFN));
       if(typeof eventTriggerFN === 'function')
-        eventTriggerFN(scriptIncludeObject, currentScope)
+        eventTriggerFN(scriptIncludeObject, currentScope)*/
 
       scriptList.push(scriptIncludeObject)
     })
