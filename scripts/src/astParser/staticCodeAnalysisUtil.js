@@ -294,7 +294,7 @@ class StaticCodeAnalisisUtil {
             return;
         }
 
-        scriptList.push(cachedScriptList[index])
+        scriptList.push(cachedScriptList[index].data)
         /*scriptList.concat(await this.triggerScriptAnalysisEvent(scriptCache, currentScope, restFactory, eventTriggerFN))
         if(typeof eventTriggerFN === 'function')
             eventTriggerFN(scriptCache, currentScope);*/
