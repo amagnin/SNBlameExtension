@@ -95,8 +95,8 @@ class CacheManager {
 
   getScriptIncludeCache(sys_id) {
     return new Promise((resolve, reject) => {
-      if(this.#dbError){
-        reject()
+      if(this.#dbError || !sys_id){
+        resolve(null)
         return 
       }
 
@@ -106,24 +106,24 @@ class CacheManager {
       const scriptInculdeStore = dbTransaction.objectStore('sys_script_include');
       const dbrequest = scriptInculdeStore.get(sys_id)
 
-      dbrequest.onerror = event => resolve();
+      dbrequest.onerror = event => resolve(null);
       dbrequest.onsuccess = (event) => {
         let result = event.target.result
         if(!result){
-          resolve()
+          resolve(null)
           return;
         }
 
         const now = new Date().getTime();
         if (now - result.timestamp > CacheManager.#maxCacheTime){
           this.invalidateScriptIncludeCache(sys_id)
-          resolve();
+          resolve(null);
           return;
         }
 
         if(result.version !== CacheManager.#version){
           this.invalidateScriptIncludeCache(sys_id)
-          resolve();
+          resolve(null);
           return;
         }
         resolve(result)

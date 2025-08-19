@@ -396,7 +396,7 @@ export default function () {
         return
       }
 
-      triggerScriptAnalysisEvent(scriptCache, currentScope)
+      triggerScriptAnalysisEvent(scriptCache.data, currentScope)
     })
 
     if(notCachedScriptList.length === 0)
@@ -436,7 +436,7 @@ export default function () {
       })
     );
 
-    scriptIncludeObject.scriptExtends.forEach((className) =>
+    scriptIncludeObject.scriptExtends.filter(e=>e).forEach((className) =>
       triggerScriptIncludeLib(
         [staticCodeAnalisisUtil.getLoadedLibraries(className)],
         className.split(".")[1] ? className.split(".")[0] : currentScope
