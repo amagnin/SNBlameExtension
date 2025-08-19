@@ -5,6 +5,7 @@ import webpack from "webpack";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import IgnoreEmitPlugin from "ignore-emit-webpack-plugin";
 import TerserJSPlugin from "terser-webpack-plugin";
+import HtmlWebpackPlugin from "html-webpack-plugin"
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,6 +24,21 @@ const config = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
+      },
+      {
+        test: /\.ejs$/i,
+        use: ['html-loader', 'template-ejs-loader'],
+      }, {
+        test: /\.(scss|css)$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            
+          },
+          "css-loader",
+          "sass-loader",
+        ]
       },
     ],
   },
@@ -112,4 +128,57 @@ const styles = {
   watch: true,
 };
 
-export default [isolated, main, styles];
+const popup = Object.assign({}, config, {
+  name: "popup",
+  entry: ["./popup/src/sn-blame.js", "./popup/src/sn-blame.scss"],
+  output: {
+    path: path.join(__dirname, "/popup/dist"),
+    filename: "sn-blame.js",
+  },
+  optimization: {
+    minimize: true,
+    checkWasmTypes: false,
+    minimizer: [ new TerserJSPlugin({
+        terserOptions: {
+          compress: false,
+          mangle: false,
+          format: {
+            comments: false,
+            beautify: true, 
+          },
+        }
+      })],
+  },
+  watch: true,
+  module: {
+    rules:[{
+      test: /\.ejs$/,
+      use: ['html-loader', 'template-ejs-loader'],
+    },{
+        test: /\.(scss|css)$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          "css-loader",
+          "sass-loader",
+        ]
+      }]
+  },
+   plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'sn-blame.html',
+      template: './popup/src/sn-blame.ejs',
+      minify: false,
+    }),
+    new MiniCssExtractPlugin({
+      filename: "sn-blame.css",   
+      insert: "document.head.appendChild(linkTag)",
+      linkType: "text/css",
+      runtime: false,
+    }),
+  ],
+})
+
+export default [isolated, main, styles, popup];

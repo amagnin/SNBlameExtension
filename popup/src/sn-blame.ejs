@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <form>
+      <h1>SN Blame Options</h1>
+
+      <div>
+        <label for="toggleLoadType">
+          <span id="load-type-label">Start on click</span>
+          <input type="checkbox" id="toggleLoadType" />
+          <div class="switch"></div>
+        </label>
+      </div>
+
+      <div>
+        <label for="toggleUser">
+          <span id="user-label">Show User</span>
+          <input type="checkbox" id="toggleUser" />
+          <div class="switch"></div>
+        </label>
+      </div>
+
+      <div>
+        <label for="toggleDate">
+          <span id="date-label">Hide Gutter Date</span>
+          <input type="checkbox" id="toggleDate" />
+          <div class="switch"></div>
+        </label>
+      </div>
+
+      <div>
+        <label for="toggleWhitespace">
+          <span id="whitespace-label">Ignore Whitespace</span>
+          <input type="checkbox" id="toggleWhitespace" />
+          <div class="switch"></div>
+        </label>
+      </div>
+
+      <div class="gutter-size-container">
+        <input type="range" id="gutterSize" min="50" max="500" value="200" step="5"/>
+        <label for="gutterSize">Gutter Width</label>
+        <span id="guttervalue"></span>
+      </div>
+
+
+      <button id="sn-blame-load">LOAD BLAME</button>
+      
+    </form>
+     <div role="complementary" class="footer">
+      <div>Version <%= require('../../manifest.json').version %> | Source Code <a target="_blank" href="https://github.com/amagnin/snblameextension" aria-label="Navigate Source Code">SN Blame</a></div>
+      </div>
+  </body>
+</html>

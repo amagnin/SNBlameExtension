@@ -387,8 +387,10 @@ export default function () {
     if (!scriptIDList || scriptIDList.length === 0) return;
 
     let notCachedScriptList = []
-    scriptIDList.forEach((scriptID) => {
-      let scriptCache = CacheManager.getScriptIncludeCache(scriptID)
+    let cacheManager = await new CacheManager().conectDB();
+    
+    await scriptIDList.forEach(async (scriptID) => { 
+      let scriptCache = await cacheManager.getScriptIncludeCache(scriptID)
       if(!scriptCache){
         notCachedScriptList.push(scriptID)
         return
@@ -414,11 +416,11 @@ export default function () {
           scriptInclideScope
         );
     
-      CacheManager.setScriptIncludeCache(scriptInclude.sys_id, scriptIncludeObject, {
+      cacheManager.setScriptIncludeCache(scriptInclude.sys_id, scriptIncludeObject, {
             sys_id:  scriptInclude.sys_id,
             sys_mod_count: scriptInclude.sys_mod_count,
             sys_updated_on: scriptInclude.sys_updated_on,
-          });
+      });
 
       triggerScriptAnalysisEvent(scriptIncludeObject, currentScope)
 

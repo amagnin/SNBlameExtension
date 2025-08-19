@@ -4,7 +4,7 @@
   "description": "ServiceNow Productivity extension, to support developers",
   "version": "1.1.0",
   "action": {
-    "default_popup": "popup/sn-blame.html",
+    "default_popup": "popup/dist/sn-blame.html",
     "default_icon": {
       "16": "images/sn-blame.png",
       "48": "images/sn-blame.png",
