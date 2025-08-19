@@ -1,19 +1,17 @@
+import * as config from '../../../../snTableConfigurations.json'
+
 export default function snListHelper() {
-  const ALLOWED_TABLES = [
-    {
-      table: "sys_script",
-      serverScriptField: "script",
-    },
-    {
-      table: "sys_script_include",
-      serverScriptField: "script",
-    },
-    {
-      table: "sp_widget",
-      serverScriptField: "script",
-      clientFields: ["client_script", "link"],
-    },
-  ];
+  const ALLOWED_TABLES = Object.keys(config.default).reduce((acc, key) => {
+    if(key === 'defaultFields')
+      return acc;
+
+    acc.push({
+      table: key,
+      serverScriptField: config.default[key].mainScriptField,
+    })
+
+    return acc;
+  } , []);
 
   const TABLE_LIST = ALLOWED_TABLES.map((t) => t.table);
 

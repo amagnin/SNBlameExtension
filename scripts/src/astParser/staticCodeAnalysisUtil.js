@@ -7,7 +7,7 @@ import * as acorn from 'acorn';
 import * as acornLoose from 'acorn-loose';
 import * as walk from 'acorn-walk';
 import * as astring from 'astring';
-import * as config from '../../../config.json';
+import * as config from '../../../snTableConfigurations.json';
 
 /**
  * static code analysis utility class
@@ -280,7 +280,7 @@ class StaticCodeAnalisisUtil {
    * @param {string} currentScope scope of the current record
    *
    */
-  async triggerScriptIncludeLib(scriptIDList, currentScope, restFactory, eventTriggerFN) {
+   async triggerScriptIncludeLib(scriptIDList, currentScope, restFactory, postProcessFN) {
     if (!scriptIDList || scriptIDList.length === 0) return;
 
     let scriptList = [];
@@ -295,9 +295,9 @@ class StaticCodeAnalisisUtil {
         }
 
         scriptList.push(cachedScriptList[index].data)
-        /*scriptList.concat(await this.triggerScriptAnalysisEvent(scriptCache, currentScope, restFactory, eventTriggerFN))
-        if(typeof eventTriggerFN === 'function')
-            eventTriggerFN(scriptCache, currentScope);*/
+        
+        if(typeof postProcessFN === 'function')
+            postProcessFN(cachedScriptList[index].data, currentScope);
     })
 
     if(notCachedScriptList.length === 0)
@@ -325,9 +325,9 @@ class StaticCodeAnalisisUtil {
         sys_updated_on: scriptInclude.sys_updated_on,
       });
 
-      /*scriptList = scriptList.concat(await this.triggerScriptAnalysisEvent(scriptIncludeObject, currentScope || scriptIncludeScope, restFactory, eventTriggerFN));
-      if(typeof eventTriggerFN === 'function')
-        eventTriggerFN(scriptIncludeObject, currentScope)*/
+      
+      if(typeof postProcessFN === 'function')
+        postProcessFN(scriptIncludeObject, currentScope)
 
       scriptList.push(scriptIncludeObject)
     })

@@ -1,7 +1,6 @@
 import MonacoBlameGutterWrapper from "./MonacoBlameGutterWrapper.js";
 import SNBlameOptions from "../SNBlameOptions.js";
 import snRESTFactory from "../snRESTFactory.js";
-import CacheManager from "../CacheManager.js";
 
 import StaticCodeAnalisisUtil from "../../astParser/StaticCodeAnalysisUtil.js";
 
@@ -376,58 +375,7 @@ export default function () {
     return changes;
   }
 
-  /**
-   * gets the script inlcude with the given identifier form the server, and parses it to use it as monaco extra library
-   *
-   * @param {string} scriptIDList script include sys_id list
-   * @param {string} currentScope scope of the current record
-   *
-   */
-  async function triggerScriptIncludeLib(scriptIDList, currentScope) {
-    if (!scriptIDList || scriptIDList.length === 0) return;
-
-    let notCachedScriptList = []
-    let cacheManager = await new CacheManager().conectDB();
-    
-    await scriptIDList.forEach(async (scriptID) => { 
-      let scriptCache = await cacheManager.getScriptIncludeCache(scriptID)
-      if(!scriptCache){
-        notCachedScriptList.push(scriptID)
-        return
-      }
-
-      triggerScriptAnalysisEvent(scriptCache.data, currentScope)
-    })
-
-    if(notCachedScriptList.length === 0)
-      return;
-    
-
-    let body = await restFactory.getRecords('sys_script_include',staticCodeAnalisisUtil.getTableRequiredField('sys_script_include'), `sys_idIN=${notCachedScriptList.join(',')}`);
-    if (!body?.result) return;
-
-    body.result.forEach(scriptInclude => {
-      let scriptInclideScope = scriptInclude.api_name.split(".")[0];
-      let scriptIncludeObject =
-        staticCodeAnalisisUtil.runScriptIncludesCodeAnalisis(
-          scriptInclude.script,
-          scriptInclude.api_name,
-          currentScope,
-          scriptInclideScope
-        );
-    
-      cacheManager.setScriptIncludeCache(scriptInclude.sys_id, scriptIncludeObject, {
-            sys_id:  scriptInclude.sys_id,
-            sys_mod_count: scriptInclude.sys_mod_count,
-            sys_updated_on: scriptInclude.sys_updated_on,
-      });
-
-      triggerScriptAnalysisEvent(scriptIncludeObject, currentScope)
-
-    })
-  }
-
-  function triggerScriptAnalysisEvent(scriptIncludeObject, currentScope){
+  async function  triggerScriptAnalysisEvent(scriptIncludeObject, currentScope){
     window.dispatchEvent(
       new CustomEvent("sn-load-library", {
         detail: {
@@ -436,10 +384,12 @@ export default function () {
       })
     );
 
-    scriptIncludeObject.scriptExtends.filter(e=>e).forEach((className) =>
-      triggerScriptIncludeLib(
+    scriptIncludeObject.scriptExtends.filter(e=>e).forEach(async (className) =>
+      await staticCodeAnalisisUtil.triggerScriptIncludeLib(
         [staticCodeAnalisisUtil.getLoadedLibraries(className)],
-        className.split(".")[1] ? className.split(".")[0] : currentScope
+        className.split(".")[1] ? className.split(".")[0] : currentScope,
+        restFactory,
+        triggerScriptAnalysisEvent
       )
     );
   }
@@ -449,7 +399,7 @@ export default function () {
    * @param {string} scriptString script to parse and find script include calls
    * @param {string} scope current scope
    */
-  function findScriptIncludeCall(scriptString, scope) {
+  async function findScriptIncludeCall(scriptString, scope) {
     let scriptIncludeCalls = staticCodeAnalisisUtil.findScriptIncludeCall(
       scriptString,
       scope
@@ -460,6 +410,6 @@ export default function () {
       .map(identifier => staticCodeAnalisisUtil.getScriptIncludeSysID(identifier.scriptInclude))
       .filter(s=>!!s);
 
-      triggerScriptIncludeLib(scriptIDList, scope);
+    await staticCodeAnalisisUtil.triggerScriptIncludeLib(scriptIDList, scope, restFactory, triggerScriptAnalysisEvent);
   }
 }

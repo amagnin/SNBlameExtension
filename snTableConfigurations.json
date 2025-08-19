@@ -33,5 +33,23 @@
             "public": "bool",
             "roles": "string"
         }
+    },
+    "sysevent_script_action":{
+        "scriptFields": ["script"],
+        "mainScriptField": "script",
+        "dataFields": {
+            "event_name": "string",
+            "order": "number"
+        }
+    },
+    "sysevent_in_email_action":{
+        "scriptFields": ["script"],
+        "mainScriptField": "script",
+        "dataFields": {
+            "table": "string",
+            "action": "string",
+            "type": "string",
+            "order": "number"
+        }
     }
 }
