@@ -92,6 +92,14 @@ form {
     border: 1px solid #4a4b4f;
     margin-bottom: 20px;
   }
+
+  button:active {
+    background: #38393c;
+    -webkit-box-shadow: inset 0px 0px 5px #414245;
+       -moz-box-shadow: inset 0px 0px 5px #414245;
+            box-shadow: inset 0px 0px 5px #414245;
+    outline: none;
+  }
 }
 
 .footer{
