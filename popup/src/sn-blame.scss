@@ -59,18 +59,6 @@ form {
     }
   }
 
-  button {
-    padding: 5px 10px;
-    display: block;
-    width: 100%;
-    background: #3ca72a;
-    font-weight: bolder;
-    color: white;
-    border-radius: 5px;
-    border: 1px solid;
-    margin-top: 20px;
-  }
-
   .gutter-size-container {
     padding-block: 20px;
 
@@ -87,6 +75,22 @@ form {
       float: right;
       padding: 0px 2px;
     }
+  }
+}
+
+.sn-blame-button-container{
+  padding: 0px 20px;
+
+  button {
+    padding: 5px 10px;
+    display: block;
+    width: 100%;
+    background: #3ca72a;
+    font-weight: bolder;
+    color: white;
+    border-radius: 5px;
+    border: 1px solid;
+    margin-bottom: 20px;
   }
 }
 

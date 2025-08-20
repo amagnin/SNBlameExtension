@@ -303,7 +303,7 @@ class StaticCodeAnalisisUtil {
     if(notCachedScriptList.length === 0)
       return;
     
-    let body = await restFactory.getRecords('sys_script_include', this.getTableRequiredField('sys_script_include'), `sys_idIN=${notCachedScriptList.join(',')}`);
+    let body = await restFactory.getRecords('sys_script_include', this.getTableRequiredField('sys_script_include'), `sys_idIN${notCachedScriptList.join(',')}`);
     if (!body?.result) return;
 
     body.result.forEach(async scriptInclude => {

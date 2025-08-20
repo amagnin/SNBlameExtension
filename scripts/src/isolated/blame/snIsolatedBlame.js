@@ -34,12 +34,13 @@ export default function () {
    */
   const LISTENERS = {
     focus: () => {
+      const options = new SNBlameOptions().getAllOptions();
       const delayStart = new SNBlameOptions().getOption("startOnAction");
       if (!delayStart && !loaded)
-        window.dispatchEvent(new CustomEvent("sn-blame-start"));
+        window.dispatchEvent(new CustomEvent("sn-blame-start"), {detail: options});
     },
     load: () => {
-      let options = new SNBlameOptions();
+      const options = new SNBlameOptions();
 
       window.dispatchEvent(
         new CustomEvent("sn-blame-options", { detail: options.getAllOptions() })
@@ -386,7 +387,7 @@ export default function () {
 
     scriptIncludeObject.scriptExtends.filter(e=>e).forEach(async (className) =>
       await staticCodeAnalisisUtil.triggerScriptIncludeLib(
-        [staticCodeAnalisisUtil.getLoadedLibraries(className)],
+        [staticCodeAnalisisUtil.getScriptIncludeSysID(className)],
         className.split(".")[1] ? className.split(".")[0] : currentScope,
         restFactory,
         triggerScriptAnalysisEvent
@@ -404,6 +405,9 @@ export default function () {
       scriptString,
       scope
     );
+
+    if(!scriptIncludeCalls || scriptIncludeCalls.length === 0)
+      return;
 
     let scriptIDList = scriptIncludeCalls
       .filter((script,index,arr) => arr.findIndex(s=> s.scriptInclude === script.scriptInclude) === index)

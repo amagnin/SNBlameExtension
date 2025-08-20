@@ -43,13 +43,13 @@
         <label for="gutterSize">Gutter Width</label>
         <span id="guttervalue"></span>
       </div>
-
-
-      <button id="sn-blame-load">LOAD BLAME</button>
-      
     </form>
-     <div role="complementary" class="footer">
+    <div class="sn-blame-button-container">
+      <button id="sn-blame-load">LOAD BLAME</button>
+      <button id="sn-blame-clear-cache">CLEAR SNBLAME CACHE</button>
+    </div>
+    <div role="complementary" class="footer">
       <div>Version <%= require('../../manifest.json').version %> | Source Code <a target="_blank" href="https://github.com/amagnin/snblameextension" aria-label="Navigate Source Code">SN Blame</a></div>
-      </div>
+    </div>
   </body>
 </html>

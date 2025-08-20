@@ -134,7 +134,7 @@ class CacheManager {
   setScriptIncludeCache(sys_id, data, scriptIncludeDetails) {
     return new Promise((resolve, reject) => {
       if(this.#dbError){
-        reject()
+        resolve(null)
         return 
       }
 
@@ -145,15 +145,33 @@ class CacheManager {
       const dbrequest = scriptInculdeStore.put({
         data,
         ...scriptIncludeDetails,
-        cacheDate: new Date().getTime(),
+        timestamp: new Date().getTime(),
         version: CacheManager.#version,
       })
 
-      dbrequest.onerror = reject;
+      dbrequest.onerror = () => resolve(null);
       dbrequest.onsuccess = (event) => {
         resolve(event.target.result)
       }
     })
+  }
+
+  clearScriptIncludeCache(){
+    return new Promise((resolve, reject) => {
+      if(this.#dbError){
+        resolve(null)
+        return 
+      }
+
+      const dbTransaction = this.#snBlameDB.transaction(['sys_script_include'], 'readwrite')
+      dbTransaction.onerror = () => resolve(null);
+
+      const dbrequest = dbTransaction.objectStore("sys_script_include");
+      dbrequest.clear();
+
+      dbrequest.onerror = () => resolve(null)
+      dbrequest.onsuccess = () => resolve('Cache cleared')      
+    });
   }
 
   async validateScriptIncludeCache(restFactory) {
