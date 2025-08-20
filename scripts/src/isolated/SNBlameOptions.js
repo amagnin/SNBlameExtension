@@ -71,7 +71,7 @@ class SNBlameOptions {
         
       } finally{
         if(!this.options.startOnAction)
-          window.dispatchEvent(new CustomEvent("sn-blame-start"));
+          window.dispatchEvent(new CustomEvent("sn-blame-start", {detail: this.options}));
       }
     });
   }

@@ -8,9 +8,11 @@ export default function snBlamebootstrap(){
    * @see {@link https://microsoft.github.io/monaco-editor/typedoc/modules/editor.html}
    */
 
-  const snBlameOptions = {
+  let snBlameOptions = {
     useExtensionIntelisense: true,
   }
+
+  let loadedLibraries = {};
 
   /**
    * triggers the Blame part of the extension if the monaco global object is available on the page
@@ -200,8 +202,6 @@ export default function snBlamebootstrap(){
 
           updatedLines = [];
         }, 500)();      
-
-        
       });
 
       let placeholderContentWidget = new SNBlamePlaceholderContentWidget(editor);
@@ -245,14 +245,40 @@ export default function snBlamebootstrap(){
     );
 
     window.addEventListener("sn-load-library", (event) => {
+      let fastHash = (str) => {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            hash = (hash << 5) - hash + str.charCodeAt(i); 
+            hash |= 0;
+        }
+        return hash >>> 0; 
+      } 
+
       const { libs } = event.detail;
-      libs.forEach((lib)=> monaco.languages.typescript.javascriptDefaults.addExtraLib(lib));
+      libs.forEach((lib)=> {
+        let hash = fastHash(lib)
+        if(loadedLibraries[hash])
+          return
+        
+        loadedLibraries[hash] = true;
+        monaco.languages.typescript.javascriptDefaults.addExtraLib(lib)
+      });
     })
 
     
   };
 
-  window.addEventListener("sn-blame-start", () => {
-    if (typeof monaco !== "undefined") snBlamebootstrap(monaco);
+  window.addEventListener("sn-blame-start", (event) => {
+    if(event.detail)
+      Object.assign(snBlameOptions, event.detail);
+
+    if (typeof monaco !== "undefined" && typeof g_form !== "undefined") {
+      snBlamebootstrap(monaco)
+    };
+  });
+
+  window.addEventListener("sn-blame-option-update", (event) => {
+    if(event.detail)
+      Object.assign(snBlameOptions, event.detail);
   });
 };

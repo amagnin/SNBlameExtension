@@ -110,3 +110,10 @@ document.getElementById("sn-blame-load").addEventListener("click", ()=>{
   });
 
 });
+
+document.getElementById("sn-blame-clear-cache").addEventListener("click", (event)=>{
+  (chrome || browser).tabs.query({currentWindow: true, active: true}, function (tabs){
+    var activeTab = tabs[0];
+    (chrome || browser).tabs.sendMessage(activeTab.id, {'action': 'sn-blame-clear-cache'});
+  });
+});

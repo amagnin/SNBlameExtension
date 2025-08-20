@@ -25,20 +25,25 @@ import snRESTFactory from "./snRESTFactory.js";
 
 /** Get Updated Options from the extension popup */
 (chrome || browser).runtime.onMessage.addListener(function (msg) {
+  const blameOptions = new SNBlameOptions();
   if (msg.blameOptions) {
-    const blameOptions = new SNBlameOptions();
-
     Object.keys(msg.blameOptions).forEach((option) => {
       blameOptions.setOption(option, msg.blameOptions[option], false);
     });
 
     const gutters = new MonacoBlameGutterWrapper();
     gutters.updateGutterOptions();
+
+    window.dispatchEvent(new CustomEvent("sn-blame-option-update", {detail : blameOptions.getAllOptions()}));
     return;
   }
 
   if (msg.action === "sn-blame-bootstrap") {
-    window.dispatchEvent(new CustomEvent("sn-blame-start"));
+    window.dispatchEvent(new CustomEvent("sn-blame-start", {detail : blameOptions.getAllOptions()}));
+  }
+
+  if (msg.action === "sn-blame-clear-cache") {
+    new CacheManager().conectDB().then(result => result.clearScriptIncludeCache());
   }
 });
 

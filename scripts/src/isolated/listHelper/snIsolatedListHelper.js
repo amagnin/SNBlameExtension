@@ -69,7 +69,7 @@ export default function(){
                 restFactory,
                 null
             ); 
-            debugger
+      
             window.dispatchEvent(new CustomEvent('sn-list-helper-response', {
                 detail: { parsedScripts , parsedScriptIncludes}
             }))
