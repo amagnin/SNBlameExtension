@@ -1,7 +1,7 @@
 body {
   min-width: 300px;
-  background: #333a41;
-  color: white;
+  background: #2b2c2f;
+  color: #d7d7d7;
 }
 
 form {
@@ -44,7 +44,7 @@ form {
   }
 
   input:checked + .switch {
-    background-color: #283d2f;
+    background-color: #2357a0;
   }
 
   input:checked + .switch:before {
@@ -85,11 +85,11 @@ form {
     padding: 5px 10px;
     display: block;
     width: 100%;
-    background: #3ca72a;
+    color: #d7d7d7;
+    background: #2b2c2f;
     font-weight: bolder;
-    color: white;
     border-radius: 5px;
-    border: 1px solid;
+    border: 1px solid #4a4b4f;
     margin-bottom: 20px;
   }
 }
@@ -98,12 +98,24 @@ form {
   font-weight: 300;
   font-size: 11px;
   
-  div {
-    margin-bottom: 4px
+  .sn-blame-version {
+    margin: 8px;
+    display: flex;
+    align-content: center;
+    align-items: center;
   }
 
+  
   a{
+    display: inline-flex;
+    align-items: center;
     color: #9fced9;
     text-decoration: none;
+
+    img {
+      width: 14px;
+      margin: 0px 5px 0px 5px;
+    }
+
   }
 }
