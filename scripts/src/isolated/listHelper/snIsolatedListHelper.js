@@ -1,5 +1,6 @@
 import snRESTFactory from "../snRESTFactory.js";
 import StaticCodeAnalisisUtil from "../../astParser/StaticCodeAnalysisUtil.js";
+import * as tableConfig from "../../../../snTableConfigurations.json"
 
 /**
 * @typedef {import('../snRESTFactory.js').ServiceNowRESTFactory} ServiceNowRESTFactory
@@ -7,6 +8,7 @@ import StaticCodeAnalisisUtil from "../../astParser/StaticCodeAnalysisUtil.js";
 
 let restFactory;
 let staticCodeAnalisisUtil;
+let tableConfiguration = tableConfig.default;
 
 let getListData = async function(table, sysIDList, field, g_ck){
     if(!restFactory)
@@ -30,20 +32,24 @@ let getListData = async function(table, sysIDList, field, g_ck){
     }
 
     let parsedScripts = scriptList.map((script => {
+        let configurationFieldData = {}
+        tableConfiguration.defaultFields.forEach(field => configurationFieldData[field] = script[field]?.value ? script[field].value : script[field])
+        Object.keys(tableConfiguration[table].dataFields).forEach((field) => configurationFieldData[field] = script[field]?.value ? script[field].value : script[field])
+
         if(script.sys_policy === 'protected' && !script[field])
             return {
-                sys_id: script.sys_id,
                 displayName: script.sys_name || null,
                 scope: staticCodeAnalisisUtil.getScopeFromID(script.sys_scope.value) || script.sys_scope.value,
                 protected: true,
+                ...configurationFieldData,
             }
 
         let scriptInfo = staticCodeAnalisisUtil.runScriptAnalisis(script[field], staticCodeAnalisisUtil.getScopeFromID(script.sys_scope.value) || 'global');
         
-        scriptInfo.sys_id = script.sys_id
         scriptInfo.displayName = script.sys_name || null
         scriptInfo.scope = staticCodeAnalisisUtil.getScopeFromID(script.sys_scope.value) || script.sys_scope.value
         scriptInfo.protected = false;
+        Object.assign(scriptInfo, configurationFieldData);
         
         if(script.sys_class_name === 'sys_script_include')
             scriptInfo.scriptIncludesInfo = staticCodeAnalisisUtil.runScriptInlcudesAnalisis(script[field], staticCodeAnalisisUtil.getScopeFromID(script.sys_scope.value) || 'global') ;

@@ -164,7 +164,13 @@ const popup = Object.assign({}, config, {
           "css-loader",
           "sass-loader",
         ]
-      }]
+    },{
+      test: /\.svg$/,
+      type: 'asset/resource',
+      generator: {
+        filename: '[name].[ext]'
+      },
+    }]
   },
    plugins: [
     new HtmlWebpackPlugin({
