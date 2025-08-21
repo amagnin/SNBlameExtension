@@ -46,7 +46,7 @@
     "dataFields": {
       "api_name": "string",
       "sys_policy": "string",
-      "client_callable": "boolean",
+      "client_callable": "string",
       "access": "string"
 
     },
@@ -63,7 +63,7 @@
     "dataFields": {
       "id": "string",
       "name": "string",
-      "public": "boolean",
+      "public": "string",
       "roles": "string"
     },
     "modalContext": [
