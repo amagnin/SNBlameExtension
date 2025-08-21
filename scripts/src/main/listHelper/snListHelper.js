@@ -35,7 +35,11 @@ export default function snListHelper() {
 
     let dialogHeader = document.createElement("header");
     dialogHeader.classList.add("sn-blame-dialog-header");
-    dialogHeader.innerHTML = `<h2 class="sn-blame-h2">Dialog Title</h2>`;
+    dialogHeader.innerHTML = `
+      <div>
+        <h2 class="sn-blame-h2">SN Blame - Script Execution Detail</h2>
+        <h3 class="sn-blame-sub-title-h2"></h3>
+      </div>`;
 
     let dialogCloseButton = document.createElement("button");
     dialogCloseButton.classList.add("sn-blame-close");
@@ -51,7 +55,7 @@ export default function snListHelper() {
     document.body.appendChild(dialog);
   };
 
-  const parseScriptInfo = (scriptInfo) => {
+  const parseScriptInfo = (scriptInfo, table) => {
     let glideRecordHTML =
       scriptInfo.glideRecord.filter(gr => !gr.notInitializedOnBlock).reduce(
         (htmlStr, element) => {
@@ -120,6 +124,54 @@ export default function snListHelper() {
 
     let scriptContent = `<h4><i class="icon-global"></i>Scope: ${scriptInfo.scope}</h4>`;
 
+    let scriptContext;
+    let getHTMLByType = (type, value) => {
+      if(type === 'boolean')
+        return `<i class="icon-checkbox-${value === 'true' ? 'checked' : 'empty'}"></i>`;
+      
+      if(!value)
+        return `<span></span>`
+
+      return `<span>${value}</span>`
+    }
+
+    let getCompositeColumn = (columns, types, scriptInfo) =>{
+      return columns.reduce((acc, col)=>{
+        let {label, field} = col;
+        acc += `<div class="sn-blame-composite-field"><span>${label}</span><span>${getHTMLByType(types[field], scriptInfo[field])}</span></div>`
+
+        return acc
+      },'')
+    }
+
+    let tableConfig = config.default[table]  
+
+    if(table && tableConfig && tableConfig.modalContext){
+      scriptContext = tableConfig.modalContext.reduce((acc, column) => {
+        let {label, field} = column;
+        if(!field)
+          return acc;
+
+        acc += 
+        `<tr>
+          <td>${label}<td>
+          <td>${typeof field === 'string'? 
+            getHTMLByType(tableConfig?.dataFields[field], scriptInfo[field]) : 
+            getCompositeColumn(field, tableConfig.dataFields, scriptInfo)
+          }
+          <td>`;
+
+        return acc
+      }, `<h4>Context</h4>
+            <table class='sn-blame-dialog-list'>
+              <tbody>
+            `
+        ) + `</tbody></table>`;
+    }
+
+    if (scriptContext)
+      scriptContent += `<hr> ${scriptContext}`;
+
     if (scriptInfo.glideRecord.length > 0)
       scriptContent += `<hr> ${glideRecordHTML}`;
 
@@ -148,12 +200,12 @@ export default function snListHelper() {
       let scriptInfo = parsedScripts.find((s) => s.sys_id === recordID);
       if (!scriptInfo) return;
 
-      let scriptContent = document.createElement("pre");
-      scriptContent.innerHTML = parseScriptInfo(scriptInfo);
+      let scriptContent = document.createElement("div");
+      scriptContent.innerHTML = parseScriptInfo(scriptInfo, table);
       dialogContent.appendChild(scriptContent);
 
-      dialog.querySelector(".sn-blame-h2").textContent =
-        `[SN-BLAME] - ${scriptInfo.displayName || recordID}`;
+      dialog.querySelector(".sn-blame-sub-title-h2").textContent =
+        `${g_list.title}: ${scriptInfo.displayName || recordID}`;
 
       dialog.showModal();
     };

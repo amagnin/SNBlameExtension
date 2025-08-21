@@ -1,55 +1,103 @@
 {
-    "defaultFields": ["sys_id", "sys_updated_on", "sys_mod_count", "sys_name", "sys_scope"],
-    "sys_script": {
-        "scriptFields": ["script"],
-        "mainScriptField": "script",
-        "dataFields": {
-            "when": "string",
-            "abort_action" : "bool",
-            "action_delete" : "bool",
-            "action_insert" : "bool",
-            "action_query" : "bool",
-            "action_update" : "bool",
-            "filter_condition" : "encoded_query",
-            "rol_condition": "string",
-            "condition": "script",
-            "sys_policy": "string"
-        }
+  "defaultFields": [
+    "sys_id",
+    "sys_updated_on",
+    "sys_mod_count",
+    "sys_name",
+    "sys_scope"
+  ],
+  "sys_script": {
+    "scriptFields": ["script"],
+    "mainScriptField": "script",
+    "dataFields": {
+      "when": "string",
+      "abort_action": "boolean",
+      "action_delete": "boolean",
+      "action_insert": "boolean",
+      "action_query": "boolean",
+      "action_update": "boolean",
+      "filter_condition": "encoded_query",
+      "role_conditions": "string",
+      "condition": "script",
+      "sys_policy": "string",
+      "collection": "tableName"
     },
-    "sys_script_include":{
-        "scriptFields": ["script"],
-        "mainScriptField": "script",
-        "dataFields": {
-            "api_name":"string",
-            "sys_policy": "string"
-        }
+    "modalContext": [
+      { "field": "collection", "label": "Table"},
+      { "field": "when", "label": "When" },
+      {
+        "field": [
+          { "label": "Insert", "field": "action_insert" },
+          { "label": "Update", "field": "action_update" },
+          { "label": "Delete", "field": "action_delete" },
+          { "label": "Query", "field": "action_query" }
+        ],
+        "label": "Triggers"
+      },
+      { "field": "condition", "label": "Condition" },
+      { "field": "filter_condition", "label": "Filter Condition" },
+      { "field": "role_conditions", "label": "Rol Conditions" },
+      { "field": "sys_policy", "label": "Protection policy" }
+    ]
+  },
+  "sys_script_include": {
+    "scriptFields": ["script"],
+    "mainScriptField": "script",
+    "dataFields": {
+      "api_name": "string",
+      "sys_policy": "string",
+      "client_callable": "boolean",
+      "access": "string"
+
     },
-    "sp_widget":{
-        "scriptFields": ["script", "client_script", "link"],
-        "mainScriptField": "script",
-        "dataFields": {
-            "id": "string",
-            "name": "string",
-            "public": "bool",
-            "roles": "string"
-        }
+    "modalContext": [
+      { "field": "api_name", "label": "API Name"},
+      { "field": "sys_policy", "label": "Protection policy" },
+      { "field": "client_callable", "label": "Client callable" },
+      { "field": "access", "label": "Accessible from" }
+    ]
+  },
+  "sp_widget": {
+    "scriptFields": ["script", "client_script", "link"],
+    "mainScriptField": "script",
+    "dataFields": {
+      "id": "string",
+      "name": "string",
+      "public": "boolean",
+      "roles": "string"
     },
-    "sysevent_script_action":{
-        "scriptFields": ["script"],
-        "mainScriptField": "script",
-        "dataFields": {
-            "event_name": "string",
-            "order": "number"
-        }
+    "modalContext": [
+      { "field": "id", "label": "ID"},
+      { "field": "public", "label": "Public" },
+      { "field": "roles", "label": "Roles" }
+    ]
+  },
+  "sysevent_script_action": {
+    "scriptFields": ["script"],
+    "mainScriptField": "script",
+    "dataFields": {
+      "event_name": "string",
+      "order": "number"
     },
-    "sysevent_in_email_action":{
-        "scriptFields": ["script"],
-        "mainScriptField": "script",
-        "dataFields": {
-            "table": "string",
-            "action": "string",
-            "type": "string",
-            "order": "number"
-        }
-    }
+    "modalContext": [
+      { "field": "event_name", "label": "Event Name"},
+      { "field": "order", "label": "Order" }
+    ]
+  },
+  "sysevent_in_email_action": {
+    "scriptFields": ["script"],
+    "mainScriptField": "script",
+    "dataFields": {
+      "table": "string",
+      "action": "string",
+      "type": "string",
+      "order": "number"
+    },
+     "modalContext": [
+      { "field": "table", "label": "Event Name"},
+      { "field": "action", "label": "Action" },
+      { "field": "type", "label": "Type" },
+      { "field": "order", "label": "Order" }
+    ]
+  }
 }
