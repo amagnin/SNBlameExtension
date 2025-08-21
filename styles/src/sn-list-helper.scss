@@ -101,20 +101,26 @@
 
   .sn-blame-h2 {
     margin-top: 0px;
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+  .sn-blame-sub-title-h2 {
+    font-size: 14px;
+    margin-top: 0px;
   }
 }
 
 table.sn-blame-dialog-list {
-  width: calc(100% - 40px);
-  margin: 20px;
+  margin: 20px 0px 40px;
+  width: 100%;
 
   tbody{
-    border: 1px solid;
+    border: none;
     border-radius: 4px;
   }
 
   tr {
-    border-top: 1px solid;
+    border-top: 1px solid RGB(var(--now-color_border--secondary,var(--now-color--neutral-5,172,180,181)));
     &.sn-blame-si-table.no-border-top-bottom {
       border-top: none !important;
       border-bottom: none !important;
@@ -128,6 +134,17 @@ table.sn-blame-dialog-list {
     }
     &.sn-blame-si-method {
       white-space: nowrap;
+    }
+
+    .sn-blame-composite-field {
+      display: inline-flex;
+      gap: 3px;
+      flex-direction: row-reverse;
+      margin-right: 10px;
+    }
+
+    span{
+      word-break: break-word;
     }
   }
 
