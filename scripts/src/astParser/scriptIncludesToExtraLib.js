@@ -42,8 +42,8 @@ import * as astring from 'astring';
 const getScriptIncludeLib = function(className, scriptIncludesObject){
     const classObject = scriptIncludesObject;
     
-    let classNames = Object.keys(classObject.classKeys).map(key=>{
-        let keyValue = classObject.classKeys[key]
+    let classNames = Object.keys(classObject.methods).map(key=>{
+        let keyValue = classObject.methods[key]
 
         if(keyValue?.type === 'ObjectExpression')
             return `${key} = ${astring.generate(keyValue.value)}`
@@ -56,7 +56,7 @@ const getScriptIncludeLib = function(className, scriptIncludesObject){
         }
         
         if(typeof keyValue === 'string')
-            return `${key} = ${keyValue};`
+            return `${key} = '${keyValue}';`
             
         return `${key}(${keyValue?.args?.toString()}){}`
     }).join('\n            ');
@@ -71,8 +71,10 @@ const getScriptIncludeLib = function(className, scriptIncludesObject){
             return
 
         if(typeof keyValue === 'string')
-            return `static ${key} = ${keyValue};`
-        return `static ${key} = (${keyValue.args.toString()}){};`
+            return `static ${key} = '${keyValue}';`
+        if(keyValue?.args)
+            return `static ${key} = (${keyValue.args.toString()}){};`
+
     })).join('\n      ');
 
     let lib = `class ${className} ${typeof classObject.extends === 'string'? `extends ${classObject.extends}` : '' } {

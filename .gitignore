@@ -1,3 +1,7 @@
 node_modules
 scripts/dist
+styles/dist
+popup/dist
 test/OOBsampleScripts
+test/QuokkaTests
+*.zip

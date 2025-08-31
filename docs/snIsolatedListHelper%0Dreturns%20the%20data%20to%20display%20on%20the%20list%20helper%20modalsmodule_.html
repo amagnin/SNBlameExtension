@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      snIsolatedListHelper returns the data to display on the list helper modals
+      - SN Blame
+    </title>
+
+    <meta
+      name="description"
+      content="ServiceNow Browser Extensions utility tool"
+    />
+
+    <meta name="keywords" content="ServiceNow" />
+    <meta name="keyword" content="ServiceNow" />
+
+    <meta property="og:title" content="SN Blame" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="" />
+    <meta property="og:site_name" content="SN Blame" />
+    <meta property="og:url" content="" />
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css" />
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css" />
+    <script src="scripts/nav.js" defer></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+    <label for="nav-trigger" class="navicon-button x">
+      <div class="navicon"></div>
+    </label>
+
+    <label for="nav-trigger" class="overlay"></label>
+
+    <nav>
+      <input type="text" id="nav-search" placeholder="Search" />
+
+      <h2><a href="index.html">Home</a></h2>
+      <h2>
+        <a
+          href="https://github.com/amagnin/SNBlameExtension"
+          target="_blank"
+          class="menu-item"
+          id="repository"
+          >Github repo</a
+        >
+      </h2>
+      <h3>Classes</h3>
+      <ul>
+        <li>
+          <a href="StaticCodeAnalisisUtil.html">StaticCodeAnalisisUtil</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#updateScriptIncludeMap"
+                >updateScriptIncludeMap</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#getScriptIncludeSysID"
+                >getScriptIncludeSysID</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#getLoadedLibraries"
+                >getLoadedLibraries</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="StaticCodeAnalisisUtil.html#runScriptIncludesCodeAnalisis"
+                >runScriptIncludesCodeAnalisis</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#runScriptAnalisis"
+                >runScriptAnalisis</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#findScriptIncludeCall"
+                >findScriptIncludeCall</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#setAvailableSNScopes"
+                >setAvailableSNScopes</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#getAvailableSNScopes"
+                >getAvailableSNScopes</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#getScopeFromID"
+                >getScopeFromID</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#triggerScriptIncludeLib"
+                >triggerScriptIncludeLib</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="MonacoBlameColorMap.html">MonacoBlameColorMap</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="MonacoBlameColorMap.html#getColor">getColor</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="MonacoBlameGutter.html">MonacoBlameGutter</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#createGutter">createGutter</a>
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#updateLines">updateLines</a>
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#updateGutterSize"
+                >updateGutterSize</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#updateGutter">updateGutter</a>
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#destroyGutter">destroyGutter</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="MonacoBlameGutterWrapper.html">MonacoBlameGutterWrapper</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#createGutter"
+                >createGutter</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#updateGutter"
+                >updateGutter</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#updateGutterLines"
+                >updateGutterLines</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#updateGutterSize"
+                >updateGutterSize</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#destroyGutter"
+                >destroyGutter</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#updateGutterOptions"
+                >updateGutterOptions</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#gutterExists"
+                >gutterExists</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="CacheManager.html">CacheManager</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="CacheManager.html#conectDB">conectDB</a>
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#getAllBlameCacheKeys"
+                >getAllBlameCacheKeys</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#invalidateScriptIncludeCache"
+                >invalidateScriptIncludeCache</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#getScriptIncludeCache"
+                >getScriptIncludeCache</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#setScriptIncludeCache"
+                >setScriptIncludeCache</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#clearScriptIncludeCache"
+                >clearScriptIncludeCache</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#validateScriptIncludeCache"
+                >validateScriptIncludeCache</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#.getCache">getCache</a>
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#.setCache">setCache</a>
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#.invalidateCache">invalidateCache</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="SNBlameOptions.html">SNBlameOptions</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="SNBlameOptions.html#reloadOptions">reloadOptions</a>
+            </li>
+            <li data-type="method">
+              <a href="SNBlameOptions.html#getOption">getOption</a>
+            </li>
+            <li data-type="method">
+              <a href="SNBlameOptions.html#setOption">setOption</a>
+            </li>
+            <li data-type="method">
+              <a href="SNBlameOptions.html#getAllOptions">getAllOptions</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="snRESTFactory.html">snRESTFactory</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="snRESTFactory.html#~getVersions">getVersions</a>
+            </li>
+            <li data-type="method">
+              <a href="snRESTFactory.html#~getScriptIncludes"
+                >getScriptIncludes</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="snRESTFactory.html#~getRecords">getRecords</a>
+            </li>
+            <li data-type="method">
+              <a href="snRESTFactory.html#~getScope">getScope</a>
+            </li>
+            <li data-type="method">
+              <a href="snRESTFactory.html#~getProperties">getProperties</a>
+            </li>
+            <li data-type="method">
+              <a href="snRESTFactory.html#~getScriptIncludeCache"
+                >getScriptIncludeCache</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="SNBlameDateUtils.html">SNBlameDateUtils</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="SNBlameDateUtils.html#.getFormattedDate"
+                >getFormattedDate</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlameDateUtils.html#.timeAgo">timeAgo</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="SNBlamePlaceholderContentWidget.html"
+            >SNBlamePlaceholderContentWidget</a
+          >
+          <ul class="methods">
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#updateDiff"
+                >updateDiff</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#onCursorChange"
+                >onCursorChange</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#getId">getId</a>
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#getDomNode"
+                >getDomNode</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#getPosition"
+                >getPosition</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#dispose">dispose</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <h3>Modules</h3>
+      <ul>
+        <li>
+          <a href="module-scriptIncludesStaticCodeAnalysis.html"
+            >scriptIncludesStaticCodeAnalysis</a
+          >
+          <ul class="methods">
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~getSNClassMethods"
+                >getSNClassMethods</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~getTableName"
+                >getTableName</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~runScriptIncludeCodeParsing"
+                >runScriptIncludeCodeParsing</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="module-scriptIncludesToExtraLib.html"
+            >scriptIncludesToExtraLib</a
+          >
+          <ul class="methods">
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesToExtraLib.html#~getScriptIncludeLib"
+                >getScriptIncludeLib</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="module-walkerFunctions.html">walkerFunctions</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="module-walkerFunctions.html#~isGlideRecordNext"
+                >isGlideRecordNext</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-walkerFunctions.html#~getConstructorContextExpresions"
+                >getConstructorContextExpresions</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-walkerFunctions.html#~getGlideRecordFromDeclaration"
+                >getGlideRecordFromDeclaration</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-walkerFunctions.html#~getGlideRecordFromAssignment"
+                >getGlideRecordFromAssignment</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="module-walkerFunctions.html#~checkNestedWhileRecord"
+                >checkNestedWhileRecord</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="module-walkerFunctions.html#~removeParentesis"
+                >removeParentesis</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li><a href="module-SNBlameMain.html">SNBlameMain</a></li>
+        <li>
+          <a
+            href="snIsolatedListHelper%250Dreturns%2520the%2520data%2520to%2520display%2520on%2520the%2520list%2520helper%2520modalsmodule_.html"
+            >snIsolatedListHelper returns the data to display on the list helper
+            modals</a
+          >
+          <ul class="methods">
+            <li data-type="method">
+              <a
+                href="snIsolatedListHelper%25250Dreturns%252520the%252520data%252520to%252520display%252520on%252520the%252520list%252520helper%252520modalsmodule_.html#~getListData"
+                >getListData</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <h3>Events</h3>
+      <ul>
+        <li>
+          <a href="module-SNBlameMain.html#~event:sn-list-helper-response"
+            >sn-list-helper-response</a
+          >
+        </li>
+        <li>
+          <a href="module-SNBlameMain.html#~event:sn-blame-start"
+            >sn-blame-start</a
+          >
+        </li>
+        <li>
+          <a href="module-SNBlameMain.html#~event:sn-list-helper-start"
+            >sn-list-helper-start</a
+          >
+        </li>
+        <li>
+          <a href="module-SNBlameMain.html#~event:sn-blame-option-update"
+            >sn-blame-option-update</a
+          >
+        </li>
+      </ul>
+      <h3>Global</h3>
+      <ul>
+        <li><a href="global.html#snVersions">snVersions</a></li>
+        <li><a href="global.html#BlameLine">BlameLine</a></li>
+        <li><a href="global.html#restFactory">restFactory</a></li>
+        <li>
+          <a href="global.html#staticCodeAnalisisUtil"
+            >staticCodeAnalisisUtil</a
+          >
+        </li>
+        <li><a href="global.html#parsedScript">parsedScript</a></li>
+        <li>
+          <a href="global.html#parsedScriptIncludes">parsedScriptIncludes</a>
+        </li>
+        <li>
+          <a href="global.html#parsedScriptInclude">parsedScriptInclude</a>
+        </li>
+        <li><a href="global.html#BlameOptions">BlameOptions</a></li>
+        <li>
+          <a href="global.html#ServiceNowRESTFactory">ServiceNowRESTFactory</a>
+        </li>
+        <li><a href="global.html#MonacoEditor">MonacoEditor</a></li>
+        <li>
+          <a href="global.html#snBlameRecordWatcher">snBlameRecordWatcher</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div id="main">
+      <h1 class="page-title">
+        snIsolatedListHelper returns the data to display on the list helper
+        modals
+      </h1>
+
+      <section>
+        <header></header>
+
+        <article>
+          <div class="container-overview">
+            <dl class="details">
+              <dt class="tag-source">Source:</dt>
+              <dd class="tag-source">
+                <ul class="dummy">
+                  <li>
+                    <a href="isolated_listHelper_snIsolatedListHelper.js.html"
+                      >isolated/listHelper/snIsolatedListHelper.js</a
+                    >,
+                    <a
+                      href="isolated_listHelper_snIsolatedListHelper.js.html#line43"
+                      >line 43</a
+                    >
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+
+          <h3 class="subsection-title">Methods</h3>
+
+          <h4 class="name" id="~getListData">
+            <span class="type-signature type-signature-async, inner"
+              >(async, inner) </span
+            >getListData<span class="signature"
+              >(table, sysIDList, field, g_ck)</span
+            ><span class="type-signature"></span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    Retrieves the scripts to analize, and the script includes
+                    that are being used, and fires the sn-list-helper-response
+                    with all the parsed data
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_listHelper_snIsolatedListHelper.js.html"
+                    >isolated/listHelper/snIsolatedListHelper.js</a
+                  >,
+                  <a
+                    href="isolated_listHelper_snIsolatedListHelper.js.html#line60"
+                    >line 60</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>table</code></td>
+
+                <td class="type">
+                  <span class="param-type">String</span>
+                </td>
+
+                <td class="description last">
+                  <p>table of the list to analize</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>sysIDList</code></td>
+
+                <td class="type">
+                  <span class="param-type">Array.&lt;String></span>
+                </td>
+
+                <td class="description last">
+                  <p>list of sys_ids to analize</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>field</code></td>
+
+                <td class="type">
+                  <span class="param-type">Array.&lt;String></span>
+                </td>
+
+                <td class="description last"><p>script field to analize</p></td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>g_ck</code></td>
+
+                <td class="type">
+                  <span class="param-type">String</span>
+                </td>
+
+                <td class="description last">
+                  <p>servicenow token to performe REST calls</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-fires">Fires:</h5>
+          <ul>
+            <li>
+              <a href="module-SNBlameMain.html#~event:sn-list-helper-response"
+                >event:sn-list-helper-response</a
+              >
+            </li>
+          </ul>
+
+          <h5 class="h5-returns">Returns:</h5>
+        </article>
+      </section>
+    </div>
+
+    <br class="clear" />
+
+    <footer>
+      Documentation generated by
+      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Mon Sep 01
+      2025 01:09:56 GMT+0200 (hora de verano de Europa central) using the
+      <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    </footer>
+
+    <script>
+      prettyPrint();
+    </script>
+    <script src="scripts/polyfill.js"></script>
+    <script src="scripts/linenumber.js"></script>
+
+    <script src="scripts/search.js" defer></script>
+  </body>
+</html>

@@ -1,1219 +1,1497 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <title>Global - SN Blame</title>
-    
-    <meta name="description" content="ServiceNow Browser Extensions utility tool" />
-    
-        <meta name="keywords" content="ServiceNow" />
-        <meta name="keyword" content="ServiceNow" />
-    
-    
-    
-    <meta property="og:title" content="SN Blame"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:image" content=""/>
-    <meta property="og:site_name" content="SN Blame"/>
-    <meta property="og:url" content=""/>
-    
+
+    <meta
+      name="description"
+      content="ServiceNow Browser Extensions utility tool"
+    />
+
+    <meta name="keywords" content="ServiceNow" />
+    <meta name="keyword" content="ServiceNow" />
+
+    <meta property="og:title" content="SN Blame" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="" />
+    <meta property="og:site_name" content="SN Blame" />
+    <meta property="og:url" content="" />
+
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css" />
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css" />
     <script src="scripts/nav.js" defer></script>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
 
-<input type="checkbox" id="nav-trigger" class="nav-trigger" />
-<label for="nav-trigger" class="navicon-button x">
-  <div class="navicon"></div>
-</label>
-
-<label for="nav-trigger" class="overlay"></label>
-
-<nav >
-    
-    <input type="text" id="nav-search" placeholder="Search" />
-    
-    
-    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/amagnin/SNBlameExtension" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Classes</h3><ul><li><a href="MonacoBlameColorMap.html">MonacoBlameColorMap</a><ul class='methods'><li data-type='method'><a href="MonacoBlameColorMap.html#getColor">getColor</a></li></ul></li><li><a href="MonacoBlameGutter.html">MonacoBlameGutter</a><ul class='methods'><li data-type='method'><a href="MonacoBlameGutter.html#createGutter">createGutter</a></li><li data-type='method'><a href="MonacoBlameGutter.html#updateLines">updateLines</a></li><li data-type='method'><a href="MonacoBlameGutter.html#updateGutterSize">updateGutterSize</a></li><li data-type='method'><a href="MonacoBlameGutter.html#updateGutter">updateGutter</a></li><li data-type='method'><a href="MonacoBlameGutter.html#destroyGutter">destroyGutter</a></li></ul></li><li><a href="MonacoBlameGutterWrapper.html">MonacoBlameGutterWrapper</a><ul class='methods'><li data-type='method'><a href="MonacoBlameGutterWrapper.html#createGutter">createGutter</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutter">updateGutter</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutterLines">updateGutterLines</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutterSize">updateGutterSize</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#destroyGutter">destroyGutter</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutterOptions">updateGutterOptions</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#gutterExists">gutterExists</a></li></ul></li><li><a href="SNBlameOptions.html">SNBlameOptions</a><ul class='methods'><li data-type='method'><a href="SNBlameOptions.html#reloadOptions">reloadOptions</a></li><li data-type='method'><a href="SNBlameOptions.html#getOption">getOption</a></li><li data-type='method'><a href="SNBlameOptions.html#setOption">setOption</a></li><li data-type='method'><a href="SNBlameOptions.html#getAllOptions">getAllOptions</a></li></ul></li><li><a href="SNRESTFactory.html">SNRESTFactory</a><ul class='methods'><li data-type='method'><a href="SNRESTFactory.html#~getVersions">getVersions</a></li><li data-type='method'><a href="SNRESTFactory.html#~getScriptIncludes">getScriptIncludes</a></li><li data-type='method'><a href="SNRESTFactory.html#~getScope">getScope</a></li><li data-type='method'><a href="SNRESTFactory.html#~getProperties">getProperties</a></li><li data-type='method'><a href="SNRESTFactory.html#~getScriptIncludeCache">getScriptIncludeCache</a></li></ul></li><li><a href="SNBlameDateUtils.html">SNBlameDateUtils</a><ul class='methods'><li data-type='method'><a href="SNBlameDateUtils.html#.getFormattedDate">getFormattedDate</a></li><li data-type='method'><a href="SNBlameDateUtils.html#.timeAgo">timeAgo</a></li></ul></li><li><a href="SNBlamePlaceholderContentWidget.html">SNBlamePlaceholderContentWidget</a><ul class='methods'><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#updateDiff">updateDiff</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#onCursorChange">onCursorChange</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#getId">getId</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#getDomNode">getDomNode</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#getPosition">getPosition</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#dispose">dispose</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-scriptIncludesStaticCodeAnalysis.html">scriptIncludesStaticCodeAnalysis</a><ul class='methods'><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~isGlideRecordNext">isGlideRecordNext</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~ExpressionStatement">ExpressionStatement</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~VariableDeclarator">VariableDeclarator</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~AssignmentExpression">AssignmentExpression</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~WhileStatement">WhileStatement</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~getTableName">getTableName</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~runScriptIncludesCodeAnalisis">runScriptIncludesCodeAnalisis</a></li></ul></li><li><a href="module-scriptIncludesToExtraLib.html">scriptIncludesToExtraLib</a><ul class='methods'><li data-type='method'><a href="module-scriptIncludesToExtraLib.html#~getScriptIncludeLib">getScriptIncludeLib</a></li></ul></li><li><a href="module-SNBlameMain.html">SNBlameMain</a><ul class='methods'><li data-type='method'><a href="module-SNBlameMain.html#~getVersions">getVersions</a></li><li data-type='method'><a href="module-SNBlameMain.html#~removeReverted">removeReverted</a></li><li data-type='method'><a href="module-SNBlameMain.html#~getBlame">getBlame</a></li><li data-type='method'><a href="module-SNBlameMain.html#~getDiffsWithCurrent">getDiffsWithCurrent</a></li><li data-type='method'><a href="module-SNBlameMain.html#~triggerScriptIncludeLib">triggerScriptIncludeLib</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#BlameLine">BlameLine</a></li><li><a href="global.html#BlameOptions">BlameOptions</a></li><li><a href="global.html#ServiceNowRESTFactory">ServiceNowRESTFactory</a></li><li><a href="global.html#MonacoEditor">MonacoEditor</a></li><li><a href="global.html#snBlamebootstrap">snBlamebootstrap</a></li></ul>
-    
-</nav>
-
-<div id="main">
-    
-    <h1 class="page-title">Global</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>
-        
-            
-        
-        </h2>
-        
-    
-</header>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-            
-
-            
-        
-        </div>
-    
-
-    
-
-    
-
-    
-    
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="snBlamebootstrap"><span class="type-signature"></span>snBlamebootstrap<span class="signature">(monaco)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>triggers the Blame part of the extension if the monaco global object is available on the page</p></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main_snBlameBootstrap.js.html">main/snBlameBootstrap.js</a>, <a href="main_snBlameBootstrap.js.html#line19">line 19</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>monaco</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>ServiceNow global monaco object</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-
-    
-        <h3 class="subsection-title">Type Definitions</h3>
-
-        
-                
-<h4 class="name" id="BlameLine">BlameLine</h4>
-
-
-
-
-
-<dl class="details">
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="isolated_SNBlameMain.js.html">isolated/SNBlameMain.js</a>, <a href="isolated_SNBlameMain.js.html#line11">line 11</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+    <label for="nav-trigger" class="navicon-button x">
+      <div class="navicon"></div>
+    </label>
+
+    <label for="nav-trigger" class="overlay"></label>
+
+    <nav>
+      <input type="text" id="nav-search" placeholder="Search" />
+
+      <h2><a href="index.html">Home</a></h2>
+      <h2>
+        <a
+          href="https://github.com/amagnin/SNBlameExtension"
+          target="_blank"
+          class="menu-item"
+          id="repository"
+          >Github repo</a
+        >
+      </h2>
+      <h3>Classes</h3>
+      <ul>
+        <li>
+          <a href="StaticCodeAnalisisUtil.html">StaticCodeAnalisisUtil</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#updateScriptIncludeMap"
+                >updateScriptIncludeMap</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#getScriptIncludeSysID"
+                >getScriptIncludeSysID</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#getLoadedLibraries"
+                >getLoadedLibraries</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="StaticCodeAnalisisUtil.html#runScriptIncludesCodeAnalisis"
+                >runScriptIncludesCodeAnalisis</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#runScriptAnalisis"
+                >runScriptAnalisis</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#findScriptIncludeCall"
+                >findScriptIncludeCall</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#setAvailableSNScopes"
+                >setAvailableSNScopes</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#getAvailableSNScopes"
+                >getAvailableSNScopes</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#getScopeFromID"
+                >getScopeFromID</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#triggerScriptIncludeLib"
+                >triggerScriptIncludeLib</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="MonacoBlameColorMap.html">MonacoBlameColorMap</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="MonacoBlameColorMap.html#getColor">getColor</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="MonacoBlameGutter.html">MonacoBlameGutter</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#createGutter">createGutter</a>
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#updateLines">updateLines</a>
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#updateGutterSize"
+                >updateGutterSize</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#updateGutter">updateGutter</a>
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#destroyGutter">destroyGutter</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="MonacoBlameGutterWrapper.html">MonacoBlameGutterWrapper</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#createGutter"
+                >createGutter</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#updateGutter"
+                >updateGutter</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#updateGutterLines"
+                >updateGutterLines</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#updateGutterSize"
+                >updateGutterSize</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#destroyGutter"
+                >destroyGutter</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#updateGutterOptions"
+                >updateGutterOptions</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#gutterExists"
+                >gutterExists</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="CacheManager.html">CacheManager</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="CacheManager.html#conectDB">conectDB</a>
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#getAllBlameCacheKeys"
+                >getAllBlameCacheKeys</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#invalidateScriptIncludeCache"
+                >invalidateScriptIncludeCache</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#getScriptIncludeCache"
+                >getScriptIncludeCache</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#setScriptIncludeCache"
+                >setScriptIncludeCache</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#clearScriptIncludeCache"
+                >clearScriptIncludeCache</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#validateScriptIncludeCache"
+                >validateScriptIncludeCache</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#.getCache">getCache</a>
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#.setCache">setCache</a>
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#.invalidateCache">invalidateCache</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="SNBlameOptions.html">SNBlameOptions</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="SNBlameOptions.html#reloadOptions">reloadOptions</a>
+            </li>
+            <li data-type="method">
+              <a href="SNBlameOptions.html#getOption">getOption</a>
+            </li>
+            <li data-type="method">
+              <a href="SNBlameOptions.html#setOption">setOption</a>
+            </li>
+            <li data-type="method">
+              <a href="SNBlameOptions.html#getAllOptions">getAllOptions</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="snRESTFactory.html">snRESTFactory</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="snRESTFactory.html#~getVersions">getVersions</a>
+            </li>
+            <li data-type="method">
+              <a href="snRESTFactory.html#~getScriptIncludes"
+                >getScriptIncludes</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="snRESTFactory.html#~getRecords">getRecords</a>
+            </li>
+            <li data-type="method">
+              <a href="snRESTFactory.html#~getScope">getScope</a>
+            </li>
+            <li data-type="method">
+              <a href="snRESTFactory.html#~getProperties">getProperties</a>
+            </li>
+            <li data-type="method">
+              <a href="snRESTFactory.html#~getScriptIncludeCache"
+                >getScriptIncludeCache</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="SNBlameDateUtils.html">SNBlameDateUtils</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="SNBlameDateUtils.html#.getFormattedDate"
+                >getFormattedDate</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlameDateUtils.html#.timeAgo">timeAgo</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="SNBlamePlaceholderContentWidget.html"
+            >SNBlamePlaceholderContentWidget</a
+          >
+          <ul class="methods">
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#updateDiff"
+                >updateDiff</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#onCursorChange"
+                >onCursorChange</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#getId">getId</a>
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#getDomNode"
+                >getDomNode</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#getPosition"
+                >getPosition</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#dispose">dispose</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <h3>Modules</h3>
+      <ul>
+        <li>
+          <a href="module-scriptIncludesStaticCodeAnalysis.html"
+            >scriptIncludesStaticCodeAnalysis</a
+          >
+          <ul class="methods">
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~methodWalker"
+                >methodWalker</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~getES6ClassMethods"
+                >getES6ClassMethods</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~getSNClassMethods"
+                >getSNClassMethods</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~getTableName"
+                >getTableName</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~runScriptIncludeCodeParsing"
+                >runScriptIncludeCodeParsing</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="module-scriptIncludesToExtraLib.html"
+            >scriptIncludesToExtraLib</a
+          >
+          <ul class="methods">
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesToExtraLib.html#~getScriptIncludeLib"
+                >getScriptIncludeLib</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="module-walkerFunctions.html">walkerFunctions</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="module-walkerFunctions.html#~isGlideRecordNext"
+                >isGlideRecordNext</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-walkerFunctions.html#~getConstructorContextExpresions"
+                >getConstructorContextExpresions</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-walkerFunctions.html#~getGlideRecordFromDeclaration"
+                >getGlideRecordFromDeclaration</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-walkerFunctions.html#~getGlideRecordFromAssignment"
+                >getGlideRecordFromAssignment</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="module-walkerFunctions.html#~checkNestedWhileRecord"
+                >checkNestedWhileRecord</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="module-walkerFunctions.html#~removeParentesis"
+                >removeParentesis</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li><a href="module-SNBlameMain.html">SNBlameMain</a></li>
+        <li>
+          <a href="module-snIsolatedListHelper.html">snIsolatedListHelper</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="module-snIsolatedListHelper.html#~getListData"
+                >getListData</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <h3>Events</h3>
+      <ul>
+        <li>
+          <a href="module-SNBlameMain.html#~event:sn-list-helper-response"
+            >sn-list-helper-response</a
+          >
+        </li>
+        <li>
+          <a href="module-SNBlameMain.html#~event:sn-blame-start"
+            >sn-blame-start</a
+          >
+        </li>
+        <li>
+          <a href="module-SNBlameMain.html#~event:sn-list-helper-start"
+            >sn-list-helper-start</a
+          >
+        </li>
+        <li>
+          <a href="module-SNBlameMain.html#~event:sn-blame-option-update"
+            >sn-blame-option-update</a
+          >
+        </li>
+      </ul>
+      <h3>Global</h3>
+      <ul>
+        <li><a href="global.html#snVersions">snVersions</a></li>
+        <li><a href="global.html#BlameLine">BlameLine</a></li>
+        <li><a href="global.html#restFactory">restFactory</a></li>
+        <li>
+          <a href="global.html#staticCodeAnalisisUtil"
+            >staticCodeAnalisisUtil</a
+          >
+        </li>
+        <li><a href="global.html#parsedScript">parsedScript</a></li>
+        <li>
+          <a href="global.html#parsedScriptIncludes">parsedScriptIncludes</a>
+        </li>
+        <li>
+          <a href="global.html#parsedScriptInclude">parsedScriptInclude</a>
+        </li>
+        <li><a href="global.html#BlameOptions">BlameOptions</a></li>
+        <li>
+          <a href="global.html#ServiceNowRESTFactory">ServiceNowRESTFactory</a>
+        </li>
+        <li><a href="global.html#MonacoEditor">MonacoEditor</a></li>
+        <li>
+          <a href="global.html#snBlameRecordWatcher">snBlameRecordWatcher</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div id="main">
+      <h1 class="page-title">Global</h1>
+
+      <section>
+        <header>
+          <h2></h2>
+        </header>
+
+        <article>
+          <div class="container-overview">
+            <dl class="details"></dl>
+          </div>
+
+          <h3 class="subsection-title">Members</h3>
+
+          <h4 class="name" id="restFactory">
+            <span class="type-signature"></span>restFactory<span
+              class="type-signature"
+            >
+              :<a href="global.html#ServiceNowRESTFactory"
+                >ServiceNowRESTFactory</a
+              ></span
+            >
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_listHelper_snIsolatedListHelper.js.html"
+                    >isolated/listHelper/snIsolatedListHelper.js</a
+                  >,
+                  <a
+                    href="isolated_listHelper_snIsolatedListHelper.js.html#line10"
+                    >line 10</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type"
+                ><a href="global.html#ServiceNowRESTFactory"
+                  >ServiceNowRESTFactory</a
+                ></span
+              >
+            </li>
+          </ul>
+
+          <h4 class="name" id="staticCodeAnalisisUtil">
+            <span class="type-signature"></span>staticCodeAnalisisUtil<span
+              class="type-signature"
+            >
+              :<a href="StaticCodeAnalisisUtil.html"
+                >StaticCodeAnalisisUtil</a
+              ></span
+            >
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_listHelper_snIsolatedListHelper.js.html"
+                    >isolated/listHelper/snIsolatedListHelper.js</a
+                  >,
+                  <a
+                    href="isolated_listHelper_snIsolatedListHelper.js.html#line13"
+                    >line 13</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type"
+                ><a href="StaticCodeAnalisisUtil.html"
+                  >StaticCodeAnalisisUtil</a
+                ></span
+              >
+            </li>
+          </ul>
+
+          <h3 class="subsection-title">Methods</h3>
+
+          <h4 class="name" id="snBlameRecordWatcher">
+            <span class="type-signature"></span>snBlameRecordWatcher<span
+              class="signature"
+              >(table:, onMessage:)</span
+            ><span class="type-signature"> &rarr; {Object}</span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    calls the ServiceNow websocket to watch for changes in the
+                    record
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="main_simpleRecordWatcher.js.html"
+                    >main/simpleRecordWatcher.js</a
+                  >, <a href="main_simpleRecordWatcher.js.html#line8">line 8</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>table:</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>table to watch for changes</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>onMessage:</code></td>
+
+                <td class="type">
+                  <span class="param-type">function</span>
+                </td>
+
+                <td class="description last">
+                  <p>function to call when a message is received</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>watcherChannel: the channel to watch for changes</p>
+          </div>
+
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type">Object</span>
+            </dd>
+          </dl>
+
+          <h3 class="subsection-title">Type Definitions</h3>
+
+          <h4 class="name" id="snVersions">snVersions</h4>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_blame_snIsolatedBlame.js.html"
+                    >isolated/blame/snIsolatedBlame.js</a
+                  >,
+                  <a href="isolated_blame_snIsolatedBlame.js.html#line182"
+                    >line 182</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="subsection-title">Properties:</h5>
+
+          <table class="props">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>sys_updated_by</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>timestap last updated time usualy same as created time</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>sys_updated_on</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>timestap last updated time</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>sys_recorded_at</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>unix timestamp in HEX when the version was created</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>reverted_from</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>
+                    if the version was reverted sys_id of the version reverted
+                    to
+                  </p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>sys_id</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>unique identifier of the version</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>state</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>state of the version current|previous|reverted</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>source</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>sys_id of the source (update set or patch)</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type">Object</span>
+            </li>
+          </ul>
+
+          <h4 class="name" id="BlameLine">BlameLine</h4>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_isolatedMain.js.html"
+                    >isolated/isolatedMain.js</a
+                  >, <a href="isolated_isolatedMain.js.html#line8">line 8</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="subsection-title">Properties:</h5>
+
+          <table class="props">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
                 <td class="name"><code>onlyWhiteSpace:</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
+                <td class="type">
+                  <span class="param-type">boolean</span>
+                </td>
 
+                <td class="description last">
+                  <p>true if the line contains only whitespace</p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>true if the line contains only whitespace</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>index:</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
+                <td class="type">
+                  <span class="param-type">number</span>
+                </td>
 
+                <td class="description last"><p>index of the line</p></td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>index of the line</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>author:</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
+                <td class="description last"><p>user_name of the author</p></td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>user_name of the author</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>versionID:</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
+                <td class="description last">
+                  <p>sys_id of the version that updated the line</p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>sys_id of the version that updated the line</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>source:</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
+                <td class="description last">
+                  <p>
+                    sys_id of the source (usualy update set, can also be a
+                    patch)
+                  </p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>sys_id of the source (usualy update set, can also be a patch)</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>date:</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">Date</span>
+                <td class="type">
+                  <span class="param-type">Date</span>
+                </td>
 
+                <td class="description last">
+                  <p>Date when line was updated</p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Date when line was updated</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>line:</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
+                <td class="description last"><p>line content</p></td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>line content</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>sourceName:</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
+                <td class="description last">
+                  <p>
+                    name of the source, it can be a update set or a version if
+                    part of patch
+                  </p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>name of the source, it can be a update set or a version if part of patch</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>updateSetNotFound:</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
+                <td class="type">
+                  <span class="param-type">boolean</span>
+                </td>
 
+                <td class="description last">
+                  <p>
+                    true if the update set can't be found, usualy is due to a
+                    deletion
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type">Object</span>
+            </li>
+          </ul>
 
-            
-            </td>
+          <h4 class="name" id="parsedScript">parsedScript</h4>
 
-            
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_listHelper_snIsolatedListHelper.js.html"
+                    >isolated/listHelper/snIsolatedListHelper.js</a
+                  >,
+                  <a
+                    href="isolated_listHelper_snIsolatedListHelper.js.html#line16"
+                    >line 16</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
 
-            
+          <h5 class="subsection-title">Properties:</h5>
 
-            <td class="description last"><p>true if the update set can't be found, usualy is due to a deletion</p></td>
-        </tr>
+          <table class="props">
+            <thead>
+              <tr>
+                <th>Name</th>
 
-    
-    </tbody>
-</table>
+                <th>Type</th>
 
+                <th>Attributes</th>
 
+                <th class="last">Description</th>
+              </tr>
+            </thead>
 
+            <tbody>
+              <tr>
+                <td class="name"><code>glideRecord:</code></td>
 
+                <td class="type">
+                  <span class="param-type">Object</span>
+                </td>
 
+                <td class="attributes"></td>
 
+                <td class="description last"></td>
+              </tr>
 
+              <tr>
+                <td class="name"><code>scriptIncludeCalls:</code></td>
 
-    <h5 class="h5-types">Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Object</span>
+                <td class="type">
+                  <span class="param-type">Object</span>
+                </td>
 
+                <td class="attributes"></td>
 
+                <td class="description last"></td>
+              </tr>
 
-        </li>
-    </ul>
+              <tr>
+                <td class="name"><code>scriptIncludesInfo:</code></td>
 
+                <td class="type">
+                  <span class="param-type">Object</span>
+                </td>
 
+                <td class="attributes"></td>
 
+                <td class="description last"></td>
+              </tr>
 
+              <tr>
+                <td class="name"><code>scope:</code></td>
 
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
-            
-                
-<h4 class="name" id="BlameOptions">BlameOptions</h4>
+                <td class="attributes">&lt;nullable><br /></td>
 
+                <td class="description last"></td>
+              </tr>
 
+              <tr>
+                <td class="name"><code>sys_id:</code></td>
 
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
+                <td class="attributes"></td>
 
-<dl class="details">
-    
+                <td class="description last"></td>
+              </tr>
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="isolated_SNBlameOptions.js.html">isolated/SNBlameOptions.js</a>, <a href="isolated_SNBlameOptions.js.html#line8">line 8</a>
-    </li></ul></dd>
-    
+              <tr>
+                <td class="name"><code>sys_updated_on:</code></td>
 
-    
+                <td class="type">
+                  <span class="param-type">Date</span>
+                </td>
 
-    
+                <td class="attributes"></td>
 
-    
+                <td class="description last"></td>
+              </tr>
 
-    
+              <tr>
+                <td class="name"><code>sys_mod_count:</code></td>
 
-    
+                <td class="type">
+                  <span class="param-type">number</span>
+                </td>
 
-    
+                <td class="attributes"></td>
 
-    
+                <td class="description last"></td>
+              </tr>
 
-    
+              <tr>
+                <td class="name"><code>sys_policy:</code></td>
 
-    
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
 
-    
+                <td class="attributes">&lt;nullable><br /></td>
 
-    
+                <td class="description last"></td>
+              </tr>
 
-    
+              <tr>
+                <td class="name"><code>updateSetNotFound:</code></td>
 
-    
+                <td class="type">
+                  <span class="param-type">boolean</span>
+                </td>
 
-    
+                <td class="attributes"></td>
 
-    
-</dl>
+                <td class="description last"></td>
+              </tr>
+            </tbody>
+          </table>
 
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type">Object</span>
+            </li>
+          </ul>
 
+          <h4 class="name" id="parsedScriptIncludes">parsedScriptIncludes</h4>
 
-    <h5 class="subsection-title">Properties:</h5>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_listHelper_snIsolatedListHelper.js.html"
+                    >isolated/listHelper/snIsolatedListHelper.js</a
+                  >,
+                  <a
+                    href="isolated_listHelper_snIsolatedListHelper.js.html#line30"
+                    >line 30</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
 
-    
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type"
+                >Object.&lt;API_NAME,
+                <a href="global.html#parsedScriptInclude">parsedScriptInclude</a
+                >></span
+              >
+            </li>
+          </ul>
 
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
+          <h4 class="name" id="parsedScriptInclude">parsedScriptInclude</h4>
 
-        <th>Type</th>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_listHelper_snIsolatedListHelper.js.html"
+                    >isolated/listHelper/snIsolatedListHelper.js</a
+                  >,
+                  <a
+                    href="isolated_listHelper_snIsolatedListHelper.js.html#line35"
+                    >line 35</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
 
-        
+          <h5 class="subsection-title">Properties:</h5>
 
-        
+          <table class="props">
+            <thead>
+              <tr>
+                <th>Name</th>
 
-        <th class="last">Description</th>
-    </tr>
-    </thead>
+                <th>Type</th>
 
-    <tbody>
-    
+                <th>Attributes</th>
 
-        <tr>
-            
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>static</code></td>
+
+                <td class="type">
+                  <span class="param-type">Object</span>
+                </td>
+
+                <td class="attributes"></td>
+
+                <td class="description last"></td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>methods</code></td>
+
+                <td class="type">
+                  <span class="param-type">Object</span>
+                </td>
+
+                <td class="attributes"></td>
+
+                <td class="description last"></td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>extends</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="attributes">&lt;nullable><br /></td>
+
+                <td class="description last"><p>$</p></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type">Object</span>
+            </li>
+          </ul>
+
+          <h4 class="name" id="BlameOptions">BlameOptions</h4>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_SNBlameOptions.js.html"
+                    >isolated/SNBlameOptions.js</a
+                  >, <a href="isolated_SNBlameOptions.js.html#line8">line 8</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="subsection-title">Properties:</h5>
+
+          <table class="props">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
                 <td class="name"><code>showUser</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">bolean</span>
+                <td class="type">
+                  <span class="param-type">bolean</span>
+                </td>
 
+                <td class="description last">
+                  <p>
+                    : true to show the username on the SNBlame line, false to
+                    show the update set/version name
+                  </p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>: true to show the username on the SNBlame line, false to show the update set/version name</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>debugLineNumbers</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">bolean</span>
+                <td class="type">
+                  <span class="param-type">bolean</span>
+                </td>
 
+                <td class="description last">
+                  <p>: true to show the line number on the blame line</p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>: true to show the line number on the blame line</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>hideGutterDate</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">bolean</span>
+                <td class="type">
+                  <span class="param-type">bolean</span>
+                </td>
 
+                <td class="description last">
+                  <p>: true to hide the date on the blame line</p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>: true to hide the date on the blame line</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>ignoreWhiteSpace</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">bolean</span>
+                <td class="type">
+                  <span class="param-type">bolean</span>
+                </td>
 
+                <td class="description last">
+                  <p>
+                    : true to ignore whitespaces changes when calculating the
+                    diffs
+                  </p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>: true to ignore whitespaces changes when calculating the diffs</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>startOnAction</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">bolean</span>
+                <td class="type">
+                  <span class="param-type">bolean</span>
+                </td>
 
+                <td class="description last">
+                  <p>
+                    : true to start the gutter on demand instead of automaticaly
+                  </p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>: true to start the gutter on demand instead of automaticaly</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>gutterWidth</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
+                <td class="type">
+                  <span class="param-type">number</span>
+                </td>
 
+                <td class="description last"><p>: width of the gutter</p></td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>: width of the gutter</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>ignoreTableList</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;string></span>
+                <td class="type">
+                  <span class="param-type">Array.&lt;string></span>
+                </td>
 
+                <td class="description last">
+                  <p>: List of table to not run the blame</p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>: List of table to not run the blame</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>useExtensionIntelisense</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
+                <td class="type">
+                  <span class="param-type">boolean</span>
+                </td>
 
+                <td class="description last">
+                  <p>
+                    : true to use custom intelisense isntead of servicenow OOTB
+                    intelisense
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type">Object</span>
+            </li>
+          </ul>
 
-            
-            </td>
+          <h4 class="name" id="ServiceNowRESTFactory">ServiceNowRESTFactory</h4>
 
-            
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_snRESTFactory.js.html"
+                    >isolated/snRESTFactory.js</a
+                  >, <a href="isolated_snRESTFactory.js.html#line4">line 4</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
 
-            
+          <h5 class="subsection-title">Properties:</h5>
 
-            <td class="description last"><p>: true to use custom intelisense isntead of servicenow OOTB intelisense</p></td>
-        </tr>
+          <table class="props">
+            <thead>
+              <tr>
+                <th>Name</th>
 
-    
-    </tbody>
-</table>
+                <th>Type</th>
 
+                <th class="last">Description</th>
+              </tr>
+            </thead>
 
-
-
-
-
-
-
-    <h5 class="h5-types">Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Object</span>
-
-
-
-        </li>
-    </ul>
-
-
-
-
-
-
-            
-                
-<h4 class="name" id="ServiceNowRESTFactory">ServiceNowRESTFactory</h4>
-
-
-
-
-
-<dl class="details">
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="isolated_snRESTFactory.js.html">isolated/snRESTFactory.js</a>, <a href="isolated_snRESTFactory.js.html#line127">line 127</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
+            <tbody>
+              <tr>
                 <td class="name"><code>getVersions</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
+                <td class="type">
+                  <span class="param-type">function</span>
+                </td>
 
+                <td class="description last">
+                  <p>retrives the version for the record passed</p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>retrives the version for the record passed</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>getScriptIncludes</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
+                <td class="type">
+                  <span class="param-type">function</span>
+                </td>
 
+                <td class="description last">
+                  <p>retrieves the script include for the given sys_id</p>
+                </td>
+              </tr>
 
+              <tr>
+                <td class="name"><code>getRecords</code></td>
 
-            
-            </td>
+                <td class="type">
+                  <span class="param-type">function</span>
+                </td>
 
-            
+                <td class="description last">
+                  <p>retrives the a list of records for the given table</p>
+                </td>
+              </tr>
 
-            
-
-            <td class="description last"><p>retrieves the script include for the given sys_id</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>getScope</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
+                <td class="type">
+                  <span class="param-type">function</span>
+                </td>
 
+                <td class="description last">
+                  <p>retrives the scope record for the given sys_id</p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>retrives the scipe record for the given sys_id</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>getProperties</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
+                <td class="type">
+                  <span class="param-type">function</span>
+                </td>
 
+                <td class="description last">
+                  <p>retrives the value of the system property</p>
+                </td>
+              </tr>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>retrives the value of the system property</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
+              <tr>
                 <td class="name"><code>getScriptIncludeCache</code></td>
-            
 
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>retrieves Servicenow the script includes cache object</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-    <h5 class="h5-types">Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Object</span>
-
-
-
-        </li>
-    </ul>
-
-
-
-
-
-
-            
-                
-<h4 class="name" id="MonacoEditor">MonacoEditor</h4>
-
-
-
-
-
-<dl class="details">
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main_snBlameBootstrap.js.html">main/snBlameBootstrap.js</a>, <a href="main_snBlameBootstrap.js.html#line3">line 3</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://microsoft.github.io/monaco-editor/typedoc/modules/editor.html">https://microsoft.github.io/monaco-editor/typedoc/modules/editor.html</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-    <h5 class="h5-types">Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
-
-
-
-        </li>
-    </ul>
-
-
-
-
-
-
-            
-    
-
-    
-</article>
-
-</section>
-
-
-
-
-    
-    
-</div>
-
-<br class="clear">
-
-<footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Mon Jan 20 2025 21:46:06 GMT+0100 (hora estándar de Europa central) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
-</footer>
-
-<script>prettyPrint();</script>
-<script src="scripts/polyfill.js"></script>
-<script src="scripts/linenumber.js"></script>
-
-<script src="scripts/search.js" defer></script>
-
-
-
-</body>
+                <td class="type">
+                  <span class="param-type">function</span>
+                </td>
+
+                <td class="description last">
+                  <p>retrieves Servicenow the script includes cache object</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type">Object</span>
+            </li>
+          </ul>
+
+          <h4 class="name" id="MonacoEditor">MonacoEditor</h4>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="main_blame_snBlame.js.html">main/blame/snBlame.js</a
+                  >, <a href="main_blame_snBlame.js.html#line5">line 5</a>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-see">See:</dt>
+            <dd class="tag-see">
+              <ul>
+                <li>
+                  <a
+                    href="https://microsoft.github.io/monaco-editor/typedoc/modules/editor.html"
+                    >https://microsoft.github.io/monaco-editor/typedoc/modules/editor.html</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type">object</span>
+            </li>
+          </ul>
+        </article>
+      </section>
+    </div>
+
+    <br class="clear" />
+
+    <footer>
+      Documentation generated by
+      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Mon Sep 01
+      2025 01:46:34 GMT+0200 (hora de verano de Europa central) using the
+      <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    </footer>
+
+    <script>
+      prettyPrint();
+    </script>
+    <script src="scripts/polyfill.js"></script>
+    <script src="scripts/linenumber.js"></script>
+
+    <script src="scripts/search.js" defer></script>
+  </body>
 </html>

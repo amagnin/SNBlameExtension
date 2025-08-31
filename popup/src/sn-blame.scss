@@ -1,0 +1,129 @@
+body {
+  min-width: 300px;
+  background: #2b2c2f;
+  color: #d7d7d7;
+}
+
+form {
+  padding-inline: 20px;
+  padding-bottom: 20px;
+
+  label {
+    width: fit-content;
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 5px;
+    margin-block: 10px;
+    align-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  .switch {
+    background: #a7a7a7;
+    width: 46px;
+    height: 20px;
+    border: 1px solid;
+    border-radius: 25%/50%;
+
+    &::before {
+      background-color: #ffffff;
+      bottom: 4px;
+      content: " ";
+      height: 14px;
+      left: 4px;
+      position: absolute;
+      transition: 0.4s;
+      width: 14px;
+      border-radius: 50%;
+    }
+  }
+
+  input:checked + .switch {
+    background-color: #2357a0;
+  }
+
+  input:checked + .switch:before {
+    transform: translateX(26px);
+  }
+
+  .switch.round {
+    border-radius: 34px;
+
+    &:before {
+      border-radius: 50%;
+    }
+  }
+
+  .gutter-size-container {
+    padding-block: 20px;
+
+    input {
+      width: 100%;
+    }
+
+    label {
+      display: inline;
+      padding: 0px 2px;
+    }
+    span {
+      display: inline;
+      float: right;
+      padding: 0px 2px;
+    }
+  }
+}
+
+.sn-blame-button-container{
+  padding: 0px 20px;
+
+  button {
+    padding: 5px 10px;
+    display: block;
+    width: 100%;
+    color: #d7d7d7;
+    background: #2b2c2f;
+    font-weight: bolder;
+    border-radius: 5px;
+    border: 1px solid #4a4b4f;
+    margin-bottom: 20px;
+  }
+
+  button:active {
+    background: #38393c;
+    -webkit-box-shadow: inset 0px 0px 5px #414245;
+       -moz-box-shadow: inset 0px 0px 5px #414245;
+            box-shadow: inset 0px 0px 5px #414245;
+    outline: none;
+  }
+}
+
+.footer{
+  font-weight: 300;
+  font-size: 11px;
+  
+  .sn-blame-version {
+    margin: 8px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+  }
+
+  
+  a{
+    display: inline-flex;
+    align-items: center;
+    color: #9fced9;
+    text-decoration: none;
+
+    img {
+      width: 14px;
+      margin: 0px 5px 0px 5px;
+    }
+
+  }
+}
