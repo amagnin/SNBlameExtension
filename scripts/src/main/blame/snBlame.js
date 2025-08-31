@@ -11,6 +11,7 @@ export default function snBlamebootstrap(){
   let snBlameOptions = {
     useExtensionIntelisense: true,
   }
+  let loaded = false;
 
   let loadedLibraries = {};
 
@@ -269,11 +270,15 @@ export default function snBlamebootstrap(){
   };
 
   window.addEventListener("sn-blame-start", (event) => {
+    if(loaded)
+      return;
+
     if(event.detail)
       Object.assign(snBlameOptions, event.detail);
 
     if (typeof monaco !== "undefined" && typeof g_form !== "undefined") {
       snBlamebootstrap(monaco)
+      loaded = true;
     };
   });
 

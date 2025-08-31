@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>astParser/walkerFunctions.js - SN Blame</title>
+    <title>isolated/blame/MonacoBlameGutter.js - SN Blame</title>
 
     <meta
       name="description"
@@ -401,313 +401,206 @@
     </nav>
 
     <div id="main">
-      <h1 class="page-title">astParser/walkerFunctions.js</h1>
+      <h1 class="page-title">isolated/blame/MonacoBlameGutter.js</h1>
 
       <section>
         <article>
           <pre
             class="prettyprint source linenums"
-          ><code>import * as astring from 'astring';
-import * as walk from 'acorn-walk';
+          ><code>import SNBlameOptions from "../SNBlameOptions.js";
+import MonacoBlameColorMap from "./MonacoBlameColorMap.js";
 
 /**
- * @module walkerFunctions
+ * @typedef {import('../isolatedMain.js').BlameLine} BlameLine
  */
 
 /**
- * returns true if the node is a call to GlideRecord().next() or GlideRecord()._next() function
+ * Class that creates and keeps track of the HTMLElement containing the Blame Gutter and line changes
+ * @class 
  * 
- * @param {string} type :Node Type
- * @param {Object} node 
- * @return {string}
+ * @param {HTMLElement} editorElement - html element containing the monaco editor 
+ * @param {Array&lt;BlameLine>} lines - lines Object containing the blame/diff
+ * @param {number} [lineHeight = 19] - editor lineHeight
  */
-const isGlideRecordNext = (type, node) => type === 'CallExpression' &amp;&amp; /^(_){0,1}next/.test(node?.callee?.property?.name);
+class MonacoBlameGutter {
+    /**@constant {number}*/
+    static SIZE = 200;
 
-/**
- * Finds any method or constant added to the Instantiated Class by the constructor (initialize) 
- * 
- * @param {Object} _node: AST Node 
- * @returns undefined
- */
-const getConstructorContextExpresions = function(_node){
-    let left = _node.expression?.left;
-    let right = _node.expression?.right;
-
-    if(right?.type === 'FunctionExpression'){
-        return {
-            type: right.type,
-            key: left.property.name,
-            args: right.params.map(param => param.name), 
-        }
+    constructor(editorElement, lines, lineHeight = 19) {
+        this.createGutter(editorElement, lines, lineHeight)
     }
 
-    if(left?.type === 'MemberExpression' &amp;&amp; left?.object?.type === 'ThisExpression' &amp;&amp; (right.value !== undefined || right.properties)){
-        let typeofLiteral = right.value !== undefined ? typeof right.value : right.properties 
-        return {
-            type: right?.type,
-            key: left.property.name, 
-            value: right.value || right.properties,
-        }
-    }
-};
+    /** 
+     * Creates the Blame Gutter next to the monaco editor
+     * 
+     * @param {HTMLElement} editorElement - html element containing the monaco editor 
+     * @param {Array&lt;BlameLine>} lines - lines Object containing the blame/diff
+     * @param {number} [lineHeight = 19] - editor lineHeight
+    */
+    createGutter(editorElement, lines, lineHeight){
+        let size = new SNBlameOptions().getOption('gutterWidth') || this.SIZE;
 
-/**
- * Finds GlideRecord and GlideRecordSecure initializations on variable declarations:
- * var grRecord = new GlideRecord('table'), and stores the info on the class and method
- *   
- * [{  
- *      table: String|AST Node - String if we can find the literal, otherwise the AST Node  
- *      variable: String - Variable Name  
- * }]  
- * 
- * @param {Object} _node: AST Node 
- * 
- */
-const getGlideRecordFromDeclaration = function(_node){
-    if(_node.init?.type === 'NewExpression' &amp;&amp; (_node.init?.callee.name === 'GlideRecord' || _node.init?.callee.name === 'GlideRecordSecure')){
-        return {tableNode: _node.init.arguments[0], variable: _node.id.name};
-    }
-};
-/**
- * Finds GlideRecord and GlideRecordSecure initializations on variable assignment:
- * grRecord = new GlideRecord('table'), and stores the info on the class and method
- * 
- * [{  
- *      table: String|AST Node - String if we can find the literal, otherwise the AST Node  
- *      variable: String - Variable Name  
- * }]  
- * 
- * @param {Object} _node: AST Node 
- * 
- */
-const getGlideRecordFromAssignment = function(_node){
-    if(_node.right?.type === 'NewExpression' &amp;&amp; (_node.right?.callee.name === 'GlideRecord' || _node.right?.callee.name === 'GlideRecordSecure')){
-        return {tableNode: _node.right.arguments[0], variable: _node.left.name};
-    }
-};
-/**
- * Find While statment used to loop over glideRecords and set the loop to true on the Object storing the GlideRecord information.
- * 
- * @param {Object} _node: AST Node
- * 
- */
-const checkNestedWhileRecord = function(_node, classObject) {
-    let glideRecord = walk.findNodeAt(_node.test, null, null, isGlideRecordNext)?.node;
-    
-    if (!glideRecord) 
-        return;
+        this.editorGutter = editorElement.querySelector('.margin-view-overlays');
+        this.lines = lines;
 
-    let grRecord = classObject.glideRecord.find(gr => gr.variable === glideRecord.callee.object.name);
-    if(grRecord){
-        /**TODO: Refactor */
-        grRecord.loop = true;
-        return ;
-    } else
-        return {table: null, variable: glideRecord?.callee?.object?.name, loop: true, notInitializedOnBlock: true}; 
-};
+        this.blameGutterContainer = document.createElement('DIV');
+        this.blameGutterContainer.style.position = 'absolute';
+        this.blameGutterContainer.style.overflow = 'hidden';
+        this.blameGutterContainer.style.height = 'calc(100% - 38px)';
+        this.blameGutterContainer.style.translate = '-100%';
+        this.blameGutterContainer.style.width = `${size}px`;
 
-/**
- * removes all the content between parentesis including nested parentesis, up to 5 levels deep
- * @param {string} string 
- * @returns 
- */
-const removeParentesis = function(string){
-    let count = 0;
-    while(string.indexOf('(') !== -1 &amp;&amp; string.indexOf(')') !== -1 &amp;&amp; count &lt; 5){
-        string = string.replace(/\([^()]*\)/g, '');
-        count ++
+        this.blameGutter = document.createElement('DIV');
+        this.blameGutter.style.fontSize = '12px';
+        this.blameGutter.style.display = 'flex';
+        this.blameGutter.style.flexDirection = 'column';
+        this.blameGutter.style.alignItems = 'flex-end';
+        this.blameGutter.style.lineHeight = `${lineHeight}px`;
+        this.blameGutter.style.position = 'relative';
+
+        this.blameGutterContainer.append(this.blameGutter);
+
+        editorElement.prepend(this.blameGutterContainer);
     }
 
-    return string
-}
-
-/**
- * returns the scriptInclude and method called on the node if it is a scriptInclude call
- * 
- * 
- * @typedef ScriptIncludesCall
- * @type {Object}
- * @property type: {string} node type where the scriptInclude was found
- * @property line: {number} line number where the scriptInclude was found
- * @property scriptInclude: {string} class name of the scriptInclude
- * @property id: {string} sys_id of the scriptInclude
- * @property method: {string} method called on the scriptInclude
- *
- * 
- * @param {Object} _node 
- * @param {Object} scriptIncludeCache 
- * @param {string} scriptScope 
- * @param {Array&lt;string>} availableScopes 
- * @returns {ScriptIncludesCall}
- */
-const findScriptIncludeCalls = function(_node, scriptIncludeCache, scriptScope, availableScopes){
-       
-    const IGNORE_EXPLICIT_NAMESPACE_SCRIPT_INCLUDES = ['JSON'];
-
-    /** ig: 
-     * new global.ChangeCheckConflictsSNC().getBoolPropertyValue()  
-     * global.ChangeCheckConflictsSNC.getBoolPropertyValue() 
-     * */
-    if( _node.type === 'ExpressionStatement' &amp;&amp; 
-        _node.expression.type === 'CallExpression' &amp;&amp; 
-        _node.expression.callee.object?.type !== 'ThisExpression' &amp;&amp; 
-        _node.expression.callee.object?.object?.type !== 'ThisExpression'
-    ){
-        let nodeValue = removeParentesis(astring.generate(_node.expression)).split('.'); 
-        
-        if(_node.expression.callee.object?.type === 'NewExpression')
-            nodeValue[0] =  removeParentesis(astring.generate(_node.expression.callee.object.callee)).split('.')[0];
-
-        if(_node.expression.callee.type === 'NewExpression')
-            nodeValue[0] =  removeParentesis(astring.generate(_node.expression.callee.object)).split('.')[0]; 
-
-        if(availableScopes.indexOf(nodeValue[0]) !== -1){
-            if(scriptIncludeCache[`${nodeValue[0]}.${nodeValue[1]}`]) 
-                return {
-                    type : 'ExpressionStatement',
-                    line : _node.loc?.start?.line,
-                    scriptInclude: `${nodeValue[0]}.${nodeValue[1]}`,
-                    id: scriptIncludeCache[`${nodeValue[0]}.${nodeValue[1]}`],
-                    method: nodeValue[2] ? nodeValue[2] : null
-                } 
-        }else{
-            if(scriptIncludeCache[`${scriptScope}.${nodeValue[0]}`] &amp;&amp; IGNORE_EXPLICIT_NAMESPACE_SCRIPT_INCLUDES.indexOf(nodeValue[0]) === -1)
-                return {
-                    type : 'ExpressionStatement',
-                    line : _node.loc?.start?.line,
-                    scriptInclude: `${scriptScope}.${nodeValue[0]}`,
-                    id: scriptIncludeCache[`${scriptScope}.${nodeValue[0]}`],
-                    method: nodeValue[1] ? nodeValue[1] : null
-                }
-        }
-    }
-
-    /** ig: 
-     * var someVariable = new global.ChangeCheckConflictsSNC().MAINTENANCE_WINDOW 
-     * var someVariable = global.ChangeCheckConflictsSNC.MAINTENANCE_WINDOW
-     * */
-    if(_node.type === 'VariableDeclarator' &amp;&amp; (_node.init?.type === 'MemberExpression' || _node.init?.type === 'NewExpression')){
-        let nodeValue =  removeParentesis(astring.generate(_node.init)).split('.');
-        
-        if(_node.init.object?.type === 'NewExpression')
-            nodeValue[0] =  removeParentesis(astring.generate(_node.init.object.callee)).split('.')[0]; 
-
-        if(_node.init.type === 'NewExpression')
-            nodeValue[0] =  removeParentesis(astring.generate(_node.init.callee)).split('.')[0]; 
-        
-        if(availableScopes.indexOf(nodeValue[0]) !== -1){
-            if(scriptIncludeCache[`${nodeValue[0]}.${nodeValue[1]}`]) 
-                return {
-                    type : 'VariableDeclarator',
-                    line : _node.loc?.start?.line,
-                    scriptInclude: `${nodeValue[0]}.${nodeValue[1]}`,
-                    id: scriptIncludeCache[`${nodeValue[0]}.${nodeValue[1]}`],
-                    method: nodeValue[2] ? nodeValue[2] : null
-                } 
-        }else{
-            if(scriptIncludeCache[`${scriptScope}.${nodeValue[0]}`] &amp;&amp; IGNORE_EXPLICIT_NAMESPACE_SCRIPT_INCLUDES.indexOf(nodeValue[0]) === -1)
-                return {
-                    type : 'VariableDeclarator',
-                    line : _node.loc?.start?.line,
-                    scriptInclude: `${scriptScope}.${nodeValue[0]}`,
-                    id: scriptIncludeCache[`${scriptScope}.${nodeValue[0]}`],
-                    method: nodeValue[1] ? nodeValue[1] : null
-                }
-        }
-    }
-
-    /** ig: 
-     * var someVariable = new global.ChangeCheckConflictsSNC().getBoolPropertyValue()  
-     * var someVariable = global.ChangeCheckConflictsSNC.getBoolPropertyValue() 
-     * */
-    if(_node.type === 'VariableDeclarator' &amp;&amp; _node.init?.type === 'CallExpression'){
-        let nodeValue = removeParentesis(astring.generate(_node.init.callee)).split('.'); 
-        if(_node.init.callee.object?.type === 'NewExpression')
-            nodeValue[0] =  removeParentesis(astring.generate(_node.init.callee.object.callee)).split('.')[0];
-        
-        if(availableScopes.indexOf(nodeValue[0]) !== -1){
-            if(scriptIncludeCache[`${nodeValue[0]}.${nodeValue[1]}`]) 
-                return {
-                    type : 'VariableDeclarator',
-                    line : _node.loc?.start?.line,
-                    scriptInclude: `${nodeValue[0]}.${nodeValue[1]}`,
-                    id: scriptIncludeCache[`${nodeValue[0]}.${nodeValue[1]}`],
-                    method: nodeValue[2] ? nodeValue[2] : null
-                } 
-        }else{
-            if(scriptIncludeCache[`${scriptScope}.${nodeValue[0]}`] &amp;&amp; IGNORE_EXPLICIT_NAMESPACE_SCRIPT_INCLUDES.indexOf(nodeValue[0]) === -1)
-                return {
-                    type : 'VariableDeclarator',
-                    line : _node.loc?.start?.line,
-                    scriptInclude: `${scriptScope}.${nodeValue[0]}`,
-                    id: scriptIncludeCache[`${scriptScope}.${nodeValue[0]}`],
-                    method: nodeValue[1] ? nodeValue[1] : null
-                }
-        }
-    }
-
-    /** ig:
-     * someVariable = new global.ChangeCheckConflictsSNC().getBoolPropertyValue()  
-     * someVariable = global.ChangeCheckConflictsSNC.getBoolPropertyValue() 
-     * */
-    if(_node.type === 'AssignmentExpression' &amp;&amp; _node.right?.type === 'CallExpression'){
-        let nodeValue = removeParentesis(astring.generate(_node.right.callee)).split('.'); 
-        if(_node.right.callee.object?.type === 'NewExpression')
-            nodeValue[0] =  removeParentesis(astring.generate(_node.right.callee.object.callee)).split('.')[0];
-        
-        if(availableScopes.indexOf(nodeValue[0]) !== -1){
-            if(scriptIncludeCache[`${nodeValue[0]}.${nodeValue[1]}`]) 
-                return {
-                    type : 'AssignmentExpression',
-                    line : _node.loc?.start?.line,
-                    scriptInclude: `${nodeValue[0]}.${nodeValue[1]}`,
-                    id: scriptIncludeCache[`${nodeValue[0]}.${nodeValue[1]}`],
-                    method: nodeValue[2] ? nodeValue[2] : null
-                } 
-        }else{
-            if(scriptIncludeCache[`${scriptScope}.${nodeValue[0]}`] &amp;&amp; IGNORE_EXPLICIT_NAMESPACE_SCRIPT_INCLUDES.indexOf(nodeValue[0]) === -1)
-                return {
-                    type : 'AssignmentExpression',
-                    line : _node.loc?.start?.line,
-                    scriptInclude: `${scriptScope}.${nodeValue[0]}`,
-                    id: scriptIncludeCache[`${scriptScope}.${nodeValue[0]}`],
-                    method: nodeValue[1] ? nodeValue[1] : null
-                }
-        }
-    }
-
-    /** ig:
-     * var grRecord = new GlideRecord(global.ChangeCheckConflictsSNC.MAINTENANCE_WINDOW);
+    /** 
+     * Updates the blamegutter to keep track current changes
+     * @param {Array&lt;BlameLine>} lines new lines to update the gutter with (lines contains the new blame to keep track of local changes)
      */
-    if(_node.type === 'MemberExpression'){
-        if(_node.object?.type === "Identifier" &amp;&amp; scriptIncludeCache[`${scriptScope}.${_node.object.name}`])
-            return {
-                type: 'MemberExpression',
-                line: _node.loc?.start?.line,
-                scriptInclude: `${scriptScope}.${_node.object.name}`,
-                id: scriptIncludeCache[`${scriptScope}.${_node.object.name}`],
-                method: _node.property.name
-            }   
-        if(_node.object?.type === "MemberExpression" &amp;&amp; scriptIncludeCache[`${_node.object?.object?.name}.${_node.object?.property?.name}`])
-            return {
-                type: 'MemberExpression',
-                line: _node.loc?.start?.line,
-                scriptInclude: `${_node.object?.object?.name}.${_node.object?.property?.name}`,
-                id: scriptIncludeCache[`${_node.object?.object?.name}.${_node.object?.property?.name}`],
-                method: _node.property.name
-            }
+    updateLines(lines) {
+        this.lines = lines;
+        this.updateGutter();
+    }
+
+    /**
+     * Updates the gutter width with the new size form the SNBlameOptions
+     */
+    updateGutterSize(){
+        let size = new SNBlameOptions().getOption('gutterWidth') || this.SIZE;
+        this.blameGutterContainer.style.width = `${size}px`;
+    }
+
+    /**
+     * recreates the gutter lines in view, used when scrolling since we use a virtual scroller to line the gutter lines with the monaco editor lines
+     */
+    updateGutter() {
+        let snBlame = new SNBlameOptions()
+
+        let linesInView = Array.from(this.editorGutter.querySelectorAll('.line-numbers')).reduce((acc, lineInView) => {
+            acc[lineInView.innerText] = lineInView.parentElement.style.top;
+            return acc;
+        }, {});
+
+        this.blameGutter.innerHTML = '';
+
+        this.lines.forEach((line) => {
+            if (!linesInView[line.index.toString()])
+                return;
+
+            let lineBlame = document.createElement('DIV');
+            lineBlame.style.top = linesInView[line.index.toString()];
+            lineBlame.style.position = 'absolute';
+			lineBlame.style.width = '100%';
+			lineBlame.style.display = 'flex';
+			lineBlame.style.justifyContent = 'flex-end';
+			lineBlame.style.paddingInline = '8px';
+			lineBlame.style.whiteSpace = "pre-wrap";
+
+            let displayLabel = snBlame.getOption('showUser') ? line.author : line.sourceName;
+            let anchorStyle = 
+			`	display: flex;
+				gap: 10px;
+				text-decoration: none;
+				color: white;
+				width: 100%;
+    			justify-content: space-between;
+ 			`;
+
+			let labelStyle =
+			`
+				overflow: hidden; 
+				text-overflow: ellipsis; 
+				white-space: nowrap; 
+				width: 100%; 
+				text-align: right;
+			`;
+
+			if(line.updateSetNotFound){
+				lineBlame.style.backgroundColor = new MonacoBlameColorMap().getColor(line.source.value);
+				lineBlame.innerHTML = 
+                `&lt;a class="sn-blame-line" href="javascript:void(0)" style="${anchorStyle}">
+                    &lt;span class="sn-blame-line" style="${snBlame.getOption('debugLineNumbers') ? "" : "display:none;"} white-space: nowrap;">
+                        ${line.index}
+                    &lt;/span>
+                    &lt;span class="sn-blame-date" style="${snBlame.getOption('hideGutterDate') ? "display:none;" : ""} white-space: nowrap;">
+                        ${this.#formatDate(line.date)}
+                    &lt;/span>
+                    &lt;span class="sn-blame-label" style="${labelStyle}" title="Update set not found, probably deleted">
+                        ${displayLabel}
+                    &lt;/span>
+                &lt;/a>
+               `
+				this.blameGutter.append(lineBlame);
+				return
+			}
+
+            if (!line.newModel) {
+				lineBlame.style.backgroundColor = new MonacoBlameColorMap().getColor(line.source.value);
+                lineBlame.innerHTML =
+                `&lt;a class="sn-blame-line" href="/sys_update_set.do?sys_id=${line.source.value}" target="_blank" style="${anchorStyle}">
+                    &lt;span class="sn-blame-line" style="${snBlame.getOption('debugLineNumbers') ? "" : "display: none; "}white-space: nowrap;">
+                        ${line.index}
+                    &lt;/span>
+                    &lt;span class="sn-blame-date" style="${snBlame.getOption('hideGutterDate') ? "display: none; " : ""}white-space: nowrap;">
+                        ${this.#formatDate(line.date)}
+                    &lt;/span>
+                    &lt;span class="sn-blame-label" style="${labelStyle}" title="${displayLabel}">
+                        ${displayLabel}
+                    &lt;/span>
+                &lt;/a>
+               `
+                
+				this.blameGutter.append(lineBlame);
+				return
+            } 
+            
+			lineBlame.style.justifyContent = 'start';
+			lineBlame.innerHTML = snBlame.getOption('debugLineNumbers') ? line.index : '';
+			this.blameGutter.append(lineBlame);
+            
+        });
+    }
+
+    /**
+     * removes the gutter HTMLElement the gutter 
+     */
+    destroyGutter(){
+        this.blameGutterContainer.remove();
+    }
+
+    scroll(scroll) {
+        if (scroll.scrollHeight)
+            this.blameGutter.style.height = `${scroll.scrollHeight}px`;
         
+        this.blameGutterContainer.scroll({
+            top: scroll.scrollTop,
+        });
+    }
+
+    /**
+     * Formats the unix timestamp to human readable date YYYY-MM-DD
+     * 
+     * @param {number} unixTimeStamp 
+     * @returns {string}
+     */
+    #formatDate(unixTimeStamp) {
+        let date = new Date(unixTimeStamp);
+
+        return `${date.getFullYear()}/${`0${date.getMonth() + 1}`.slice(-2)}/${`0${date.getDate()}`.slice(-2)}`;
     }
 }
 
-export default {
-    isGlideRecordNext, 
-    getConstructorContextExpresions, 
-    getGlideRecordFromDeclaration, 
-    getGlideRecordFromAssignment, 
-    checkNestedWhileRecord, 
-    findScriptIncludeCalls
-};</code></pre>
+export default MonacoBlameGutter;</code></pre>
         </article>
       </section>
     </div>

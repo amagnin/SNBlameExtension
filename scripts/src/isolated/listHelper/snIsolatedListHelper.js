@@ -6,9 +6,39 @@ import * as tableConfig from "../../../../snTableConfigurations.json"
 * @typedef {import('../snRESTFactory.js').ServiceNowRESTFactory} ServiceNowRESTFactory
 */
 
+/**@type {ServiceNowRESTFactory}*/
 let restFactory;
+
+/**@type {StaticCodeAnalisisUtil} */
 let staticCodeAnalisisUtil;
 let tableConfiguration = tableConfig.default;
+
+/**
+ * @typedef parsedScript
+ * @type {Object}
+ * @property glideRecord: {Object} 
+ * @property scriptIncludeCalls: {Object} 
+ * @property scriptIncludesInfo: {Object} 
+ * @property scope: {?string}
+ * @property sys_id: {string} 
+ * @property sys_updated_on: {Date} 
+ * @property sys_mod_count: {number} 
+ * @property sys_policy: {?string}
+ * @property updateSetNotFound: {boolean}
+ */
+
+/**
+ * @typedef parsedScriptIncludes
+ * @type {Object<API_NAME, parsedScriptInclude>}
+ */
+
+/**
+ * @typedef parsedScriptInclude
+ * @type {Object}
+ * @property static {Object}
+ * @property methods {Object}
+ * @property extends ${?string}
+ */
 
 let getListData = async function(table, sysIDList, field, g_ck){
     if(!restFactory)
@@ -68,16 +98,18 @@ export default function(){
             let parsedScripts = await getListData(table, sysIDList, field, g_ck)
             let parsedScriptIncludes = await staticCodeAnalisisUtil.triggerScriptIncludeLib(parsedScripts.map( script => script.scriptIncludeCalls)
                 .flat(1)
-                .filter( e=> !!e)
-                .map(scriptIncludesObj => scriptIncludesObj.id)
-                .filter((id, index, arr) => arr.indexOf(id) === index),
+                .map(scriptIncludesObj => scriptIncludesObj?.id)
+                .filter((id, index, arr) => id && arr.indexOf(id) === index),
                 null,
                 restFactory,
                 null
             ); 
       
             window.dispatchEvent(new CustomEvent('sn-list-helper-response', {
-                detail: { parsedScripts , parsedScriptIncludes}
+                detail: { 
+                    parsedScripts , 
+                    parsedScriptIncludes: parsedScriptIncludes.reduce((acc, scriptInclude) => Object.assign(acc, scriptInclude?.parsedScript), {})
+                }
             }))
         },
     }
@@ -85,6 +117,4 @@ export default function(){
     Object.keys(LISTENERS).forEach((key) => {
         window.addEventListener(key, LISTENERS[key]);
     });
-
-    window.dispatchEvent(new CustomEvent("sn-list-helper-start"));
 }

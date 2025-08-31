@@ -24,28 +24,12 @@ export default function () {
 
   /**
    * @type {Object}
-   * @property focus {function} - function for the focus event,
-   * starts the blame when the page is in focus if was not started yet and the delayStart is false, for when the page is loaded out of focus
-   * @property load {function} - function for the load event
    * @property sn-blame-init {function}
    * @property sn-blame-model-change {function}
    * @property sn-check-tokens {function}
    * @property sn-get-scirpt_include_cache {function}
    */
   const LISTENERS = {
-    focus: () => {
-      const options = new SNBlameOptions().getAllOptions();
-      const delayStart = new SNBlameOptions().getOption("startOnAction");
-      if (!delayStart && !loaded)
-        window.dispatchEvent(new CustomEvent("sn-blame-start"), {detail: options});
-    },
-    load: () => {
-      const options = new SNBlameOptions();
-
-      window.dispatchEvent(
-        new CustomEvent("sn-blame-options", { detail: options.getAllOptions() })
-      );
-    },
     "sn-blame-init": (event) => {
       const { g_ck, table, sys_id, fields } = event.detail;
       restFactory = snRESTFactory(g_ck);

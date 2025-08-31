@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>astParser/walkerFunctions.js - SN Blame</title>
+    <title>isolated/blame/snIsolatedBlame.js - SN Blame</title>
 
     <meta
       name="description"
@@ -401,313 +401,416 @@
     </nav>
 
     <div id="main">
-      <h1 class="page-title">astParser/walkerFunctions.js</h1>
+      <h1 class="page-title">isolated/blame/snIsolatedBlame.js</h1>
 
       <section>
         <article>
           <pre
             class="prettyprint source linenums"
-          ><code>import * as astring from 'astring';
-import * as walk from 'acorn-walk';
+          ><code>import MonacoBlameGutterWrapper from "./MonacoBlameGutterWrapper.js";
+import SNBlameOptions from "../SNBlameOptions.js";
+import snRESTFactory from "../snRESTFactory.js";
 
-/**
- * @module walkerFunctions
- */
+import StaticCodeAnalisisUtil from "../../astParser/StaticCodeAnalysisUtil.js";
 
-/**
- * returns true if the node is a call to GlideRecord().next() or GlideRecord()._next() function
- * 
- * @param {string} type :Node Type
- * @param {Object} node 
- * @return {string}
- */
-const isGlideRecordNext = (type, node) => type === 'CallExpression' &amp;&amp; /^(_){0,1}next/.test(node?.callee?.property?.name);
+import patienceDiff from "../../../libraries/patienceDiff.js";
+import X2JS from "x2js";
 
-/**
- * Finds any method or constant added to the Instantiated Class by the constructor (initialize) 
- * 
- * @param {Object} _node: AST Node 
- * @returns undefined
- */
-const getConstructorContextExpresions = function(_node){
-    let left = _node.expression?.left;
-    let right = _node.expression?.right;
+export default function () {
+  /**@typedef {import('../snRESTFactory.js').ServiceNowRESTFactory} ServiceNowRESTFactory */
+  /**@typedef {import('../isolatedMain.js').BlameLine} BlameLine */
 
-    if(right?.type === 'FunctionExpression'){
-        return {
-            type: right.type,
-            key: left.property.name,
-            args: right.params.map(param => param.name), 
-        }
-    }
+  /** @type {Object} */
+  let serverDiff = {};
+  /** @type {boolean} */
+  let loaded = false;
 
-    if(left?.type === 'MemberExpression' &amp;&amp; left?.object?.type === 'ThisExpression' &amp;&amp; (right.value !== undefined || right.properties)){
-        let typeofLiteral = right.value !== undefined ? typeof right.value : right.properties 
-        return {
-            type: right?.type,
-            key: left.property.name, 
-            value: right.value || right.properties,
-        }
-    }
-};
+  /** @type {ServiceNowRESTFactory} */
+  let restFactory;
 
-/**
- * Finds GlideRecord and GlideRecordSecure initializations on variable declarations:
- * var grRecord = new GlideRecord('table'), and stores the info on the class and method
- *   
- * [{  
- *      table: String|AST Node - String if we can find the literal, otherwise the AST Node  
- *      variable: String - Variable Name  
- * }]  
- * 
- * @param {Object} _node: AST Node 
- * 
- */
-const getGlideRecordFromDeclaration = function(_node){
-    if(_node.init?.type === 'NewExpression' &amp;&amp; (_node.init?.callee.name === 'GlideRecord' || _node.init?.callee.name === 'GlideRecordSecure')){
-        return {tableNode: _node.init.arguments[0], variable: _node.id.name};
-    }
-};
-/**
- * Finds GlideRecord and GlideRecordSecure initializations on variable assignment:
- * grRecord = new GlideRecord('table'), and stores the info on the class and method
- * 
- * [{  
- *      table: String|AST Node - String if we can find the literal, otherwise the AST Node  
- *      variable: String - Variable Name  
- * }]  
- * 
- * @param {Object} _node: AST Node 
- * 
- */
-const getGlideRecordFromAssignment = function(_node){
-    if(_node.right?.type === 'NewExpression' &amp;&amp; (_node.right?.callee.name === 'GlideRecord' || _node.right?.callee.name === 'GlideRecordSecure')){
-        return {tableNode: _node.right.arguments[0], variable: _node.left.name};
-    }
-};
-/**
- * Find While statment used to loop over glideRecords and set the loop to true on the Object storing the GlideRecord information.
- * 
- * @param {Object} _node: AST Node
- * 
- */
-const checkNestedWhileRecord = function(_node, classObject) {
-    let glideRecord = walk.findNodeAt(_node.test, null, null, isGlideRecordNext)?.node;
-    
-    if (!glideRecord) 
-        return;
+  /** @type {StaticCodeAnalisisUtil}*/
+  let staticCodeAnalisisUtil;
 
-    let grRecord = classObject.glideRecord.find(gr => gr.variable === glideRecord.callee.object.name);
-    if(grRecord){
-        /**TODO: Refactor */
-        grRecord.loop = true;
-        return ;
-    } else
-        return {table: null, variable: glideRecord?.callee?.object?.name, loop: true, notInitializedOnBlock: true}; 
-};
+  /**
+   * @type {Object}
+   * @property sn-blame-init {function}
+   * @property sn-blame-model-change {function}
+   * @property sn-check-tokens {function}
+   * @property sn-get-scirpt_include_cache {function}
+   */
+  const LISTENERS = {
+    "sn-blame-init": (event) => {
+      const { g_ck, table, sys_id, fields } = event.detail;
+      restFactory = snRESTFactory(g_ck);
 
-/**
- * removes all the content between parentesis including nested parentesis, up to 5 levels deep
- * @param {string} string 
- * @returns 
- */
-const removeParentesis = function(string){
-    let count = 0;
-    while(string.indexOf('(') !== -1 &amp;&amp; string.indexOf(')') !== -1 &amp;&amp; count &lt; 5){
-        string = string.replace(/\([^()]*\)/g, '');
-        count ++
-    }
+      window.dispatchEvent(
+        new CustomEvent("sn-get-scirpt_include_cache", {
+          detail: {
+            g_ck,
+          },
+        })
+      );
 
-    return string
-}
+      const ignoreTableList = new SNBlameOptions().getOption("ignoreTableList");
+      if (ignoreTableList.indexOf(table) !== -1) return;
 
-/**
- * returns the scriptInclude and method called on the node if it is a scriptInclude call
- * 
- * 
- * @typedef ScriptIncludesCall
- * @type {Object}
- * @property type: {string} node type where the scriptInclude was found
- * @property line: {number} line number where the scriptInclude was found
- * @property scriptInclude: {string} class name of the scriptInclude
- * @property id: {string} sys_id of the scriptInclude
- * @property method: {string} method called on the scriptInclude
- *
- * 
- * @param {Object} _node 
- * @param {Object} scriptIncludeCache 
- * @param {string} scriptScope 
- * @param {Array&lt;string>} availableScopes 
- * @returns {ScriptIncludesCall}
- */
-const findScriptIncludeCalls = function(_node, scriptIncludeCache, scriptScope, availableScopes){
-       
-    const IGNORE_EXPLICIT_NAMESPACE_SCRIPT_INCLUDES = ['JSON'];
+      getVersions(table, sys_id, Object.keys(fields)).then((versions) => {
+        if (loaded === true) return;
 
-    /** ig: 
-     * new global.ChangeCheckConflictsSNC().getBoolPropertyValue()  
-     * global.ChangeCheckConflictsSNC.getBoolPropertyValue() 
-     * */
-    if( _node.type === 'ExpressionStatement' &amp;&amp; 
-        _node.expression.type === 'CallExpression' &amp;&amp; 
-        _node.expression.callee.object?.type !== 'ThisExpression' &amp;&amp; 
-        _node.expression.callee.object?.object?.type !== 'ThisExpression'
-    ){
-        let nodeValue = removeParentesis(astring.generate(_node.expression)).split('.'); 
-        
-        if(_node.expression.callee.object?.type === 'NewExpression')
-            nodeValue[0] =  removeParentesis(astring.generate(_node.expression.callee.object.callee)).split('.')[0];
+        Object.keys(fields).forEach((field) => {
+          let editorElement = document.querySelector(
+            `[id='element.${fields[field].id}'] #debugContainer`
+          );
+          loaded = true;
 
-        if(_node.expression.callee.type === 'NewExpression')
-            nodeValue[0] =  removeParentesis(astring.generate(_node.expression.callee.object)).split('.')[0]; 
+          if (versions.length === 0) {
+            let warnDiv = document.createElement("DIV");
+            warnDiv.innerText =
+              "SN BLAME: NO VERSIONS AVAILABLE, CAN'T START BLAME";
+            warnDiv.style.padding = "10px";
+            warnDiv.style.backgroundColor = "hsl(55deg 100% 12%)";
+            warnDiv.style.margin = "10px";
+            warnDiv.style.color = "white";
+            warnDiv.style.fontWeight = "bold";
 
-        if(availableScopes.indexOf(nodeValue[0]) !== -1){
-            if(scriptIncludeCache[`${nodeValue[0]}.${nodeValue[1]}`]) 
-                return {
-                    type : 'ExpressionStatement',
-                    line : _node.loc?.start?.line,
-                    scriptInclude: `${nodeValue[0]}.${nodeValue[1]}`,
-                    id: scriptIncludeCache[`${nodeValue[0]}.${nodeValue[1]}`],
-                    method: nodeValue[2] ? nodeValue[2] : null
-                } 
-        }else{
-            if(scriptIncludeCache[`${scriptScope}.${nodeValue[0]}`] &amp;&amp; IGNORE_EXPLICIT_NAMESPACE_SCRIPT_INCLUDES.indexOf(nodeValue[0]) === -1)
-                return {
-                    type : 'ExpressionStatement',
-                    line : _node.loc?.start?.line,
-                    scriptInclude: `${scriptScope}.${nodeValue[0]}`,
-                    id: scriptIncludeCache[`${scriptScope}.${nodeValue[0]}`],
-                    method: nodeValue[1] ? nodeValue[1] : null
-                }
-        }
-    }
+            editorElement.prepend(warnDiv);
+            return;
+          }
 
-    /** ig: 
-     * var someVariable = new global.ChangeCheckConflictsSNC().MAINTENANCE_WINDOW 
-     * var someVariable = global.ChangeCheckConflictsSNC.MAINTENANCE_WINDOW
-     * */
-    if(_node.type === 'VariableDeclarator' &amp;&amp; (_node.init?.type === 'MemberExpression' || _node.init?.type === 'NewExpression')){
-        let nodeValue =  removeParentesis(astring.generate(_node.init)).split('.');
-        
-        if(_node.init.object?.type === 'NewExpression')
-            nodeValue[0] =  removeParentesis(astring.generate(_node.init.object.callee)).split('.')[0]; 
+          const ignoreWhiteSpace = new SNBlameOptions().getOption(
+            "ignoreWhiteSpace"
+          );
+          serverDiff[field] = getBlame(versions, field, ignoreWhiteSpace);
+          let currentDiff = getDiffsWithCurrent(
+            fields[field].lines,
+            serverDiff[field],
+            ignoreWhiteSpace
+          );
+          window.dispatchEvent(
+            new CustomEvent("sn-blame-diff-update", {
+              detail: { diff: currentDiff, field },
+            })
+          );
 
-        if(_node.init.type === 'NewExpression')
-            nodeValue[0] =  removeParentesis(astring.generate(_node.init.callee)).split('.')[0]; 
-        
-        if(availableScopes.indexOf(nodeValue[0]) !== -1){
-            if(scriptIncludeCache[`${nodeValue[0]}.${nodeValue[1]}`]) 
-                return {
-                    type : 'VariableDeclarator',
-                    line : _node.loc?.start?.line,
-                    scriptInclude: `${nodeValue[0]}.${nodeValue[1]}`,
-                    id: scriptIncludeCache[`${nodeValue[0]}.${nodeValue[1]}`],
-                    method: nodeValue[2] ? nodeValue[2] : null
-                } 
-        }else{
-            if(scriptIncludeCache[`${scriptScope}.${nodeValue[0]}`] &amp;&amp; IGNORE_EXPLICIT_NAMESPACE_SCRIPT_INCLUDES.indexOf(nodeValue[0]) === -1)
-                return {
-                    type : 'VariableDeclarator',
-                    line : _node.loc?.start?.line,
-                    scriptInclude: `${scriptScope}.${nodeValue[0]}`,
-                    id: scriptIncludeCache[`${scriptScope}.${nodeValue[0]}`],
-                    method: nodeValue[1] ? nodeValue[1] : null
-                }
-        }
-    }
+          const gutters = new MonacoBlameGutterWrapper();
 
-    /** ig: 
-     * var someVariable = new global.ChangeCheckConflictsSNC().getBoolPropertyValue()  
-     * var someVariable = global.ChangeCheckConflictsSNC.getBoolPropertyValue() 
-     * */
-    if(_node.type === 'VariableDeclarator' &amp;&amp; _node.init?.type === 'CallExpression'){
-        let nodeValue = removeParentesis(astring.generate(_node.init.callee)).split('.'); 
-        if(_node.init.callee.object?.type === 'NewExpression')
-            nodeValue[0] =  removeParentesis(astring.generate(_node.init.callee.object.callee)).split('.')[0];
-        
-        if(availableScopes.indexOf(nodeValue[0]) !== -1){
-            if(scriptIncludeCache[`${nodeValue[0]}.${nodeValue[1]}`]) 
-                return {
-                    type : 'VariableDeclarator',
-                    line : _node.loc?.start?.line,
-                    scriptInclude: `${nodeValue[0]}.${nodeValue[1]}`,
-                    id: scriptIncludeCache[`${nodeValue[0]}.${nodeValue[1]}`],
-                    method: nodeValue[2] ? nodeValue[2] : null
-                } 
-        }else{
-            if(scriptIncludeCache[`${scriptScope}.${nodeValue[0]}`] &amp;&amp; IGNORE_EXPLICIT_NAMESPACE_SCRIPT_INCLUDES.indexOf(nodeValue[0]) === -1)
-                return {
-                    type : 'VariableDeclarator',
-                    line : _node.loc?.start?.line,
-                    scriptInclude: `${scriptScope}.${nodeValue[0]}`,
-                    id: scriptIncludeCache[`${scriptScope}.${nodeValue[0]}`],
-                    method: nodeValue[1] ? nodeValue[1] : null
-                }
-        }
-    }
+          gutters.createGutter(field, editorElement, currentDiff);
+          window.dispatchEvent(
+            new CustomEvent("sn-blame-get-scroll-position", {
+              detail: { field },
+            })
+          );
+        });
+      });
+    },
+    "sn-blame-model-change": (event) => {
+      const { script, field } = event.detail;
+      const lines = script.split("\n");
 
-    /** ig:
-     * someVariable = new global.ChangeCheckConflictsSNC().getBoolPropertyValue()  
-     * someVariable = global.ChangeCheckConflictsSNC.getBoolPropertyValue() 
-     * */
-    if(_node.type === 'AssignmentExpression' &amp;&amp; _node.right?.type === 'CallExpression'){
-        let nodeValue = removeParentesis(astring.generate(_node.right.callee)).split('.'); 
-        if(_node.right.callee.object?.type === 'NewExpression')
-            nodeValue[0] =  removeParentesis(astring.generate(_node.right.callee.object.callee)).split('.')[0];
-        
-        if(availableScopes.indexOf(nodeValue[0]) !== -1){
-            if(scriptIncludeCache[`${nodeValue[0]}.${nodeValue[1]}`]) 
-                return {
-                    type : 'AssignmentExpression',
-                    line : _node.loc?.start?.line,
-                    scriptInclude: `${nodeValue[0]}.${nodeValue[1]}`,
-                    id: scriptIncludeCache[`${nodeValue[0]}.${nodeValue[1]}`],
-                    method: nodeValue[2] ? nodeValue[2] : null
-                } 
-        }else{
-            if(scriptIncludeCache[`${scriptScope}.${nodeValue[0]}`] &amp;&amp; IGNORE_EXPLICIT_NAMESPACE_SCRIPT_INCLUDES.indexOf(nodeValue[0]) === -1)
-                return {
-                    type : 'AssignmentExpression',
-                    line : _node.loc?.start?.line,
-                    scriptInclude: `${scriptScope}.${nodeValue[0]}`,
-                    id: scriptIncludeCache[`${scriptScope}.${nodeValue[0]}`],
-                    method: nodeValue[1] ? nodeValue[1] : null
-                }
-        }
-    }
+      const gutters = new MonacoBlameGutterWrapper();
+      if (!gutters.gutterExists(field)) return;
 
-    /** ig:
-     * var grRecord = new GlideRecord(global.ChangeCheckConflictsSNC.MAINTENANCE_WINDOW);
+      const ignoreWhiteSpace = new SNBlameOptions().getOption(
+        "ignoreWhiteSpace"
+      );
+      const currentDiff = getDiffsWithCurrent(
+        lines,
+        serverDiff[field],
+        ignoreWhiteSpace
+      );
+
+      window.dispatchEvent(
+        new CustomEvent("sn-blame-diff-update", {
+          detail: { diff: currentDiff, field },
+        })
+      );
+      gutters.updateGutterLines(field, currentDiff);
+    },
+    "sn-check-lines": (event) => {
+      const { lines, field, currentScope } = event.detail;
+
+      lines.forEach((line) => {
+        findScriptIncludeCall(line, currentScope);
+      });
+    },
+    "sn-get-scirpt_include_cache": (event) => {
+      if (typeof restFactory?.getScriptIncludeCache !== "function") {
+        restFactory = snRESTFactory(event.detail.g_ck);
+      }
+
+      restFactory.getScriptIncludeCache().then((cache) => {
+        staticCodeAnalisisUtil = new StaticCodeAnalisisUtil(cache);
+
+        window.dispatchEvent(
+          new CustomEvent("sn-blame-trigger-full-script-intelisense")
+        );
+      });
+    },
+    "sn-check-full-script": (event) => {
+      const { script, currentScope } = event.detail;
+
+      findScriptIncludeCall(script, currentScope);
+    },
+  };
+
+  Object.keys(LISTENERS).forEach((key) => {
+    window.addEventListener(key, LISTENERS[key]);
+  });
+
+  /**
+   * Calls snRESTFactory getVersions to retrive all versions form the given record
+   *
+   * @param {string} table record table name
+   * @param {string} sys_id record unique id (sys_id)
+   * @param {Array&lt;string>} scriptFields list of fields that renders using the monaco editor usualy fields of type script present on the form
+   * @returns {Array&lt;snVersions>}
+   */
+  async function getVersions(table, sys_id, scriptFields) {
+    var parser = new X2JS();
+
+    let body = await restFactory.getVersions(table, sys_id);
+    if (!body) return;
+
+    let result = body.result.map((b) => {
+      let record = parser.xml2js(b.payload.value).record_update[table];
+      let res = {};
+      scriptFields.forEach((field) => {
+        res[field] = record[field].split("\n");
+      });
+      res.sys_updated_by = record.sys_updated_by;
+      res.sys_updated_on = record.sys_updated_on;
+      res.sys_recorded_at = b.sys_recorded_at.value;
+      res.reverted_from = b.reverted_from.value;
+      res.sys_id = b.sys_id.value;
+      res.state = b.state.value;
+      res.source = b.source;
+
+      return res;
+    });
+
+    /**
+     * @typedef snVersions
+     * @type {Object}
+     *
+     * @property sys_updated_by {string} timestap last updated time usualy same as created time
+     * @property sys_updated_on {string} timestap last updated time
+     * @property sys_recorded_at {string} unix timestamp in HEX when the version was created
+     * @property reverted_from {string} if the version was reverted sys_id of the version reverted to
+     * @property sys_id {string} unique identifier of the version
+     * @property state {string} state of the version current|previous|reverted
+     * @property source {string} sys_id of the source (update set or patch)
      */
-    if(_node.type === 'MemberExpression'){
-        if(_node.object?.type === "Identifier" &amp;&amp; scriptIncludeCache[`${scriptScope}.${_node.object.name}`])
-            return {
-                type: 'MemberExpression',
-                line: _node.loc?.start?.line,
-                scriptInclude: `${scriptScope}.${_node.object.name}`,
-                id: scriptIncludeCache[`${scriptScope}.${_node.object.name}`],
-                method: _node.property.name
-            }   
-        if(_node.object?.type === "MemberExpression" &amp;&amp; scriptIncludeCache[`${_node.object?.object?.name}.${_node.object?.property?.name}`])
-            return {
-                type: 'MemberExpression',
-                line: _node.loc?.start?.line,
-                scriptInclude: `${_node.object?.object?.name}.${_node.object?.property?.name}`,
-                id: scriptIncludeCache[`${_node.object?.object?.name}.${_node.object?.property?.name}`],
-                method: _node.property.name
-            }
-        
-    }
-}
 
-export default {
-    isGlideRecordNext, 
-    getConstructorContextExpresions, 
-    getGlideRecordFromDeclaration, 
-    getGlideRecordFromAssignment, 
-    checkNestedWhileRecord, 
-    findScriptIncludeCalls
-};</code></pre>
+    return removeReverted(
+      result.sort(function (a, b) {
+        return (
+          Number("0x" + b.sys_recorded_at) - Number("0x" + a.sys_recorded_at)
+        );
+      })
+    );
+  }
+
+  /**
+   * removes the irelevant versions for the version list, Versions that don't apply to the bale due to being reverted to a previous update
+   *
+   * @param {Array&lt;snVersions>} versions List of servicenow record versions
+   * @returns {snVersions} list of versions with out the versions to ignore due to revert actions
+   */
+  function removeReverted(versions) {
+    var result = [];
+    var next = null;
+
+    versions.forEach(function (element) {
+      if (next == null || next === element.sys_id) {
+        result.push(element);
+        next = element.reverted_from || null;
+        return;
+      }
+    });
+
+    return result.reverse();
+  }
+
+  /**
+   * Generates the balme for the given version/field combo
+   *
+   * @param {Array&lt;snVersions>} versions list of versions to generate the blame from
+   * @param {string} key fieldname for the blame
+   * @param {boolean} ignoreWhiteSpace if true will ignore whitespaces when comparing lines
+   * @returns {Array&lt;BlameLine>} Array of lines with the infromation of the last user/update set/patch who changed the line
+   */
+  function getBlame(versions, key, ignoreWhiteSpace) {
+    if (versions.length === 0) return [];
+
+    const initialVersion = versions[0];
+
+    var result = initialVersion[key].map(function (line, index) {
+      return {
+        index: index,
+        line: ignoreWhiteSpace ? line.replace(/\s\s+/g, " ").trim() : line,
+        author: versions[0].sys_updated_by,
+        versionID: versions[0].sys_id,
+        source: versions[0].source,
+        date: versions[0].sys_updated_on,
+      };
+    });
+
+    for (let i = 1; i &lt; versions.length; i++) {
+      let left = result.map(function (l) {
+        return l.line;
+      });
+      const currentVersion = versions[i];
+
+      let right = currentVersion[key];
+      if (ignoreWhiteSpace)
+        right = right.map(function (line) {
+          return line.replace(/\s\s+/g, " ").trim();
+        });
+
+      let changes = patienceDiff(left, right, true);
+
+      result = changes.lines
+        .filter(function removeDeletion(diff) {
+          return diff.bIndex !== -1;
+        })
+        .map(function (diff) {
+          let resultIndex = diff.aIndex;
+          let date = new Date(
+            resultIndex === -1
+              ? currentVersion.sys_updated_on
+              : result[resultIndex].date
+          );
+          return {
+            index: diff.bIndex,
+            line: diff.line,
+            author:
+              resultIndex === -1
+                ? currentVersion.sys_updated_by
+                : result[resultIndex].author,
+            versionID:
+              resultIndex === -1
+                ? currentVersion.sys_id
+                : result[resultIndex].versionID,
+            source:
+              resultIndex === -1
+                ? currentVersion.source
+                : result[resultIndex].source,
+            date: date.valueOf(),
+          };
+        });
+    }
+
+    return result.map(function (diff, index) {
+      let res = {
+        onlyWhiteSpace: diff.line.trim().length === 0,
+        index: diff.index + 1,
+        author: diff.author,
+        versionID: diff.versionID,
+        source: diff.source,
+        date: diff.date,
+        line: diff.line,
+        sourceName: (diff.source.display_value || "[SN BLAME] Deleted").replace(
+          "Update Set: ",
+          ""
+        ),
+        updateSetNotFound: !diff.source.display_value,
+      };
+
+      return res;
+    });
+  }
+
+  /**
+   * Compares the calculated blame with the current changes to hide the line if the line was updated with local changes
+   *
+   * @param {Array&lt;string>} newModelValue Array of the lines with current value of the field
+   * @param {Array&lt;BlameLine>} serverValue Array of lines with the infromation of the last user/update set/patch who changed the line
+   * @param {boolean} ignoreWhiteSpace if true will ignore whitespaces when comparing lines
+   * @returns {Array&lt;BlameLine>} Array of lines with the infromation of the last user/update set/patch who changed the line
+   */
+  function getDiffsWithCurrent(newModelValue, serverValue, ignoreWhiteSpace) {
+    var changes = patienceDiff(
+      serverValue.map(function (diff) {
+        if (ignoreWhiteSpace) return diff.line.replace(/\s\s+/g, " ").trim();
+        return diff.line;
+      }),
+      ignoreWhiteSpace
+        ? newModelValue.map(function (line) {
+            return line.replace(/\s\s+/g, " ").trim();
+          })
+        : newModelValue,
+      true
+    );
+
+    changes = changes.lines
+      .filter(function removeDeletion(diff) {
+        return diff.bIndex !== -1;
+      })
+      .map(function (diff) {
+        let resultIndex = diff.aIndex;
+        let result = {
+          onlyWhiteSpace: diff.line.trim().length === 0,
+          index: diff.bIndex + 1,
+          line: diff.line,
+          newModel: resultIndex === -1,
+        };
+
+        if (resultIndex !== -1) {
+          result.author = serverValue[resultIndex].author;
+          result.versionID = serverValue[resultIndex].versionID;
+          result.source = serverValue[resultIndex].source;
+          result.sourceName = serverValue[resultIndex].sourceName;
+          result.date = serverValue[resultIndex].date;
+        }
+
+        return result;
+      });
+
+    return changes;
+  }
+
+  async function  triggerScriptAnalysisEvent(scriptIncludeObject, currentScope){
+    window.dispatchEvent(
+      new CustomEvent("sn-load-library", {
+        detail: {
+          libs: scriptIncludeObject.libs,
+        },
+      })
+    );
+
+    scriptIncludeObject.scriptExtends.filter(e=>e).forEach(async (className) =>
+      await staticCodeAnalisisUtil.triggerScriptIncludeLib(
+        [staticCodeAnalisisUtil.getScriptIncludeSysID(className)],
+        className.split(".")[1] ? className.split(".")[0] : currentScope,
+        restFactory,
+        triggerScriptAnalysisEvent
+      )
+    );
+  }
+
+  /**
+   * finds script inclulde calls only on the current script (accepts malformed scripts) will add intelisense for the found script includes.
+   * @param {string} scriptString script to parse and find script include calls
+   * @param {string} scope current scope
+   */
+  async function findScriptIncludeCall(scriptString, scope) {
+    let scriptIncludeCalls = staticCodeAnalisisUtil.findScriptIncludeCall(
+      scriptString,
+      scope
+    );
+
+    if(!scriptIncludeCalls || scriptIncludeCalls.length === 0)
+      return;
+
+    let scriptIDList = scriptIncludeCalls
+      .filter((script,index,arr) => arr.findIndex(s=> s.scriptInclude === script.scriptInclude) === index)
+      .map(identifier => staticCodeAnalisisUtil.getScriptIncludeSysID(identifier.scriptInclude))
+      .filter(s=>!!s);
+
+    await staticCodeAnalisisUtil.triggerScriptIncludeLib(scriptIDList, scope, restFactory, triggerScriptAnalysisEvent);
+  }
+}
+</code></pre>
         </article>
       </section>
     </div>

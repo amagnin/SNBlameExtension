@@ -8,6 +8,7 @@
     "x2js": "^3.4.4"
   },
   "devDependencies": {
+    "archiver": "^7.0.1",
     "css-loader": "^7.1.2",
     "docdash": "^2.0.2",
     "file-loader": "^6.2.0",
@@ -26,8 +27,9 @@
     "webpack-cli": "^5.1.4"
   },
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "webpack --mode production --env dev",
     "test": "jasmine --config=jasmine.mjs",
-    "doc": "jsdoc -c jsdoc.json & prettier --write docs/*.html"
+    "doc": "jsdoc -c jsdoc.json & prettier --write docs/*.html",
+    "dist": "webpack --mode production --env dist & node archiver.js"
   }
 }

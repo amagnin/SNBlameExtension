@@ -56,22 +56,18 @@
           <a href="StaticCodeAnalisisUtil.html">StaticCodeAnalisisUtil</a>
           <ul class="methods">
             <li data-type="method">
-              <a href="StaticCodeAnalisisUtil.html#updateCache">updateCache</a>
+              <a href="StaticCodeAnalisisUtil.html#updateScriptIncludeMap"
+                >updateScriptIncludeMap</a
+              >
             </li>
             <li data-type="method">
-              <a href="StaticCodeAnalisisUtil.html#getScriptCacheSysID"
-                >getScriptCacheSysID</a
+              <a href="StaticCodeAnalisisUtil.html#getScriptIncludeSysID"
+                >getScriptIncludeSysID</a
               >
             </li>
             <li data-type="method">
               <a href="StaticCodeAnalisisUtil.html#getLoadedLibraries"
                 >getLoadedLibraries</a
-              >
-            </li>
-            <li data-type="method">
-              <a
-                href="StaticCodeAnalisisUtil.html#updateScriptIncludeParsedCache"
-                >updateScriptIncludeParsedCache</a
               >
             </li>
             <li data-type="method">
@@ -103,6 +99,11 @@
             <li data-type="method">
               <a href="StaticCodeAnalisisUtil.html#getScopeFromID"
                 >getScopeFromID</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#triggerScriptIncludeLib"
+                >triggerScriptIncludeLib</a
               >
             </li>
           </ul>
@@ -289,8 +290,8 @@
             </li>
             <li data-type="method">
               <a
-                href="module-scriptIncludesStaticCodeAnalysis.html#~runScriptIncludesCodeAnalisis"
-                >runScriptIncludesCodeAnalisis</a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~runScriptIncludeCodeParsing"
+                >runScriptIncludeCodeParsing</a
               >
             </li>
           </ul>
@@ -348,18 +349,54 @@
         </li>
         <li><a href="module-SNBlameMain.html">SNBlameMain</a></li>
       </ul>
+      <h3>Events</h3>
+      <ul>
+        <li>
+          <a href="module-SNBlameMain.html#~event:sn-list-helper-response"
+            >sn-list-helper-response</a
+          >
+        </li>
+        <li>
+          <a href="module-SNBlameMain.html#~event:sn-blame-start"
+            >sn-blame-start</a
+          >
+        </li>
+        <li>
+          <a href="module-SNBlameMain.html#~event:sn-list-helper-start"
+            >sn-list-helper-start</a
+          >
+        </li>
+        <li>
+          <a href="module-SNBlameMain.html#~event:sn-blame-option-update"
+            >sn-blame-option-update</a
+          >
+        </li>
+      </ul>
       <h3>Global</h3>
       <ul>
-        <li><a href="global.html#BlameLine">BlameLine</a></li>
-        <li><a href="global.html#BlameOptions">BlameOptions</a></li>
         <li><a href="global.html#snVersions">snVersions</a></li>
+        <li><a href="global.html#BlameLine">BlameLine</a></li>
+        <li><a href="global.html#restFactory">restFactory</a></li>
+        <li>
+          <a href="global.html#staticCodeAnalisisUtil"
+            >staticCodeAnalisisUtil</a
+          >
+        </li>
+        <li><a href="global.html#parsedScript">parsedScript</a></li>
+        <li>
+          <a href="global.html#parsedScriptIncludes">parsedScriptIncludes</a>
+        </li>
+        <li>
+          <a href="global.html#parsedScriptInclude">parsedScriptInclude</a>
+        </li>
+        <li><a href="global.html#BlameOptions">BlameOptions</a></li>
         <li>
           <a href="global.html#ServiceNowRESTFactory">ServiceNowRESTFactory</a>
         </li>
+        <li><a href="global.html#MonacoEditor">MonacoEditor</a></li>
         <li>
           <a href="global.html#snBlameRecordWatcher">snBlameRecordWatcher</a>
         </li>
-        <li><a href="global.html#MonacoEditor">MonacoEditor</a></li>
       </ul>
     </nav>
 
@@ -375,6 +412,84 @@
           <div class="container-overview">
             <dl class="details"></dl>
           </div>
+
+          <h3 class="subsection-title">Members</h3>
+
+          <h4 class="name" id="restFactory">
+            <span class="type-signature"></span>restFactory<span
+              class="type-signature"
+            >
+              :<a href="global.html#ServiceNowRESTFactory"
+                >ServiceNowRESTFactory</a
+              ></span
+            >
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_listHelper_snIsolatedListHelper.js.html"
+                    >isolated/listHelper/snIsolatedListHelper.js</a
+                  >,
+                  <a
+                    href="isolated_listHelper_snIsolatedListHelper.js.html#line10"
+                    >line 10</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type"
+                ><a href="global.html#ServiceNowRESTFactory"
+                  >ServiceNowRESTFactory</a
+                ></span
+              >
+            </li>
+          </ul>
+
+          <h4 class="name" id="staticCodeAnalisisUtil">
+            <span class="type-signature"></span>staticCodeAnalisisUtil<span
+              class="type-signature"
+            >
+              :<a href="StaticCodeAnalisisUtil.html"
+                >StaticCodeAnalisisUtil</a
+              ></span
+            >
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_listHelper_snIsolatedListHelper.js.html"
+                    >isolated/listHelper/snIsolatedListHelper.js</a
+                  >,
+                  <a
+                    href="isolated_listHelper_snIsolatedListHelper.js.html#line13"
+                    >line 13</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type"
+                ><a href="StaticCodeAnalisisUtil.html"
+                  >StaticCodeAnalisisUtil</a
+                ></span
+              >
+            </li>
+          </ul>
 
           <h3 class="subsection-title">Methods</h3>
 
@@ -464,6 +579,134 @@
           </dl>
 
           <h3 class="subsection-title">Type Definitions</h3>
+
+          <h4 class="name" id="snVersions">snVersions</h4>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_blame_snIsolatedBlame.js.html"
+                    >isolated/blame/snIsolatedBlame.js</a
+                  >,
+                  <a href="isolated_blame_snIsolatedBlame.js.html#line182"
+                    >line 182</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="subsection-title">Properties:</h5>
+
+          <table class="props">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>sys_updated_by</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>timestap last updated time usualy same as created time</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>sys_updated_on</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>timestap last updated time</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>sys_recorded_at</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>unix timestamp in HEX when the version was created</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>reverted_from</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>
+                    if the version was reverted sys_id of the version reverted
+                    to
+                  </p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>sys_id</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>unique identifier of the version</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>state</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>state of the version current|previous|reverted</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>source</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>sys_id of the source (update set or patch)</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type">Object</span>
+            </li>
+          </ul>
 
           <h4 class="name" id="BlameLine">BlameLine</h4>
 
@@ -603,6 +846,268 @@
                     deletion
                   </p>
                 </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type">Object</span>
+            </li>
+          </ul>
+
+          <h4 class="name" id="parsedScript">parsedScript</h4>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_listHelper_snIsolatedListHelper.js.html"
+                    >isolated/listHelper/snIsolatedListHelper.js</a
+                  >,
+                  <a
+                    href="isolated_listHelper_snIsolatedListHelper.js.html#line16"
+                    >line 16</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="subsection-title">Properties:</h5>
+
+          <table class="props">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th>Attributes</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>glideRecord:</code></td>
+
+                <td class="type">
+                  <span class="param-type">Object</span>
+                </td>
+
+                <td class="attributes"></td>
+
+                <td class="description last"></td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>scriptIncludeCalls:</code></td>
+
+                <td class="type">
+                  <span class="param-type">Object</span>
+                </td>
+
+                <td class="attributes"></td>
+
+                <td class="description last"></td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>scriptIncludesInfo:</code></td>
+
+                <td class="type">
+                  <span class="param-type">Object</span>
+                </td>
+
+                <td class="attributes"></td>
+
+                <td class="description last"></td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>scope:</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="attributes">&lt;nullable><br /></td>
+
+                <td class="description last"></td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>sys_id:</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="attributes"></td>
+
+                <td class="description last"></td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>sys_updated_on:</code></td>
+
+                <td class="type">
+                  <span class="param-type">Date</span>
+                </td>
+
+                <td class="attributes"></td>
+
+                <td class="description last"></td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>sys_mod_count:</code></td>
+
+                <td class="type">
+                  <span class="param-type">number</span>
+                </td>
+
+                <td class="attributes"></td>
+
+                <td class="description last"></td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>sys_policy:</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="attributes">&lt;nullable><br /></td>
+
+                <td class="description last"></td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>updateSetNotFound:</code></td>
+
+                <td class="type">
+                  <span class="param-type">boolean</span>
+                </td>
+
+                <td class="attributes"></td>
+
+                <td class="description last"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type">Object</span>
+            </li>
+          </ul>
+
+          <h4 class="name" id="parsedScriptIncludes">parsedScriptIncludes</h4>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_listHelper_snIsolatedListHelper.js.html"
+                    >isolated/listHelper/snIsolatedListHelper.js</a
+                  >,
+                  <a
+                    href="isolated_listHelper_snIsolatedListHelper.js.html#line30"
+                    >line 30</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-types">Type:</h5>
+          <ul>
+            <li>
+              <span class="param-type"
+                >Object.&lt;API_NAME,
+                <a href="global.html#parsedScriptInclude">parsedScriptInclude</a
+                >></span
+              >
+            </li>
+          </ul>
+
+          <h4 class="name" id="parsedScriptInclude">parsedScriptInclude</h4>
+
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_listHelper_snIsolatedListHelper.js.html"
+                    >isolated/listHelper/snIsolatedListHelper.js</a
+                  >,
+                  <a
+                    href="isolated_listHelper_snIsolatedListHelper.js.html#line35"
+                    >line 35</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="subsection-title">Properties:</h5>
+
+          <table class="props">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th>Attributes</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>static</code></td>
+
+                <td class="type">
+                  <span class="param-type">Object</span>
+                </td>
+
+                <td class="attributes"></td>
+
+                <td class="description last"></td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>methods</code></td>
+
+                <td class="type">
+                  <span class="param-type">Object</span>
+                </td>
+
+                <td class="attributes"></td>
+
+                <td class="description last"></td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>extends</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="attributes">&lt;nullable><br /></td>
+
+                <td class="description last"><p>$</p></td>
               </tr>
             </tbody>
           </table>
@@ -757,134 +1262,6 @@
             </li>
           </ul>
 
-          <h4 class="name" id="snVersions">snVersions</h4>
-
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="isolated_snIsolatedBlame.js.html"
-                    >isolated/snIsolatedBlame.js</a
-                  >,
-                  <a href="isolated_snIsolatedBlame.js.html#line197"
-                    >line 197</a
-                  >
-                </li>
-              </ul>
-            </dd>
-          </dl>
-
-          <h5 class="subsection-title">Properties:</h5>
-
-          <table class="props">
-            <thead>
-              <tr>
-                <th>Name</th>
-
-                <th>Type</th>
-
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="name"><code>sys_updated_by</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                </td>
-
-                <td class="description last">
-                  <p>timestap last updated time usualy same as created time</p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>sys_updated_on</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                </td>
-
-                <td class="description last">
-                  <p>timestap last updated time</p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>sys_recorded_at</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                </td>
-
-                <td class="description last">
-                  <p>unix timestamp in HEX when the version was created</p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>reverted_from</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                </td>
-
-                <td class="description last">
-                  <p>
-                    if the version was reverted sys_id of the version reverted
-                    to
-                  </p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>sys_id</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                </td>
-
-                <td class="description last">
-                  <p>unique identifier of the version</p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>state</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                </td>
-
-                <td class="description last">
-                  <p>state of the version current|previous|reverted</p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>source</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                </td>
-
-                <td class="description last">
-                  <p>sys_id of the source (update set or patch)</p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h5 class="h5-types">Type:</h5>
-          <ul>
-            <li>
-              <span class="param-type">Object</span>
-            </li>
-          </ul>
-
           <h4 class="name" id="ServiceNowRESTFactory">ServiceNowRESTFactory</h4>
 
           <dl class="details">
@@ -1002,8 +1379,8 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="main_snBlame.js.html">main/snBlame.js</a>,
-                  <a href="main_snBlame.js.html#line5">line 5</a>
+                  <a href="main_blame_snBlame.js.html">main/blame/snBlame.js</a
+                  >, <a href="main_blame_snBlame.js.html#line5">line 5</a>
                 </li>
               </ul>
             </dd>
@@ -1035,8 +1412,8 @@
 
     <footer>
       Documentation generated by
-      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Sun Aug 10
-      2025 14:59:44 GMT+0200 (hora de verano de Europa central) using the
+      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Sun Aug 31
+      2025 18:58:07 GMT+0200 (hora de verano de Europa central) using the
       <a href="https://github.com/clenemt/docdash">docdash</a> theme.
     </footer>
 
