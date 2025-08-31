@@ -1,4 +1,4 @@
-import MonacoBlameColorMap from '../../scripts/src/isolated/MonacoBlameColorMap.js';
+import MonacoBlameColorMap from '../../scripts/src/isolated/blame/MonacoBlameColorMap.js';
 
 describe("MonacoBlameColorMap", function () {
 	it("should return the same instance", function () {

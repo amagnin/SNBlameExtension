@@ -1,6 +1,6 @@
-import MonacoBlameGutterWrapper from '../../scripts/src/isolated/MonacoBlameGutterWrapper.js';
+import MonacoBlameGutterWrapper from '../../scripts/src/isolated/blame/MonacoBlameGutterWrapper.js';
 import SNBlameOptions from '../../scripts/src/isolated/SNBlameOptions.js';
-import MonacoBlameGutter from '../../scripts/src/isolated/MonacoBlameGutter.js';
+import MonacoBlameGutter from '../../scripts/src/isolated/blame/MonacoBlameGutter.js';
 
 import { JSDOM } from 'jsdom';
 

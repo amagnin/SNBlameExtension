@@ -1,4 +1,4 @@
-import SNBlamePlaceholderContentWidget from '../../scripts/src/main/SNBlamePlaceholderContentWidget.js';
+import SNBlamePlaceholderContentWidget from '../../scripts/src/main/blame/SNBlamePlaceholderContentWidget.js';
 
 global.monaco = {
     editor: {

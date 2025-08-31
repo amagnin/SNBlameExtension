@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>isolated/blame/MonacoBlameColorMap.js - SN Blame</title>
+    <title>snIsolatedListHelper - SN Blame</title>
 
     <meta
       name="description"
@@ -470,81 +470,126 @@
     </nav>
 
     <div id="main">
-      <h1 class="page-title">isolated/blame/MonacoBlameColorMap.js</h1>
+      <h1 class="page-title">snIsolatedListHelper</h1>
 
       <section>
+        <header></header>
+
         <article>
-          <pre class="prettyprint source linenums"><code>/**
- * Singleton managing gutter colors. keeps track of all colors used on the gutter.
- * And allows forms containing multiple monaco editor to have the same color on all versios (blame) 
- * @class
- */
+          <div class="container-overview"></div>
 
-class MonacoBlameColorMap {
+          <h3 class="subsection-title">Methods</h3>
 
-	/** @type {Object}*/
-	#colorMap = {};
+          <h4 class="name" id="~getListData">
+            <span class="type-signature type-signature-async, inner"
+              >(async, inner) </span
+            >getListData<span class="signature"
+              >(table, sysIDList, field, g_ck)</span
+            ><span class="type-signature"></span>
+          </h4>
 
-	/** @constant {Array&lt;String>}*/
-	#colorDefaults = [
-		'#015b57',
-		'#1e3e00',
-		'#621300',
-		'#511458',
-		'#022f73',
-		'#004100',
-		'#910053',
-		'#380011',
-		'#ba2b00',
-		'#7b6601',
-		'#2500c5',
-		'#534200',
-		'#581691',
-		'#010019',
-		'#585250',
-	];
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    Retrieves the scripts to analize, and the script includes
+                    that are being used, and fires the sn-list-helper-response
+                    with all the parsed data
+                  </p>
+                </li>
+              </ul>
+            </dd>
 
-	/**@type {number}*/
-	#index = 0; 
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_listHelper_snIsolatedListHelper.js.html"
+                    >isolated/listHelper/snIsolatedListHelper.js</a
+                  >,
+                  <a
+                    href="isolated_listHelper_snIsolatedListHelper.js.html#line60"
+                    >line 60</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
 
-	constructor(){
+          <h5 class="h5-parameters">Parameters:</h5>
 
-		if(typeof MonacoBlameColorMap.instance === 'object' )
-			return MonacoBlameColorMap.instance;
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
 
-		MonacoBlameColorMap.instance = this;
-		return this;
-	}
+                <th>Type</th>
 
-	/** returns the colour matching the ID, first 15 color are harcoded to ensure suficient contrast between them,
-	 * the rest are random
-	 * 
-	 * @param {string} id: id of the color to return. the ID is stored on #colorMap to return the same color on each ID
-	 * 
-	 * @returns {string}: hsl color to hsl(hue, sat%, lum%)
-	*/
-	getColor(id){
-		if(this.#colorMap[id])
-			return this.#colorMap[id];
+                <th class="last">Description</th>
+              </tr>
+            </thead>
 
-		if(this.#index &lt; this.#colorDefaults.length){
-			this.#colorMap[id] = this.#colorDefaults[this.#index];
-			this.#index++;
-			return this.#colorMap[id];
-		}
+            <tbody>
+              <tr>
+                <td class="name"><code>table</code></td>
 
-		const hue = Math.floor(Math.random() * 360); 
-		const sat = Math.floor(Math.random() * 61); 
-		const lum = Math.floor(20 + (Math.random() * 31));
+                <td class="type">
+                  <span class="param-type">String</span>
+                </td>
 
-		this.#colorMap[id] = `hsl(${hue}, ${sat}%, ${lum}%)`;
+                <td class="description last">
+                  <p>table of the list to analize</p>
+                </td>
+              </tr>
 
-		return this.#colorMap[id];
-	}
+              <tr>
+                <td class="name"><code>sysIDList</code></td>
 
-}
+                <td class="type">
+                  <span class="param-type">Array.&lt;String></span>
+                </td>
 
-export default MonacoBlameColorMap;</code></pre>
+                <td class="description last">
+                  <p>list of sys_ids to analize</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>field</code></td>
+
+                <td class="type">
+                  <span class="param-type">Array.&lt;String></span>
+                </td>
+
+                <td class="description last"><p>script field to analize</p></td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>g_ck</code></td>
+
+                <td class="type">
+                  <span class="param-type">String</span>
+                </td>
+
+                <td class="description last">
+                  <p>servicenow token to performe REST calls</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-fires">Fires:</h5>
+          <ul>
+            <li>
+              <a href="module-SNBlameMain.html#~event:sn-list-helper-response"
+                >event:sn-list-helper-response</a
+              >
+            </li>
+          </ul>
+
+          <h5 class="h5-returns">Returns:</h5>
         </article>
       </section>
     </div>
