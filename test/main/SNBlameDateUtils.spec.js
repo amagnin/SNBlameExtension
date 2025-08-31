@@ -1,4 +1,4 @@
-import SNBlameDateUtils from "../../scripts/src/main/SNBlameDateUtils.js";
+import SNBlameDateUtils from "../../scripts/src/main/blame/SNBlameDateUtils.js";
 
 describe("SNBlameDateUtils", () => {
   let instance;

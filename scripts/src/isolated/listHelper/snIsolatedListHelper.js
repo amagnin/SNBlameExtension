@@ -40,6 +40,23 @@ let tableConfiguration = tableConfig.default;
  * @property extends ${?string}
  */
 
+/** 
+ * @module snIsolatedListHelper
+ * 
+ * @listens sn-list-helper
+ * @fires sn-list-helper-response
+ */
+
+/**
+ * Retrieves the scripts to analize, and the script includes that are being used, and fires the sn-list-helper-response with all the parsed data
+ * @fires sn-list-helper-response
+ * 
+ * @param {String} table table of the list to analize
+ * @param {Array<String>} sysIDList list of sys_ids to analize
+ * @param {Array<String>} field script field to analize
+ * @param {String} g_ck servicenow token to performe REST calls 
+ * @returns 
+ */
 let getListData = async function(table, sysIDList, field, g_ck){
     if(!restFactory)
         restFactory = snRESTFactory(g_ck);

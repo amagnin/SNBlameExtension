@@ -273,78 +273,78 @@ class StaticCodeAnalisisUtil {
         return this.#allScopeMap[id];
     }
 
-      /**
-   * gets the script inlcude with the given identifier form the server, and parses it to use it as monaco extra library
-   *
-   * @param {string} scriptIDList script include sys_id list
-   * @param {string} currentScope scope of the current record
-   *
-   */
-   async triggerScriptIncludeLib(scriptIDList, currentScope, restFactory, postProcessFN) {
-    if (!scriptIDList || scriptIDList.length === 0) return;
+    /**
+     * gets the script inlcude with the given identifier form the server, and parses it to use it as monaco extra library
+     *
+     * @param {string} scriptIDList script include sys_id list
+     * @param {string} currentScope scope of the current record
+     *
+     */
+    async triggerScriptIncludeLib(scriptIDList, currentScope, restFactory, postProcessFN) {
+        if (!scriptIDList || scriptIDList.length === 0) return;
 
-    let scriptList = [];
-    let notCachedScriptList = []
-    let cacheManager = await new CacheManager().conectDB();
+        let scriptList = [];
+        let notCachedScriptList = []
+        let cacheManager = await new CacheManager().conectDB();
 
-    let cachedScriptList = await Promise.all(scriptIDList.map(scriptID => cacheManager.getScriptIncludeCache(scriptID)))
-    await scriptIDList.forEach(async(scriptID, index) => {
-        if(!cachedScriptList[index]){
-            notCachedScriptList.push(scriptID)
+        let cachedScriptList = await Promise.all(scriptIDList.map(scriptID => cacheManager.getScriptIncludeCache(scriptID)))
+        await scriptIDList.forEach(async(scriptID, index) => {
+            if(!cachedScriptList[index]){
+                notCachedScriptList.push(scriptID)
+                return;
+            }
+
+            scriptList.push(cachedScriptList[index].data)
+            
+            if(typeof postProcessFN === 'function')
+                postProcessFN(cachedScriptList[index].data, currentScope);
+        })
+
+        if(notCachedScriptList.length === 0)
+        return scriptList;
+        
+        let body = await restFactory.getRecords('sys_script_include', this.getTableRequiredField('sys_script_include'), `sys_idIN${notCachedScriptList.join(',')}`);
+        if (!body?.result) return;
+
+        body.result.forEach(async scriptInclude => {
+        if(scriptInclude.sys_policy === 'protected' && !scriptInclude.script)
             return;
-        }
 
-        scriptList.push(cachedScriptList[index].data)
+        let scriptIncludeScope = scriptInclude.api_name.split(".")[0];
+        let scriptIncludeObject =
+            this.runScriptIncludesCodeAnalisis(
+            scriptInclude.script,
+            scriptInclude.api_name,
+            currentScope || scriptIncludeScope,
+            scriptIncludeScope
+            );
+        
+        cacheManager.setScriptIncludeCache(scriptInclude.sys_id, scriptIncludeObject, {
+            sys_id:  scriptInclude.sys_id,
+            sys_mod_count: scriptInclude.sys_mod_count,
+            sys_updated_on: scriptInclude.sys_updated_on,
+        });
+
         
         if(typeof postProcessFN === 'function')
-            postProcessFN(cachedScriptList[index].data, currentScope);
-    })
+            postProcessFN(scriptIncludeObject, currentScope)
 
-    if(notCachedScriptList.length === 0)
-      return scriptList;
-    
-    let body = await restFactory.getRecords('sys_script_include', this.getTableRequiredField('sys_script_include'), `sys_idIN${notCachedScriptList.join(',')}`);
-    if (!body?.result) return;
+        scriptList.push(scriptIncludeObject)
+        })
 
-    body.result.forEach(async scriptInclude => {
-      if(scriptInclude.sys_policy === 'protected' && !scriptInclude.script)
-        return;
+        return scriptList
+    }
 
-      let scriptIncludeScope = scriptInclude.api_name.split(".")[0];
-      let scriptIncludeObject =
-        this.runScriptIncludesCodeAnalisis(
-          scriptInclude.script,
-          scriptInclude.api_name,
-          currentScope || scriptIncludeScope,
-          scriptIncludeScope
+    async triggerScriptAnalysisEvent(scriptIncludeObject, currentScope, restFactory, eventTriggerFN){
+        return await scriptIncludeObject.scriptExtends.forEach((className) =>
+        this.triggerScriptIncludeLib(
+            [this.getLoadedLibraries(className)],
+            currentScope,
+            restFactory, 
+            eventTriggerFN
+        )
         );
-    
-      cacheManager.setScriptIncludeCache(scriptInclude.sys_id, scriptIncludeObject, {
-        sys_id:  scriptInclude.sys_id,
-        sys_mod_count: scriptInclude.sys_mod_count,
-        sys_updated_on: scriptInclude.sys_updated_on,
-      });
-
-      
-      if(typeof postProcessFN === 'function')
-        postProcessFN(scriptIncludeObject, currentScope)
-
-      scriptList.push(scriptIncludeObject)
-    })
-
-    return scriptList
-  }
-
-  async triggerScriptAnalysisEvent(scriptIncludeObject, currentScope, restFactory, eventTriggerFN){
-    return await scriptIncludeObject.scriptExtends.forEach((className) =>
-      this.triggerScriptIncludeLib(
-        [this.getLoadedLibraries(className)],
-        currentScope,
-        restFactory, 
-        eventTriggerFN
-      )
-    );
-  }
+    }
 }
 
 export default StaticCodeAnalisisUtil;

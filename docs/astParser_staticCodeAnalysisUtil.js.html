@@ -179,6 +179,53 @@
           </ul>
         </li>
         <li>
+          <a href="CacheManager.html">CacheManager</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="CacheManager.html#conectDB">conectDB</a>
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#getAllBlameCacheKeys"
+                >getAllBlameCacheKeys</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#invalidateScriptIncludeCache"
+                >invalidateScriptIncludeCache</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#getScriptIncludeCache"
+                >getScriptIncludeCache</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#setScriptIncludeCache"
+                >setScriptIncludeCache</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#clearScriptIncludeCache"
+                >clearScriptIncludeCache</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#validateScriptIncludeCache"
+                >validateScriptIncludeCache</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#.getCache">getCache</a>
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#.setCache">setCache</a>
+            </li>
+            <li data-type="method">
+              <a href="CacheManager.html#.invalidateCache">invalidateCache</a>
+            </li>
+          </ul>
+        </li>
+        <li>
           <a href="SNBlameOptions.html">SNBlameOptions</a>
           <ul class="methods">
             <li data-type="method">
@@ -278,6 +325,18 @@
           <ul class="methods">
             <li data-type="method">
               <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~methodWalker"
+                >methodWalker</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~getES6ClassMethods"
+                >getES6ClassMethods</a
+              >
+            </li>
+            <li data-type="method">
+              <a
                 href="module-scriptIncludesStaticCodeAnalysis.html#~getSNClassMethods"
                 >getSNClassMethods</a
               >
@@ -348,6 +407,16 @@
           </ul>
         </li>
         <li><a href="module-SNBlameMain.html">SNBlameMain</a></li>
+        <li>
+          <a href="module-snIsolatedListHelper.html">snIsolatedListHelper</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="module-snIsolatedListHelper.html#~getListData"
+                >getListData</a
+              >
+            </li>
+          </ul>
+        </li>
       </ul>
       <h3>Events</h3>
       <ul>
@@ -682,78 +751,78 @@ class StaticCodeAnalisisUtil {
         return this.#allScopeMap[id];
     }
 
-      /**
-   * gets the script inlcude with the given identifier form the server, and parses it to use it as monaco extra library
-   *
-   * @param {string} scriptIDList script include sys_id list
-   * @param {string} currentScope scope of the current record
-   *
-   */
-   async triggerScriptIncludeLib(scriptIDList, currentScope, restFactory, postProcessFN) {
-    if (!scriptIDList || scriptIDList.length === 0) return;
+    /**
+     * gets the script inlcude with the given identifier form the server, and parses it to use it as monaco extra library
+     *
+     * @param {string} scriptIDList script include sys_id list
+     * @param {string} currentScope scope of the current record
+     *
+     */
+    async triggerScriptIncludeLib(scriptIDList, currentScope, restFactory, postProcessFN) {
+        if (!scriptIDList || scriptIDList.length === 0) return;
 
-    let scriptList = [];
-    let notCachedScriptList = []
-    let cacheManager = await new CacheManager().conectDB();
+        let scriptList = [];
+        let notCachedScriptList = []
+        let cacheManager = await new CacheManager().conectDB();
 
-    let cachedScriptList = await Promise.all(scriptIDList.map(scriptID => cacheManager.getScriptIncludeCache(scriptID)))
-    await scriptIDList.forEach(async(scriptID, index) => {
-        if(!cachedScriptList[index]){
-            notCachedScriptList.push(scriptID)
+        let cachedScriptList = await Promise.all(scriptIDList.map(scriptID => cacheManager.getScriptIncludeCache(scriptID)))
+        await scriptIDList.forEach(async(scriptID, index) => {
+            if(!cachedScriptList[index]){
+                notCachedScriptList.push(scriptID)
+                return;
+            }
+
+            scriptList.push(cachedScriptList[index].data)
+            
+            if(typeof postProcessFN === 'function')
+                postProcessFN(cachedScriptList[index].data, currentScope);
+        })
+
+        if(notCachedScriptList.length === 0)
+        return scriptList;
+        
+        let body = await restFactory.getRecords('sys_script_include', this.getTableRequiredField('sys_script_include'), `sys_idIN${notCachedScriptList.join(',')}`);
+        if (!body?.result) return;
+
+        body.result.forEach(async scriptInclude => {
+        if(scriptInclude.sys_policy === 'protected' &amp;&amp; !scriptInclude.script)
             return;
-        }
 
-        scriptList.push(cachedScriptList[index].data)
+        let scriptIncludeScope = scriptInclude.api_name.split(".")[0];
+        let scriptIncludeObject =
+            this.runScriptIncludesCodeAnalisis(
+            scriptInclude.script,
+            scriptInclude.api_name,
+            currentScope || scriptIncludeScope,
+            scriptIncludeScope
+            );
+        
+        cacheManager.setScriptIncludeCache(scriptInclude.sys_id, scriptIncludeObject, {
+            sys_id:  scriptInclude.sys_id,
+            sys_mod_count: scriptInclude.sys_mod_count,
+            sys_updated_on: scriptInclude.sys_updated_on,
+        });
+
         
         if(typeof postProcessFN === 'function')
-            postProcessFN(cachedScriptList[index].data, currentScope);
-    })
+            postProcessFN(scriptIncludeObject, currentScope)
 
-    if(notCachedScriptList.length === 0)
-      return scriptList;
-    
-    let body = await restFactory.getRecords('sys_script_include', this.getTableRequiredField('sys_script_include'), `sys_idIN${notCachedScriptList.join(',')}`);
-    if (!body?.result) return;
+        scriptList.push(scriptIncludeObject)
+        })
 
-    body.result.forEach(async scriptInclude => {
-      if(scriptInclude.sys_policy === 'protected' &amp;&amp; !scriptInclude.script)
-        return;
+        return scriptList
+    }
 
-      let scriptIncludeScope = scriptInclude.api_name.split(".")[0];
-      let scriptIncludeObject =
-        this.runScriptIncludesCodeAnalisis(
-          scriptInclude.script,
-          scriptInclude.api_name,
-          currentScope || scriptIncludeScope,
-          scriptIncludeScope
+    async triggerScriptAnalysisEvent(scriptIncludeObject, currentScope, restFactory, eventTriggerFN){
+        return await scriptIncludeObject.scriptExtends.forEach((className) =>
+        this.triggerScriptIncludeLib(
+            [this.getLoadedLibraries(className)],
+            currentScope,
+            restFactory, 
+            eventTriggerFN
+        )
         );
-    
-      cacheManager.setScriptIncludeCache(scriptInclude.sys_id, scriptIncludeObject, {
-        sys_id:  scriptInclude.sys_id,
-        sys_mod_count: scriptInclude.sys_mod_count,
-        sys_updated_on: scriptInclude.sys_updated_on,
-      });
-
-      
-      if(typeof postProcessFN === 'function')
-        postProcessFN(scriptIncludeObject, currentScope)
-
-      scriptList.push(scriptIncludeObject)
-    })
-
-    return scriptList
-  }
-
-  async triggerScriptAnalysisEvent(scriptIncludeObject, currentScope, restFactory, eventTriggerFN){
-    return await scriptIncludeObject.scriptExtends.forEach((className) =>
-      this.triggerScriptIncludeLib(
-        [this.getLoadedLibraries(className)],
-        currentScope,
-        restFactory, 
-        eventTriggerFN
-      )
-    );
-  }
+    }
 }
 
 export default StaticCodeAnalisisUtil;</code></pre>
@@ -765,8 +834,8 @@ export default StaticCodeAnalisisUtil;</code></pre>
 
     <footer>
       Documentation generated by
-      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Sun Aug 31
-      2025 18:58:07 GMT+0200 (hora de verano de Europa central) using the
+      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Mon Sep 01
+      2025 01:46:34 GMT+0200 (hora de verano de Europa central) using the
       <a href="https://github.com/clenemt/docdash">docdash</a> theme.
     </footer>
 

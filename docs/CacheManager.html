@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>scriptIncludesStaticCodeAnalysis - SN Blame</title>
+    <title>CacheManager - SN Blame</title>
 
     <meta
       name="description"
@@ -470,19 +470,53 @@
     </nav>
 
     <div id="main">
-      <h1 class="page-title">scriptIncludesStaticCodeAnalysis</h1>
+      <h1 class="page-title">CacheManager</h1>
 
       <section>
-        <header></header>
+        <header>
+          <h2>CacheManager</h2>
+
+          <div class="class-description usertext">
+            <p>
+              Singleton stores and retrieves data from indexeddb or localstorage
+              to prevent unecesary calls to the server Script Includes are
+              stored on indexeddb, script include hash map is stored on
+              localstorage
+            </p>
+          </div>
+        </header>
 
         <article>
-          <div class="container-overview"></div>
+          <div class="container-overview">
+            <h2>Constructor</h2>
 
-          <h3 class="subsection-title">Members</h3>
+            <h4 class="name" id="CacheManager">
+              <span class="type-signature"></span>new CacheManager<span
+                class="signature"
+                >()</span
+              ><span class="type-signature"></span>
+            </h4>
 
-          <h4 class="name" id="~astTree">
-            <span class="type-signature type-signature-inner">(inner) </span
-            >astTree<span class="type-signature"></span>
+            <dl class="details">
+              <dt class="tag-source">Source:</dt>
+              <dd class="tag-source">
+                <ul class="dummy">
+                  <li>
+                    <a href="isolated_CacheManager.js.html"
+                      >isolated/CacheManager.js</a
+                    >, <a href="isolated_CacheManager.js.html#line7">line 7</a>
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+
+          <h3 class="subsection-title">Methods</h3>
+
+          <h4 class="name" id="conectDB">
+            <span class="type-signature"></span>conectDB<span class="signature"
+              >()</span
+            ><span class="type-signature"> &rarr; {Promise}</span>
           </h4>
 
           <dl class="details">
@@ -491,8 +525,8 @@
               <ul class="dummy">
                 <li>
                   <p>
-                    some reserved words are use in script inlcudes in SN,
-                    acornLoose will stil generate a AST ignoring the error
+                    opens the connection to the indexeddb and manages the
+                    onupgradeneeded event
                   </p>
                 </li>
               </ul>
@@ -502,32 +536,373 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="astParser_scriptIncludesStaticCodeAnalysis.js.html"
-                    >astParser/scriptIncludesStaticCodeAnalysis.js</a
-                  >,
-                  <a
-                    href="astParser_scriptIncludesStaticCodeAnalysis.js.html#line434"
-                    >line 434</a
-                  >
+                  <a href="isolated_CacheManager.js.html"
+                    >isolated/CacheManager.js</a
+                  >, <a href="isolated_CacheManager.js.html#line36">line 36</a>
                 </li>
               </ul>
             </dd>
           </dl>
 
-          <div class="description usertext">
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
             <p>
-              some reserved words are use in script inlcudes in SN, acornLoose
-              will stil generate a AST ignoring the error
+              when resolved the singleton will have opened the conection to the
+              indexeddb
             </p>
           </div>
 
-          <h3 class="subsection-title">Methods</h3>
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type">Promise</span>
+            </dd>
+          </dl>
 
-          <h4 class="name" id="~methodWalker">
-            <span class="type-signature type-signature-inner">(inner) </span
-            >methodWalker<span class="signature"
-              >(name, key, isConstructor, serviceNowClassesName,
-              scriptIncludeCache, currentScope, availableScopes, astTree)</span
+          <h4 class="name" id="getAllBlameCacheKeys">
+            <span class="type-signature"></span>getAllBlameCacheKeys<span
+              class="signature"
+              >()</span
+            ><span class="type-signature"> &rarr; {Promise}</span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    gets all sript include sys_id stored on the IDBDatabase for
+                    the IDBObjectStore sys_script_include
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_CacheManager.js.html"
+                    >isolated/CacheManager.js</a
+                  >, <a href="isolated_CacheManager.js.html#line75">line 75</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>
+              resolves to the list of sys_id of all the script includes cached
+            </p>
+          </div>
+
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type">Promise</span>
+            </dd>
+          </dl>
+
+          <h4 class="name" id="invalidateScriptIncludeCache">
+            <span class="type-signature"></span
+            >invalidateScriptIncludeCache<span class="signature">(sys_id)</span
+            ><span class="type-signature"> &rarr; {Promise}</span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    Deletes the script include with given sys_id from the
+                    IDBObjectStore sys_script_include
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_CacheManager.js.html"
+                    >isolated/CacheManager.js</a
+                  >,
+                  <a href="isolated_CacheManager.js.html#line100">line 100</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>sys_id</code></td>
+
+                <td class="type">
+                  <span class="param-type">String</span>
+                </td>
+
+                <td class="description last"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>
+              resolves when the delete transaction is executed correctly can
+              reject the promise on delete error
+            </p>
+          </div>
+
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type">Promise</span>
+            </dd>
+          </dl>
+
+          <h4 class="name" id="getScriptIncludeCache">
+            <span class="type-signature"></span>getScriptIncludeCache<span
+              class="signature"
+              >(sys_id)</span
+            ><span class="type-signature"> &rarr; {Promise}</span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>returns the cached script include for the given sys_id</p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_CacheManager.js.html"
+                    >isolated/CacheManager.js</a
+                  >,
+                  <a href="isolated_CacheManager.js.html#line126">line 126</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>sys_id</code></td>
+
+                <td class="type">
+                  <span class="param-type">String</span>
+                </td>
+
+                <td class="description last"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>
+              resolves to the script include cached for the given sys_id or to
+              null if the record does not exist or can not be retrieved
+            </p>
+          </div>
+
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type">Promise</span>
+            </dd>
+          </dl>
+
+          <h4 class="name" id="setScriptIncludeCache">
+            <span class="type-signature"></span>setScriptIncludeCache<span
+              class="signature"
+              >(sys_id, data, scriptIncludeDetails)</span
+            ><span class="type-signature"> &rarr; {Promise}</span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    stored on the IDBObjectStore sys_script_include the given
+                    parsed and analized script include
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_CacheManager.js.html"
+                    >isolated/CacheManager.js</a
+                  >,
+                  <a href="isolated_CacheManager.js.html#line172">line 172</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>sys_id</code></td>
+
+                <td class="type">
+                  <span class="param-type">String</span>
+                </td>
+
+                <td class="description last">
+                  <p>sys_id of the script to store</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>data</code></td>
+
+                <td class="type">
+                  <span class="param-type">Object</span>
+                </td>
+
+                <td class="description last">
+                  <p>
+                    metadata of the script include (sys_id, sys_updated_on,
+                    sys_mod_count, api_name, etc)
+                  </p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>scriptIncludeDetails</code></td>
+
+                <td class="type">
+                  <span class="param-type">Object</span>
+                </td>
+
+                <td class="description last"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>
+              resolves and returns the isnerted record or resolves to null if
+              the record was not inserted
+            </p>
+          </div>
+
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type">Promise</span>
+            </dd>
+          </dl>
+
+          <h4 class="name" id="clearScriptIncludeCache">
+            <span class="type-signature"></span>clearScriptIncludeCache<span
+              class="signature"
+              >()</span
+            ><span class="type-signature"> &rarr; {Promise}</span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li><p>Clears the IDBObjectStore sys_script_include</p></li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_CacheManager.js.html"
+                    >isolated/CacheManager.js</a
+                  >,
+                  <a href="isolated_CacheManager.js.html#line201">line 201</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>
+              resolve to a string if the IDBObjectStore sys_script_include is
+              cleared or null on error
+            </p>
+          </div>
+
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type">Promise</span>
+            </dd>
+          </dl>
+
+          <h4 class="name" id="validateScriptIncludeCache">
+            <span class="type-signature type-signature-async">(async) </span
+            >validateScriptIncludeCache<span class="signature"
+              >(restFactory)</span
             ><span class="type-signature"></span>
           </h4>
 
@@ -537,8 +912,10 @@
               <ul class="dummy">
                 <li>
                   <p>
-                    Returns the object to be used on by the walk funcition from
-                    acorn-walk
+                    checks all keys on the IDBObjectStore sys_script_include to
+                    and invalidates the ones where the sys_mod_count and
+                    sys_updated_on does not match with what is stored on the
+                    IDBObjectStore
                   </p>
                 </li>
               </ul>
@@ -548,13 +925,10 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="astParser_scriptIncludesStaticCodeAnalysis.js.html"
-                    >astParser/scriptIncludesStaticCodeAnalysis.js</a
+                  <a href="isolated_CacheManager.js.html"
+                    >isolated/CacheManager.js</a
                   >,
-                  <a
-                    href="astParser_scriptIncludesStaticCodeAnalysis.js.html#line109"
-                    >line 109</a
-                  >
+                  <a href="isolated_CacheManager.js.html#line227">line 227</a>
                 </li>
               </ul>
             </dd>
@@ -575,17 +949,69 @@
 
             <tbody>
               <tr>
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>restFactory</code></td>
 
                 <td class="type">
-                  <span class="param-type">String</span>
+                  <span class="param-type"
+                    ><a href="global.html#ServiceNowRESTFactory"
+                      >ServiceNowRESTFactory</a
+                    ></span
+                  >
                 </td>
 
-                <td class="description last">
-                  <p>: API name with out the scope; scirpt include name</p>
-                </td>
+                <td class="description last"></td>
               </tr>
+            </tbody>
+          </table>
 
+          <h5 class="h5-returns">Returns:</h5>
+
+          <h4 class="name" id=".getCache">
+            <span class="type-signature type-signature-static">(static) </span
+            >getCache<span class="signature">(key)</span
+            ><span class="type-signature"> &rarr; (nullable) {String}</span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    gets localstorage data for the given key (apends sn-blame-
+                    to all keys to avoid colision with SN localstorage)
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_CacheManager.js.html"
+                    >isolated/CacheManager.js</a
+                  >,
+                  <a href="isolated_CacheManager.js.html#line299">line 299</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
               <tr>
                 <td class="name"><code>key</code></td>
 
@@ -593,105 +1019,99 @@
                   <span class="param-type">String</span>
                 </td>
 
-                <td class="description last">
+                <td class="description last"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="h5-returns">Returns:</h5>
+
+          <div class="param-desc">
+            <p>if not null or undefined the localstorage for the given key</p>
+          </div>
+
+          <dl class="param-type">
+            <dt>Type</dt>
+            <dd>
+              <span class="param-type">String</span>
+            </dd>
+          </dl>
+
+          <h4 class="name" id=".setCache">
+            <span class="type-signature type-signature-static">(static) </span
+            >setCache<span class="signature">(key, data)</span
+            ><span class="type-signature"></span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
                   <p>
-                    : static or method of the class (servicenow script include)
-                    being analized
+                    Stores on localstorage the data for the given key, it
+                    appends sn-blame to avid colisions with SN localstorage
+                    data, and adds metadata to keep track of when the data was
+                    stored and for what version of the APP, so we can ignore it
+                    if the data is stale or no longer valid
                   </p>
-                </td>
-              </tr>
+                </li>
+              </ul>
+            </dd>
 
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="isolated_CacheManager.js.html"
+                    >isolated/CacheManager.js</a
+                  >,
+                  <a href="isolated_CacheManager.js.html#line332">line 332</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
               <tr>
-                <td class="name"><code>isConstructor</code></td>
+                <th>Name</th>
 
-                <td class="type">
-                  <span class="param-type">Boolean</span>
-                </td>
+                <th>Type</th>
 
-                <td class="description last">
-                  <p>
-                    : true if the node that will be traversed is the constructor
-                    (or initialize is class uses prototype.js)
-                  </p>
-                </td>
+                <th class="last">Description</th>
               </tr>
+            </thead>
 
+            <tbody>
               <tr>
-                <td class="name"><code>serviceNowClassesName</code></td>
-
-                <td class="type">
-                  <span class="param-type">Object</span>
-                </td>
-
-                <td class="description last">
-                  <p>: Object being generated with the Class structure</p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>scriptIncludeCache</code></td>
-
-                <td class="type">
-                  <span class="param-type">Object</span>
-                </td>
-
-                <td class="description last">
-                  <p>
-                    : Servicenow Script include hash map
-                    (scope.className:sys_id)
-                  </p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>currentScope</code></td>
+                <td class="name"><code>key</code></td>
 
                 <td class="type">
                   <span class="param-type">String</span>
                 </td>
 
-                <td class="description last">
-                  <p>: scope of the current script</p>
-                </td>
+                <td class="description last"></td>
               </tr>
 
               <tr>
-                <td class="name"><code>availableScopes</code></td>
+                <td class="name"><code>data</code></td>
 
                 <td class="type">
-                  <span class="param-type">Object</span>
+                  <span class="param-type">Any</span>
                 </td>
 
-                <td class="description last">
-                  <p>
-                    : list of all available servicenow scopes on the current
-                    instnace
-                  </p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>astTree</code></td>
-
-                <td class="type">
-                  <span class="param-type">ASTTree</span>
-                </td>
-
-                <td class="description last">
-                  <p>: AST of the script being analised</p>
-                </td>
+                <td class="description last"></td>
               </tr>
             </tbody>
           </table>
 
-          <h5 class="h5-returns">Returns:</h5>
-
-          <h4 class="name" id="~getES6ClassMethods">
-            <span class="type-signature type-signature-inner">(inner) </span
-            >getES6ClassMethods<span class="signature"
-              >(astTree, es6Classes, scriptIncludeCache, currentScope,
-              availableScopes)</span
-            ><span class="type-signature"> &rarr; {Object}</span>
+          <h4 class="name" id=".invalidateCache">
+            <span class="type-signature type-signature-static">(static) </span
+            >invalidateCache<span class="signature">(key)</span
+            ><span class="type-signature"></span>
           </h4>
 
           <dl class="details">
@@ -700,11 +1120,8 @@
               <ul class="dummy">
                 <li>
                   <p>
-                    function to traverse the AST tree of the scirpt include and
-                    identify class static methods, methods, GlideRecord Calls
-                    other script include invactions, etc used if the script
-                    include is using newest syntax (class Object extends
-                    ParentClass {})
+                    removes the localstorage data for the given key (apends
+                    sn-blame- to avoid colision with SN data)
                   </p>
                 </li>
               </ul>
@@ -714,13 +1131,10 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="astParser_scriptIncludesStaticCodeAnalysis.js.html"
-                    >astParser/scriptIncludesStaticCodeAnalysis.js</a
+                  <a href="isolated_CacheManager.js.html"
+                    >isolated/CacheManager.js</a
                   >,
-                  <a
-                    href="astParser_scriptIncludesStaticCodeAnalysis.js.html#line166"
-                    >line 166</a
-                  >
+                  <a href="isolated_CacheManager.js.html#line350">line 350</a>
                 </li>
               </ul>
             </dd>
@@ -741,516 +1155,16 @@
 
             <tbody>
               <tr>
-                <td class="name"><code>astTree</code></td>
-
-                <td class="type">
-                  <span class="param-type">Object</span>
-                </td>
-
-                <td class="description last">
-                  <p>AST Tree of the Script include to analize</p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>es6Classes</code></td>
-
-                <td class="type">
-                  <span class="param-type">Object</span>
-                </td>
-
-                <td class="description last">
-                  <p>
-                    Variable declaration or Expressions statment on the body of
-                    the script, typicaly it should be the static methods, or a
-                    new class instantiation
-                  </p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>scriptIncludeCache</code></td>
-
-                <td class="type">
-                  <span class="param-type">Object</span>
-                </td>
-
-                <td class="description last">
-                  <p>
-                    Servicenow Script include hash map (scope.className:sys_id)
-                  </p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>currentScope</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                </td>
-
-                <td class="description last"><p>The script scope</p></td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>availableScopes</code></td>
-
-                <td class="type">
-                  <span class="param-type">Array.&lt;string></span>
-                </td>
-
-                <td class="description last">
-                  <p>
-                    All the available scopes on the isntance that has at least 1
-                    script include (retrieved from the scriptIncludeCache)
-                  </p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h5 class="h5-returns">Returns:</h5>
-
-          <div class="param-desc">
-            <p>simplified representation of the ServiceNow Script include.</p>
-          </div>
-
-          <dl class="param-type">
-            <dt>Type</dt>
-            <dd>
-              <span class="param-type">Object</span>
-            </dd>
-          </dl>
-
-          <h4 class="name" id="~getSNClassMethods">
-            <span class="type-signature type-signature-inner">(inner) </span
-            >getSNClassMethods<span class="signature"
-              >(astTree, serviceNowClasses, scriptIncludeCache, currentScope,
-              availableScopes)</span
-            ><span class="type-signature"> &rarr; {Object}</span>
-          </h4>
-
-          <dl class="details">
-            <dt class="tag-description">Description:</dt>
-            <dd class="tag-description">
-              <ul class="dummy">
-                <li>
-                  <p>
-                    function to traverse the AST tree of the scirpt include and
-                    identify class static methods, methods, GlideRecord Calls
-                    other script include invactions, etc
-                  </p>
-                </li>
-              </ul>
-            </dd>
-
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="astParser_scriptIncludesStaticCodeAnalysis.js.html"
-                    >astParser/scriptIncludesStaticCodeAnalysis.js</a
-                  >,
-                  <a
-                    href="astParser_scriptIncludesStaticCodeAnalysis.js.html#line259"
-                    >line 259</a
-                  >
-                </li>
-              </ul>
-            </dd>
-          </dl>
-
-          <h5 class="h5-parameters">Parameters:</h5>
-
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-
-                <th>Type</th>
-
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="name"><code>astTree</code></td>
-
-                <td class="type">
-                  <span class="param-type">Object</span>
-                </td>
-
-                <td class="description last">
-                  <p>AST Tree of the Script include to analize</p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>serviceNowClasses</code></td>
-
-                <td class="type">
-                  <span class="param-type">Object</span>
-                </td>
-
-                <td class="description last">
-                  <p>
-                    Variable declaration or Expressions statment on the body of
-                    the script, typicaly it should be the static methods, or a
-                    new class instantiation
-                  </p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>scriptIncludeCache</code></td>
-
-                <td class="type">
-                  <span class="param-type">Object</span>
-                </td>
-
-                <td class="description last">
-                  <p>
-                    Servicenow Script include hash map (scope.className:sys_id)
-                  </p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>currentScope</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                </td>
-
-                <td class="description last"><p>The script scope</p></td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>availableScopes</code></td>
-
-                <td class="type">
-                  <span class="param-type">Array.&lt;string></span>
-                </td>
-
-                <td class="description last">
-                  <p>
-                    All the available scopes on the isntance that has at least 1
-                    script include (retrieved from the scriptIncludeCache)
-                  </p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h5 class="h5-returns">Returns:</h5>
-
-          <div class="param-desc">
-            <p>simplified representation of the ServiceNow Script include.</p>
-          </div>
-
-          <dl class="param-type">
-            <dt>Type</dt>
-            <dd>
-              <span class="param-type">Object</span>
-            </dd>
-          </dl>
-
-          <h4 class="name" id="~getTableName">
-            <span class="type-signature type-signature-inner">(inner) </span
-            >getTableName<span class="signature"
-              >(node:, serviceNowClassesName, className, astTree)</span
-            ><span class="type-signature"> &rarr; {string|Object}</span>
-          </h4>
-
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="astParser_scriptIncludesStaticCodeAnalysis.js.html"
-                    >astParser/scriptIncludesStaticCodeAnalysis.js</a
-                  >,
-                  <a
-                    href="astParser_scriptIncludesStaticCodeAnalysis.js.html#line375"
-                    >line 375</a
-                  >
-                </li>
-              </ul>
-            </dd>
-          </dl>
-
-          <h5 class="h5-parameters">Parameters:</h5>
-
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-
-                <th>Type</th>
-
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="name"><code>node:</code></td>
-
-                <td class="type">
-                  <span class="param-type">Object</span>
-                </td>
-
-                <td class="description last">
-                  <p>
-                    AST Node for the GlideRecord or GlideRecord Secure Variable
-                    initializetion or variable assignement
-                  </p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>serviceNowClassesName</code></td>
-
-                <td class="type">
-                  <span class="param-type">Object</span>
-                </td>
-
-                <td class="description last">
-                  <p>: Object being generated with the Class structure</p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>className</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                </td>
-
-                <td class="description last">
-                  <p>
-                    : Class name of the current Class beging analized (note
-                    script inclidues can define more than 1 Class)
-                  </p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>astTree</code></td>
-
-                <td class="type">
-                  <span class="param-type">Object</span>
-                </td>
-
-                <td class="description last">
-                  <p>: complete AST of the script include being analized</p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h5 class="h5-returns">Returns:</h5>
-
-          <div class="param-desc">
-            <p>
-              if the table name is found returns the name of the funciton if not
-              it returns the entire ast node
-            </p>
-          </div>
-
-          <dl class="param-type">
-            <dt>Type</dt>
-            <dd>
-              <span class="param-type">string</span>
-              |
-
-              <span class="param-type">Object</span>
-            </dd>
-          </dl>
-
-          <h4 class="name" id="~runScriptIncludeCodeParsing">
-            <span class="type-signature type-signature-inner">(inner) </span
-            >runScriptIncludeCodeParsing<span class="signature">(script:)</span
-            ><span class="type-signature"> &rarr; {Object}</span>
-          </h4>
-
-          <dl class="details">
-            <dt class="tag-description">Description:</dt>
-            <dd class="tag-description">
-              <ul class="dummy">
-                <li><p>runCodeAnalisis: ast static code analisis</p></li>
-              </ul>
-            </dd>
-
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="astParser_scriptIncludesStaticCodeAnalysis.js.html"
-                    >astParser/scriptIncludesStaticCodeAnalysis.js</a
-                  >,
-                  <a
-                    href="astParser_scriptIncludesStaticCodeAnalysis.js.html#line427"
-                    >line 427</a
-                  >
-                </li>
-              </ul>
-            </dd>
-          </dl>
-
-          <h5 class="h5-examples">Example</h5>
-
-          <pre class="prettyprint"><code>{
-  classNameOne : {  
-     methods: {  
-         initialize: {  
-             args: [],  
-             glideRecord: [{table, variable, loop: boolean}],  
-             dependencies: [  
-                 {className: class, methods: [method1, method2], isScriptInclude: Boolean, glideRecord: [{table, variable, loop: boolean}]},  
-                 {func: functionName, glideRecord: [{table, variable, loop: boolean}] }  
-             ]},  
-         method1 : ...,  
-         method2 : ...,  
-         constant: 'CONSTANT',  
-     }  
-     static: {  
-         someFucntion : {args: [],  glideRecord: [{table, variable, loop: boolean}]},  
-         someConstant : 'CONSTANT',  
-         someOtherConstnat: {type: 'Object', value: {}}  
-     }  
-     extends: ExtendedClassName;  
- },
- classNameTwo: {
-     methods: {...}
-     static: {...}
- }  
-}</code></pre>
-
-          <h5 class="h5-parameters">Parameters:</h5>
-
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-
-                <th>Type</th>
-
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="name"><code>script:</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                </td>
-
-                <td class="description last"><p>Script Includes content</p></td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h5 class="h5-returns">Returns:</h5>
-
-          <div class="param-desc">
-            <p>
-              Object containing information of all classes found on the script
-              include
-            </p>
-          </div>
-
-          <dl class="param-type">
-            <dt>Type</dt>
-            <dd>
-              <span class="param-type">Object</span>
-            </dd>
-          </dl>
-
-          <h3 class="subsection-title">Type Definitions</h3>
-
-          <h4 class="name" id="~ACORN_OPTIONS">ACORN_OPTIONS</h4>
-
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="astParser_scriptIncludesStaticCodeAnalysis.js.html"
-                    >astParser/scriptIncludesStaticCodeAnalysis.js</a
-                  >,
-                  <a
-                    href="astParser_scriptIncludesStaticCodeAnalysis.js.html#line83"
-                    >line 83</a
-                  >
-                </li>
-              </ul>
-            </dd>
-          </dl>
-
-          <h5 class="subsection-title">Properties:</h5>
-
-          <table class="props">
-            <thead>
-              <tr>
-                <th>Name</th>
-
-                <th>Type</th>
-
-                <th>Attributes</th>
-
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="name"><code>ecmaVersion:</code></td>
+                <td class="name"><code>key</code></td>
 
                 <td class="type">
                   <span class="param-type">String</span>
                 </td>
 
-                <td class="attributes">&lt;nullable><br /></td>
-
-                <td class="description last"></td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>locations:</code></td>
-
-                <td class="type">
-                  <span class="param-type">Boolean</span>
-                </td>
-
-                <td class="attributes">&lt;nullable><br /></td>
-
-                <td class="description last"></td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>onComment:</code></td>
-
-                <td class="type">
-                  <span class="param-type">function</span>
-                </td>
-
-                <td class="attributes">&lt;nullable><br /></td>
-
                 <td class="description last"></td>
               </tr>
             </tbody>
           </table>
-
-          <h5 class="h5-types">Type:</h5>
-          <ul>
-            <li>
-              <span class="param-type">Object</span>
-            </li>
-          </ul>
         </article>
       </section>
     </div>

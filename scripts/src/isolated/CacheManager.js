@@ -1,4 +1,11 @@
+/**
+ * Singleton stores and retrieves data from indexeddb or localstorage to prevent unecesary calls to the server
+ * Script Includes are stored on indexeddb, script include hash map is stored on localstorage
+ * @class
+ */
+
 class CacheManager {
+  /** @type {string} version of the application*/
   static #version = (function () {
     try {
       return __VERSION__;
@@ -6,8 +13,13 @@ class CacheManager {
       return "1.0.0";
     }
   })();
+  /** @type {string} max time until the cache is considered stale */
   static #maxCacheTime = 1000 * 60 * 60;
+
+  /**@type {?Error} if not null, the connection to indexeddb failed*/
   #dbError = null;
+
+  /**@type {?IDBDatabase} if null indexeddb is not opened yet or it failed */
   #snBlameDB;
 
   constructor() {
@@ -17,6 +29,10 @@ class CacheManager {
     return this;
   }
 
+  /**
+   * opens the connection to the indexeddb and manages the onupgradeneeded event
+   * @returns {Promise} when resolved the singleton will have opened the conection to the indexeddb
+   */
   conectDB(){
     let self = this;
 
@@ -52,6 +68,10 @@ class CacheManager {
      });
   }
 
+  /**
+   * gets all sript include sys_id stored on the IDBDatabase for the IDBObjectStore sys_script_include
+   * @returns {Promise} resolves to the list of sys_id of all the script includes cached
+   */
   getAllBlameCacheKeys() {
     return new Promise((resolve, reject) => {
       if(this.#dbError){
@@ -72,6 +92,11 @@ class CacheManager {
     })
   }
 
+  /**
+   * Deletes the script include with given sys_id from the IDBObjectStore sys_script_include
+   * @param {String} sys_id 
+   * @returns {Promise} resolves when the delete transaction is executed correctly can reject the promise on delete error
+   */
   invalidateScriptIncludeCache(sys_id) {
     return new Promise((resolve, reject) => {
       if(this.#dbError){
@@ -93,6 +118,11 @@ class CacheManager {
 
   }
 
+  /**
+   * returns the cached script include for the given sys_id 
+   * @param {String} sys_id 
+   * @returns {Promise} resolves to the script include cached for the given sys_id or to null if the record does not exist or can not be retrieved
+   */
   getScriptIncludeCache(sys_id) {
     return new Promise((resolve, reject) => {
       if(this.#dbError || !sys_id){
@@ -131,6 +161,14 @@ class CacheManager {
     })
   }
 
+  /**
+   * stored on the IDBObjectStore sys_script_include the given parsed and analized script include
+   * 
+   * @param {String} sys_id sys_id of the script to store
+   * @param {Object} data metadata of the script include (sys_id, sys_updated_on, sys_mod_count, api_name, etc)
+   * @param {Object} scriptIncludeDetails 
+   * @returns {Promise} resolves and returns the isnerted record or resolves to null if the record was not inserted 
+   */
   setScriptIncludeCache(sys_id, data, scriptIncludeDetails) {
     return new Promise((resolve, reject) => {
       if(this.#dbError){
@@ -156,6 +194,10 @@ class CacheManager {
     })
   }
 
+  /**
+   * Clears the IDBObjectStore sys_script_include
+   * @returns {Promise} resolve to a string if the IDBObjectStore sys_script_include is cleared or null on error
+   */
   clearScriptIncludeCache(){
     return new Promise((resolve, reject) => {
       if(this.#dbError){
@@ -174,6 +216,14 @@ class CacheManager {
     });
   }
 
+  /**@typedef {import('../snRESTFactory.js').ServiceNowRESTFactory} ServiceNowRESTFactory */
+
+  /**
+   * checks all keys on the IDBObjectStore sys_script_include to and invalidates the ones where the sys_mod_count
+   * and sys_updated_on does not match with what is stored on the IDBObjectStore
+   * @param {ServiceNowRESTFactory} restFactory 
+   * @returns 
+   */
   async validateScriptIncludeCache(restFactory) {
     if (!restFactory) return;
 
@@ -241,6 +291,11 @@ class CacheManager {
       });
   }
 
+  /**
+   * gets localstorage data for the given key (apends sn-blame- to all keys to avoid colision with SN localstorage)
+   * @param {String} key 
+   * @returns {?String} if not null or undefined the localstorage for the given key
+   */
   static getCache(key) {
     let cache;
 
@@ -268,6 +323,12 @@ class CacheManager {
     return cache.data;
   }
 
+  /**
+   * Stores on localstorage the data for the given key, it appends sn-blame to avid colisions with SN localstorage data, and
+   * adds metadata to keep track of when the data was stored and for what version of the APP, so we can ignore it if the data is stale or no longer valid 
+   * @param {String} key 
+   * @param {Any} data 
+   */
   static setCache(key, data) {
     const cache = {
       version: this.#version,
@@ -282,6 +343,10 @@ class CacheManager {
     }
   }
   
+  /**
+   * removes the localstorage data for the given key (apends sn-blame- to avoid colision with SN data)
+   * @param {String} key 
+   */
   static invalidateCache(key) {
     localStorage.removeItem(`sn-blame-${key}`);
   }

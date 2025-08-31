@@ -80,13 +80,32 @@ import walkerFunctions from './walkerFunctions.js';
  *  SNScriptIncludeCache: /api/now/syntax_editor/cache/sys_script_include  
  *  SNIntelisence: /api/now/v1/syntax_editor/intellisense/sys_script_include  
  */
-
+/**
+ * @typedef ACORN_OPTIONS
+ * @type {Object}
+ * @property ecmaVersion: {?String} 
+ * @property locations: {?Boolean} 
+ * @property onComment: {?Function}
+ */
 const ACORN_OPTIONS = {
     ecmaVersion: 'latest',
     locations: true,
     /* onComment: (block, text, start, end) => {}, */
 }
 
+/**
+ * Returns the object to be used on by the walk funcition from acorn-walk
+ * 
+ * @param {String} name : API name with out the scope; scirpt include name 
+ * @param {String} key : static or method of the class (servicenow script include) being analized
+ * @param {Boolean} isConstructor : true if the node that will be traversed is the constructor (or initialize is class uses prototype.js)
+ * @param {Object} serviceNowClassesName : Object being generated with the Class structure
+ * @param {Object} scriptIncludeCache : Servicenow Script include hash map (scope.className:sys_id)
+ * @param {String} currentScope : scope of the current script
+ * @param {Object} availableScopes : list of all available servicenow scopes on the current instnace 
+ * @param {ASTTree} astTree : AST of the script being analised
+ * @returns 
+ */
 const methodWalker = (name, key, isConstructor, serviceNowClassesName, scriptIncludeCache, currentScope, availableScopes, astTree) => {
     return {
         ExpressionStatement(_node){
@@ -133,6 +152,17 @@ const methodWalker = (name, key, isConstructor, serviceNowClassesName, scriptInc
     }
 }
 
+/**
+ * function to traverse the AST tree of the scirpt include and identify class static methods, methods, GlideRecord Calls other script include invactions, etc
+ * used if the script include is using newest syntax (class Object extends ParentClass {})
+ * 
+ * @param {Object} astTree AST Tree of the Script include to analize
+ * @param {Object} es6Classes Variable declaration or Expressions statment on the body of the script, typicaly it should be the static methods, or a new class instantiation
+ * @param {Object} scriptIncludeCache Servicenow Script include hash map (scope.className:sys_id)
+ * @param {string} currentScope The script scope
+ * @param {Array<string>} availableScopes All the available scopes on the isntance that has at least 1 script include (retrieved from the scriptIncludeCache)
+ * @returns {Object} simplified representation of the ServiceNow Script include.
+ */
 const getES6ClassMethods = (astTree, es6Classes, scriptIncludeCache, currentScope, availableScopes) => {
    return es6Classes.reduce((acc, className) => {
         acc[className] = {methods:{}, static:{}, extends: null};
