@@ -5,7 +5,7 @@ import webpack from "webpack";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import IgnoreEmitPlugin from "ignore-emit-webpack-plugin";
 import TerserJSPlugin from "terser-webpack-plugin";
-import HtmlWebpackPlugin from "html-webpack-plugin"
+import HtmlWebpackPlugin from "html-webpack-plugin";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,7 +18,7 @@ const appConstants = new webpack.DefinePlugin({
 });
 
 const config = {
-  mode: "production",
+  mode: "development",
   module: {
     rules: [
       {
@@ -187,4 +187,14 @@ const popup = Object.assign({}, config, {
   ],
 })
 
-export default [isolated, main, styles, popup];
+export default (env, args)=>{
+  if(env.dev)
+    return [isolated, main, styles, popup];
+
+  isolated.watch = false;
+  main.watch = false;
+  styles.watch = false;
+  popup.watch = false;
+
+  return [isolated, main, styles, popup];
+};

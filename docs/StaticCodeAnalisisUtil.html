@@ -56,22 +56,18 @@
           <a href="StaticCodeAnalisisUtil.html">StaticCodeAnalisisUtil</a>
           <ul class="methods">
             <li data-type="method">
-              <a href="StaticCodeAnalisisUtil.html#updateCache">updateCache</a>
+              <a href="StaticCodeAnalisisUtil.html#updateScriptIncludeMap"
+                >updateScriptIncludeMap</a
+              >
             </li>
             <li data-type="method">
-              <a href="StaticCodeAnalisisUtil.html#getScriptCacheSysID"
-                >getScriptCacheSysID</a
+              <a href="StaticCodeAnalisisUtil.html#getScriptIncludeSysID"
+                >getScriptIncludeSysID</a
               >
             </li>
             <li data-type="method">
               <a href="StaticCodeAnalisisUtil.html#getLoadedLibraries"
                 >getLoadedLibraries</a
-              >
-            </li>
-            <li data-type="method">
-              <a
-                href="StaticCodeAnalisisUtil.html#updateScriptIncludeParsedCache"
-                >updateScriptIncludeParsedCache</a
               >
             </li>
             <li data-type="method">
@@ -103,6 +99,11 @@
             <li data-type="method">
               <a href="StaticCodeAnalisisUtil.html#getScopeFromID"
                 >getScopeFromID</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#triggerScriptIncludeLib"
+                >triggerScriptIncludeLib</a
               >
             </li>
           </ul>
@@ -289,8 +290,8 @@
             </li>
             <li data-type="method">
               <a
-                href="module-scriptIncludesStaticCodeAnalysis.html#~runScriptIncludesCodeAnalisis"
-                >runScriptIncludesCodeAnalisis</a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~runScriptIncludeCodeParsing"
+                >runScriptIncludeCodeParsing</a
               >
             </li>
           </ul>
@@ -348,18 +349,54 @@
         </li>
         <li><a href="module-SNBlameMain.html">SNBlameMain</a></li>
       </ul>
+      <h3>Events</h3>
+      <ul>
+        <li>
+          <a href="module-SNBlameMain.html#~event:sn-list-helper-response"
+            >sn-list-helper-response</a
+          >
+        </li>
+        <li>
+          <a href="module-SNBlameMain.html#~event:sn-blame-start"
+            >sn-blame-start</a
+          >
+        </li>
+        <li>
+          <a href="module-SNBlameMain.html#~event:sn-list-helper-start"
+            >sn-list-helper-start</a
+          >
+        </li>
+        <li>
+          <a href="module-SNBlameMain.html#~event:sn-blame-option-update"
+            >sn-blame-option-update</a
+          >
+        </li>
+      </ul>
       <h3>Global</h3>
       <ul>
-        <li><a href="global.html#BlameLine">BlameLine</a></li>
-        <li><a href="global.html#BlameOptions">BlameOptions</a></li>
         <li><a href="global.html#snVersions">snVersions</a></li>
+        <li><a href="global.html#BlameLine">BlameLine</a></li>
+        <li><a href="global.html#restFactory">restFactory</a></li>
+        <li>
+          <a href="global.html#staticCodeAnalisisUtil"
+            >staticCodeAnalisisUtil</a
+          >
+        </li>
+        <li><a href="global.html#parsedScript">parsedScript</a></li>
+        <li>
+          <a href="global.html#parsedScriptIncludes">parsedScriptIncludes</a>
+        </li>
+        <li>
+          <a href="global.html#parsedScriptInclude">parsedScriptInclude</a>
+        </li>
+        <li><a href="global.html#BlameOptions">BlameOptions</a></li>
         <li>
           <a href="global.html#ServiceNowRESTFactory">ServiceNowRESTFactory</a>
         </li>
+        <li><a href="global.html#MonacoEditor">MonacoEditor</a></li>
         <li>
           <a href="global.html#snBlameRecordWatcher">snBlameRecordWatcher</a>
         </li>
-        <li><a href="global.html#MonacoEditor">MonacoEditor</a></li>
       </ul>
     </nav>
 
@@ -393,8 +430,8 @@
                     <a href="astParser_StaticCodeAnalysisUtil.js.html"
                       >astParser/StaticCodeAnalysisUtil.js</a
                     >,
-                    <a href="astParser_StaticCodeAnalysisUtil.js.html#line16"
-                      >line 16</a
+                    <a href="astParser_StaticCodeAnalysisUtil.js.html#line17"
+                      >line 17</a
                     >
                   </li>
                 </ul>
@@ -404,10 +441,10 @@
 
           <h3 class="subsection-title">Methods</h3>
 
-          <h4 class="name" id="updateCache">
-            <span class="type-signature"></span>updateCache<span
+          <h4 class="name" id="updateScriptIncludeMap">
+            <span class="type-signature"></span>updateScriptIncludeMap<span
               class="signature"
-              >(scriptIncludeCache)</span
+              >(scriptIncludeMap)</span
             ><span class="type-signature"></span>
           </h4>
 
@@ -415,7 +452,7 @@
             <dt class="tag-description">Description:</dt>
             <dd class="tag-description">
               <ul class="dummy">
-                <li><p>updates the scriptIncludeCache</p></li>
+                <li><p>updates the scriptIncludeMap</p></li>
               </ul>
             </dd>
 
@@ -426,8 +463,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line47"
-                    >line 47</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line62"
+                    >line 62</a
                   >
                 </li>
               </ul>
@@ -449,7 +486,7 @@
 
             <tbody>
               <tr>
-                <td class="name"><code>scriptIncludeCache</code></td>
+                <td class="name"><code>scriptIncludeMap</code></td>
 
                 <td class="type">
                   <span class="param-type">Object</span>
@@ -460,8 +497,8 @@
             </tbody>
           </table>
 
-          <h4 class="name" id="getScriptCacheSysID">
-            <span class="type-signature"></span>getScriptCacheSysID<span
+          <h4 class="name" id="getScriptIncludeSysID">
+            <span class="type-signature"></span>getScriptIncludeSysID<span
               class="signature"
               >(className)</span
             ><span class="type-signature"> &rarr; {Object}</span>
@@ -486,8 +523,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line61"
-                    >line 61</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line76"
+                    >line 76</a
                   >
                 </li>
               </ul>
@@ -516,7 +553,7 @@
                 </td>
 
                 <td class="description last">
-                  <p>CLass name to get the script cache sys_id</p>
+                  <p>CLass name to get the script sys_id</p>
                 </td>
               </tr>
             </tbody>
@@ -564,8 +601,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line71"
-                    >line 71</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line86"
+                    >line 86</a
                   >
                 </li>
               </ul>
@@ -613,80 +650,8 @@
             </dd>
           </dl>
 
-          <h4 class="name" id="updateScriptIncludeParsedCache">
-            <span class="type-signature"></span
-            >updateScriptIncludeParsedCache<span class="signature"
-              >(className, scriptCache)</span
-            ><span class="type-signature"></span>
-          </h4>
-
-          <dl class="details">
-            <dt class="tag-description">Description:</dt>
-            <dd class="tag-description">
-              <ul class="dummy">
-                <li>
-                  <p>
-                    TODO: cache invalidation mechanism (removed scirpt for now)
-                    saves the script include to the extension storage to REST
-                    calls for classes already parsed
-                  </p>
-                </li>
-              </ul>
-            </dd>
-
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html"
-                    >astParser/StaticCodeAnalysisUtil.js</a
-                  >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line82"
-                    >line 82</a
-                  >
-                </li>
-              </ul>
-            </dd>
-          </dl>
-
-          <h5 class="h5-parameters">Parameters:</h5>
-
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-
-                <th>Type</th>
-
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="name"><code>className</code></td>
-
-                <td class="type">
-                  <span class="param-type">string</span>
-                </td>
-
-                <td class="description last"></td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>scriptCache</code></td>
-
-                <td class="type">
-                  <span class="param-type">Object</span>
-                </td>
-
-                <td class="description last"></td>
-              </tr>
-            </tbody>
-          </table>
-
           <h4 class="name" id="runScriptIncludesCodeAnalisis">
-            <span class="type-signature type-signature-async">(async) </span
+            <span class="type-signature"></span
             >runScriptIncludesCodeAnalisis<span class="signature"
               >(scriptToParse, className, currentScope,
               scriptIncludesScope)</span
@@ -713,8 +678,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line96"
-                    >line 96</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line99"
+                    >line 99</a
                   >
                 </li>
               </ul>
@@ -826,8 +791,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line140"
-                    >line 140</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line137"
+                    >line 137</a
                   >
                 </li>
               </ul>
@@ -915,8 +880,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line213"
-                    >line 213</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line210"
+                    >line 210</a
                   >
                 </li>
               </ul>
@@ -996,8 +961,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line254"
-                    >line 254</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line251"
+                    >line 251</a
                   >
                 </li>
               </ul>
@@ -1057,8 +1022,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line265"
-                    >line 265</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line262"
+                    >line 262</a
                   >
                 </li>
               </ul>
@@ -1105,8 +1070,8 @@
                   <a href="astParser_StaticCodeAnalysisUtil.js.html"
                     >astParser/StaticCodeAnalysisUtil.js</a
                   >,
-                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line275"
-                    >line 275</a
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line272"
+                    >line 272</a
                   >
                 </li>
               </ul>
@@ -1151,6 +1116,81 @@
               <span class="param-type">string</span>
             </dd>
           </dl>
+
+          <h4 class="name" id="triggerScriptIncludeLib">
+            <span class="type-signature type-signature-async">(async) </span
+            >triggerScriptIncludeLib<span class="signature"
+              >(scriptIDList, currentScope)</span
+            ><span class="type-signature"></span>
+          </h4>
+
+          <dl class="details">
+            <dt class="tag-description">Description:</dt>
+            <dd class="tag-description">
+              <ul class="dummy">
+                <li>
+                  <p>
+                    gets the script inlcude with the given identifier form the
+                    server, and parses it to use it as monaco extra library
+                  </p>
+                </li>
+              </ul>
+            </dd>
+
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html"
+                    >astParser/StaticCodeAnalysisUtil.js</a
+                  >,
+                  <a href="astParser_StaticCodeAnalysisUtil.js.html#line283"
+                    >line 283</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+
+          <h5 class="h5-parameters">Parameters:</h5>
+
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Type</th>
+
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td class="name"><code>scriptIDList</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>script include sys_id list</p>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name"><code>currentScope</code></td>
+
+                <td class="type">
+                  <span class="param-type">string</span>
+                </td>
+
+                <td class="description last">
+                  <p>scope of the current record</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </article>
       </section>
     </div>
@@ -1159,8 +1199,8 @@
 
     <footer>
       Documentation generated by
-      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Sun Aug 10
-      2025 14:59:44 GMT+0200 (hora de verano de Europa central) using the
+      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Sun Aug 31
+      2025 18:58:07 GMT+0200 (hora de verano de Europa central) using the
       <a href="https://github.com/clenemt/docdash">docdash</a> theme.
     </footer>
 

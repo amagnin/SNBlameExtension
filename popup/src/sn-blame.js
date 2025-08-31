@@ -40,6 +40,12 @@ document.getElementById("gutterSize").addEventListener("change", (event)=>{
   updateTabs();
 });
 
+document.getElementById("toggleListHelper").addEventListener("change", (event)=>{
+    options.listHelper = event.currentTarget.checked;
+    (chrome || browser).storage.sync.set({'blameOptions': JSON.stringify(options)});
+    updateTabs();
+});
+
 window.onload = function() {
   (chrome || browser).storage.sync.get("blameOptions", (data) => {
     try {
@@ -48,7 +54,10 @@ window.onload = function() {
       options.hideGutterDate = false;
       options.ignoreWhiteSpace = true;
       options.startOnAction = false;
+      options.useExtensionIntelisense = true;
+      options.listHelper = true;
       options.gutterWidth = 200;
+      options.ignoreTableList = [];
 
       let userOptions = JSON.parse(data.blameOptions)
 
@@ -69,7 +78,10 @@ window.onload = function() {
       options.hideGutterDate = false;
       options.ignoreWhiteSpace = true;
       options.startOnAction = false;
+      options.useExtensionIntelisense = true;
+      options.listHelper = true;
       options.gutterWidth = 200;
+      options.ignoreTableList = [];
 
       let userOptions = JSON.parse(changes.blameOptions.newValue)
 
@@ -97,9 +109,10 @@ let updateView = () => {
     document.getElementById("toggleWhitespace").checked = options.ignoreWhiteSpace;
     document.getElementById("toggleLoadType").checked = options.startOnAction;
     document.getElementById("toggleLoadType").checked = options.startOnAction;
+    document.getElementById("toggleListHelper").checked = options.listHelper;
 
-    document.getElementById("user-label").textContent = options.showUser ? 'Show Update Set': 'Show User';
-    document.getElementById("date-label").textContent = options.hideGutterDate ? 'Show Gutter Date': 'Hide Gutter Date';
+    document.getElementById("user-label").textContent = options.showUser ? 'Show Update Set': 'Show user';
+    document.getElementById("date-label").textContent = options.hideGutterDate ? 'Show gutter date': 'Hide gutter date';
 }
 
 document.getElementById("sn-blame-load").addEventListener("click", ()=>{

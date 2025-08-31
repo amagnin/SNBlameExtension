@@ -155,7 +155,22 @@ let snRESTFactory = function (g_ck) {
      * @returns {string} value of the  proeprty
      */
     let getProperties = async function(name){
+        const params = new URLSearchParams();
+        if(name)
+            params.append('sysparm_query', `name=${name}`);
+            
+        const response = await fetch(
+            `/api/now/table/sys_properties?${params.toString()}`, {
+                method: "GET",
+                headers,
+            }
+        );
 
+        if (!response.ok) {
+            return;
+        }
+
+        return await response.json();
     }
 
     /**

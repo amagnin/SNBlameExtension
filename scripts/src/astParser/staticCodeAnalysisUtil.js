@@ -74,7 +74,7 @@ class StaticCodeAnalisisUtil {
      * @returns {Object} object containing class methods and static methods, and general information about the script
     */
     getScriptIncludeSysID(className){
-        return this.#scriptIncludeMap[className];
+        return this.#scriptIncludeMap[className.trim()];
     }
 
     /**
@@ -97,7 +97,7 @@ class StaticCodeAnalisisUtil {
      * @returns {string} script library string to load on monaco IDE
      */
     runScriptIncludesCodeAnalisis(scriptToParse, className, currentScope, scriptIncludesScope){
-        if(!this.#scriptIncludeMap[className]) return;
+        if(!this.#scriptIncludeMap[className.trim()]) return;
 
         if(this.#loadedLibraries[className]) return this.#loadedLibraries[className];
 
@@ -301,7 +301,7 @@ class StaticCodeAnalisisUtil {
     })
 
     if(notCachedScriptList.length === 0)
-      return;
+      return scriptList;
     
     let body = await restFactory.getRecords('sys_script_include', this.getTableRequiredField('sys_script_include'), `sys_idIN${notCachedScriptList.join(',')}`);
     if (!body?.result) return;

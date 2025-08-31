@@ -4,3 +4,4 @@ styles/dist
 popup/dist
 test/OOBsampleScripts
 test/QuokkaTests
+*.zip

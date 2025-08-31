@@ -18,6 +18,8 @@ export default function snListHelper() {
   let dialog = null;
   let dialogContent = null;
   let parsedScripts = [];
+  let parsedScriptIncludes = [];
+  let loaded = false;
 
   const createDialog = () => {
     dialog = document.createElement("dialog");
@@ -205,7 +207,7 @@ export default function snListHelper() {
       dialogContent.appendChild(scriptContent);
 
       dialog.querySelector(".sn-blame-sub-title-h2").textContent =
-        `${g_list.title}: ${scriptInfo.displayName || recordID}`;
+        `${typeof g_list === 'undefined' ? document.title.split('|')[0].trim() : g_list.title}: ${scriptInfo.displayName || recordID}`;
 
       dialog.showModal();
     };
@@ -258,7 +260,7 @@ export default function snListHelper() {
   if (!/_list(\.do)?$/i.test(location.pathname)) return;
 
   window.addEventListener("sn-list-helper-response", (event) => {
-    parsedScripts = event.detail.parsedScripts;
+    ({ parsedScripts , parsedScriptIncludes} = event.detail);
     document.querySelectorAll(".sn-blame").forEach((el) => {
       el.style.visibility = "visible";
       if (
@@ -270,15 +272,17 @@ export default function snListHelper() {
         el.setAttribute("title", "Script is protected, no analysis available");
       }
     });
-
-    console.log(parsedScripts);
   });
 
   window.addEventListener("sn-list-helper-start", (event) => {
-    hookSNBlameListHelper(event);
+    if(!loaded){
+      hookSNBlameListHelper(event);
+      loaded = true;
+    }
   });
 
   CustomEvent.on ? CustomEvent.on("partial.page.reload", (event) => {
-    hookSNBlameListHelper(event);
+    if(loaded)
+      hookSNBlameListHelper(event);
   }): console.log('can\'t listen to partial.page.reload event');
 }
