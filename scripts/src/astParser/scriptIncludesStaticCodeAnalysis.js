@@ -1,6 +1,8 @@
 import * as walk from 'acorn-walk';
 import * as acorn from 'acorn';
 import * as astring from 'astring';
+import * as acornLoose from 'acorn-loose';
+import walkerFunctions from './walkerFunctions.js';
 
 /**
  *  @module scriptIncludesStaticCodeAnalysis
@@ -11,7 +13,7 @@ import * as astring from 'astring';
  *  @example
  *  this module will Create a object containing all methods of the class and all methods on the constructor  
  *  className : {  
- *      classKeys: {  
+ *      methods: {  
  *          initialize: {  
  *              args: [],  
  *              glideRecord: [{table, variable, loop: boolean}],  
@@ -78,22 +80,187 @@ import * as astring from 'astring';
  *  SNScriptIncludeCache: /api/now/syntax_editor/cache/sys_script_include  
  *  SNIntelisence: /api/now/v1/syntax_editor/intellisense/sys_script_include  
  */
+/**
+ * @typedef ACORN_OPTIONS
+ * @type {Object}
+ * @property ecmaVersion: {?String} 
+ * @property locations: {?Boolean} 
+ * @property onComment: {?Function}
+ */
+const ACORN_OPTIONS = {
+    ecmaVersion: 'latest',
+    locations: true,
+    /* onComment: (block, text, start, end) => {}, */
+}
 
 /**
- * returns true if the node is a call to GlideRecord().next() or GlideRecord()._next() function
+ * Returns the object to be used on by the walk funcition from acorn-walk
  * 
- * @param {string} type :Node Type
- * @param {Object} node 
- * @return {string}
+ * @param {String} name : API name with out the scope; scirpt include name 
+ * @param {String} key : static or method of the class (servicenow script include) being analized
+ * @param {Boolean} isConstructor : true if the node that will be traversed is the constructor (or initialize is class uses prototype.js)
+ * @param {Object} serviceNowClassesName : Object being generated with the Class structure
+ * @param {Object} scriptIncludeCache : Servicenow Script include hash map (scope.className:sys_id)
+ * @param {String} currentScope : scope of the current script
+ * @param {Object} availableScopes : list of all available servicenow scopes on the current instnace 
+ * @param {ASTTree} astTree : AST of the script being analised
+ * @returns 
  */
+const methodWalker = (name, key, isConstructor, serviceNowClassesName, scriptIncludeCache, currentScope, availableScopes, astTree) => {
+    return {
+        ExpressionStatement(_node){
+            let scriptIncludeCall = walkerFunctions.findScriptIncludeCalls(_node, scriptIncludeCache, currentScope, availableScopes);
+            if(scriptIncludeCall)
+                serviceNowClassesName[name].methods[key].scriptIncludeCalls.push(scriptIncludeCall);
 
-const isGlideRecordNext = (type, node) => type === 'CallExpression' && /^(_){0,1}next/.test(node?.callee?.property?.name);
+            if(!isConstructor)
+                return;
+            
+            /** Find class member assignment on constructor*/
+            let constructorExpression = walkerFunctions.getConstructorContextExpresions(_node);
+            
+            if(constructorExpression?.type === 'Literal'){
+                serviceNowClassesName[name].methods[constructorExpression.key] = constructorExpression.value
+            }
 
-const getSNClassMethods = (astTree, serviceNowClasses) => {
+            if(constructorExpression?.type === 'FunctionExpression'){
+                serviceNowClassesName[name].methods[constructorExpression.key] = {
+                    args: constructorExpression.args,
+                    glideRecord: []
+                }
+            }
+        },
+        VariableDeclarator(_node){
+            let {tableNode, variable} = walkerFunctions.getGlideRecordFromDeclaration(_node) || {};
+            if(tableNode && variable){
+                let table = getTableName(tableNode, serviceNowClassesName, name, astTree)
+                serviceNowClassesName[name].methods[key].glideRecord.push({table, variable})
+            }
+        },
+        AssignmentExpression(_node){
+            let {tableNode, variable} = walkerFunctions.getGlideRecordFromAssignment(_node) || {};
+            if(tableNode && variable){
+                let table = getTableName(tableNode, serviceNowClassesName, name, astTree)
+                serviceNowClassesName[name].methods[key].glideRecord.push({table, variable})
+            }                
+        },
+        WhileStatement(_node) {
+            let glideRecord = walkerFunctions.checkNestedWhileRecord(_node, serviceNowClassesName[name].methods[key]);
+            if (glideRecord) 
+                serviceNowClassesName[name].methods[key].glideRecord.push(glideRecord);       
+        },
+    }
+}
+
+/**
+ * function to traverse the AST tree of the scirpt include and identify class static methods, methods, GlideRecord Calls other script include invactions, etc
+ * used if the script include is using newest syntax (class Object extends ParentClass {})
+ * 
+ * @param {Object} astTree AST Tree of the Script include to analize
+ * @param {Object} es6Classes Variable declaration or Expressions statment on the body of the script, typicaly it should be the static methods, or a new class instantiation
+ * @param {Object} scriptIncludeCache Servicenow Script include hash map (scope.className:sys_id)
+ * @param {string} currentScope The script scope
+ * @param {Array<string>} availableScopes All the available scopes on the isntance that has at least 1 script include (retrieved from the scriptIncludeCache)
+ * @returns {Object} simplified representation of the ServiceNow Script include.
+ */
+const getES6ClassMethods = (astTree, es6Classes, scriptIncludeCache, currentScope, availableScopes) => {
+   return es6Classes.reduce((acc, className) => {
+        acc[className] = {methods:{}, static:{}, extends: null};
+        
+        astTree.body.filter(node =>
+            node.type === 'ClassDeclaration' && node.id.name === className
+        ).forEach((node) => {
+            if(node.superClass && node.superClass.type === 'Identifier'){
+                acc[className].extends = node.superClass.name;
+            }
+
+            
+            if(node.body && node.body.body){
+                node.body.body.forEach((_node) => {
+                    let type = _node.static === true ? 'static': 'methods'
+                    if(_node.type === 'MethodDefinition' && (_node.kind === 'method' || _node.kind === 'constructor')){
+                        let SNMethod = acc[className][type][_node.key.name] = {
+                            args: _node.value.params.map(param => param.name),
+                            glideRecord: [],
+                            scriptIncludeCalls: [],
+                            private: _node.key.type === 'PrivateIdentifier',
+                        }
+
+                        let key = _node.key.name;
+                        let name = className;
+                        let isConstructor = _node.kind === 'constructor'
+
+                        if(_node.static){
+                            walk.simple(_node.value, {
+                                VariableDeclarator(blockNode){
+                                    let {tableNode, variable} = walkerFunctions.getGlideRecordFromDeclaration(blockNode) || {};
+                                    if(tableNode && variable){
+                                        let table = tableNode.type === 'Literal' ? blockNode.value : {type : blockNode.type, value: astring.generate(tableNode)}
+                                        SNMethod.glideRecord.push({table, variable})
+                                    }
+                                },
+                                AssignmentExpression(blockNode){
+                                    let {tableNode, variable} = walkerFunctions.getGlideRecordFromAssignment(blockNode) || {};
+                                    if(tableNode && variable){
+                                        let table = tableNode.type === 'Literal' ? blockNode.value : {type : blockNode.type, value: astring.generate(tableNode)}
+                                        SNMethod.glideRecord.push({table, variable})
+                                    }                
+                                },
+                                WhileStatement(blockNode) {
+                                    let glideRecord = walkerFunctions.checkNestedWhileRecord(blockNode, SNMethod);
+                                    if (glideRecord) 
+                                        SNMethod.glideRecord.push(glideRecord);       
+                                },
+                                })
+                            return;
+                        }
+
+                        walk.simple(_node.value, methodWalker(name, key, isConstructor , acc, scriptIncludeCache, currentScope, availableScopes, astTree))
+                        
+                       return
+                    }
+
+                    if(_node.type === 'PropertyDefinition' && _node.static === false && _node.value?.type !== 'FunctionExpression'){
+                        acc[className][type][_node.key.name] = _node.value.type === 'Literal' ? 
+                            _node.value.value : 
+                            { type: _node.value.type, value: _node.value };    
+                        return
+                    }
+
+                    /** not sure why someone will want to define a function like this but it might happen */
+                    if(_node.type === 'PropertyDefinition' && _node.static === true && _node.value?.type === 'FunctionExpression'){
+                        acc[className][type][_node.key.name] = {
+                            args: _node.value.params.map(param => param.name),
+                            glideRecord: [],
+                            scriptIncludeCalls: [],
+                            private: _node.key.type === 'PrivateIdentifier',
+                        }
+                        return
+                    }
+                    
+                });
+            }
+        });
+
+        return acc;
+    },{})
+}
+
+/**
+ * function to traverse the AST tree of the scirpt include and identify class static methods, methods, GlideRecord Calls other script include invactions, etc
+ * 
+ * @param {Object} astTree AST Tree of the Script include to analize
+ * @param {Object} serviceNowClasses Variable declaration or Expressions statment on the body of the script, typicaly it should be the static methods, or a new class instantiation
+ * @param {Object} scriptIncludeCache Servicenow Script include hash map (scope.className:sys_id)
+ * @param {string} currentScope The script scope
+ * @param {Array<string>} availableScopes All the available scopes on the isntance that has at least 1 script include (retrieved from the scriptIncludeCache)
+ * @returns {Object} simplified representation of the ServiceNow Script include.
+ */
+const getSNClassMethods = (astTree, serviceNowClasses, scriptIncludeCache, currentScope, availableScopes) => {
     let serviceNowClassesName = serviceNowClasses.reduce( (acc, node) => {
         if( node.type === 'VariableDeclaration')
             acc[node.declarations[0].id.name] = {
-                classKeys:{},
+                methods:{},
                 static:{},
                 extends: null
             };
@@ -101,7 +268,7 @@ const getSNClassMethods = (astTree, serviceNowClasses) => {
             
         if(node.type === 'ExpressionStatement')
             acc[node.expression.left.name] = {
-                classKeys:{},
+                methods:{},
                 static:{},
                 extends: null
             };
@@ -150,8 +317,10 @@ const getSNClassMethods = (astTree, serviceNowClasses) => {
 
         if(node.expression?.right.type === "CallExpression" && 
             (
-                node.expression?.right.callee?.object.name !== 'Object' ||
-                node.expression?.right.callee?.property.name !== 'extendsObject'
+                node.expression?.right.callee?.object?.name !== 'Object' ||
+                node.expression?.right.callee?.property?.name !== 'extendsObject' ||
+                /** analysis for patern ClassName.prototype = (function(){ return [object]})() missing */
+                node.expression?.right.callee?.type === 'FunctionExpression'
             ))
             return;
 
@@ -161,106 +330,34 @@ const getSNClassMethods = (astTree, serviceNowClasses) => {
             serviceNowClassesName[name].extends = astring.generate(node.expression.right.arguments[0]);
         }
 
-        (node.expression?.right?.properties || node.expression?.right?.arguments[1].properties /** Object.extends **/ ).forEach(property => {
+        (
+            node.expression?.right?.properties || 
+            node.expression?.right?.arguments[1].properties /** Object.extends **/ ||
+            node.expression?.right?.arguments[2].properties /** Object.extends **/ ).forEach(property => {
 
             if(property.value.type === 'FunctionExpression'){
                 let key = property.key.name
-                serviceNowClassesName[name].classKeys[key] = {
+                serviceNowClassesName[name].methods[key] = {
                     args:[],
                     glideRecord:[],
                     dependencies:[]
                 }
 
-                serviceNowClassesName[name].classKeys[key].args = property.value.params.map(e=> e.name)
+                serviceNowClassesName[name].methods[key].args = property.value.params.map(e=> e.name)
+                serviceNowClassesName[name].methods[key].scriptIncludeCalls = [];
                 let isConstructor = key === 'initialize';
                 
-                walk.simple(property.value, {
-                    /**
-                     * Finds any method or constant added to the Instantiated Class by the constructor (initialize) 
-                     * 
-                     * @param {Object} _node: AST Node 
-                     * @returns undefined
-                     */
-                    ExpressionStatement(_node){
-                        if(!isConstructor)
-                            return;
-                        let left = _node.expression?.left;
-                        let right = _node.expression?.right;
-
-                        if(left?.type === 'MemberExpression' && left?.object?.type === 'ThisExpression'){
-                            serviceNowClassesName[name].classKeys[left.property.name] = right.value || right.properties
-                        }
-                    },
-                    /**
-                     * Finds GlideRecord and GlideRecordSecure initializations on variable declarations:
-                     * var grRecord = new GlideRecord('table'), and stores the info on the class and method
-                     *   
-                     * [{  
-                     *      table: String|AST Node - String if we can find the literal, otherwise the AST Node  
-                     *      variable: String - Variable Name  
-                     * }]  
-                     * 
-                     * @param {Object} _node: AST Node 
-                     * 
-                     */
-                    VariableDeclarator(_node){
-                        if(_node.init?.type === 'NewExpression' && (_node.init?.callee.name === 'GlideRecord' || _node.init?.callee.name === 'GlideRecordSecure')){
-                            const table = getTableName(_node.init.arguments[0], serviceNowClassesName, name, astTree);
-                            const variable = _node.id.name;
-
-                            serviceNowClassesName[name].classKeys[key].glideRecord.push({table, variable})
-                        }
-                    },
-                    /**
-                     * Finds GlideRecord and GlideRecordSecure initializations on variable assignment:
-                     * grRecord = new GlideRecord('table'), and stores the info on the class and method
-                     * 
-                     * [{  
-                     *      table: String|AST Node - String if we can find the literal, otherwise the AST Node  
-                     *      variable: String - Variable Name  
-                     * }]  
-                     * 
-                     * @param {Object} _node: AST Node 
-                     * 
-                     */
-                    AssignmentExpression(_node){
-                        if(_node.right?.type === 'NewExpression' && (_node.right?.callee.name === 'GlideRecord' || _node.right?.callee.name === 'GlideRecordSecure')){
-                            const table = getTableName(_node.right.arguments[0], serviceNowClassesName, name, astTree);
-                            const variable = _node.left.name;
-
-                            serviceNowClassesName[name].classKeys[key].glideRecord.push({table, variable}) 
-                        }
-                    },
-                    /**
-                     * Find While statment used to loop over glideRecords and set the loop to true on the Object storing the GlideRecord information.
-                     * 
-                     * @param {Object} _node: AST Node
-                     * 
-                     */
-                    WhileStatement(_node) {
-                        let glideRecord = walk.findNodeAt(_node.test, null, null, isGlideRecordNext)?.node;
-                        
-                        if (!glideRecord) 
-                            return;
-
-                        let grRecord = serviceNowClassesName[name].classKeys[key].glideRecord.find(gr => gr.variable === glideRecord.callee.object.name);
-                        
-                        if(grRecord) 
-                            grRecord.loop = true;
-                        else
-                            serviceNowClassesName[name].classKeys[key].glideRecord.push({table: null, variable: glideRecord.callee.object.name, loop: true})
-                    },
-                })
+                walk.simple(property.value, methodWalker(name, key, isConstructor, serviceNowClassesName, scriptIncludeCache, currentScope, availableScopes, astTree))
                 
                 return;
             }
 
             if(property.value.type === 'Literal'){
-                serviceNowClassesName[name].classKeys[property.key.name] = property.value.value;
+                serviceNowClassesName[name].methods[property.key.name] = property.value.value;
                 return
             }
 
-            serviceNowClassesName[name].classKeys[property.key.name] =  { type: property.value.type, value: property.value };
+            serviceNowClassesName[name].methods[property.key.name] =  { type: property.value.type, value: property.value };
         })
     })
     
@@ -279,8 +376,8 @@ const getTableName = (node, serviceNowClassesName, className, astTree) => {
     if(node.type === 'Literal')
         return node.value
     
-    if(node?.object?.type === 'ThisExpression' && serviceNowClassesName[className].classKeys[node?.property?.name]){
-        return serviceNowClassesName[className].classKeys[node?.property?.name]; 
+    if(node?.object?.type === 'ThisExpression' && serviceNowClassesName[className].methods[node?.property?.name]){
+        return serviceNowClassesName[className].methods[node?.property?.name]; 
     }
   
     if(node?.object?.name === className && serviceNowClassesName[className].static[node?.property?.name]){
@@ -301,7 +398,7 @@ const getTableName = (node, serviceNowClassesName, className, astTree) => {
  * @example 
  * {
  *   classNameOne : {  
- *      classKeys: {  
+ *      methods: {  
  *          initialize: {  
  *              args: [],  
  *              glideRecord: [{table, variable, loop: boolean}],  
@@ -321,22 +418,29 @@ const getTableName = (node, serviceNowClassesName, className, astTree) => {
  *      extends: ExtendedClassName;  
  *  },
  *  classNameTwo: {
- *      classKeys: {...}
+ *      methods: {...}
  *      static: {...}
  *  }  
  * }
  * 
  **/
-function runScriptIncludesCodeAnalisis(script) {
-
-    let astTree = acorn.parse(script, {
-        ecmaVersion: 'latest',
-        locations: true,
-        /* onComment: (block, text, start, end) => {}, */
-    })
+function runScriptIncludeCodeParsing(script, scriptIncludeCache, currentScope, availableScopes, scriptIncludeDetails) {
+    
+    let astTree
+    try {
+        astTree = acorn.parse(script, ACORN_OPTIONS)
+    }catch (error) {
+        /** some reserved words are use in script inlcudes in SN, acornLoose will stil generate a AST ignoring the error */
+        astTree = acornLoose.parse(script, ACORN_OPTIONS)
+    }
     
     /** we can have more than 1 class per script include */
-
+    
+    /** need to check here for es6 class isntead of class create */   
+    const es6Classes = astTree.body.filter(node => node.type === 'ClassDeclaration').map(node => node.id.name);
+    if(es6Classes.length > 0)
+        return getES6ClassMethods(astTree, es6Classes, scriptIncludeCache, currentScope, availableScopes);
+    
     /**
      * VariableDeclaration: var ClassName = Class.create()
      * ExpressionStatemen: ClassName = Class.create()
@@ -356,7 +460,7 @@ function runScriptIncludesCodeAnalisis(script) {
 
     if(serviceNowClasses.length === 0) return [];
 
-    return getSNClassMethods(astTree, serviceNowClasses) ;
+    return getSNClassMethods(astTree, serviceNowClasses, scriptIncludeCache, currentScope, availableScopes);
 }
 
-export default runScriptIncludesCodeAnalisis;
+export default runScriptIncludeCodeParsing;

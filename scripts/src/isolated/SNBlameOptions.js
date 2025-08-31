@@ -28,7 +28,8 @@ class SNBlameOptions {
     "startOnAction",
     "gutterWidth",
     "ignoreTableList",
-    "useExtensionIntelisense"
+    "useExtensionIntelisense",
+    "listHelper"
   ];
 
    /**@type {Array<string>} */
@@ -49,30 +50,31 @@ class SNBlameOptions {
    * reloads the options form the extension storage
    */
   reloadOptions(){
-
     this.options.showUser = false;
     this.options.debugLineNumbers = false;
     this.options.hideGutterDate = false;
     this.options.ignoreWhiteSpace = true;
     this.options.startOnAction = false;
     this.options.useExtensionIntelisense = true;
+    this.options.listHelper = true;
     this.options.gutterWidth = 200;
     this.options.ignoreTableList = [];
 
-    (chrome || browser).storage.sync.get("blameOptions", (data) => {
-      try {
-        let userOptions = JSON.parse(data.blameOptions);
-  
-        Object.keys(userOptions).forEach((key => this.options[key] = userOptions[key]));
-  
-        this.options.ignoreTableList = this.options.ignoreTableList.concat(this.#defaultIgnoreTableList);
-        
-      } catch (e) {
-        
-      } finally{
-        if(!this.options.startOnAction)
-          window.dispatchEvent(new CustomEvent("sn-blame-start"));
-      }
+    return new Promise((resolve, reject)=>{
+      (chrome || browser).storage.sync.get("blameOptions", (data) => {
+        try {
+          let userOptions = JSON.parse(data.blameOptions);
+    
+          Object.keys(userOptions).forEach((key => this.options[key] = userOptions[key]));
+    
+          this.options.ignoreTableList = this.options.ignoreTableList.concat(this.#defaultIgnoreTableList);
+          
+        } catch (e) {
+          
+        } finally{
+          resolve(this.options)
+        }
+      })
     });
   }
 

@@ -1,3 +1,17 @@
+import CacheManager from "./CacheManager.js";
+
+
+/**
+ *  @typedef ServiceNowRESTFactory
+ *  @type {Object}
+ *  @property getVersions {function} retrives the version for the record passed
+ *  @property getScriptIncludes {function} retrieves the script include for the given sys_id
+ *  @property getRecords {function} retrives the a list of records for the given table 
+ *  @property getScope {function} retrives the scope record for the given sys_id
+ *  @property getProperties {function} retrives the value of the system property
+ *  @property getScriptIncludeCache {function} retrieves Servicenow the script includes cache object
+ */
+
 /**
  * Servicenow REST factory  
  * @class
@@ -5,7 +19,8 @@
  * @param {string} g_ck ServiceNow user token to trigger the REST request
  * @returns {ServiceNowRESTFactory} funcitons for all REST calls performed by the extension to the ServiceNow instance
  */
-let SNRESTFactory = function (g_ck) {
+
+let snRESTFactory = function (g_ck) {
     
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -56,10 +71,9 @@ let SNRESTFactory = function (g_ck) {
      * @param {string} sys_id: sys_id of the script includes 
      * @returns {Object} response as a JSON 
      */
-    let getScriptIncludes = async function(sys_id){
-        
+    let getScriptIncludes = async function(sys_id, ignoreCache){
         const response = await fetch(
-            `/api/now/table/sys_script_include/${sys_id}`, {
+            `/api/now/table/sys_script_include/${sys_id}?sysparm_fields=api_name,sys_id,script,name,sys_scope,active,sys_policy`, {
                 method: "GET",
                 headers,
             }
@@ -70,6 +84,46 @@ let SNRESTFactory = function (g_ck) {
         }
 
         let body = await response.json();
+
+        return body;
+    }
+
+    /**
+     * Retrieves a list of records from the given table/filter combo
+     * @param {string} table table name to retrieve the records from 
+     * @param {?Array<string>} fields list of fields to retrieve
+     * @param {?string} filter ServiceNow encoded query 
+     * @returns {Object} response as a JSON 
+     */
+    let getRecords = async function(table, fields, filter, cacheKey){
+        
+        if(cacheKey){
+            let cache  = CacheManager.getCache(cacheKey)
+            if(cache)
+                return cache;
+        }
+
+        const params = new URLSearchParams();
+        if(fields)
+            params.append('sysparm_fields', fields.join(','));
+        if(filter)
+            params.append('sysparm_query', filter);
+
+        const response = await fetch(
+            `/api/now/table/${table}?${params.toString()}`, {
+                method: "GET",
+                headers,
+            }
+        );
+
+        if (!response.ok) {
+            return;
+        }
+
+        let body = await response.json();
+        if( body?.result?.length !== 0 && cacheKey)
+            CacheManager.setCache(cacheKey, body);
+
         return body;
     }
 
@@ -101,14 +155,36 @@ let SNRESTFactory = function (g_ck) {
      * @returns {string} value of the  proeprty
      */
     let getProperties = async function(name){
+        const params = new URLSearchParams();
+        if(name)
+            params.append('sysparm_query', `name=${name}`);
+            
+        const response = await fetch(
+            `/api/now/table/sys_properties?${params.toString()}`, {
+                method: "GET",
+                headers,
+            }
+        );
 
+        if (!response.ok) {
+            return;
+        }
+
+        return await response.json();
     }
 
     /**
      * get Servicenow the script includes cache object
      * @returns {Object} script include cache object containing the scirpt name and sys_id as value pair
      */
-    let getScriptIncludeCache = async function(){
+    let getScriptIncludeCache = async function(ignoreCache){
+        if(!ignoreCache){
+            let cache = CacheManager.getCache('script-includes-map');
+            if(cache)
+                return cache;
+        }
+        
+
         const response = await fetch(
             `/api/now/syntax_editor/cache/sys_script_include`, {
                 method: "GET",
@@ -117,30 +193,23 @@ let SNRESTFactory = function (g_ck) {
         );
 
         let body = await response.json();
+        
         try{
-            return JSON.parse(body.result.result);
+            let result = JSON.parse(body.result.result);
+            CacheManager.setCache('script-includes-map', result);
+            return result
         }catch(e){
             return {};
         }
     }
 
-    /**
-     *  @typedef ServiceNowRESTFactory
-     *  @type {Object}
-     *  @property getVersions {function} retrives the version for the record passed
-     *  @property getScriptIncludes {function} retrieves the script include for the given sys_id
-     *  @property getScope {function} retrives the scipe record for the given sys_id
-     *  @property getProperties {function} retrives the value of the system property
-     *  @property getScriptIncludeCache {function} retrieves Servicenow the script includes cache object
-     */
-
-
     return {
         getVersions,
         getScriptIncludes,
+        getRecords,
         getScope,
         getProperties,
         getScriptIncludeCache,
     }
 }
-export default SNRESTFactory;
+export default snRESTFactory;

@@ -2,20 +2,34 @@
   "type": "module",
   "dependencies": {
     "acorn": "^8.14.0",
+    "acorn-loose": "^8.4.0",
     "acorn-walk": "^8.3.4",
     "astring": "^1.9.0",
     "x2js": "^3.4.4"
   },
   "devDependencies": {
+    "archiver": "^7.0.1",
+    "css-loader": "^7.1.2",
+    "docdash": "^2.0.2",
+    "file-loader": "^6.2.0",
+    "html-loader": "^5.1.0",
+    "html-webpack-plugin": "^5.6.4",
+    "ignore-emit-webpack-plugin": "^2.0.6",
     "jasmine": "^5.5.0",
     "jsdoc": "^4.0.4",
-    "docdash": "^2.0.2",
+    "jsdom": "^26.0.0",
+    "mini-css-extract-plugin": "^2.9.2",
+    "prettier": "^3.5.0",
+    "sass": "^1.89.2",
+    "sass-loader": "^16.0.5",
+    "template-ejs-loader": "^0.9.4",
     "webpack": "^5.96.1",
     "webpack-cli": "^5.1.4"
   },
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "webpack --mode production --env dev",
     "test": "jasmine --config=jasmine.mjs",
-    "doc": "jsdoc -c jsdoc.json"
+    "doc": "jsdoc -c jsdoc.json & prettier --write docs/*.html",
+    "dist": "webpack --mode production --env dist & node archiver.js"
   }
 }

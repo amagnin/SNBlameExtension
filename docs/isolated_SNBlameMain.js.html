@@ -1,73 +1,372 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <title>isolated/SNBlameMain.js - SN Blame</title>
-    
-    <meta name="description" content="ServiceNow Browser Extensions utility tool" />
-    
-        <meta name="keywords" content="ServiceNow" />
-        <meta name="keyword" content="ServiceNow" />
-    
-    
-    
-    <meta property="og:title" content="SN Blame"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:image" content=""/>
-    <meta property="og:site_name" content="SN Blame"/>
-    <meta property="og:url" content=""/>
-    
+
+    <meta
+      name="description"
+      content="ServiceNow Browser Extensions utility tool"
+    />
+
+    <meta name="keywords" content="ServiceNow" />
+    <meta name="keyword" content="ServiceNow" />
+
+    <meta property="og:title" content="SN Blame" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="" />
+    <meta property="og:site_name" content="SN Blame" />
+    <meta property="og:url" content="" />
+
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css" />
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css" />
     <script src="scripts/nav.js" defer></script>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
 
-<input type="checkbox" id="nav-trigger" class="nav-trigger" />
-<label for="nav-trigger" class="navicon-button x">
-  <div class="navicon"></div>
-</label>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+    <label for="nav-trigger" class="navicon-button x">
+      <div class="navicon"></div>
+    </label>
 
-<label for="nav-trigger" class="overlay"></label>
+    <label for="nav-trigger" class="overlay"></label>
 
-<nav >
-    
-    <input type="text" id="nav-search" placeholder="Search" />
-    
-    
-    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/amagnin/SNBlameExtension" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Classes</h3><ul><li><a href="MonacoBlameColorMap.html">MonacoBlameColorMap</a><ul class='methods'><li data-type='method'><a href="MonacoBlameColorMap.html#getColor">getColor</a></li></ul></li><li><a href="MonacoBlameGutter.html">MonacoBlameGutter</a><ul class='methods'><li data-type='method'><a href="MonacoBlameGutter.html#createGutter">createGutter</a></li><li data-type='method'><a href="MonacoBlameGutter.html#updateLines">updateLines</a></li><li data-type='method'><a href="MonacoBlameGutter.html#updateGutterSize">updateGutterSize</a></li><li data-type='method'><a href="MonacoBlameGutter.html#updateGutter">updateGutter</a></li><li data-type='method'><a href="MonacoBlameGutter.html#destroyGutter">destroyGutter</a></li></ul></li><li><a href="MonacoBlameGutterWrapper.html">MonacoBlameGutterWrapper</a><ul class='methods'><li data-type='method'><a href="MonacoBlameGutterWrapper.html#createGutter">createGutter</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutter">updateGutter</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutterLines">updateGutterLines</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutterSize">updateGutterSize</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#destroyGutter">destroyGutter</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#updateGutterOptions">updateGutterOptions</a></li><li data-type='method'><a href="MonacoBlameGutterWrapper.html#gutterExists">gutterExists</a></li></ul></li><li><a href="SNBlameOptions.html">SNBlameOptions</a><ul class='methods'><li data-type='method'><a href="SNBlameOptions.html#reloadOptions">reloadOptions</a></li><li data-type='method'><a href="SNBlameOptions.html#getOption">getOption</a></li><li data-type='method'><a href="SNBlameOptions.html#setOption">setOption</a></li><li data-type='method'><a href="SNBlameOptions.html#getAllOptions">getAllOptions</a></li></ul></li><li><a href="SNRESTFactory.html">SNRESTFactory</a><ul class='methods'><li data-type='method'><a href="SNRESTFactory.html#~getVersions">getVersions</a></li><li data-type='method'><a href="SNRESTFactory.html#~getScriptIncludes">getScriptIncludes</a></li><li data-type='method'><a href="SNRESTFactory.html#~getScope">getScope</a></li><li data-type='method'><a href="SNRESTFactory.html#~getProperties">getProperties</a></li><li data-type='method'><a href="SNRESTFactory.html#~getScriptIncludeCache">getScriptIncludeCache</a></li></ul></li><li><a href="SNBlameDateUtils.html">SNBlameDateUtils</a><ul class='methods'><li data-type='method'><a href="SNBlameDateUtils.html#.getFormattedDate">getFormattedDate</a></li><li data-type='method'><a href="SNBlameDateUtils.html#.timeAgo">timeAgo</a></li></ul></li><li><a href="SNBlamePlaceholderContentWidget.html">SNBlamePlaceholderContentWidget</a><ul class='methods'><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#updateDiff">updateDiff</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#onCursorChange">onCursorChange</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#getId">getId</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#getDomNode">getDomNode</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#getPosition">getPosition</a></li><li data-type='method'><a href="SNBlamePlaceholderContentWidget.html#dispose">dispose</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-scriptIncludesStaticCodeAnalysis.html">scriptIncludesStaticCodeAnalysis</a><ul class='methods'><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~isGlideRecordNext">isGlideRecordNext</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~ExpressionStatement">ExpressionStatement</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~VariableDeclarator">VariableDeclarator</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~AssignmentExpression">AssignmentExpression</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~WhileStatement">WhileStatement</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~getTableName">getTableName</a></li><li data-type='method'><a href="module-scriptIncludesStaticCodeAnalysis.html#~runScriptIncludesCodeAnalisis">runScriptIncludesCodeAnalisis</a></li></ul></li><li><a href="module-scriptIncludesToExtraLib.html">scriptIncludesToExtraLib</a><ul class='methods'><li data-type='method'><a href="module-scriptIncludesToExtraLib.html#~getScriptIncludeLib">getScriptIncludeLib</a></li></ul></li><li><a href="module-SNBlameMain.html">SNBlameMain</a><ul class='methods'><li data-type='method'><a href="module-SNBlameMain.html#~getVersions">getVersions</a></li><li data-type='method'><a href="module-SNBlameMain.html#~removeReverted">removeReverted</a></li><li data-type='method'><a href="module-SNBlameMain.html#~getBlame">getBlame</a></li><li data-type='method'><a href="module-SNBlameMain.html#~getDiffsWithCurrent">getDiffsWithCurrent</a></li><li data-type='method'><a href="module-SNBlameMain.html#~triggerScriptIncludeLib">triggerScriptIncludeLib</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#BlameLine">BlameLine</a></li><li><a href="global.html#BlameOptions">BlameOptions</a></li><li><a href="global.html#ServiceNowRESTFactory">ServiceNowRESTFactory</a></li><li><a href="global.html#MonacoEditor">MonacoEditor</a></li><li><a href="global.html#snBlamebootstrap">snBlamebootstrap</a></li></ul>
-    
-</nav>
+    <nav>
+      <input type="text" id="nav-search" placeholder="Search" />
 
-<div id="main">
-    
-    <h1 class="page-title">isolated/SNBlameMain.js</h1>
-    
+      <h2><a href="index.html">Home</a></h2>
+      <h2>
+        <a
+          href="https://github.com/amagnin/SNBlameExtension"
+          target="_blank"
+          class="menu-item"
+          id="repository"
+          >Github repo</a
+        >
+      </h2>
+      <h3>Classes</h3>
+      <ul>
+        <li>
+          <a href="StaticCodeAnalisisUtil.html">StaticCodeAnalisisUtil</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#updateCache">updateCache</a>
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#getScriptCacheSysID"
+                >getScriptCacheSysID</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="StaticCodeAnalisisUtil.html#getLoadedLibraries"
+                >getLoadedLibraries</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="MonacoBlameColorMap.html">MonacoBlameColorMap</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="MonacoBlameColorMap.html#getColor">getColor</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="MonacoBlameGutter.html">MonacoBlameGutter</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#createGutter">createGutter</a>
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#updateLines">updateLines</a>
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#updateGutterSize"
+                >updateGutterSize</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#updateGutter">updateGutter</a>
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutter.html#destroyGutter">destroyGutter</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="MonacoBlameGutterWrapper.html">MonacoBlameGutterWrapper</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#createGutter"
+                >createGutter</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#updateGutter"
+                >updateGutter</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#updateGutterLines"
+                >updateGutterLines</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#updateGutterSize"
+                >updateGutterSize</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#destroyGutter"
+                >destroyGutter</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#updateGutterOptions"
+                >updateGutterOptions</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="MonacoBlameGutterWrapper.html#gutterExists"
+                >gutterExists</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="SNBlameOptions.html">SNBlameOptions</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="SNBlameOptions.html#reloadOptions">reloadOptions</a>
+            </li>
+            <li data-type="method">
+              <a href="SNBlameOptions.html#getOption">getOption</a>
+            </li>
+            <li data-type="method">
+              <a href="SNBlameOptions.html#setOption">setOption</a>
+            </li>
+            <li data-type="method">
+              <a href="SNBlameOptions.html#getAllOptions">getAllOptions</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="SNRESTFactory.html">SNRESTFactory</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="SNRESTFactory.html#~getVersions">getVersions</a>
+            </li>
+            <li data-type="method">
+              <a href="SNRESTFactory.html#~getScriptIncludes"
+                >getScriptIncludes</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNRESTFactory.html#~getScope">getScope</a>
+            </li>
+            <li data-type="method">
+              <a href="SNRESTFactory.html#~getProperties">getProperties</a>
+            </li>
+            <li data-type="method">
+              <a href="SNRESTFactory.html#~getScriptIncludeCache"
+                >getScriptIncludeCache</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="SNBlameDateUtils.html">SNBlameDateUtils</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="SNBlameDateUtils.html#.getFormattedDate"
+                >getFormattedDate</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlameDateUtils.html#.timeAgo">timeAgo</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="SNBlamePlaceholderContentWidget.html"
+            >SNBlamePlaceholderContentWidget</a
+          >
+          <ul class="methods">
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#updateDiff"
+                >updateDiff</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#onCursorChange"
+                >onCursorChange</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#getId">getId</a>
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#getDomNode"
+                >getDomNode</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#getPosition"
+                >getPosition</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="SNBlamePlaceholderContentWidget.html#dispose">dispose</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <h3>Modules</h3>
+      <ul>
+        <li>
+          <a href="module-scriptIncludesStaticCodeAnalysis.html"
+            >scriptIncludesStaticCodeAnalysis</a
+          >
+          <ul class="methods">
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~getSNClassMethods"
+                >getSNClassMethods</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~getTableName"
+                >getTableName</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesStaticCodeAnalysis.html#~runScriptIncludesCodeAnalisis"
+                >runScriptIncludesCodeAnalisis</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="module-scriptIncludesToExtraLib.html"
+            >scriptIncludesToExtraLib</a
+          >
+          <ul class="methods">
+            <li data-type="method">
+              <a
+                href="module-scriptIncludesToExtraLib.html#~getScriptIncludeLib"
+                >getScriptIncludeLib</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="module-walkerFunctions.html">walkerFunctions</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="module-walkerFunctions.html#~isGlideRecordNext"
+                >isGlideRecordNext</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-walkerFunctions.html#~getConstructorContextExpresions"
+                >getConstructorContextExpresions</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-walkerFunctions.html#~getGlideRecordFromDeclaration"
+                >getGlideRecordFromDeclaration</a
+              >
+            </li>
+            <li data-type="method">
+              <a
+                href="module-walkerFunctions.html#~getGlideRecordFromAssignment"
+                >getGlideRecordFromAssignment</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="module-walkerFunctions.html#~checkNestedWhileRecord"
+                >checkNestedWhileRecord</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="module-walkerFunctions.html#~removeParentesis"
+                >removeParentesis</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="module-SNBlameMain.html">SNBlameMain</a>
+          <ul class="methods">
+            <li data-type="method">
+              <a href="module-SNBlameMain.html#~getVersions">getVersions</a>
+            </li>
+            <li data-type="method">
+              <a href="module-SNBlameMain.html#~removeReverted"
+                >removeReverted</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="module-SNBlameMain.html#~getBlame">getBlame</a>
+            </li>
+            <li data-type="method">
+              <a href="module-SNBlameMain.html#~getDiffsWithCurrent"
+                >getDiffsWithCurrent</a
+              >
+            </li>
+            <li data-type="method">
+              <a href="module-SNBlameMain.html#~triggerScriptIncludeLib"
+                >triggerScriptIncludeLib</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <h3>Global</h3>
+      <ul>
+        <li><a href="global.html#BlameLine">BlameLine</a></li>
+        <li><a href="global.html#BlameOptions">BlameOptions</a></li>
+        <li>
+          <a href="global.html#ServiceNowRESTFactory">ServiceNowRESTFactory</a>
+        </li>
+        <li><a href="global.html#MonacoEditor">MonacoEditor</a></li>
+        <li><a href="global.html#snBlamebootstrap">snBlamebootstrap</a></li>
+        <li><a href="global.html#MonacoToken">MonacoToken</a></li>
+      </ul>
+    </nav>
 
-    
+    <div id="main">
+      <h1 class="page-title">isolated/SNBlameMain.js</h1>
 
-
-
-    
-    <section>
+      <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import MonacoBlameGutterWrapper from "./MonacoBlameGutterWrapper.js";
+          <pre
+            class="prettyprint source linenums"
+          ><code>import MonacoBlameGutterWrapper from "./MonacoBlameGutterWrapper.js";
 import SNBlameOptions from "./SNBlameOptions.js";
 import SNRESTFactory from "./SNRestFactory.js";
 
+import StaticCodeAnalisisUtil from "../astParser/staticCodeAnalysisUtil.js";
 import runScriptIncludesCodeAnalisis from "../astParser/scriptIncludesStaticCodeAnalysis.js";
 import getScriptIncludeLib from "../astParser/scriptIncludesToExtraLib.js";
 
 import patienceDiff from "../../libraries/patienceDiff.js";
 import X2JS from "x2js";
+
+import * as acorn from "acorn";
+import * as acornLoose from 'acorn-loose';
+import * as walk from 'acorn-walk';
 
 /**
  * @typedef BlameLine
@@ -108,8 +407,6 @@ import X2JS from "x2js";
 
 /** @type {Object} */
 let serverDiff = {};
-/** @type {Object} */
-let scriptIncludeCache = {};
 /** @type {boolean} */
 let loaded = false;
 /** @type {Object} */
@@ -117,6 +414,9 @@ let loadedLibs = {}
 
 /** @type {ServiceNowRESTFactory} */
 let restFactory;
+
+/** @type {StaticCodeAnalisisUtil}*/
+let staticCodeAnalisisUtil;
 
 /** 
  * @type {Object} 
@@ -205,10 +505,10 @@ let LISTENERS = {
     gutters.updateGutterLines(field, currentDiff);
   },
   'sn-check-tokens': (event) => {
-    const { tokens, field } = event.detail;
+    const { tokens, field, currentScope } = event.detail;
 
     tokens.forEach((token) => {
-      triggerScriptIncludeLib(`${token.scope}.${token.string}`)
+      triggerScriptIncludeLib(`${token.scope}.${token.string}`, currentScope)
     })
   },
   'sn-get-scirpt_include_cache': (event) => {
@@ -217,8 +517,30 @@ let LISTENERS = {
     }
 
     restFactory.getScriptIncludeCache().then((cache)=>{
-      scriptIncludeCache = cache;
+      staticCodeAnalisisUtil = new StaticCodeAnalisisUtil(cache);
+      
+      //window.dispatchEvent(new CustomEvent("sn-blame-trigger-full-script-intelisense"));
     });
+
+  },
+  'sn-check-full-script': (event) => {
+    const {script, field, currentScope} = event.detail;
+
+    let scriptBody;
+    try {
+      scriptBody = acorn.parse(script)
+    }catch(e){
+      scriptBody = acornLoose.parse(script)
+    }
+    
+    walk.simple(scriptBody, {
+      ExpressionStatement(node){
+        /**find classes */
+      },
+      VariableDeclaration(node){
+        /**find classes */
+      },
+    })
     
   }
 };
@@ -441,75 +763,58 @@ function getDiffsWithCurrent(newModelValue, serverValue, ignoreWhiteSpace) {
 }
 
 /**
- * WIP
- * @param {string} identifier 
- *
+ * TODO: refactor
+ * gets the script inlcude with the given identifier form the server, and parses it to use it as monaco extra library
+ *   
+ * @param {string} identifier script include identifier {scope.classname}
+ * @param {string} currentScope scope of the current record
+ * 
  */
-function triggerScriptIncludeLib(identifier){
-  if(loadedLibs[identifier]) 
+async function triggerScriptIncludeLib(identifier, currentScope){
+  if(staticCodeAnalisisUtil.getLoadedLibraries(identifier)) 
     return;
 
-  if(!scriptIncludeCache.sys_script_include[identifier]) 
+  if(!staticCodeAnalisisUtil.getScriptCacheSysID(identifier)) 
     return;
 
-  restFactory.getScriptIncludes(scriptIncludeCache.sys_script_include[identifier]).then((body) => {
-    if(!body?.result?.script) return;
-    let scriptIncludeObject = runScriptIncludesCodeAnalisis(body.result.script);
+  let body = await restFactory.getScriptIncludes(staticCodeAnalisisUtil.getScriptCacheSysID(identifier))
+  if(!body?.result?.script) return
 
-    let scriptScope = body.result.api_name.split('.')[0];
-    let scriptExtends = [];
+  let scriptInclideScope = body.result.api_name.split('.')[0];
 
-    let libs = Object.keys(scriptIncludeObject).map((className) => {
-      let lib = getScriptIncludeLib(className, scriptIncludeObject[className]);
-      let ext = scriptIncludeObject[className].extends;
+  let scriptIncludeObject = await staticCodeAnalisisUtil.runScriptIncludesCodeAnalisis(body.result.script, identifier, currentScope, scriptInclideScope);
 
-      if(!ext)
-        return lib;
+  window.dispatchEvent(new CustomEvent("sn-load-library", {
+    detail: {
+      libs : scriptIncludeObject.libs,
+    },
+  }));
 
-      if(ext.split('.').length === 2)
-        scriptExtends.push(ext);
-      else
-        scriptExtends.push(`${scriptScope}.${ext}`);
+  scriptIncludeObject.scriptExtends.forEach((className) => 
+    triggerScriptIncludeLib(className, className.split('.')[1] ? className.split('.')[0] : currentScope)
+  );
 
-      return lib;
-    }) ;
-
-    loadedLibs[identifier] = {scriptIncludeObject, libs};
-
-    window.dispatchEvent(new CustomEvent("sn-load-library", {
-      detail: {
-        libs,
-      },
-    }));
-
-    scriptExtends.forEach((lib) => triggerScriptIncludeLib(lib));
-  })
-  
 }
 </code></pre>
         </article>
-    </section>
+      </section>
+    </div>
 
+    <br class="clear" />
 
+    <footer>
+      Documentation generated by
+      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Thu Feb 13
+      2025 00:14:34 GMT+0100 (hora estándar de Europa central) using the
+      <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    </footer>
 
+    <script>
+      prettyPrint();
+    </script>
+    <script src="scripts/polyfill.js"></script>
+    <script src="scripts/linenumber.js"></script>
 
-    
-    
-</div>
-
-<br class="clear">
-
-<footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Mon Jan 20 2025 21:46:06 GMT+0100 (hora estándar de Europa central) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
-</footer>
-
-<script>prettyPrint();</script>
-<script src="scripts/polyfill.js"></script>
-<script src="scripts/linenumber.js"></script>
-
-<script src="scripts/search.js" defer></script>
-
-
-
-</body>
+    <script src="scripts/search.js" defer></script>
+  </body>
 </html>
