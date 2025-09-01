@@ -27,5 +27,6 @@ archive.append(fs.createReadStream(`${__dirname}/image.png`), { name: 'image.png
 archive.directory('popup/dist', 'popup/dist');
 archive.directory('scripts/dist', 'scripts/dist');
 archive.directory('styles/dist', 'styles/dist');
+archive.directory('images', 'images');
 
 archive.finalize();
