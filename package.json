@@ -22,6 +22,7 @@
     "prettier": "^3.5.0",
     "sass": "^1.89.2",
     "sass-loader": "^16.0.5",
+    "selenium-webdriver": "^4.35.0",
     "template-ejs-loader": "^0.9.4",
     "webpack": "^5.96.1",
     "webpack-cli": "^5.1.4"
