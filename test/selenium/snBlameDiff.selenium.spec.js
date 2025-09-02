@@ -1,36 +1,51 @@
-import {Builder, Browser, By, Key, until, promise}  from 'selenium-webdriver';
-import path from "path";
+import { Builder, Browser, Capabilities, promise, until, By } from "selenium-webdriver";
+import dotenv from "dotenv";
+import * as chrome from "selenium-webdriver/chrome.js";
 
-const __dirname = path.resolve('./');
+import * as chromedriver from "chromedriver";
+import fs from "fs";
+import * as path from "path";
+import { fileURLToPath } from "url";
 
-describe('Selenium with Jasmine', function() {
-    let driver;
+dotenv.config();
+
+const PDI_URL = process.env.PDI_URL;
+const PDI_USER = process.env.PDI_USER;
+const PDI_PASSWORD = process.env.PDI_PASSWORD;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const extensionPath = path.resolve(__dirname, "../../");
+
+const encodeExt = file => {
+  const stream = fs.readFileSync(path.resolve(file));
+  return Buffer.from(stream);
+};
+
+describe("Selenium with Jasmine", function () {
+  let driver;
+
+  beforeAll(async function () {
     promise.USE_PROMISE_MANAGER = false;
+    console.log(extensionPath)
+    const options = new chrome.Options();
+    options.addArguments('--disable-features=DisableLoadExtensionCommandLineSwitch');
+    options.addArguments(`--load-extension=${extensionPath}`);
 
-    beforeAll(async function() {
-
-        try {
-            driver = await new Builder().forBrowser(Browser.CHROME).build()
-       
-            await driver.get('https://www.google.com/ncr')
-            await driver.findElement(By.name('q')).sendKeys('webdriver', Key.RETURN)
-            await driver.wait(until.titleIs('webdriver - Google Search'), 1000)
-        } catch(e){
-            console.log(e)
-        } 
-        });
-
-    afterAll(async function() {
-        await driver.quit();
+    driver = await new Builder()
+      .forBrowser('chrome')
+      .setChromeOptions(options)
+      .build()
     });
 
-    it('should open a webpage', async function() {
+  afterAll(async function () {
+    await driver.quit();
+  });https://dev204679.service-now.com/login.do?user_name=https://dev204679.service-now.com&user_password=https://dev204679.service-now.com&sys_action=sysverb_login
 
-        await driver.get('https://dev204679.service-now.com');
-        const title = await driver.getTitle();
-
-        expect(title).toBe('Login - Employee Center');
-
-    });
-
+  it("should open a webpage", async function () {
+    await driver.get(`${PDI_URL}/login.do?user_name=${PDI_USER}&user_password=${PDI_PASSWORD}&sys_action=sysverb_login`);
+    const title = await driver.getTitle();
+    await driver.wait(until.titleIs('webdriver - Google Search'), 100000)
+    expect(title).toBe("Login - Employee Center");
+    
+  },100000);
 });
