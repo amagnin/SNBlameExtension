@@ -5,4 +5,3 @@ popup/dist
 test/OOBsampleScripts
 test/QuokkaTests
 *.zip
-.env
