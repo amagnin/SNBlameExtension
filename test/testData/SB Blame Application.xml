@@ -1,0 +1,1492 @@
+<?xml version="1.0" encoding="UTF-8"?><unload unload_date="2025-09-03 18:05:28">
+<sys_remote_update_set action="INSERT_OR_UPDATE">
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<application_name>SN Blame Extension</application_name>
+<application_scope>x_blame_ext</application_scope>
+<application_version>1.0.0</application_version>
+<collisions/>
+<commit_date/>
+<deleted/>
+<description>App for automated test of extension</description>
+<inserted/>
+<name>SN Blame Extension</name>
+<origin_sys_id/>
+<parent display_value=""/>
+<release_date/>
+<remote_base_update_set display_value=""/>
+<remote_parent_id/>
+<remote_sys_id>f468b581c373ea106b28bb45990131be</remote_sys_id>
+<state>loaded</state>
+<summary/>
+<sys_class_name>sys_remote_update_set</sys_class_name>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:27</sys_created_on>
+<sys_id>62683981c373ea106b28bb459901311f</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:27</sys_updated_on>
+<update_set display_value=""/>
+<update_source display_value=""/>
+<updated/>
+</sys_remote_update_set>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_0d653085c33baa106b28bb459901318b</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update sys_domain="global" table="sys_script"&gt;&lt;sys_script action="INSERT_OR_UPDATE"&gt;&lt;abort_action&gt;false&lt;/abort_action&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;action_delete&gt;false&lt;/action_delete&gt;&lt;action_insert&gt;true&lt;/action_insert&gt;&lt;action_query&gt;true&lt;/action_query&gt;&lt;action_update&gt;false&lt;/action_update&gt;&lt;active&gt;false&lt;/active&gt;&lt;add_message&gt;false&lt;/add_message&gt;&lt;advanced&gt;true&lt;/advanced&gt;&lt;change_fields&gt;false&lt;/change_fields&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;collection&gt;x_blame_ext_script_table&lt;/collection&gt;&lt;condition/&gt;&lt;description/&gt;&lt;execute_function&gt;false&lt;/execute_function&gt;&lt;filter_condition/&gt;&lt;is_rest&gt;false&lt;/is_rest&gt;&lt;message/&gt;&lt;name&gt;Hardcoded GlideRecord + LegacyClassOne&lt;/name&gt;&lt;order&gt;100&lt;/order&gt;&lt;priority&gt;100&lt;/priority&gt;&lt;rest_method/&gt;&lt;rest_method_text/&gt;&lt;rest_service/&gt;&lt;rest_service_text/&gt;&lt;rest_variables/&gt;&lt;role_conditions/&gt;&lt;script&gt;&lt;![CDATA[// BR 2: Hardcoded GlideRecord + LegacyClassOne static method
+(function executeRule(current, previous /*null when async*/) {
+    // GlideRecord with hardcoded table name
+    var gr = new GlideRecord('sys_user');
+    gr.addQuery('active', true);
+    gr.query();
+    while (gr.next()) {
+        gs.info('Active user: ' + gr.name);
+    }
+
+    // LegacyClassOne static call
+    LegacyClassOne.doSomethingStatic();
+})(current, previous);
+]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-09-03 13:12:38&lt;/sys_created_on&gt;&lt;sys_domain&gt;global&lt;/sys_domain&gt;&lt;sys_domain_path&gt;/&lt;/sys_domain_path&gt;&lt;sys_id&gt;0d653085c33baa106b28bb459901318b&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;Hardcoded GlideRecord + LegacyClassOne&lt;/sys_name&gt;&lt;sys_overrides/&gt;&lt;sys_package display_value="SN Blame Extension" source="x_blame_ext"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="SN Blame Extension"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_0d653085c33baa106b28bb459901318b&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-09-03 13:12:38&lt;/sys_updated_on&gt;&lt;template/&gt;&lt;when&gt;after&lt;/when&gt;&lt;/sys_script&gt;&lt;sys_translated_text action="delete_multiple" query="documentkey=0d653085c33baa106b28bb459901318b"/&gt;&lt;/record_update&gt;</payload>
+<payload_hash>-561184531</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>22687981c373ea106b28bb45990131a3</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c139060000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name>Hardcoded GlideRecord + LegacyClassOne</target_name>
+<type>Business Rule</type>
+<update_domain>global</update_domain>
+<update_guid>056530851e3baa1092bf3b29138efa8e</update_guid>
+<update_guid_history>056530851e3baa1092bf3b29138efa8e:-561184531</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_security_acl_role_bb90b00dc3f7aa106b28bb4599013191</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role"><sys_security_acl_role action="INSERT_OR_UPDATE"><sys_class_name>sys_security_acl_role</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-09-03 12:51:47</sys_created_on><sys_id>bb90b00dc3f7aa106b28bb4599013191</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_blame_ext_script_table.x_blame_ext.sn_blame_table_user</sys_name><sys_package display_value="SN Blame Extension" source="x_blame_ext">9dbfe009c3f7aa106b28bb45990131d0</sys_package><sys_policy/><sys_scope display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</sys_scope><sys_security_acl display_value="x_blame_ext_script_table">2790b00dc3f7aa106b28bb459901318e</sys_security_acl><sys_update_name>sys_security_acl_role_bb90b00dc3f7aa106b28bb4599013191</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-09-03 12:51:47</sys_updated_on><sys_user_role display_value="x_blame_ext.sn_blame_table_user" name="x_blame_ext.sn_blame_table_user">db90300dc3f7aa106b28bb45990131f8</sys_user_role></sys_security_acl_role></record_update>]]></payload>
+<payload_hash>-1220843730</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>22687981c373ea106b28bb45990131a6</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c138190000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name>x_blame_ext_script_table.x_blame_ext.sn_blame_table_user</target_name>
+<type>Access Roles</type>
+<update_domain>global</update_domain>
+<update_guid>bf90b00dbcf7aa10246d0ff7bc677a93</update_guid>
+<update_guid_history>bf90b00dbcf7aa10246d0ff7bc677a93:-1220843730</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_security_acl_2390b00dc3f7aa106b28bb4599013177</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl"><sys_security_acl action="INSERT_OR_UPDATE"><active>true</active><admin_overrides>true</admin_overrides><advanced>false</advanced><applies_to/><condition/><controlled_by_refs/><decision_type>allow</decision_type><description>Default access control on x_blame_ext_script_table</description><local_or_existing>Local</local_or_existing><name>x_blame_ext_script_table</name><operation display_value="create">create</operation><script/><security_attribute/><sys_class_name>sys_security_acl</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-09-03 12:51:47</sys_created_on><sys_id>2390b00dc3f7aa106b28bb4599013177</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_blame_ext_script_table</sys_name><sys_package display_value="SN Blame Extension" source="x_blame_ext">9dbfe009c3f7aa106b28bb45990131d0</sys_package><sys_policy/><sys_scope display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</sys_scope><sys_update_name>sys_security_acl_2390b00dc3f7aa106b28bb4599013177</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-09-03 12:51:47</sys_updated_on><type display_value="record">record</type></sys_security_acl></record_update>]]></payload>
+<payload_hash>1482649352</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>26687981c373ea106b28bb45990131a5</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c1384d0000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name>x_blame_ext_script_table</target_name>
+<type>Access Control</type>
+<update_domain>global</update_domain>
+<update_guid>6390b00dc9f7aa102c672d9a5c4e377b</update_guid>
+<update_guid_history>6390b00dc9f7aa102c672d9a5c4e377b:1482649352</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_dictionary_x_blame_ext_script_table_null</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update&gt;&lt;sys_dictionary action="INSERT_OR_UPDATE" element="" extends="sys_metadata" table="x_blame_ext_script_table"&gt;&lt;active&gt;true&lt;/active&gt;&lt;array&gt;false&lt;/array&gt;&lt;attributes&gt;update_synch=true&lt;/attributes&gt;&lt;audit&gt;false&lt;/audit&gt;&lt;calculation&gt;&lt;![CDATA[(function calculatedFieldValue(current) {
+
+	// Add your code here
+	return '';  // return the calculated value
+
+})(current);]]&gt;&lt;/calculation&gt;&lt;choice/&gt;&lt;choice_field/&gt;&lt;choice_table/&gt;&lt;column_label/&gt;&lt;comments/&gt;&lt;create_roles/&gt;&lt;default_value/&gt;&lt;defaultsort/&gt;&lt;delete_roles/&gt;&lt;dependent/&gt;&lt;dependent_on_field/&gt;&lt;display&gt;false&lt;/display&gt;&lt;dynamic_creation&gt;false&lt;/dynamic_creation&gt;&lt;dynamic_creation_script/&gt;&lt;dynamic_default_value/&gt;&lt;dynamic_ref_qual/&gt;&lt;element/&gt;&lt;element_reference&gt;false&lt;/element_reference&gt;&lt;foreign_database/&gt;&lt;formula/&gt;&lt;function_definition/&gt;&lt;function_field&gt;false&lt;/function_field&gt;&lt;internal_type display_value="Collection"&gt;collection&lt;/internal_type&gt;&lt;mandatory&gt;false&lt;/mandatory&gt;&lt;max_length&gt;40&lt;/max_length&gt;&lt;name&gt;x_blame_ext_script_table&lt;/name&gt;&lt;next_element/&gt;&lt;primary&gt;false&lt;/primary&gt;&lt;read_only&gt;false&lt;/read_only&gt;&lt;read_roles/&gt;&lt;reference/&gt;&lt;reference_cascade_rule/&gt;&lt;reference_floats&gt;false&lt;/reference_floats&gt;&lt;reference_key/&gt;&lt;reference_qual/&gt;&lt;reference_qual_condition/&gt;&lt;reference_type/&gt;&lt;spell_check&gt;false&lt;/spell_check&gt;&lt;staged&gt;false&lt;/staged&gt;&lt;sys_class_name&gt;sys_dictionary&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-09-03 12:51:47&lt;/sys_created_on&gt;&lt;sys_id&gt;f390b00dc3f7aa106b28bb45990131a3&lt;/sys_id&gt;&lt;sys_name&gt;x_blame_ext_script_table&lt;/sys_name&gt;&lt;sys_package display_value="SN Blame Extension" source="x_blame_ext"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="SN Blame Extension"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_dictionary_x_blame_ext_script_table_null&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-09-03 12:51:47&lt;/sys_updated_on&gt;&lt;table_reference&gt;false&lt;/table_reference&gt;&lt;text_index&gt;false&lt;/text_index&gt;&lt;unique&gt;false&lt;/unique&gt;&lt;use_dependent_field&gt;false&lt;/use_dependent_field&gt;&lt;use_dynamic_default&gt;false&lt;/use_dynamic_default&gt;&lt;use_reference_qualifier&gt;simple&lt;/use_reference_qualifier&gt;&lt;virtual&gt;false&lt;/virtual&gt;&lt;virtual_type&gt;script&lt;/virtual_type&gt;&lt;widget/&gt;&lt;write_roles/&gt;&lt;xml_view&gt;false&lt;/xml_view&gt;&lt;/sys_dictionary&gt;&lt;/record_update&gt;</payload>
+<payload_hash>1517737332</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>2a683981c373ea106b28bb4599013120</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c137f60000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name>SN Blame Table</target_name>
+<type>Dictionary</type>
+<update_domain>global</update_domain>
+<update_guid>3b90b00debf7aa108d08d2967e6eb2c5</update_guid>
+<update_guid_history>3b90b00debf7aa108d08d2967e6eb2c5:1517737332</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_include_3c633041c33baa106b28bb459901316a</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;x_blame_ext.LegacyClassThree&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;description/&gt;&lt;mobile_callable&gt;false&lt;/mobile_callable&gt;&lt;name&gt;LegacyClassThree&lt;/name&gt;&lt;sandbox_callable&gt;false&lt;/sandbox_callable&gt;&lt;script&gt;&lt;![CDATA[// Script Include: LegacyClassThree
+var LegacyClassThree = Class.create();
+LegacyClassThree.TASK_TABLE = 'sc_task';
+LegacyClassThree.DEFAULT_VALUE = 99;
+
+LegacyClassThree.prototype = Object.extendsObject(LegacyClassTwo, {
+    initialize: function() {
+        this.value = LegacyClassThree.DEFAULT_VALUE;
+    },
+	
+    getTasks: function() {
+        var gr = new GlideRecord(LegacyClassThree.TASK_TABLE);
+        gr.query();
+        while (gr.next()) {
+            gs.info('Task: ' + gr.number);
+        }
+    },
+
+    nestedLookup: function() {
+        var task = new GlideRecord(LegacyClassThree.TASK_TABLE);
+        task.query();
+        while (task.next()) {
+            var usr = new GlideRecord('sys_user');
+            usr.addQuery('sys_id', task.assigned_to);
+            usr.query();
+            while (usr.next()) {
+                gs.info('Task ' + task.number + ' assigned to ' + usr.name);
+            }
+        }
+    },
+
+    type: 'LegacyClassThree'
+});
+
+LegacyClassThree.multiplyValue = function(val) {
+    return val * 3;
+};
+]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-09-03 13:07:09&lt;/sys_created_on&gt;&lt;sys_id&gt;3c633041c33baa106b28bb459901316a&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;LegacyClassThree&lt;/sys_name&gt;&lt;sys_package display_value="SN Blame Extension" source="x_blame_ext"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_package&gt;&lt;sys_policy&gt;read&lt;/sys_policy&gt;&lt;sys_scope display_value="SN Blame Extension"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_3c633041c33baa106b28bb459901316a&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-09-03 13:07:09&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+<payload_hash>-1938471365</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>2a687981c373ea106b28bb45990131a4</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c138d10000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table/>
+<target_name>LegacyClassThree</target_name>
+<type>Script Include</type>
+<update_domain>global</update_domain>
+<update_guid>b0247c81bd3baa1041c1be40a0259103</update_guid>
+<update_guid_history>b0247c81bd3baa1041c1be40a0259103:-1938471365</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_dce4f805c33baa106b28bb4599013167</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update sys_domain="global" table="sys_script"&gt;&lt;sys_script action="INSERT_OR_UPDATE"&gt;&lt;abort_action&gt;false&lt;/abort_action&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;action_delete&gt;false&lt;/action_delete&gt;&lt;action_insert&gt;true&lt;/action_insert&gt;&lt;action_query&gt;false&lt;/action_query&gt;&lt;action_update&gt;true&lt;/action_update&gt;&lt;active&gt;false&lt;/active&gt;&lt;add_message&gt;false&lt;/add_message&gt;&lt;advanced&gt;true&lt;/advanced&gt;&lt;change_fields&gt;false&lt;/change_fields&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;collection&gt;x_blame_ext_script_table&lt;/collection&gt;&lt;condition/&gt;&lt;description/&gt;&lt;execute_function&gt;false&lt;/execute_function&gt;&lt;filter_condition/&gt;&lt;is_rest&gt;false&lt;/is_rest&gt;&lt;message/&gt;&lt;name&gt;Call ModernClassOne &amp;amp; LegacyClassOne&lt;/name&gt;&lt;order&gt;100&lt;/order&gt;&lt;priority&gt;100&lt;/priority&gt;&lt;rest_method/&gt;&lt;rest_method_text/&gt;&lt;rest_service/&gt;&lt;rest_service_text/&gt;&lt;rest_variables/&gt;&lt;role_conditions/&gt;&lt;script&gt;&lt;![CDATA[// BR 1: Call ModernClassOne static + nested GlideRecord + LegacyClassOne static
+(function executeRule(current, previous /*null when async*/) {
+    // Call ModernClassOne static method
+    ModernClassOne.doSomethingStatic();
+
+    // Use nested GlideRecord via class method
+    var mc1 = new ModernClassOne();
+    mc1.nestedGlideRecordExample();
+
+	LegacyClassOne.doSomethingStatic();
+})(current, previous);
+]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-09-03 13:11:47&lt;/sys_created_on&gt;&lt;sys_domain&gt;global&lt;/sys_domain&gt;&lt;sys_domain_path&gt;/&lt;/sys_domain_path&gt;&lt;sys_id&gt;dce4f805c33baa106b28bb4599013167&lt;/sys_id&gt;&lt;sys_mod_count&gt;1&lt;/sys_mod_count&gt;&lt;sys_name&gt;Call ModernClassOne &amp;amp; LegacyClassOne&lt;/sys_name&gt;&lt;sys_overrides/&gt;&lt;sys_package display_value="SN Blame Extension" source="x_blame_ext"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="SN Blame Extension"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_dce4f805c33baa106b28bb4599013167&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-09-03 13:12:17&lt;/sys_updated_on&gt;&lt;template/&gt;&lt;when&gt;before&lt;/when&gt;&lt;/sys_script&gt;&lt;sys_translated_text action="delete_multiple" query="documentkey=dce4f805c33baa106b28bb4599013167"/&gt;&lt;/record_update&gt;</payload>
+<payload_hash>-643631727</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>2e687981c373ea106b28bb45990131a3</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c138f40000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name>Call ModernClassOne &amp; LegacyClassOne</target_name>
+<type>Business Rule</type>
+<update_domain>global</update_domain>
+<update_guid>bf453c45eb3baa10c67d76468795d9e6</update_guid>
+<update_guid_history>bf453c45eb3baa10c67d76468795d9e6:-643631727,74357845fc3baa1091acd131994d822d:-621185197</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_ui_list_x_blame_ext_script_table_null</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update><sys_ui_list parent="" relationship="" sys_domain="global" table="x_blame_ext_script_table" version="2" view=""><sys_ui_list_element action="INSERT_OR_UPDATE"><average_value>false</average_value><element>script</element><list_id display_value="x_blame_ext_script_table" element="NULL" name="x_blame_ext_script_table" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">27c4b405c33baa106b28bb45990131d4</list_id><max_value>false</max_value><min_value>false</min_value><position>0</position><sum>false</sum><sys_created_by>admin</sys_created_by><sys_created_on>2025-09-03 13:10:04</sys_created_on><sys_id>afc4b405c33baa106b28bb45990131d5</sys_id><sys_mod_count>0</sys_mod_count><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-09-03 13:10:04</sys_updated_on></sys_ui_list_element><sys_ui_list action="INSERT_OR_UPDATE"><average_value>false</average_value><element/><max_value>false</max_value><min_value>false</min_value><name>x_blame_ext_script_table</name><parent/><position/><relationship/><sum>false</sum><sys_class_name>sys_ui_list</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-09-03 13:10:04</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>27c4b405c33baa106b28bb45990131d4</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_blame_ext_script_table</sys_name><sys_package display_value="SN Blame Extension" source="x_blame_ext">9dbfe009c3f7aa106b28bb45990131d0</sys_package><sys_policy/><sys_scope display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</sys_scope><sys_update_name>sys_ui_list_x_blame_ext_script_table_null</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-09-03 13:10:04</sys_updated_on><sys_user/><view display_value="Default view" name="NULL">Default view</view><view_name/></sys_ui_list></sys_ui_list></record_update>]]></payload>
+<payload_hash>1574757805</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>2e687981c373ea106b28bb45990131a6</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c138e70000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name>SN Blame Table</target_name>
+<type>List Layout</type>
+<update_domain>global</update_domain>
+<update_guid>63c43805103baa10b87a527e4f7ede7f</update_guid>
+<update_guid_history>63c43805103baa10b87a527e4f7ede7f:1574757805</update_guid_history>
+<update_set display_value=""/>
+<view>Default view</view>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_include_c1433c01c33baa106b28bb45990131a0</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;x_blame_ext.LegacyClassTwo&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;description/&gt;&lt;mobile_callable&gt;false&lt;/mobile_callable&gt;&lt;name&gt;LegacyClassTwo&lt;/name&gt;&lt;sandbox_callable&gt;false&lt;/sandbox_callable&gt;&lt;script&gt;&lt;![CDATA[// Script Include: LegacyClassTwo
+var LegacyClassTwo = Class.create();
+LegacyClassTwo.TABLE = 'change_request';
+LegacyClassTwo.VERSION = '2.0.0';
+
+LegacyClassTwo.prototype = {
+    initialize: function() {
+        this.id = gs.generateGUID();
+    },
+
+    getChanges: function() {
+        var gr = new GlideRecord(LegacyClassTwo.TABLE);
+        gr.query();
+        while (gr.next()) {
+            gs.info('Change: ' + gr.number);
+        }
+    },
+
+    nestedChanges: function() {
+        var change = new GlideRecord(LegacyClassTwo.TABLE);
+        change.query();
+        while (change.next()) {
+            var task = new GlideRecord('change_task');
+            task.addQuery('change_request', change.sys_id);
+            task.query();
+            while (task.next()) {
+                gs.info('Task ' + task.number + ' for Change ' + change.number);
+            }
+        }
+    },
+
+    type: 'LegacyClassTwo'
+};
+
+LegacyClassTwo.getVersion = function() {
+    return LegacyClassTwo.VERSION;
+};
+]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-09-03 13:03:32&lt;/sys_created_on&gt;&lt;sys_id&gt;c1433c01c33baa106b28bb45990131a0&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;LegacyClassTwo&lt;/sys_name&gt;&lt;sys_package display_value="SN Blame Extension" source="x_blame_ext"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_package&gt;&lt;sys_policy&gt;read&lt;/sys_policy&gt;&lt;sys_scope display_value="SN Blame Extension"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_c1433c01c33baa106b28bb45990131a0&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-09-03 13:03:32&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+<payload_hash>-169214386</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>62687981c373ea106b28bb45990131a5</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c138b50000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table/>
+<target_name>LegacyClassTwo</target_name>
+<type>Script Include</type>
+<update_domain>global</update_domain>
+<update_guid>ff433041453baa10a9551bbae61c13e9</update_guid>
+<update_guid_history>ff433041453baa10a9551bbae61c13e9:-169214386</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_db_object_f720b4c9c3f7aa106b28bb459901311d</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_db_object"><sys_db_object action="INSERT_OR_UPDATE"><access>public</access><actions_access>false</actions_access><alter_access>false</alter_access><caller_access/><client_scripts_access>false</client_scripts_access><configuration_access>false</configuration_access><create_access>false</create_access><create_access_controls>true</create_access_controls><delete_access>false</delete_access><filter_extension/><is_extendable>false</is_extendable><label>SN Blame Table</label><live_feed_enabled>false</live_feed_enabled><name>x_blame_ext_script_table</name><number_ref/><provider_class/><read_access>true</read_access><scriptable_table>false</scriptable_table><super_class display_value="Application File" name="sys_metadata">a8f230203c31311068bcf327dfe37f8a</super_class><sys_class_name>sys_db_object</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-09-03 12:51:46</sys_created_on><sys_id>f720b4c9c3f7aa106b28bb459901311d</sys_id><sys_mod_count>0</sys_mod_count><sys_name>SN Blame Table</sys_name><sys_package display_value="SN Blame Extension" source="x_blame_ext">9dbfe009c3f7aa106b28bb45990131d0</sys_package><sys_policy/><sys_scope display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</sys_scope><sys_update_name>sys_db_object_f720b4c9c3f7aa106b28bb459901311d</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-09-03 12:51:46</sys_updated_on><update_access>false</update_access><user_role display_value="x_blame_ext.sn_blame_table_user" name="x_blame_ext.sn_blame_table_user">db90300dc3f7aa106b28bb45990131f8</user_role><ws_access>true</ws_access></sys_db_object></record_update>]]></payload>
+<payload_hash>1154566299</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>66683981c373ea106b28bb4599013120</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c137dc0000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name>SN Blame Table</target_name>
+<type>Table</type>
+<update_domain>global</update_domain>
+<update_guid>7390b00dd4f7aa10ee3ac9d233719ecb</update_guid>
+<update_guid_history>7390b00dd4f7aa10ee3ac9d233719ecb:1154566299</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_include_2232fc8dc3f7aa106b28bb459901314a</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;x_blame_ext.ModernClassOne&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;description/&gt;&lt;mobile_callable&gt;false&lt;/mobile_callable&gt;&lt;name&gt;ModernClassOne&lt;/name&gt;&lt;sandbox_callable&gt;false&lt;/sandbox_callable&gt;&lt;script&gt;&lt;![CDATA[// Script Include: ModernClassOne
+var ModernClassOne = class ModernClassOne {
+    static TABLE_NAME = 'incident';
+    static CONSTANT_ONE = 'CONST_1';
+
+    constructor() {
+        this.name = 'ModernClassOne';
+    }
+
+    static doSomethingStatic() {
+        gs.info('ModernClassOne static method called');
+        const gr = new GlideRecord(ModernClassOne.TABLE_NAME);
+        gr.query();
+        while (gr.next()) {
+            gs.info('Found: ' + gr.number);
+        }
+    }
+
+    doSomething() {
+        gs.info('ModernClassOne instance method called');
+        const gr = new GlideRecord('sys_user');
+        gr.query();
+        while (gr.next()) {
+            gs.info('User: ' + gr.name);
+        }
+    }
+
+    nestedGlideRecordExample() {
+        const inc = new GlideRecord(ModernClassOne.TABLE_NAME);
+        inc.query();
+        while (inc.next()) {
+            const usr = new GlideRecord('sys_user');
+            usr.addQuery('sys_id', inc.caller_id);
+            usr.query();
+            while (usr.next()) {
+                gs.info(`Incident ${inc.number} belongs to ${usr.name}`);
+            }
+        }
+    }
+};
+]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-09-03 12:59:13&lt;/sys_created_on&gt;&lt;sys_id&gt;2232fc8dc3f7aa106b28bb459901314a&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;ModernClassOne&lt;/sys_name&gt;&lt;sys_package display_value="SN Blame Extension" source="x_blame_ext"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_package&gt;&lt;sys_policy&gt;read&lt;/sys_policy&gt;&lt;sys_scope display_value="SN Blame Extension"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_2232fc8dc3f7aa106b28bb459901314a&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-09-03 12:59:13&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+<payload_hash>1781931335</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>66687981c373ea106b28bb45990131a4</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c138940000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table/>
+<target_name>ModernClassOne</target_name>
+<type>Script Include</type>
+<update_domain>global</update_domain>
+<update_guid>b05270cd34f7aa10737e78f41ff1afd1</update_guid>
+<update_guid_history>b05270cd34f7aa10737e78f41ff1afd1:1781931335</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>ua_table_licensing_config_3b90b00dc3f7aa106b28bb45990131c3</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="ua_table_licensing_config"><ua_table_licensing_config action="INSERT_OR_UPDATE"><is_fulfillment>false</is_fulfillment><license_condition/><license_model>none</license_model><license_roles/><name>x_blame_ext_script_table</name><op_delete>true</op_delete><op_insert>true</op_insert><op_update>true</op_update><owner_condition/><sys_class_name>ua_table_licensing_config</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-09-03 12:51:48</sys_created_on><sys_id>3b90b00dc3f7aa106b28bb45990131c3</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_blame_ext_script_table</sys_name><sys_package display_value="SN Blame Extension" source="x_blame_ext">9dbfe009c3f7aa106b28bb45990131d0</sys_package><sys_policy/><sys_scope display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</sys_scope><sys_update_name>ua_table_licensing_config_3b90b00dc3f7aa106b28bb45990131c3</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-09-03 12:51:48</sys_updated_on></ua_table_licensing_config></record_update>]]></payload>
+<payload_hash>-1558143201</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>66687981c373ea106b28bb45990131a7</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c138880000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table/>
+<target_name>x_blame_ext_script_table</target_name>
+<type>Table Subscription Configuration</type>
+<update_domain>global</update_domain>
+<update_guid/>
+<update_guid_history/>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_89757085c33baa106b28bb45990131ef</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update sys_domain="global" table="sys_script"&gt;&lt;sys_script action="INSERT_OR_UPDATE"&gt;&lt;abort_action&gt;false&lt;/abort_action&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;action_delete&gt;false&lt;/action_delete&gt;&lt;action_insert&gt;true&lt;/action_insert&gt;&lt;action_query&gt;true&lt;/action_query&gt;&lt;action_update&gt;true&lt;/action_update&gt;&lt;active&gt;false&lt;/active&gt;&lt;add_message&gt;false&lt;/add_message&gt;&lt;advanced&gt;true&lt;/advanced&gt;&lt;change_fields&gt;false&lt;/change_fields&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;collection&gt;x_blame_ext_script_table&lt;/collection&gt;&lt;condition/&gt;&lt;description/&gt;&lt;execute_function&gt;false&lt;/execute_function&gt;&lt;filter_condition/&gt;&lt;is_rest&gt;false&lt;/is_rest&gt;&lt;message/&gt;&lt;name&gt;ModernClassTwo constant table&lt;/name&gt;&lt;order&gt;100&lt;/order&gt;&lt;priority&gt;100&lt;/priority&gt;&lt;rest_method/&gt;&lt;rest_method_text/&gt;&lt;rest_service/&gt;&lt;rest_service_text/&gt;&lt;rest_variables/&gt;&lt;role_conditions/&gt;&lt;script&gt;&lt;![CDATA[// BR 3: Use ModernClassTwo constant table
+(function executeRule(current, previous /*null when async*/) {
+    var mc2 = new ModernClassTwo();
+    mc2.getChangeRequests();
+
+    // GlideRecord with constant table
+    var gr = new GlideRecord(ModernClassTwo.TABLE);
+    gr.query();
+    while (gr.next()) {
+        gs.info('Found change: ' + gr.number);
+    }
+})(current, previous);
+]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-09-03 13:12:54&lt;/sys_created_on&gt;&lt;sys_domain&gt;global&lt;/sys_domain&gt;&lt;sys_domain_path&gt;/&lt;/sys_domain_path&gt;&lt;sys_id&gt;89757085c33baa106b28bb45990131ef&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;ModernClassTwo constant table&lt;/sys_name&gt;&lt;sys_overrides/&gt;&lt;sys_package display_value="SN Blame Extension" source="x_blame_ext"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="SN Blame Extension"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_89757085c33baa106b28bb45990131ef&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-09-03 13:12:54&lt;/sys_updated_on&gt;&lt;template/&gt;&lt;when&gt;after&lt;/when&gt;&lt;/sys_script&gt;&lt;sys_translated_text action="delete_multiple" query="documentkey=89757085c33baa106b28bb45990131ef"/&gt;&lt;/record_update&gt;</payload>
+<payload_hash>881449844</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>6a687981c373ea106b28bb45990131a3</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c139150000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name>ModernClassTwo constant table</target_name>
+<type>Business Rule</type>
+<update_domain>global</update_domain>
+<update_guid>017570857c3baa108211b25e838bb2f2</update_guid>
+<update_guid_history>017570857c3baa108211b25e838bb2f2:881449844</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_security_acl_role_e790b00dc3f7aa106b28bb459901317c</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role"><sys_security_acl_role action="INSERT_OR_UPDATE"><sys_class_name>sys_security_acl_role</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-09-03 12:51:47</sys_created_on><sys_id>e790b00dc3f7aa106b28bb459901317c</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_blame_ext_script_table.x_blame_ext.sn_blame_table_user</sys_name><sys_package display_value="SN Blame Extension" source="x_blame_ext">9dbfe009c3f7aa106b28bb45990131d0</sys_package><sys_policy/><sys_scope display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</sys_scope><sys_security_acl display_value="x_blame_ext_script_table">2390b00dc3f7aa106b28bb4599013177</sys_security_acl><sys_update_name>sys_security_acl_role_e790b00dc3f7aa106b28bb459901317c</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-09-03 12:51:47</sys_updated_on><sys_user_role display_value="x_blame_ext.sn_blame_table_user" name="x_blame_ext.sn_blame_table_user">db90300dc3f7aa106b28bb45990131f8</sys_user_role></sys_security_acl_role></record_update>]]></payload>
+<payload_hash>931289759</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>6a687981c373ea106b28bb45990131a6</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c137ea0000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name>x_blame_ext_script_table.x_blame_ext.sn_blame_table_user</target_name>
+<type>Access Roles</type>
+<update_domain>global</update_domain>
+<update_guid>ab90b00dfdf7aa105184277ece4eae8c</update_guid>
+<update_guid_history>ab90b00dfdf7aa105184277ece4eae8c:931289759</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_embedded_help_role_db90b00dc3f7aa106b28bb4599013165</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_embedded_help_role"><sys_embedded_help_role action="INSERT_OR_UPDATE"><order>1000</order><role display_value="x_blame_ext.sn_blame_table_user" name="x_blame_ext.sn_blame_table_user">db90300dc3f7aa106b28bb45990131f8</role><sys_class_name>sys_embedded_help_role</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-09-03 12:51:46</sys_created_on><sys_id>db90b00dc3f7aa106b28bb4599013165</sys_id><sys_mod_count>0</sys_mod_count><sys_name>db90300dc3f7aa106b28bb45990131f8</sys_name><sys_package display_value="SN Blame Extension" source="x_blame_ext">9dbfe009c3f7aa106b28bb45990131d0</sys_package><sys_policy/><sys_scope display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</sys_scope><sys_update_name>sys_embedded_help_role_db90b00dc3f7aa106b28bb4599013165</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-09-03 12:51:46</sys_updated_on></sys_embedded_help_role></record_update>]]></payload>
+<payload_hash>-866806006</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>6e687981c373ea106b28bb45990131a2</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c137ce0000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table/>
+<target_name>db90300dc3f7aa106b28bb45990131f8</target_name>
+<type>Embedded Help Role Priority</type>
+<update_domain>global</update_domain>
+<update_guid/>
+<update_guid_history/>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_security_acl_3790b00dc3f7aa106b28bb459901319c</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl"><sys_security_acl action="INSERT_OR_UPDATE"><active>true</active><admin_overrides>true</admin_overrides><advanced>false</advanced><applies_to/><condition/><controlled_by_refs/><decision_type>allow</decision_type><description>Default access control on x_blame_ext_script_table</description><local_or_existing>Local</local_or_existing><name>x_blame_ext_script_table</name><operation display_value="delete">delete</operation><script/><security_attribute/><sys_class_name>sys_security_acl</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-09-03 12:51:47</sys_created_on><sys_id>3790b00dc3f7aa106b28bb459901319c</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_blame_ext_script_table</sys_name><sys_package display_value="SN Blame Extension" source="x_blame_ext">9dbfe009c3f7aa106b28bb45990131d0</sys_package><sys_policy/><sys_scope display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</sys_scope><sys_update_name>sys_security_acl_3790b00dc3f7aa106b28bb459901319c</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-09-03 12:51:47</sys_updated_on><type display_value="record">record</type></sys_security_acl></record_update>]]></payload>
+<payload_hash>1888960362</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>6e687981c373ea106b28bb45990131a5</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c1387d0000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name>x_blame_ext_script_table</target_name>
+<type>Access Control</type>
+<update_domain>global</update_domain>
+<update_guid>7790b00d68f7aa10af420b4e8f698c9e</update_guid>
+<update_guid_history>7790b00d68f7aa10af420b4e8f698c9e:1888960362</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_app_9dbfe009c3f7aa106b28bb45990131d0</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_app"><sys_app action="INSERT_OR_UPDATE"><active>true</active><can_edit_in_studio>true</can_edit_in_studio><enforce_license>none</enforce_license><guided_setup_guid/><hide_on_ui>false</hide_on_ui><ide_created>GAC</ide_created><installed_as_dependency>false</installed_as_dependency><js_level>es_latest</js_level><licensable>true</licensable><license/><license_category>none</license_category><license_definition/><license_model>none</license_model><logo/><menu/><name>SN Blame Extension</name><package_json/><private>false</private><restrict_table_access>false</restrict_table_access><runtime_access_tracking>permissive</runtime_access_tracking><scope>x_blame_ext</scope><scoped_administration>false</scoped_administration><short_description>App for automated test of extension</short_description><source>x_blame_ext</source><store_correlation_id/><store_url/><subscription_entitlement/><sys_class_name>sys_app</sys_class_name><sys_code/><sys_created_by>admin</sys_created_by><sys_created_on>2025-09-03 12:47:47</sys_created_on><sys_id>9dbfe009c3f7aa106b28bb45990131d0</sys_id><sys_mod_count>1</sys_mod_count><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-09-03 12:47:48</sys_updated_on><template/><trackable>true</trackable><uninstall_blocked>false</uninstall_blocked><user_role/><vendor/><vendor_prefix/><version>1.0.0</version></sys_app><sys_translated_text action="delete_multiple" query="documentkey=9dbfe009c3f7aa106b28bb45990131d0"/></record_update>]]></payload>
+<payload_hash>-574573089</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>a2683981c373ea106b28bb4599013120</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c137950000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table/>
+<target_name>SN Blame Extension</target_name>
+<type>Custom Application</type>
+<update_domain>global</update_domain>
+<update_guid>1dbf604960f7aa1042f9ce23bc73bafa</update_guid>
+<update_guid_history>1dbf604960f7aa1042f9ce23bc73bafa:2137047830</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_include_0d333c01c33baa106b28bb4599013137</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;x_blame_ext.LegacyClassOne&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;description/&gt;&lt;mobile_callable&gt;false&lt;/mobile_callable&gt;&lt;name&gt;LegacyClassOne&lt;/name&gt;&lt;sandbox_callable&gt;false&lt;/sandbox_callable&gt;&lt;script&gt;&lt;![CDATA[// Script Include: LegacyClassOne
+var LegacyClassOne = Class.create();
+LegacyClassOne.TABLE = 'incident';
+LegacyClassOne.CONSTANT_ONE = 'CONST_A';
+
+LegacyClassOne.prototype = {
+    initialize: function() {
+        this.name = 'LegacyClassOne';
+    },
+
+    doSomething: function() {
+        gs.info('LegacyClassOne instance method called');
+        var gr = new GlideRecord('sys_user');
+        gr.query();
+        while (gr.next()) {
+            gs.info('User: ' + gr.name);
+        }
+    },
+
+    nestedExample: function() {
+        var inc = new GlideRecord(LegacyClassOne.TABLE);
+        inc.query();
+        while (inc.next()) {
+            var usr = new GlideRecord('sys_user');
+            usr.addQuery('sys_id', inc.caller_id);
+            usr.query();
+            while (usr.next()) {
+                gs.info('Incident ' + inc.number + ' by ' + usr.name);
+            }
+        }
+    },
+
+    type: 'LegacyClassOne'
+};
+
+LegacyClassOne.doSomethingStatic = function() {
+    gs.info('LegacyClassOne static method called');
+    var gr = new GlideRecord(LegacyClassOne.TABLE);
+    gr.query();
+    while (gr.next()) {
+        gs.info('Incident: ' + gr.number);
+    }
+};
+]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-09-03 13:03:18&lt;/sys_created_on&gt;&lt;sys_id&gt;0d333c01c33baa106b28bb4599013137&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;LegacyClassOne&lt;/sys_name&gt;&lt;sys_package display_value="SN Blame Extension" source="x_blame_ext"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_package&gt;&lt;sys_policy&gt;read&lt;/sys_policy&gt;&lt;sys_scope display_value="SN Blame Extension"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_0d333c01c33baa106b28bb4599013137&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-09-03 13:03:18&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+<payload_hash>-2034503131</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>a2687981c373ea106b28bb45990131a4</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c138a70000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table/>
+<target_name>LegacyClassOne</target_name>
+<type>Script Include</type>
+<update_domain>global</update_domain>
+<update_guid>2443bc019c3baa104311c9d223b5ccbb</update_guid>
+<update_guid_history>2443bc019c3baa104311c9d223b5ccbb:-2034503131</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_wizard_answer_7390b00dc3f7aa106b28bb45990131a9</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_wizard_answer"><sys_wizard_answer action="INSERT_OR_UPDATE"><active>true</active><answer>SN Blame Table</answer><button_label/><dependent_value/><element/><name>SN Blame Table</name><next_question/><order>100</order><payload_name/><question display_value="Application File" name="Application File">173a815247000210f5f8ad54116d4377</question><roles/><script/><sys_class_name>sys_wizard_answer</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-09-03 12:51:47</sys_created_on><sys_id>7390b00dc3f7aa106b28bb45990131a9</sys_id><sys_mod_count>0</sys_mod_count><sys_name>SN Blame Table</sys_name><sys_package display_value="SN Blame Extension" source="x_blame_ext">9dbfe009c3f7aa106b28bb45990131d0</sys_package><sys_policy/><sys_scope display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</sys_scope><sys_update_name>sys_wizard_answer_7390b00dc3f7aa106b28bb45990131a9</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-09-03 12:51:47</sys_updated_on><table/><target_url>x_blame_ext_script_table.do</target_url><type>1</type></sys_wizard_answer></record_update>]]></payload>
+<payload_hash>214174739</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>a2687981c373ea106b28bb45990131a7</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c1382a0000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table/>
+<target_name>SN Blame Table</target_name>
+<type>Answer</type>
+<update_domain>global</update_domain>
+<update_guid/>
+<update_guid_history/>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sp_widget_a8ce780dc37baa106b28bb459901315b</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sp_widget"&gt;&lt;sp_widget action="INSERT_OR_UPDATE"&gt;&lt;category&gt;custom&lt;/category&gt;&lt;client_script&gt;&lt;![CDATA[api.controller=function($scope) {
+    var c = this;
+    c.title = "Legacy Class Widget";
+    c.initialized = false;
+    c.logs = [];
+
+    c.$onInit = function() {
+        console.log("Legacy Class Widget initialized");
+        c.initialized = true;
+        if (!c.data.hasTasks) {
+            c.logs.push("No tasks found");
+        }
+    };
+
+    c.printChanges = function() {
+        console.log("Change Records:");
+        for (var i = 0; i &lt; c.data.changes.length; i++) {
+            console.log("#" + c.data.changes[i].number, c.data.changes[i].description);
+        }
+    };
+
+    c.printTasks = function() {
+        console.log("Tasks linked to changes:");
+        for (var j = 0; j &lt; c.data.tasks.length; j++) {
+            console.log("Task:", c.data.tasks[j].taskNumber, "Change:", c.data.tasks[j].changeNumber);
+        }
+    };
+
+    c.refreshData = function() {
+        console.log("Simulating data refresh...");
+        setTimeout(function() {
+            console.log("Data refresh complete");
+        }, 500);
+    };
+
+    c.debugToggle = function() {
+        c.data.debug = !c.data.debug;
+        console.log("Debug Mode:", c.data.debug);
+    };
+
+    c.logTimestamp = function() {
+        console.log("Timestamp:", c.data.timestamp);
+    };
+}
+]]&gt;&lt;/client_script&gt;&lt;controller_as&gt;c&lt;/controller_as&gt;&lt;css/&gt;&lt;data_table&gt;sp_instance&lt;/data_table&gt;&lt;demo_data/&gt;&lt;description/&gt;&lt;docs/&gt;&lt;field_list/&gt;&lt;has_preview&gt;false&lt;/has_preview&gt;&lt;id&gt;sn_blame_test_widget_2&lt;/id&gt;&lt;internal&gt;false&lt;/internal&gt;&lt;link&gt;&lt;![CDATA[function link(scope, element, attrs, ctrl) {
+    console.log("LegacyClassWidget Link: DOM ready");
+
+    // Observe changes
+    scope.$watch('c.data.tasks', function(newVal, oldVal) {
+        if (newVal !== oldVal) {
+            console.log("Tasks updated:", newVal);
+        }
+    }, true);
+
+    // DOM click listener
+    element.on('click', function() {
+        console.log("LegacyClassWidget clicked");
+    });
+
+    // Add attributes
+    element.addClass('widget-legacy');
+    element.attr('data-widget', 'legacy-class-widget');
+
+    // Extra setup logic
+    var initialized = false;
+    var init = function() {
+        initialized = true;
+        console.log("LegacyClassWidget initialized successfully");
+    };
+    init();
+
+    // Print all attributes
+    console.log("Widget Attributes:", attrs);
+
+    // Cleanup
+    scope.$on('$destroy', function() {
+        console.log("LegacyClassWidget destroyed");
+        element.off();
+    });
+
+    // Fake iteration for logs
+    for (var i = 0; i &lt; 5; i++) {
+        console.log("LegacyClassWidget link iteration " + i);
+    }
+
+    // Simulate extra events
+    element.on('mouseover', function() {
+        console.log("Mouse over LegacyClassWidget");
+    });
+}
+]]&gt;&lt;/link&gt;&lt;name&gt;SN Blame Test Widget 2&lt;/name&gt;&lt;option_schema/&gt;&lt;public&gt;false&lt;/public&gt;&lt;roles/&gt;&lt;script&gt;&lt;![CDATA[(function() {
+    data.message = "Widget 2: LegacyClassTwo in action";
+    data.changes = [];
+    data.tasks = [];
+    data.version = LegacyClassTwo.getVersion();
+
+    // Instantiate LegacyClassTwo and call methods
+    var lc2 = new LegacyClassTwo();
+    lc2.getChanges();
+
+    // GlideRecord for change_request
+    var changeGr = new GlideRecord(LegacyClassTwo.TABLE);
+    changeGr.orderBy('number');
+    changeGr.setLimit(3);
+    changeGr.query();
+    while (changeGr.next()) {
+        data.changes.push({
+            sys_id: changeGr.getUniqueValue(),
+            number: changeGr.getValue('number'),
+            description: changeGr.getValue('short_description')
+        });
+    }
+
+    // Nested GlideRecord: tasks per change
+    for (var i = 0; i &lt; data.changes.length; i++) {
+        var taskGr = new GlideRecord('change_task');
+        taskGr.addQuery('change_request', data.changes[i].sys_id);
+        taskGr.query();
+        while (taskGr.next()) {
+            data.tasks.push({
+                taskNumber: taskGr.getValue('number'),
+                changeNumber: data.changes[i].number
+            });
+        }
+    }
+
+    // Add metadata
+    data.taskCount = data.tasks.length;
+    data.hasTasks = data.taskCount &gt; 0;
+    data.timestamp = new Date().toISOString();
+
+    // Generate debug logs
+    for (var j = 0; j &lt; 5; j++) {
+        gs.info("LegacyClassWidget debug log iteration: " + j);
+    }
+
+    // Call nested method
+    lc2.nestedChanges();
+
+    // Fake error simulation
+    try {
+        if (!data.changes.length) {
+            throw "No changes found!";
+        }
+    } catch (e) {
+        gs.error("LegacyClassWidget error: " + e);
+    }
+})();
+]]&gt;&lt;/script&gt;&lt;servicenow&gt;false&lt;/servicenow&gt;&lt;sys_class_name&gt;sp_widget&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-09-03 13:54:18&lt;/sys_created_on&gt;&lt;sys_id&gt;a8ce780dc37baa106b28bb459901315b&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;SN Blame Test Widget 2&lt;/sys_name&gt;&lt;sys_package display_value="SN Blame Extension" source="x_blame_ext"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="SN Blame Extension"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_scope&gt;&lt;sys_update_name&gt;sp_widget_a8ce780dc37baa106b28bb459901315b&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-09-03 13:54:18&lt;/sys_updated_on&gt;&lt;template&gt;&lt;![CDATA[&lt;div&gt;
+&lt;!-- your widget template --&gt;
+&lt;/div&gt;]]&gt;&lt;/template&gt;&lt;/sp_widget&gt;&lt;/record_update&gt;</payload>
+<payload_hash>-980970937</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:27</sys_created_on>
+<sys_id>a6683981c373ea106b28bb459901311f</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c139610000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:27</sys_updated_on>
+<table/>
+<target_name>SN Blame Test Widget 2</target_name>
+<type>Widget</type>
+<update_domain>global</update_domain>
+<update_guid>53ee344dd87baa10945d434deb73ce05</update_guid>
+<update_guid_history>53ee344dd87baa10945d434deb73ce05:-980970937</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_64a5f485c33baa106b28bb45990131d0</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update sys_domain="global" table="sys_script"&gt;&lt;sys_script action="INSERT_OR_UPDATE"&gt;&lt;abort_action&gt;false&lt;/abort_action&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;action_delete&gt;true&lt;/action_delete&gt;&lt;action_insert&gt;true&lt;/action_insert&gt;&lt;action_query&gt;false&lt;/action_query&gt;&lt;action_update&gt;true&lt;/action_update&gt;&lt;active&gt;false&lt;/active&gt;&lt;add_message&gt;false&lt;/add_message&gt;&lt;advanced&gt;true&lt;/advanced&gt;&lt;change_fields&gt;false&lt;/change_fields&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;collection&gt;x_blame_ext_script_table&lt;/collection&gt;&lt;condition/&gt;&lt;description/&gt;&lt;execute_function&gt;false&lt;/execute_function&gt;&lt;filter_condition/&gt;&lt;is_rest&gt;false&lt;/is_rest&gt;&lt;message/&gt;&lt;name&gt;ModernClassThree static&lt;/name&gt;&lt;order&gt;100&lt;/order&gt;&lt;priority&gt;100&lt;/priority&gt;&lt;rest_method/&gt;&lt;rest_method_text/&gt;&lt;rest_service/&gt;&lt;rest_service_text/&gt;&lt;rest_variables/&gt;&lt;role_conditions/&gt;&lt;script&gt;&lt;![CDATA[// BR 5: ModernClassThree static and nested queries
+(function executeRule(current, previous /*null when async*/) {
+    var mc3 = new ModernClassThree();
+    mc3.getTasks();
+    mc3.nestedUserLookup();
+
+    var doubled = ModernClassThree.multiplyValue(10);
+    gs.info('Double 10: ' + doubled);
+})(current, previous);
+]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-09-03 13:13:41&lt;/sys_created_on&gt;&lt;sys_domain&gt;global&lt;/sys_domain&gt;&lt;sys_domain_path&gt;/&lt;/sys_domain_path&gt;&lt;sys_id&gt;64a5f485c33baa106b28bb45990131d0&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;ModernClassThree static&lt;/sys_name&gt;&lt;sys_overrides/&gt;&lt;sys_package display_value="SN Blame Extension" source="x_blame_ext"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="SN Blame Extension"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_64a5f485c33baa106b28bb45990131d0&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-09-03 13:13:41&lt;/sys_updated_on&gt;&lt;template/&gt;&lt;when&gt;after&lt;/when&gt;&lt;/sys_script&gt;&lt;sys_translated_text action="delete_multiple" query="documentkey=64a5f485c33baa106b28bb45990131d0"/&gt;&lt;/record_update&gt;</payload>
+<payload_hash>-276287785</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>a6687981c373ea106b28bb45990131a3</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c139330000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name>ModernClassThree static</target_name>
+<type>Business Rule</type>
+<update_domain>global</update_domain>
+<update_guid>2ca5f4856d3baa10dd076e90bc837bd2</update_guid>
+<update_guid_history>2ca5f4856d3baa10dd076e90bc837bd2:-276287785</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_security_acl_role_bb90b00dc3f7aa106b28bb459901319f</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role"><sys_security_acl_role action="INSERT_OR_UPDATE"><sys_class_name>sys_security_acl_role</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-09-03 12:51:47</sys_created_on><sys_id>bb90b00dc3f7aa106b28bb459901319f</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_blame_ext_script_table.x_blame_ext.sn_blame_table_user</sys_name><sys_package display_value="SN Blame Extension" source="x_blame_ext">9dbfe009c3f7aa106b28bb45990131d0</sys_package><sys_policy/><sys_scope display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</sys_scope><sys_security_acl display_value="x_blame_ext_script_table">3790b00dc3f7aa106b28bb459901319c</sys_security_acl><sys_update_name>sys_security_acl_role_bb90b00dc3f7aa106b28bb459901319f</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-09-03 12:51:47</sys_updated_on><sys_user_role display_value="x_blame_ext.sn_blame_table_user" name="x_blame_ext.sn_blame_table_user">db90300dc3f7aa106b28bb45990131f8</sys_user_role></sys_security_acl_role></record_update>]]></payload>
+<payload_hash>1567606706</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>a6687981c373ea106b28bb45990131a6</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c138030000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name>x_blame_ext_script_table.x_blame_ext.sn_blame_table_user</target_name>
+<type>Access Roles</type>
+<update_domain>global</update_domain>
+<update_guid>bf90b00de3f7aa10efe036c62439cea1</update_guid>
+<update_guid_history>bf90b00de3f7aa10efe036c62439cea1:1567606706</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_documentation_x_blame_ext_script_table__en</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update><sys_documentation element="" label="SN Blame Table" language="en" table="x_blame_ext_script_table"><sys_documentation action="INSERT_OR_UPDATE"><element/><help/><hint/><label>SN Blame Table</label><language>en</language><name>x_blame_ext_script_table</name><plural>SN Blame Tables</plural><sys_class_name>sys_documentation</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-09-03 12:51:47</sys_created_on><sys_id>3390b00dc3f7aa106b28bb45990131ab</sys_id><sys_mod_count>0</sys_mod_count><sys_name>SN Blame Table</sys_name><sys_package display_value="SN Blame Extension" source="x_blame_ext">9dbfe009c3f7aa106b28bb45990131d0</sys_package><sys_policy/><sys_scope display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</sys_scope><sys_update_name>sys_documentation_x_blame_ext_script_table__en</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-09-03 12:51:47</sys_updated_on><url/><url_target/></sys_documentation></sys_documentation></record_update>]]></payload>
+<payload_hash>-1411216762</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>aa687981c373ea106b28bb45990131a2</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c138400000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name>SN Blame Table</target_name>
+<type>Field Label</type>
+<update_domain>global</update_domain>
+<update_guid>b790b00d6df7aa107bfba3800f7d1ac7</update_guid>
+<update_guid_history>b790b00d6df7aa107bfba3800f7d1ac7:-1411216762</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_security_acl_3790b00dc3f7aa106b28bb4599013195</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl"><sys_security_acl action="INSERT_OR_UPDATE"><active>true</active><admin_overrides>true</admin_overrides><advanced>false</advanced><applies_to/><condition/><controlled_by_refs/><decision_type>allow</decision_type><description>Default access control on x_blame_ext_script_table</description><local_or_existing>Local</local_or_existing><name>x_blame_ext_script_table</name><operation display_value="write">write</operation><script/><security_attribute/><sys_class_name>sys_security_acl</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-09-03 12:51:47</sys_created_on><sys_id>3790b00dc3f7aa106b28bb4599013195</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_blame_ext_script_table</sys_name><sys_package display_value="SN Blame Extension" source="x_blame_ext">9dbfe009c3f7aa106b28bb45990131d0</sys_package><sys_policy/><sys_scope display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</sys_scope><sys_update_name>sys_security_acl_3790b00dc3f7aa106b28bb4599013195</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-09-03 12:51:47</sys_updated_on><type display_value="record">record</type></sys_security_acl></record_update>]]></payload>
+<payload_hash>-257780136</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>aa687981c373ea106b28bb45990131a5</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c138690000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name>x_blame_ext_script_table</target_name>
+<type>Access Control</type>
+<update_domain>global</update_domain>
+<update_guid>7790b00dc7f7aa100fa773c1063ef197</update_guid>
+<update_guid_history>7790b00dc7f7aa100fa773c1063ef197:-257780136</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_documentation_x_blame_ext_script_table_script_en</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update><sys_documentation element="script" label="Script" language="en" table="x_blame_ext_script_table"><sys_documentation action="INSERT_OR_UPDATE"><element>script</element><help/><hint/><label>Script</label><language>en</language><name>x_blame_ext_script_table</name><plural>Scripts</plural><sys_class_name>sys_documentation</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-09-03 12:51:47</sys_created_on><sys_id>ff90b00dc3f7aa106b28bb45990131ad</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Script</sys_name><sys_package display_value="SN Blame Extension" source="x_blame_ext">9dbfe009c3f7aa106b28bb45990131d0</sys_package><sys_policy/><sys_scope display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</sys_scope><sys_update_name>sys_documentation_x_blame_ext_script_table_script_en</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-09-03 12:51:47</sys_updated_on><url/><url_target/></sys_documentation></sys_documentation></record_update>]]></payload>
+<payload_hash>-1174588874</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>ae683981c373ea106b28bb4599013120</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c138360000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name>SN Blame Table.Script</target_name>
+<type>Field Label</type>
+<update_domain>global</update_domain>
+<update_guid>7390b00d9df7aa10c6cf8f483c4be5c9</update_guid>
+<update_guid_history>7390b00d9df7aa10c6cf8f483c4be5c9:-1174588874</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_include_4d23b801c33baa106b28bb45990131fc</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;x_blame_ext.ModernClassTwo&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;description/&gt;&lt;mobile_callable&gt;false&lt;/mobile_callable&gt;&lt;name&gt;ModernClassTwo&lt;/name&gt;&lt;sandbox_callable&gt;false&lt;/sandbox_callable&gt;&lt;script&gt;&lt;![CDATA[// Script Include: ModernClassTwo
+var ModernClassTwo = class ModernClassTwo {
+    static TABLE = 'change_request';
+    static VERSION = '1.0.0';
+
+    constructor() {
+        this.id = gs.generateGUID();
+    }
+
+    static getVersion() {
+        return ModernClassTwo.VERSION;
+    }
+
+    getChangeRequests() {
+        const gr = new GlideRecord(ModernClassTwo.TABLE);
+        gr.query();
+        while (gr.next()) {
+            gs.info('Change: ' + gr.number);
+        }
+    }
+
+    nestedExample() {
+        const change = new GlideRecord(ModernClassTwo.TABLE);
+        change.query();
+        while (change.next()) {
+            const task = new GlideRecord('change_task');
+            task.addQuery('change_request', change.sys_id);
+            task.query();
+            while (task.next()) {
+                gs.info(`Task ${task.number} for Change ${change.number}`);
+            }
+        }
+    }
+};
+]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-09-03 13:03:02&lt;/sys_created_on&gt;&lt;sys_id&gt;4d23b801c33baa106b28bb45990131fc&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;ModernClassTwo&lt;/sys_name&gt;&lt;sys_package display_value="SN Blame Extension" source="x_blame_ext"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_package&gt;&lt;sys_policy&gt;read&lt;/sys_policy&gt;&lt;sys_scope display_value="SN Blame Extension"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_4d23b801c33baa106b28bb45990131fc&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-09-03 13:03:02&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+<payload_hash>659745159</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>ae687981c373ea106b28bb45990131a4</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c1389e0000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table/>
+<target_name>ModernClassTwo</target_name>
+<type>Script Include</type>
+<update_domain>global</update_domain>
+<update_guid>6833f801993baa10e19108668045700d</update_guid>
+<update_guid_history>6833f801993baa10e19108668045700d:659745159</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_3a857485c33baa106b28bb45990131e2</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update sys_domain="global" table="sys_script"&gt;&lt;sys_script action="INSERT_OR_UPDATE"&gt;&lt;abort_action&gt;false&lt;/abort_action&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;action_delete&gt;true&lt;/action_delete&gt;&lt;action_insert&gt;true&lt;/action_insert&gt;&lt;action_query&gt;false&lt;/action_query&gt;&lt;action_update&gt;false&lt;/action_update&gt;&lt;active&gt;false&lt;/active&gt;&lt;add_message&gt;false&lt;/add_message&gt;&lt;advanced&gt;true&lt;/advanced&gt;&lt;change_fields&gt;false&lt;/change_fields&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;collection&gt;x_blame_ext_script_table&lt;/collection&gt;&lt;condition/&gt;&lt;description/&gt;&lt;execute_function&gt;false&lt;/execute_function&gt;&lt;filter_condition/&gt;&lt;is_rest&gt;false&lt;/is_rest&gt;&lt;message/&gt;&lt;name&gt;LegacyClassTwo nested GlideRecord&lt;/name&gt;&lt;order&gt;100&lt;/order&gt;&lt;priority&gt;100&lt;/priority&gt;&lt;rest_method/&gt;&lt;rest_method_text/&gt;&lt;rest_service/&gt;&lt;rest_service_text/&gt;&lt;rest_variables/&gt;&lt;role_conditions/&gt;&lt;script&gt;&lt;![CDATA[// BR 4: LegacyClassTwo nested GlideRecord
+(function executeRule(current, previous /*null when async*/) {
+    var lc2 = new LegacyClassTwo();
+    lc2.nestedChanges();
+
+    // Static call
+    gs.info('LegacyClassTwo version: ' + LegacyClassTwo.getVersion());
+})(current, previous);
+]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-09-03 13:13:17&lt;/sys_created_on&gt;&lt;sys_domain&gt;global&lt;/sys_domain&gt;&lt;sys_domain_path&gt;/&lt;/sys_domain_path&gt;&lt;sys_id&gt;3a857485c33baa106b28bb45990131e2&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;LegacyClassTwo nested GlideRecord&lt;/sys_name&gt;&lt;sys_overrides/&gt;&lt;sys_package display_value="SN Blame Extension" source="x_blame_ext"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="SN Blame Extension"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_3a857485c33baa106b28bb45990131e2&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-09-03 13:13:17&lt;/sys_updated_on&gt;&lt;template/&gt;&lt;when&gt;after&lt;/when&gt;&lt;/sys_script&gt;&lt;sys_translated_text action="delete_multiple" query="documentkey=3a857485c33baa106b28bb45990131e2"/&gt;&lt;/record_update&gt;</payload>
+<payload_hash>-1072948163</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>e2687981c373ea106b28bb45990131a3</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c139280000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name>LegacyClassTwo nested GlideRecord</target_name>
+<type>Business Rule</type>
+<update_domain>global</update_domain>
+<update_guid>fe857485cb3baa10ebc7e75f1bfa11e4</update_guid>
+<update_guid_history>fe857485cb3baa10ebc7e75f1bfa11e4:-1072948163</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_security_acl_role_bb90b00dc3f7aa106b28bb4599013198</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role"><sys_security_acl_role action="INSERT_OR_UPDATE"><sys_class_name>sys_security_acl_role</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-09-03 12:51:47</sys_created_on><sys_id>bb90b00dc3f7aa106b28bb4599013198</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_blame_ext_script_table.x_blame_ext.sn_blame_table_user</sys_name><sys_package display_value="SN Blame Extension" source="x_blame_ext">9dbfe009c3f7aa106b28bb45990131d0</sys_package><sys_policy/><sys_scope display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</sys_scope><sys_security_acl display_value="x_blame_ext_script_table">3790b00dc3f7aa106b28bb4599013195</sys_security_acl><sys_update_name>sys_security_acl_role_bb90b00dc3f7aa106b28bb4599013198</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-09-03 12:51:47</sys_updated_on><sys_user_role display_value="x_blame_ext.sn_blame_table_user" name="x_blame_ext.sn_blame_table_user">db90300dc3f7aa106b28bb45990131f8</sys_user_role></sys_security_acl_role></record_update>]]></payload>
+<payload_hash>-1957626464</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>e2687981c373ea106b28bb45990131a6</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c1380e0000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name>x_blame_ext_script_table.x_blame_ext.sn_blame_table_user</target_name>
+<type>Access Roles</type>
+<update_domain>global</update_domain>
+<update_guid>bf90b00d47f7aa102c8adaeb9d88519a</update_guid>
+<update_guid_history>bf90b00d47f7aa102c8adaeb9d88519a:-1957626464</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_security_acl_2790b00dc3f7aa106b28bb459901318e</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl"><sys_security_acl action="INSERT_OR_UPDATE"><active>true</active><admin_overrides>true</admin_overrides><advanced>false</advanced><applies_to/><condition/><controlled_by_refs/><decision_type>allow</decision_type><description>Default access control on x_blame_ext_script_table</description><local_or_existing>Local</local_or_existing><name>x_blame_ext_script_table</name><operation display_value="read">read</operation><script/><security_attribute/><sys_class_name>sys_security_acl</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-09-03 12:51:47</sys_created_on><sys_id>2790b00dc3f7aa106b28bb459901318e</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_blame_ext_script_table</sys_name><sys_package display_value="SN Blame Extension" source="x_blame_ext">9dbfe009c3f7aa106b28bb45990131d0</sys_package><sys_policy/><sys_scope display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</sys_scope><sys_update_name>sys_security_acl_2790b00dc3f7aa106b28bb459901318e</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-09-03 12:51:47</sys_updated_on><type display_value="record">record</type></sys_security_acl></record_update>]]></payload>
+<payload_hash>-738683820</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>e6687981c373ea106b28bb45990131a5</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c1385d0000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name>x_blame_ext_script_table</target_name>
+<type>Access Control</type>
+<update_domain>global</update_domain>
+<update_guid>6790b00da7f7aa10cf2024dbb0a5b690</update_guid>
+<update_guid_history>6790b00da7f7aa10cf2024dbb0a5b690:-738683820</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_dictionary_x_blame_ext_script_table_script</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update&gt;&lt;sys_dictionary action="INSERT_OR_UPDATE" element="script" table="x_blame_ext_script_table"&gt;&lt;active&gt;true&lt;/active&gt;&lt;array&gt;false&lt;/array&gt;&lt;attributes/&gt;&lt;audit&gt;false&lt;/audit&gt;&lt;calculation&gt;&lt;![CDATA[(function calculatedFieldValue(current) {
+
+	// Add your code here
+	return '';  // return the calculated value
+
+})(current);]]&gt;&lt;/calculation&gt;&lt;choice/&gt;&lt;choice_field/&gt;&lt;choice_table/&gt;&lt;column_label&gt;script&lt;/column_label&gt;&lt;comments/&gt;&lt;create_roles/&gt;&lt;default_value/&gt;&lt;defaultsort/&gt;&lt;delete_roles/&gt;&lt;dependent/&gt;&lt;dependent_on_field/&gt;&lt;display&gt;false&lt;/display&gt;&lt;dynamic_creation&gt;false&lt;/dynamic_creation&gt;&lt;dynamic_creation_script/&gt;&lt;dynamic_default_value/&gt;&lt;dynamic_ref_qual/&gt;&lt;element&gt;script&lt;/element&gt;&lt;element_reference&gt;false&lt;/element_reference&gt;&lt;foreign_database/&gt;&lt;formula/&gt;&lt;function_definition/&gt;&lt;function_field&gt;false&lt;/function_field&gt;&lt;internal_type display_value="Script"&gt;script&lt;/internal_type&gt;&lt;mandatory&gt;false&lt;/mandatory&gt;&lt;max_length&gt;8000&lt;/max_length&gt;&lt;name&gt;x_blame_ext_script_table&lt;/name&gt;&lt;next_element/&gt;&lt;primary&gt;false&lt;/primary&gt;&lt;read_only&gt;false&lt;/read_only&gt;&lt;read_roles/&gt;&lt;reference/&gt;&lt;reference_cascade_rule/&gt;&lt;reference_floats&gt;false&lt;/reference_floats&gt;&lt;reference_key/&gt;&lt;reference_qual/&gt;&lt;reference_qual_condition/&gt;&lt;reference_type/&gt;&lt;spell_check&gt;false&lt;/spell_check&gt;&lt;staged&gt;false&lt;/staged&gt;&lt;sys_class_name&gt;sys_dictionary&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-09-03 12:51:46&lt;/sys_created_on&gt;&lt;sys_id&gt;473038c9c3f7aa106b28bb459901313e&lt;/sys_id&gt;&lt;sys_name&gt;script&lt;/sys_name&gt;&lt;sys_package display_value="SN Blame Extension" source="x_blame_ext"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="SN Blame Extension"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_dictionary_x_blame_ext_script_table_script&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-09-03 12:51:46&lt;/sys_updated_on&gt;&lt;table_reference&gt;false&lt;/table_reference&gt;&lt;text_index&gt;false&lt;/text_index&gt;&lt;unique&gt;false&lt;/unique&gt;&lt;use_dependent_field&gt;false&lt;/use_dependent_field&gt;&lt;use_dynamic_default&gt;false&lt;/use_dynamic_default&gt;&lt;use_reference_qualifier&gt;simple&lt;/use_reference_qualifier&gt;&lt;virtual&gt;false&lt;/virtual&gt;&lt;virtual_type&gt;script&lt;/virtual_type&gt;&lt;widget/&gt;&lt;write_roles/&gt;&lt;xml_view&gt;false&lt;/xml_view&gt;&lt;/sys_dictionary&gt;&lt;/record_update&gt;</payload>
+<payload_hash>-595077519</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>ea683981c373ea106b28bb4599013120</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c137c20000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name>SN Blame Table.Script</target_name>
+<type>Dictionary</type>
+<update_domain>global</update_domain>
+<update_guid>ef90b00dfaf7aa1097e9efe7f038d170</update_guid>
+<update_guid_history>ef90b00dfaf7aa1097e9efe7f038d170:-595077519</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_include_3fd23ccdc3f7aa106b28bb459901314a</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;x_blame_ext.ModernClassThree &lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;description/&gt;&lt;mobile_callable&gt;false&lt;/mobile_callable&gt;&lt;name&gt;ModernClassThree &lt;/name&gt;&lt;sandbox_callable&gt;false&lt;/sandbox_callable&gt;&lt;script&gt;&lt;![CDATA[// Script Include: ModernClassThree
+var ModernClassThree = class ModernClassThree extends ModernClassOne{
+    static DEFAULT_VALUE = 42;
+    static TASK_TABLE = 'sc_task';
+
+    constructor() {
+		super();
+        this.value = ModernClassThree.DEFAULT_VALUE;
+    }
+
+    static multiplyValue(val) {
+        return val * 2;
+    }
+
+    incrementValue() {
+        this.value++;
+        return this.value;
+    }
+
+    getTasks() {
+        const taskGr = new GlideRecord(ModernClassThree.TASK_TABLE);
+        taskGr.query();
+        while (taskGr.next()) {
+            gs.info(`Task: ${taskGr.number}`);
+        }
+    }
+
+    nestedUserLookup() {
+        const task = new GlideRecord(ModernClassThree.TASK_TABLE);
+        task.query();
+        while (task.next()) {
+            const usr = new GlideRecord('sys_user');
+            usr.addQuery('sys_id', task.assigned_to);
+            usr.query();
+            while (usr.next()) {
+                gs.info(`Task ${task.number} is assigned to ${usr.name}`);
+            }
+        }
+    }
+};
+]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-09-03 13:02:01&lt;/sys_created_on&gt;&lt;sys_id&gt;3fd23ccdc3f7aa106b28bb459901314a&lt;/sys_id&gt;&lt;sys_mod_count&gt;2&lt;/sys_mod_count&gt;&lt;sys_name&gt;ModernClassThree &lt;/sys_name&gt;&lt;sys_package display_value="SN Blame Extension" source="x_blame_ext"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_package&gt;&lt;sys_policy&gt;read&lt;/sys_policy&gt;&lt;sys_scope display_value="SN Blame Extension"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_3fd23ccdc3f7aa106b28bb459901314a&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-09-03 13:04:53&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+<payload_hash>1500372282</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>ea687981c373ea106b28bb45990131a4</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c138c50000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table/>
+<target_name>ModernClassThree </target_name>
+<type>Script Include</type>
+<update_domain>global</update_domain>
+<update_guid>2393f841863baa1010b976d7d0096529</update_guid>
+<update_guid_history>2393f841863baa1010b976d7d0096529:1500372282,6003b401ca3baa10b42f1acf3cc9950b:-2119187643,b5f2f001113baa105fe317ec93e7a918:659745159</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sp_widget_ed5e300dc37baa106b28bb4599013162</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sp_widget"&gt;&lt;sp_widget action="INSERT_OR_UPDATE"&gt;&lt;category&gt;custom&lt;/category&gt;&lt;client_script&gt;&lt;![CDATA[api.controller=function($scope) {
+    var c = this;
+    c.title = "Modern Class Widget";
+    c.loaded = false;
+    c.errors = [];
+
+    c.$onInit = function() {
+        console.log("Modern Class Widget initialized");
+        c.loaded = true;
+        if (!c.data.hasIncidents) {
+            c.errors.push("No incidents found");
+        }
+    };
+
+    c.showDetails = function(item) {
+        console.log("Incident Details: ", item);
+    };
+
+    c.logUsers = function() {
+        console.log("Caller Users:", c.data.users);
+        for (var i = 0; i &lt; c.data.users.length; i++) {
+            console.log("User " + (i + 1) + ": " + c.data.users[i].name);
+        }
+    };
+
+    c.refresh = function() {
+        console.log("Simulated refresh...");
+        c.loaded = false;
+        setTimeout(function() {
+            c.loaded = true;
+            console.log("Refresh complete");
+        }, 500);
+    };
+
+    c.printMetadata = function() {
+        console.log("Timestamp:", c.data.timestamp);
+        console.log("Incident Count:", c.data.incidentCount);
+    };
+
+    c.debugToggle = function() {
+        c.data.debug = !c.data.debug;
+        console.log("Debug mode:", c.data.debug);
+    };
+}
+]]&gt;&lt;/client_script&gt;&lt;controller_as&gt;c&lt;/controller_as&gt;&lt;css/&gt;&lt;data_table&gt;sp_instance&lt;/data_table&gt;&lt;demo_data/&gt;&lt;description/&gt;&lt;docs/&gt;&lt;field_list/&gt;&lt;has_preview&gt;false&lt;/has_preview&gt;&lt;id&gt;sn_blame_test_widget_1&lt;/id&gt;&lt;internal&gt;false&lt;/internal&gt;&lt;link&gt;&lt;![CDATA[function link(scope, element, attrs, ctrl) {
+    console.log("ModernClassWidget Link: DOM ready");
+
+    // Watch for data changes
+    scope.$watch('c.data.incidents', function(newVal, oldVal) {
+        if (newVal !== oldVal) {
+            console.log("Incident data updated:", newVal);
+        }
+    }, true);
+
+    // DOM listener
+    element.on('click', function() {
+        console.log("ModernClassWidget clicked");
+    });
+
+    // Simulated setup
+    var setupComplete = false;
+    var setup = function() {
+        setupComplete = true;
+        console.log("ModernClassWidget setup complete");
+    };
+    setup();
+
+    // Simulate element manipulation
+    element.addClass('widget-modern');
+    element.attr('data-widget', 'modern-class-widget');
+
+    // Debugging helper
+    console.log("Widget Attributes:", attrs);
+
+    // Cleanup handler
+    scope.$on('$destroy', function() {
+        console.log("ModernClassWidget destroyed");
+        element.off();
+    });
+
+    // Extra fake loop to pad lines
+    for (var i = 0; i &lt; 5; i++) {
+        console.log("ModernClassWidget link iteration " + i);
+    }
+}
+]]&gt;&lt;/link&gt;&lt;name&gt;SN Blame Test Widget 1&lt;/name&gt;&lt;option_schema/&gt;&lt;public&gt;false&lt;/public&gt;&lt;roles/&gt;&lt;script&gt;&lt;![CDATA[(function() {
+    data.message = "Widget 1: ModernClassOne in action";
+    data.incidents = [];
+    data.users = [];
+
+    // Use ModernClassOne static method
+    ModernClassOne.doSomethingStatic();
+    var mc1 = new ModernClassOne();
+    mc1.doSomething();
+
+    // Get incidents using table constant
+    var incGr = new GlideRecord(ModernClassOne.TABLE_NAME);
+    incGr.orderByDesc('sys_created_on');
+    incGr.setLimit(5);
+    incGr.query();
+    while (incGr.next()) {
+        data.incidents.push({
+            sys_id: incGr.getUniqueValue(),
+            number: incGr.getValue('number'),
+            description: incGr.getValue('short_description'),
+            caller_id: incGr.getValue('caller_id')
+        });
+    }
+
+    // Nested GlideRecord example
+    for (var i = 0; i &lt; data.incidents.length; i++) {
+        var callerGr = new GlideRecord('sys_user');
+        callerGr.addQuery('sys_id', data.incidents[i].caller_id);
+        callerGr.query();
+        if (callerGr.next()) {
+            data.users.push({
+                name: callerGr.getValue('name'),
+                email: callerGr.getValue('email'),
+                incident: data.incidents[i].number
+            });
+        }
+    }
+
+    // Sample computation
+    data.incidentCount = data.incidents.length;
+    data.hasIncidents = data.incidentCount &gt; 0;
+
+    // Call nested method from ModernClassOne
+    mc1.nestedGlideRecordExample();
+
+    // Create dummy log entries
+    for (var j = 0; j &lt; 3; j++) {
+        gs.info("ModernClassWidget log iteration: " + j);
+    }
+
+    // Return additional metadata
+    data.timestamp = new Date().toISOString();
+    data.debug = true;
+})();]]&gt;&lt;/script&gt;&lt;servicenow&gt;false&lt;/servicenow&gt;&lt;sys_class_name&gt;sp_widget&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-09-03 13:53:29&lt;/sys_created_on&gt;&lt;sys_id&gt;ed5e300dc37baa106b28bb4599013162&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;SN Blame Test Widget 1&lt;/sys_name&gt;&lt;sys_package display_value="SN Blame Extension" source="x_blame_ext"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="SN Blame Extension"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_scope&gt;&lt;sys_update_name&gt;sp_widget_ed5e300dc37baa106b28bb4599013162&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-09-03 13:53:29&lt;/sys_updated_on&gt;&lt;template&gt;&lt;![CDATA[&lt;div&gt;
+&lt;!-- your widget template --&gt;
+&lt;/div&gt;]]&gt;&lt;/template&gt;&lt;/sp_widget&gt;&lt;/record_update&gt;</payload>
+<payload_hash>1015101226</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>ee683981c373ea106b28bb459901311f</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c1394e0000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table/>
+<target_name>SN Blame Test Widget 1</target_name>
+<type>Widget</type>
+<update_domain>global</update_domain>
+<update_guid>5bbe7c0ddf7baa102603520d08a5ef49</update_guid>
+<update_guid_history>5bbe7c0ddf7baa102603520d08a5ef49:1015101226</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_e4b53c85c33baa106b28bb4599013101</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update sys_domain="global" table="sys_script"&gt;&lt;sys_script action="INSERT_OR_UPDATE"&gt;&lt;abort_action&gt;false&lt;/abort_action&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;action_delete&gt;true&lt;/action_delete&gt;&lt;action_insert&gt;true&lt;/action_insert&gt;&lt;action_query&gt;false&lt;/action_query&gt;&lt;action_update&gt;true&lt;/action_update&gt;&lt;active&gt;false&lt;/active&gt;&lt;add_message&gt;false&lt;/add_message&gt;&lt;advanced&gt;true&lt;/advanced&gt;&lt;change_fields&gt;false&lt;/change_fields&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;collection&gt;x_blame_ext_script_table&lt;/collection&gt;&lt;condition/&gt;&lt;description/&gt;&lt;execute_function&gt;false&lt;/execute_function&gt;&lt;filter_condition/&gt;&lt;is_rest&gt;false&lt;/is_rest&gt;&lt;message/&gt;&lt;name&gt; LegacyClassThree static + hardcoded GR&lt;/name&gt;&lt;order&gt;100&lt;/order&gt;&lt;priority&gt;100&lt;/priority&gt;&lt;rest_method/&gt;&lt;rest_method_text/&gt;&lt;rest_service/&gt;&lt;rest_service_text/&gt;&lt;rest_variables/&gt;&lt;role_conditions/&gt;&lt;script&gt;&lt;![CDATA[// BR 6: LegacyClassThree static + hardcoded GlideRecord
+(function executeRule(current, previous /*null when async*/) {
+    // Hardcoded GlideRecord
+    var gr = new GlideRecord('incident');
+    gr.addQuery('priority', 1);
+    gr.query();
+    while (gr.next()) {
+        gs.info('High priority incident: ' + gr.number);
+    }
+
+    // LegacyClassThree static call
+    var tripled = LegacyClassThree.multiplyValue(5);
+    gs.info('Triple 5: ' + tripled);
+
+    // Instance method
+    var lc3 = new LegacyClassThree();
+    lc3.nestedLookup();
+})(current, previous);
+]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-09-03 13:13:58&lt;/sys_created_on&gt;&lt;sys_domain&gt;global&lt;/sys_domain&gt;&lt;sys_domain_path&gt;/&lt;/sys_domain_path&gt;&lt;sys_id&gt;e4b53c85c33baa106b28bb4599013101&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt; LegacyClassThree static + hardcoded GR&lt;/sys_name&gt;&lt;sys_overrides/&gt;&lt;sys_package display_value="SN Blame Extension" source="x_blame_ext"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="SN Blame Extension"&gt;9dbfe009c3f7aa106b28bb45990131d0&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_e4b53c85c33baa106b28bb4599013101&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-09-03 13:13:58&lt;/sys_updated_on&gt;&lt;template/&gt;&lt;when&gt;after&lt;/when&gt;&lt;/sys_script&gt;&lt;sys_translated_text action="delete_multiple" query="documentkey=e4b53c85c33baa106b28bb4599013101"/&gt;&lt;/record_update&gt;</payload>
+<payload_hash>-1340056138</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>ee687981c373ea106b28bb45990131a3</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c1393e0000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table>x_blame_ext_script_table</table>
+<target_name> LegacyClassThree static + hardcoded GR</target_name>
+<type>Business Rule</type>
+<update_domain>global</update_domain>
+<update_guid>6cb53c85cc3baa1000062c2c2baf1e03</update_guid>
+<update_guid_history>6cb53c85cc3baa1000062c2c2baf1e03:-1340056138</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</application>
+<category>customer</category>
+<comments/>
+<name>sys_user_role_db90300dc3f7aa106b28bb45990131f8</name>
+<payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_user_role"><sys_user_role action="INSERT_OR_UPDATE"><assignable_by/><can_delegate>true</can_delegate><description/><elevated_privilege>false</elevated_privilege><grantable>true</grantable><includes_roles/><name>x_blame_ext.sn_blame_table_user</name><scoped_admin>false</scoped_admin><suffix>sn_blame_table_user</suffix><sys_class_name>sys_user_role</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-09-03 12:51:45</sys_created_on><sys_id>db90300dc3f7aa106b28bb45990131f8</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_blame_ext.sn_blame_table_user</sys_name><sys_package display_value="SN Blame Extension" source="x_blame_ext">9dbfe009c3f7aa106b28bb45990131d0</sys_package><sys_policy/><sys_scope display_value="SN Blame Extension">9dbfe009c3f7aa106b28bb45990131d0</sys_scope><sys_update_name>sys_user_role_db90300dc3f7aa106b28bb45990131f8</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-09-03 12:51:45</sys_updated_on></sys_user_role></record_update>]]></payload>
+<payload_hash>-1150508127</payload_hash>
+<remote_update_set display_value="SN Blame Extension">62683981c373ea106b28bb459901311f</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2025-09-03 18:05:28</sys_created_on>
+<sys_id>ee687981c373ea106b28bb45990131a6</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_recorded_at>19910c137b10000001</sys_recorded_at>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2025-09-03 18:05:28</sys_updated_on>
+<table/>
+<target_name>x_blame_ext.sn_blame_table_user</target_name>
+<type>Role</type>
+<update_domain>global</update_domain>
+<update_guid>1390b00db9f7aa103501db13656f3167</update_guid>
+<update_guid_history>1390b00db9f7aa103501db13656f3167:-1150508127</update_guid_history>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+</unload>
