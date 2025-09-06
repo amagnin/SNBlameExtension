@@ -64,7 +64,7 @@
         margin-right: 5px;
       }
     }
-    
+
     details[open] > summary:after {
       font-family: "now-icons";
       font-size: 15px;
@@ -132,8 +132,36 @@
   }
 }
 
-table.sn-blame-object-props td:nth-child(3) {
-  word-break: break-word;
+table.sn-blame-object-props{
+  td:nth-child(3) {
+    word-break: break-word;
+  }
+
+  td.sn-blame-node-type {
+    padding: 5px;
+    height: 35px;
+    
+    span {
+        border: 2px solid;
+        padding:2px 5px;
+        border-radius: 5px;
+        font-weight: bolder;
+        margin: 3px;
+
+      &:hover:after {
+        content: attr(sn-blame-title);
+        position: absolute;
+        width: max-content;
+        color: white;
+        background: #07080b;
+        padding: 4px 15px;
+        border-radius: 5px;
+        border: 1px solid;
+        font-size: 12px;
+        transform: translate(-50%, -130%);
+      }
+    }
+  }
 }
 
 table.sn-blame-dialog-list {

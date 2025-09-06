@@ -163,6 +163,63 @@ export default function snListHelper() {
       },'')
     }
 
+    let getScriptIncludeTableRowHTML = (method, propertyDef) => {
+      const COLOR_MAP = {
+        Literal: "#E57373",
+        ObjectExpression: "#64B5F6",
+        FunctionExpression: "#81C784",
+        ArrayExpression: "#FFD54F",
+        Identifier: "#BA68C8",
+        BinaryExpression: "#4DB6AC",
+        CallExpression: "#FF8A65",
+        MemberExpression: "#9575CD",
+        AssignmentExpression: "#F06292",
+        ConditionalExpression: "#4FC3F7",
+        ReturnStatement: "#AED581",
+        VariableDeclaration: "#FFF176",
+        ImportDeclaration: "#90CAF9",
+        ExportDeclaration: "#A1887F",
+        ThisExpression: "#F48FB1",
+      };
+
+      let value = propertyDef;
+      if (propertyDef.type === "ObjectExpression") {
+        try {
+          value = `<pre style="white-space: pre-wrap;">${JSON.stringify(JSON.parse(jsonLoose(propertyDef.value)), null, 2)}</pre>`;
+        } catch (e) {
+          value = propertyDef.value || propertyDef;
+        }
+      }
+
+      if (propertyDef.type === "ArrayExpression") {
+        value = JSON.stringify(propertyDef.value);
+        value = value.substring(1, value.length-1);
+      }
+
+      if (propertyDef.type === "CallExpression") {
+        value = JSON.stringify(propertyDef.value);
+        value = value.substring(1, value.length-1);
+      }
+
+      if (propertyDef.type === "FunctionExpression"){
+        if(propertyDef.args.length)
+          value = `( ${propertyDef.args.join(", ")} )`;
+        else
+          value = '';
+      }
+        
+
+      return `<tr>
+            <td>static ${method}</td>
+            <td 
+              class="sn-blame-node-type" 
+              style="color:${COLOR_MAP[propertyDef.type || "Literal"] || "#F44336"}">
+              <span sn-blame-title="${propertyDef.type || "Literal"}">${(propertyDef.type || "Literal")[0].toUpperCase()}</span>
+            </td>
+            <td>${(!propertyDef.type) ? '"' + value + '"' : value}</td>
+          </tr>`;
+    };
+
     let tableConfig = config.default[table]  
 
     if(table && tableConfig && tableConfig.modalContext){
@@ -228,12 +285,8 @@ export default function snListHelper() {
         method => {
           let propertyDef = currentScriptIncldeParsedDetails['static'][method];
           if(!propertyDef) return
-          scriptIncludeDetailsHTML+= 
-          `<tr>
-            <td>static ${method}</td>
-            <td>${propertyDef.type || 'Literal'}
-            <td>${propertyDef.args || propertyDef.value || propertyDef}
-          </tr>`
+
+          scriptIncludeDetailsHTML+= getScriptIncludeTableRowHTML(method, propertyDef)
         }
       )
       Object.keys(currentScriptIncldeParsedDetails['methods']).forEach(
@@ -241,24 +294,7 @@ export default function snListHelper() {
           let propertyDef = currentScriptIncldeParsedDetails['methods'][method];
           if(method === 'initialize' || !propertyDef) return
 
-          let value = propertyDef;
-          if(propertyDef.type === 'ObjectExpression'){
-            try{
-              value = `<pre style="white-space: pre-wrap;">${JSON.stringify(JSON.parse(jsonLoose(propertyDef.value)), null, 2)}</pre>`
-            }catch(e){
-              value = propertyDef.value || propertyDef
-            }
-          }
-
-          if(propertyDef.type === 'FunctionExpression')
-            value = propertyDef.args.join(', ')
-
-          scriptIncludeDetailsHTML+= 
-          `<tr>
-            <td>${method}</td>
-            <td >${propertyDef.type || 'Literal'}
-            <td>${value}
-          </tr>`
+          scriptIncludeDetailsHTML+= getScriptIncludeTableRowHTML(method, propertyDef)
         }
       )
 
