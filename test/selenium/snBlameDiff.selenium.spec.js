@@ -1,11 +1,4 @@
-import {
-  Builder,
-  Browser,
-  promise,
-  until,
-  By,
-  Condition,
-} from "selenium-webdriver";
+import { Builder, Browser, promise, until, By, Condition } from "selenium-webdriver";
 import * as chrome from "selenium-webdriver/chrome.js";
 
 import * as chromedriver from "chromedriver";
