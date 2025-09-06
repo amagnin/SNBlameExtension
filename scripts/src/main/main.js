@@ -11,6 +11,7 @@ snListHelper();
 listenerForCacheInvalidation();
 
 setTimeout(() => {
+  if(typeof g_ck !== 'undefined')
   window.dispatchEvent(
     new CustomEvent("sn-blame-validate-cache", {
       detail: {

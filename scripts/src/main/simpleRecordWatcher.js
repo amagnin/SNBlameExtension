@@ -6,6 +6,7 @@
  */
 
 function snBlameRecordWatcher(table, onMessage) {
+  if(typeof g_ambClient === 'undefined' && typeof top?.g_ambClient === 'undefined') return;
   var amb = typeof g_ambClient !== 'undefined'?  g_ambClient : top.g_ambClient;
   if (!amb) {
     console.warn("snBlameRecordWatcher: g_ambClient not found");
