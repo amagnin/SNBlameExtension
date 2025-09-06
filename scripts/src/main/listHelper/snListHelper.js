@@ -1,4 +1,5 @@
 import * as config from '../../../../snTableConfigurations.json'
+import jsonLoose from 'json-loose';
 
 export default function snListHelper() {
   const ALLOWED_TABLES = Object.keys(config.default).reduce((acc, key) => {
@@ -20,6 +21,14 @@ export default function snListHelper() {
   let parsedScripts = [];
   let parsedScriptIncludes = [];
   let loaded = false;
+  let dialogState = (()=> {
+    try{ return JSON.parse(localStorage.getItem('sn-blame-helper-detail-state')) || {
+      "sn-blame-gr-detail": "open",
+      "sn-blame-script-calls-detail": "open",
+      "sn-blame-script-include-detail": "open",
+    }}
+    catch(e){return {}}
+  })();
 
   const createDialog = () => {
     dialog = document.createElement("dialog");
@@ -58,11 +67,13 @@ export default function snListHelper() {
   };
 
   const parseScriptInfo = (scriptInfo, table) => {
+    /** TODO move all HTML to a html file on template tags*/
     let glideRecordHTML =
       scriptInfo.glideRecord.filter(gr => !gr.notInitializedOnBlock).reduce(
         (htmlStr, element) => {
           if (element.variable && typeof element.table === "string") {
-            htmlStr += `<tr class="sn-blame-gr-table">
+            htmlStr += `
+            <tr class="sn-blame-gr-table">
             <td class="sn-blame-gr-variable">${element.variable}</th>
             <td class="sn-blame-gr-table"><a href="/${element.table}_list.do?sys_id=${element.table}">${element.table}<a></th>
           </tr>`;
@@ -77,13 +88,16 @@ export default function snListHelper() {
 
           return htmlStr;
         },
-        `<h4><i class="icon-search-database"></i>GlideRecord Calls</h4>
-             <table class='sn-blame-dialog-list'>
-             <tr>
-              <th>Variable</th>
-              <th>Table</th>
-             </tr>`
-      ) + "</table>";
+        `<details ${dialogState["sn-blame-gr-detail"]} id="sn-blame-gr-detail">
+            <summary>
+              <h4><i class="icon-search-database"></i>GlideRecord Calls</h4>
+            </summary>
+            <table class='sn-blame-dialog-list'>
+              <tr>
+                <th>Variable</th>
+                <th>Table</th>
+              </tr>`
+      ) + "</table></details>";
 
     let scriptIncludeHTML =
       scriptInfo.scriptIncludeCalls
@@ -115,14 +129,17 @@ export default function snListHelper() {
             }
             return htmlStr;
           },
-          `<h4><i class="icon-document-code"></i>Script Include Calls</h4>
+          `<details ${dialogState["sn-blame-script-calls-detail"]}  id="sn-blame-script-calls-detail">
+            <summary>
+              <h4><i class="icon-document-code"></i>Script Include Calls</h4>
+            </summary>
               <table class='sn-blame-dialog-list'>
                 <tr>
                   <th>Script Include</th>
                   <th>Method</th>
                   <th>Line(s)</th>
                 </tr>`
-        ) + "</table>";
+        ) + "</table></details>";
 
     let scriptContent = `<h4><i class="icon-global"></i>Scope: ${scriptInfo.scope}</h4>`;
 
@@ -171,8 +188,89 @@ export default function snListHelper() {
         ) + `</tbody></table>`;
     }
 
+    let scriptIncludeDetailsHTML = '';
+    let currentScriptIncldeParsedDetails = scriptInfo.scriptIncludesInfo[scriptInfo.sys_name] || scriptInfo.scriptIncludesInfo[scriptInfo.api_name];
+    if(currentScriptIncldeParsedDetails){
+      scriptIncludeDetailsHTML+= `
+        <details ${dialogState["sn-blame-script-include-detail"]}  id="sn-blame-script-include-detail">
+          <summary>
+            <h4>${scriptInfo.api_name || scriptInfo.sys_name}</h4>
+          </summary>`
+        
+      scriptIncludeDetailsHTML+= `<div> Constructor: <br/> 
+        <pre>new ${scriptInfo.api_name || scriptInfo.sys_name}(${currentScriptIncldeParsedDetails['methods'].initialize?.args || ''})</pre>
+      <div>`
+
+      if(currentScriptIncldeParsedDetails.extends){
+        let extendeHirerachy = [currentScriptIncldeParsedDetails.extends];
+
+        let lastIndexClass = extendeHirerachy[extendeHirerachy.length-1];
+        while(parsedScriptIncludes[lastIndexClass]?.extends){
+          extendeHirerachy.push(parsedScriptIncludes[lastIndexClass].extends);
+          lastIndexClass = extendeHirerachy[extendeHirerachy.length-1];
+        }
+
+        scriptIncludeDetailsHTML+= '<h5>Extends<h5>';
+        scriptIncludeDetailsHTML+=  extendeHirerachy.reduce((acc ,ext) => {
+          acc += `<ul><li><a href="/sys_script_include.do?sys_id=${parsedScriptIncludes[ext].sys_id}">${ext}</a>`
+          return acc
+        }, '') + extendeHirerachy.map(e=> '</li></ul>').join('');
+      }
+
+      scriptIncludeDetailsHTML+= `<table class='sn-blame-dialog-list sn-blame-object-props'><tbody>
+        <tr>
+          <th>Property</th>
+          <th>Type</th>
+          <th>Arguments/Value</th>
+        </tr>
+      `
+      Object.keys(currentScriptIncldeParsedDetails['static']).forEach(
+        method => {
+          let propertyDef = currentScriptIncldeParsedDetails['static'][method];
+          if(!propertyDef) return
+          scriptIncludeDetailsHTML+= 
+          `<tr>
+            <td>static ${method}</td>
+            <td>${propertyDef.type || 'Literal'}
+            <td>${propertyDef.args || propertyDef.value || propertyDef}
+          </tr>`
+        }
+      )
+      Object.keys(currentScriptIncldeParsedDetails['methods']).forEach(
+        method => {
+          let propertyDef = currentScriptIncldeParsedDetails['methods'][method];
+          if(method === 'initialize' || !propertyDef) return
+
+          let value = propertyDef;
+          if(propertyDef.type === 'ObjectExpression'){
+            try{
+              value = `<pre style="white-space: pre-wrap;">${JSON.stringify(JSON.parse(jsonLoose(propertyDef.value)), null, 2)}</pre>`
+            }catch(e){
+              value = propertyDef.value || propertyDef
+            }
+          }
+
+          if(propertyDef.type === 'FunctionExpression')
+            value = propertyDef.args.join(', ')
+
+          scriptIncludeDetailsHTML+= 
+          `<tr>
+            <td>${method}</td>
+            <td >${propertyDef.type || 'Literal'}
+            <td>${value}
+          </tr>`
+        }
+      )
+
+      scriptIncludeDetailsHTML+= `</tbody></table></details>`;
+    }
+
     if (scriptContext)
       scriptContent += `<hr> ${scriptContext}`;
+
+     if(scriptIncludeDetailsHTML){
+      scriptContent += `<hr> ${scriptIncludeDetailsHTML}`;
+    }
 
     if (scriptInfo.glideRecord.length > 0)
       scriptContent += `<hr> ${glideRecordHTML}`;
@@ -206,8 +304,20 @@ export default function snListHelper() {
       scriptContent.innerHTML = parseScriptInfo(scriptInfo, table);
       dialogContent.appendChild(scriptContent);
 
+      let details = Array.from(scriptContent.querySelectorAll('details'))
+      details.forEach(detail => detail.addEventListener('toggle', (event)=>{
+        dialogState[event.target.id] = event.newState;
+       
+        try{
+          localStorage.setItem('sn-blame-helper-detail-state', JSON.stringify(dialogState));
+        } catch(e){
+
+        };
+
+      }));
+
       dialog.querySelector(".sn-blame-sub-title-h2").textContent =
-        `${typeof g_list === 'undefined' ? document.title.split('|')[0].trim() : g_list.title}: ${scriptInfo.displayName || recordID}`;
+        `${typeof g_list?.title === 'undefined' ? document.title.split('|')[0].trim() : g_list.title}: ${scriptInfo.displayName || recordID}`;
 
       dialog.showModal();
     };

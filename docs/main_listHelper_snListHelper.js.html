@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>MonacoBlameGutter - SN Blame</title>
+    <title>main/listHelper/snListHelper.js - SN Blame</title>
 
     <meta
       name="description"
@@ -470,427 +470,411 @@
     </nav>
 
     <div id="main">
-      <h1 class="page-title">MonacoBlameGutter</h1>
+      <h1 class="page-title">main/listHelper/snListHelper.js</h1>
 
       <section>
-        <header>
-          <h2>MonacoBlameGutter</h2>
-
-          <div class="class-description usertext">
-            <p>
-              Class that creates and keeps track of the HTMLElement containing
-              the Blame Gutter and line changes
-            </p>
-          </div>
-        </header>
-
         <article>
-          <div class="container-overview">
-            <h2>Constructor</h2>
-
-            <h4 class="name" id="MonacoBlameGutter">
-              <span class="type-signature"></span>new MonacoBlameGutter<span
-                class="signature"
-                >(editorElement, lines, lineHeight<span
-                  class="signature-attributes"
-                  >opt</span
-                >)</span
-              ><span class="type-signature"></span>
-            </h4>
-
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="isolated_blame_MonacoBlameGutter.js.html"
-                      >isolated/blame/MonacoBlameGutter.js</a
-                    >,
-                    <a href="isolated_blame_MonacoBlameGutter.js.html#line16"
-                      >line 16</a
-                    >
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-
-            <h5 class="h5-parameters">Parameters:</h5>
-
-            <table class="params">
-              <thead>
-                <tr>
-                  <th>Name</th>
-
-                  <th>Type</th>
-
-                  <th>Attributes</th>
-
-                  <th>Default</th>
-
-                  <th class="last">Description</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr>
-                  <td class="name"><code>editorElement</code></td>
-
-                  <td class="type">
-                    <span class="param-type">HTMLElement</span>
-                  </td>
-
-                  <td class="attributes"></td>
-
-                  <td class="default"></td>
-
-                  <td class="description last">
-                    <p>html element containing the monaco editor</p>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="name"><code>lines</code></td>
-
-                  <td class="type">
-                    <span class="param-type"
-                      >Array.&lt;<a href="global.html#BlameLine">BlameLine</a
-                      >></span
-                    >
-                  </td>
-
-                  <td class="attributes"></td>
-
-                  <td class="default"></td>
-
-                  <td class="description last">
-                    <p>lines Object containing the blame/diff</p>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="name"><code>lineHeight</code></td>
-
-                  <td class="type">
-                    <span class="param-type">number</span>
-                  </td>
-
-                  <td class="attributes">&lt;optional><br /></td>
-
-                  <td class="default">
-                    <code>19</code>
-                  </td>
-
-                  <td class="description last"><p>editor lineHeight</p></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <h3 class="subsection-title">Members</h3>
-
-          <h4 class="name" id="SIZE">
-            <span class="type-signature type-signature-constant"
-              >(constant) </span
-            >SIZE<span class="type-signature"> :number</span>
-          </h4>
-
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="isolated_blame_MonacoBlameGutter.js.html"
-                    >isolated/blame/MonacoBlameGutter.js</a
-                  >,
-                  <a href="isolated_blame_MonacoBlameGutter.js.html#line18"
-                    >line 18</a
-                  >
-                </li>
-              </ul>
-            </dd>
-          </dl>
-
-          <h5 class="h5-types">Type:</h5>
-          <ul>
-            <li>
-              <span class="param-type">number</span>
-            </li>
-          </ul>
-
-          <h3 class="subsection-title">Methods</h3>
-
-          <h4 class="name" id="createGutter">
-            <span class="type-signature"></span>createGutter<span
-              class="signature"
-              >(editorElement, lines, lineHeight<span
-                class="signature-attributes"
-                >opt</span
-              >)</span
-            ><span class="type-signature"></span>
-          </h4>
-
-          <dl class="details">
-            <dt class="tag-description">Description:</dt>
-            <dd class="tag-description">
-              <ul class="dummy">
-                <li>
-                  <p>Creates the Blame Gutter next to the monaco editor</p>
-                </li>
-              </ul>
-            </dd>
-
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="isolated_blame_MonacoBlameGutter.js.html"
-                    >isolated/blame/MonacoBlameGutter.js</a
-                  >,
-                  <a href="isolated_blame_MonacoBlameGutter.js.html#line31"
-                    >line 31</a
-                  >
-                </li>
-              </ul>
-            </dd>
-          </dl>
-
-          <h5 class="h5-parameters">Parameters:</h5>
-
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-
-                <th>Type</th>
-
-                <th>Attributes</th>
-
-                <th>Default</th>
-
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="name"><code>editorElement</code></td>
-
-                <td class="type">
-                  <span class="param-type">HTMLElement</span>
-                </td>
-
-                <td class="attributes"></td>
-
-                <td class="default"></td>
-
-                <td class="description last">
-                  <p>html element containing the monaco editor</p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>lines</code></td>
-
-                <td class="type">
-                  <span class="param-type"
-                    >Array.&lt;<a href="global.html#BlameLine">BlameLine</a
-                    >></span
-                  >
-                </td>
-
-                <td class="attributes"></td>
-
-                <td class="default"></td>
-
-                <td class="description last">
-                  <p>lines Object containing the blame/diff</p>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="name"><code>lineHeight</code></td>
-
-                <td class="type">
-                  <span class="param-type">number</span>
-                </td>
-
-                <td class="attributes">&lt;optional><br /></td>
-
-                <td class="default">
-                  <code>19</code>
-                </td>
-
-                <td class="description last"><p>editor lineHeight</p></td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h4 class="name" id="updateLines">
-            <span class="type-signature"></span>updateLines<span
-              class="signature"
-              >(lines)</span
-            ><span class="type-signature"></span>
-          </h4>
-
-          <dl class="details">
-            <dt class="tag-description">Description:</dt>
-            <dd class="tag-description">
-              <ul class="dummy">
-                <li>
-                  <p>Updates the blamegutter to keep track current changes</p>
-                </li>
-              </ul>
-            </dd>
-
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="isolated_blame_MonacoBlameGutter.js.html"
-                    >isolated/blame/MonacoBlameGutter.js</a
-                  >,
-                  <a href="isolated_blame_MonacoBlameGutter.js.html#line61"
-                    >line 61</a
-                  >
-                </li>
-              </ul>
-            </dd>
-          </dl>
-
-          <h5 class="h5-parameters">Parameters:</h5>
-
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-
-                <th>Type</th>
-
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="name"><code>lines</code></td>
-
-                <td class="type">
-                  <span class="param-type"
-                    >Array.&lt;<a href="global.html#BlameLine">BlameLine</a
-                    >></span
-                  >
-                </td>
-
-                <td class="description last">
-                  <p>
-                    new lines to update the gutter with (lines contains the new
-                    blame to keep track of local changes)
-                  </p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h4 class="name" id="updateGutterSize">
-            <span class="type-signature"></span>updateGutterSize<span
-              class="signature"
-              >()</span
-            ><span class="type-signature"></span>
-          </h4>
-
-          <dl class="details">
-            <dt class="tag-description">Description:</dt>
-            <dd class="tag-description">
-              <ul class="dummy">
-                <li>
-                  <p>
-                    Updates the gutter width with the new size form the
-                    SNBlameOptions
-                  </p>
-                </li>
-              </ul>
-            </dd>
-
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="isolated_blame_MonacoBlameGutter.js.html"
-                    >isolated/blame/MonacoBlameGutter.js</a
-                  >,
-                  <a href="isolated_blame_MonacoBlameGutter.js.html#line69"
-                    >line 69</a
-                  >
-                </li>
-              </ul>
-            </dd>
-          </dl>
-
-          <h4 class="name" id="updateGutter">
-            <span class="type-signature"></span>updateGutter<span
-              class="signature"
-              >()</span
-            ><span class="type-signature"></span>
-          </h4>
-
-          <dl class="details">
-            <dt class="tag-description">Description:</dt>
-            <dd class="tag-description">
-              <ul class="dummy">
-                <li>
-                  <p>
-                    recreates the gutter lines in view, used when scrolling
-                    since we use a virtual scroller to line the gutter lines
-                    with the monaco editor lines
-                  </p>
-                </li>
-              </ul>
-            </dd>
-
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="isolated_blame_MonacoBlameGutter.js.html"
-                    >isolated/blame/MonacoBlameGutter.js</a
-                  >,
-                  <a href="isolated_blame_MonacoBlameGutter.js.html#line77"
-                    >line 77</a
-                  >
-                </li>
-              </ul>
-            </dd>
-          </dl>
-
-          <h4 class="name" id="destroyGutter">
-            <span class="type-signature"></span>destroyGutter<span
-              class="signature"
-              >()</span
-            ><span class="type-signature"></span>
-          </h4>
-
-          <dl class="details">
-            <dt class="tag-description">Description:</dt>
-            <dd class="tag-description">
-              <ul class="dummy">
-                <li><p>removes the gutter HTMLElement the gutter</p></li>
-              </ul>
-            </dd>
-
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="isolated_blame_MonacoBlameGutter.js.html"
-                    >isolated/blame/MonacoBlameGutter.js</a
-                  >,
-                  <a href="isolated_blame_MonacoBlameGutter.js.html#line168"
-                    >line 168</a
-                  >
-                </li>
-              </ul>
-            </dd>
-          </dl>
+          <pre
+            class="prettyprint source linenums"
+          ><code>import * as config from '../../../../snTableConfigurations.json'
+import jsonLoose from 'json-loose';
+
+export default function snListHelper() {
+  const ALLOWED_TABLES = Object.keys(config.default).reduce((acc, key) => {
+    if(key === 'defaultFields')
+      return acc;
+
+    acc.push({
+      table: key,
+      serverScriptField: config.default[key].mainScriptField,
+    })
+
+    return acc;
+  } , []);
+
+  const TABLE_LIST = ALLOWED_TABLES.map((t) => t.table);
+
+  let dialog = null;
+  let dialogContent = null;
+  let parsedScripts = [];
+  let parsedScriptIncludes = [];
+  let loaded = false;
+  let dialogState = (()=> {
+    try{ return JSON.parse(localStorage.getItem('sn-blame-helper-detail-state')) || {
+      "sn-blame-gr-detail": "open",
+      "sn-blame-script-calls-detail": "open",
+      "sn-blame-script-include-detail": "open",
+    }}
+    catch(e){return {}}
+  })();
+
+  const createDialog = () => {
+    dialog = document.createElement("dialog");
+    dialog.classList.add("sn-blame-dialog");
+
+    let dialogWrapper = document.createElement("div");
+    dialogWrapper.classList.add("sn-blame-dialog-wrapper");
+
+    dialog.appendChild(dialogWrapper);
+    dialog.addEventListener("click", (e) => {
+      if (e.target === dialog) {
+        dialog.close();
+      }
+    });
+
+    let dialogHeader = document.createElement("header");
+    dialogHeader.classList.add("sn-blame-dialog-header");
+    dialogHeader.innerHTML = `
+      &lt;div>
+        &lt;h2 class="sn-blame-h2">SN Blame - Script Execution Detail&lt;/h2>
+        &lt;h3 class="sn-blame-sub-title-h2">&lt;/h3>
+      &lt;/div>`;
+
+    let dialogCloseButton = document.createElement("button");
+    dialogCloseButton.classList.add("sn-blame-close");
+    dialogCloseButton.onclick = () => dialog.close();
+    dialogCloseButton.innerHTML = '&lt;i class="icon-cross">&lt;/i>';
+    dialogHeader.appendChild(dialogCloseButton);
+
+    dialogWrapper.appendChild(dialogHeader);
+    dialogContent = document.createElement("div");
+    dialogContent.classList.add("sn-blame-dialog-content");
+    dialogWrapper.appendChild(dialogContent);
+
+    document.body.appendChild(dialog);
+  };
+
+  const parseScriptInfo = (scriptInfo, table) => {
+    /** TODO move all HTML to a html file on template tags*/
+    let glideRecordHTML =
+      scriptInfo.glideRecord.filter(gr => !gr.notInitializedOnBlock).reduce(
+        (htmlStr, element) => {
+          if (element.variable &amp;&amp; typeof element.table === "string") {
+            htmlStr += `
+            &lt;tr class="sn-blame-gr-table">
+            &lt;td class="sn-blame-gr-variable">${element.variable}&lt;/th>
+            &lt;td class="sn-blame-gr-table">&lt;a href="/${element.table}_list.do?sys_id=${element.table}">${element.table}&lt;a>&lt;/th>
+          &lt;/tr>`;
+          }
+
+          if (element.variable &amp;&amp; typeof element.table !== "string") {
+            htmlStr += `&lt;tr class="sn-blame-gr-table">
+            &lt;td class="sn-blame-gr-variable">${element.variable}&lt;/th>
+            &lt;td class="sn-blame-gr-table">Type: ${element.table.type} - ${element.table.value}&lt;/th>
+          &lt;/tr>`;
+          }
+
+          return htmlStr;
+        },
+        `&lt;details ${dialogState["sn-blame-gr-detail"]} id="sn-blame-gr-detail">
+            &lt;summary>
+              &lt;h4>&lt;i class="icon-search-database">&lt;/i>GlideRecord Calls&lt;/h4>
+            &lt;/summary>
+            &lt;table class='sn-blame-dialog-list'>
+              &lt;tr>
+                &lt;th>Variable&lt;/th>
+                &lt;th>Table&lt;/th>
+              &lt;/tr>`
+      ) + "&lt;/table>&lt;/details>";
+
+    let scriptIncludeHTML =
+      scriptInfo.scriptIncludeCalls
+        .sort((a, b) => a.scriptInclude.localeCompare(b.scriptInclude))
+        .reduce((acc, scriptCall) => {
+          let callExists = acc.find((s => s.id === scriptCall.id &amp;&amp; s.method === scriptCall.method))
+          if(callExists){
+            callExists.line += ', ' + scriptCall.line;
+          }else
+            acc.push(scriptCall);
+            return acc;
+        },[])
+        .reduce(
+          (htmlStr, scriptCall, index, arr) => {
+            if (scriptCall.id === scriptInfo.sys_id) {
+              return htmlStr;
+            }
+
+            if (scriptCall.scriptInclude) {
+              let sameAsPrevious =
+                arr[index - 1] &amp;&amp;
+                scriptCall.id === arr[index - 1].id;
+
+              htmlStr += `&lt;tr class="sn-blame-si-table ${sameAsPrevious ? `no-border-top-bottom` : ""}">
+            &lt;td class="sn-blame-si-script-include">${sameAsPrevious ? "" : `&lt;a href="/sys_script_include.do?sys_id=${scriptCall.id}">${scriptCall.scriptInclude}&lt;a>`}&lt;/td>
+            &lt;td class="sn-blame-si-method">${scriptCall.method || ""}&lt;/td>
+            &lt;td class="sn-blame-si-line">${scriptCall.line}&lt;/td>
+          &lt;/tr>`;
+            }
+            return htmlStr;
+          },
+          `&lt;details ${dialogState["sn-blame-script-calls-detail"]}  id="sn-blame-script-calls-detail">
+            &lt;summary>
+              &lt;h4>&lt;i class="icon-document-code">&lt;/i>Script Include Calls&lt;/h4>
+            &lt;/summary>
+              &lt;table class='sn-blame-dialog-list'>
+                &lt;tr>
+                  &lt;th>Script Include&lt;/th>
+                  &lt;th>Method&lt;/th>
+                  &lt;th>Line(s)&lt;/th>
+                &lt;/tr>`
+        ) + "&lt;/table>&lt;/details>";
+
+    let scriptContent = `&lt;h4>&lt;i class="icon-global">&lt;/i>Scope: ${scriptInfo.scope}&lt;/h4>`;
+
+    let scriptContext;
+    let getHTMLByType = (type, value) => {
+      if(type === 'boolean')
+        return `&lt;i class="icon-checkbox-${value === 'true' ? 'checked' : 'empty'}">&lt;/i>`;
+      
+      if(!value)
+        return `&lt;span>&lt;/span>`
+
+      return `&lt;span>${value}&lt;/span>`
+    }
+
+    let getCompositeColumn = (columns, types, scriptInfo) =>{
+      return columns.reduce((acc, col)=>{
+        let {label, field} = col;
+        acc += `&lt;div class="sn-blame-composite-field">&lt;span>${label}&lt;/span>&lt;span>${getHTMLByType(types[field], scriptInfo[field])}&lt;/span>&lt;/div>`
+
+        return acc
+      },'')
+    }
+
+    let tableConfig = config.default[table]  
+
+    if(table &amp;&amp; tableConfig &amp;&amp; tableConfig.modalContext){
+      scriptContext = tableConfig.modalContext.reduce((acc, column) => {
+        let {label, field} = column;
+        if(!field)
+          return acc;
+
+        acc += 
+        `&lt;tr>
+          &lt;td>${label}&lt;td>
+          &lt;td>${typeof field === 'string'? 
+            getHTMLByType(tableConfig?.dataFields[field], scriptInfo[field]) : 
+            getCompositeColumn(field, tableConfig.dataFields, scriptInfo)
+          }
+          &lt;td>`;
+
+        return acc
+      }, `&lt;h4>Context&lt;/h4>
+            &lt;table class='sn-blame-dialog-list'>
+              &lt;tbody>
+            `
+        ) + `&lt;/tbody>&lt;/table>`;
+    }
+
+    let scriptIncludeDetailsHTML = '';
+    let currentScriptIncldeParsedDetails = scriptInfo.scriptIncludesInfo[scriptInfo.sys_name] || scriptInfo.scriptIncludesInfo[scriptInfo.api_name];
+    if(currentScriptIncldeParsedDetails){
+      scriptIncludeDetailsHTML+= `
+        &lt;details ${dialogState["sn-blame-script-include-detail"]}  id="sn-blame-script-include-detail">
+          &lt;summary>
+            &lt;h4>${scriptInfo.api_name || scriptInfo.sys_name}&lt;/h4>
+          &lt;/summary>`
+        
+      scriptIncludeDetailsHTML+= `&lt;div> Constructor: &lt;br/> 
+        &lt;pre>new ${scriptInfo.api_name || scriptInfo.sys_name}(${currentScriptIncldeParsedDetails['methods'].initialize?.args || ''})&lt;/pre>
+      &lt;div>`
+
+      if(currentScriptIncldeParsedDetails.extends){
+        let extendeHirerachy = [currentScriptIncldeParsedDetails.extends];
+
+        let lastIndexClass = extendeHirerachy[extendeHirerachy.length-1];
+        while(parsedScriptIncludes[lastIndexClass]?.extends){
+          extendeHirerachy.push(parsedScriptIncludes[lastIndexClass].extends);
+          lastIndexClass = extendeHirerachy[extendeHirerachy.length-1];
+        }
+
+        scriptIncludeDetailsHTML+= '&lt;h5>Extends&lt;h5>';
+        scriptIncludeDetailsHTML+=  extendeHirerachy.reduce((acc ,ext) => {
+          acc += `&lt;ul>&lt;li>&lt;a href="/sys_script_include.do?sys_id=${parsedScriptIncludes[ext].sys_id}">${ext}&lt;/a>`
+          return acc
+        }, '') + extendeHirerachy.map(e=> '&lt;/li>&lt;/ul>').join('');
+      }
+
+      scriptIncludeDetailsHTML+= `&lt;table class='sn-blame-dialog-list sn-blame-object-props'>&lt;tbody>
+        &lt;tr>
+          &lt;th>Property&lt;/th>
+          &lt;th>Type&lt;/th>
+          &lt;th>Arguments/Value&lt;/th>
+        &lt;/tr>
+      `
+      Object.keys(currentScriptIncldeParsedDetails['static']).forEach(
+        method => {
+          let propertyDef = currentScriptIncldeParsedDetails['static'][method];
+          if(!propertyDef) return
+          scriptIncludeDetailsHTML+= 
+          `&lt;tr>
+            &lt;td>static ${method}&lt;/td>
+            &lt;td>${propertyDef.type || 'Literal'}
+            &lt;td>${propertyDef.args || propertyDef.value || propertyDef}
+          &lt;/tr>`
+        }
+      )
+      Object.keys(currentScriptIncldeParsedDetails['methods']).forEach(
+        method => {
+          let propertyDef = currentScriptIncldeParsedDetails['methods'][method];
+          if(method === 'initialize' || !propertyDef) return
+
+          let value = propertyDef;
+          if(propertyDef.type === 'ObjectExpression'){
+            try{
+              value = `&lt;pre style="white-space: pre-wrap;">${JSON.stringify(JSON.parse(jsonLoose(propertyDef.value)), null, 2)}&lt;/pre>`
+            }catch(e){
+              value = propertyDef.value || propertyDef
+            }
+          }
+
+          if(propertyDef.type === 'FunctionExpression')
+            value = propertyDef.args.join(', ')
+
+          scriptIncludeDetailsHTML+= 
+          `&lt;tr>
+            &lt;td>${method}&lt;/td>
+            &lt;td >${propertyDef.type || 'Literal'}
+            &lt;td>${value}
+          &lt;/tr>`
+        }
+      )
+
+      scriptIncludeDetailsHTML+= `&lt;/tbody>&lt;/table>&lt;/details>`;
+    }
+
+    if (scriptContext)
+      scriptContent += `&lt;hr> ${scriptContext}`;
+
+     if(scriptIncludeDetailsHTML){
+      scriptContent += `&lt;hr> ${scriptIncludeDetailsHTML}`;
+    }
+
+    if (scriptInfo.glideRecord.length > 0)
+      scriptContent += `&lt;hr> ${glideRecordHTML}`;
+
+    if (scriptInfo.scriptIncludeCalls.length > 0)
+      scriptContent += `&lt;hr> ${scriptIncludeHTML}`;
+
+    return scriptContent;
+  };
+
+  const createlistButton = (table, recordID) => {
+    let div = document.createElement("div");
+    div.classList.add("sn-blame", `sn-blame-sys-id_${recordID}`);
+    div.setAttribute("sys_id", recordID);
+
+    let button = document.createElement("button");
+    button.classList.add("btn", "btn-sn-blame", "compact", "icon-glasses");
+
+    button.onclick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      dialogContent.innerHTML = "";
+      dialog.setAttribute("sys_id", recordID);
+      dialog.setAttribute("table", table);
+
+      let scriptInfo = parsedScripts.find((s) => s.sys_id === recordID);
+      if (!scriptInfo) return;
+
+      let scriptContent = document.createElement("div");
+      scriptContent.innerHTML = parseScriptInfo(scriptInfo, table);
+      dialogContent.appendChild(scriptContent);
+
+      let details = Array.from(scriptContent.querySelectorAll('details'))
+      details.forEach(detail => detail.addEventListener('toggle', (event)=>{
+        dialogState[event.target.id] = event.newState;
+       
+        try{
+          localStorage.setItem('sn-blame-helper-detail-state', JSON.stringify(dialogState));
+        } catch(e){
+
+        };
+
+      }));
+
+      dialog.querySelector(".sn-blame-sub-title-h2").textContent =
+        `${typeof g_list?.title === 'undefined' ? document.title.split('|')[0].trim() : g_list.title}: ${scriptInfo.displayName || recordID}`;
+
+      dialog.showModal();
+    };
+
+    div.appendChild(button);
+
+    return div;
+  };
+
+  const hookSNBlameListHelper = () => {
+    let table = location.pathname
+      .replace(/_list(\.do)?$/i, "")
+      .slice(1)
+      .toLowerCase();
+
+    if (TABLE_LIST.indexOf(table) === -1) return;
+
+    let snTableNode = document.querySelector(`#${table}_table`);
+    if (!snTableNode) return;
+
+    let tableObject = ALLOWED_TABLES.find((t) => t.table === table);
+    createDialog();
+
+    let sysIDList = Array.from(document.querySelectorAll(`#${table}_table tr`))
+      .map((e) => {
+        let recordID = e.getAttribute("sys_id");
+        if (!recordID) return null;
+
+        e.querySelectorAll(".list_decoration_cell")[1].prepend(
+          createlistButton(table, recordID)
+        );
+
+        return recordID;
+      })
+      .filter((e) => e);
+
+    window.dispatchEvent(
+      new CustomEvent("sn-list-helper", {
+        detail: {
+          table,
+          sysIDList,
+          g_ck: window.g_ck,
+          field: tableObject.serverScriptField || null,
+          clientFields: tableObject.clientFields || null,
+        },
+      })
+    );
+  };
+
+  if (!/_list(\.do)?$/i.test(location.pathname)) return;
+
+  window.addEventListener("sn-list-helper-response", (event) => {
+    ({ parsedScripts , parsedScriptIncludes} = event.detail);
+    document.querySelectorAll(".sn-blame").forEach((el) => {
+      el.style.visibility = "visible";
+      if (
+        !el.getAttribute("sys_id") ||
+        parsedScripts.find((s) => s.sys_id === el.getAttribute("sys_id"))
+          ?.protected === true
+      ) {
+        el.querySelector("button").setAttribute("disabled", "disabled");
+        el.setAttribute("title", "Script is protected, no analysis available");
+      }
+    });
+  });
+
+  window.addEventListener("sn-list-helper-start", (event) => {
+    if(!loaded){
+      hookSNBlameListHelper(event);
+      loaded = true;
+    }
+  });
+
+  CustomEvent.on ? CustomEvent.on("partial.page.reload", (event) => {
+    if(loaded)
+      hookSNBlameListHelper(event);
+  }): console.log('can\'t listen to partial.page.reload event');
+}
+</code></pre>
         </article>
       </section>
     </div>

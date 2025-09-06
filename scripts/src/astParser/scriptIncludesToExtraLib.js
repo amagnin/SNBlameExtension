@@ -46,7 +46,7 @@ const getScriptIncludeLib = function(className, scriptIncludesObject){
         let keyValue = classObject.methods[key]
 
         if(keyValue?.type === 'ObjectExpression')
-            return `${key} = ${astring.generate(keyValue.value)}`
+            return `${key} = ${keyValue.value}`
 
         if(keyValue?.type)
             return
@@ -65,7 +65,7 @@ const getScriptIncludeLib = function(className, scriptIncludesObject){
     let objectKeys = Object.keys(classObject.static).map((key => {
         let keyValue = classObject.static[key];
          if(keyValue?.type === 'ObjectExpression')
-            return `static ${key} = ${astring.generate(keyValue.value)}`
+            return `static ${key} = ${keyValue.value}`
 
         if(keyValue?.type)
             return

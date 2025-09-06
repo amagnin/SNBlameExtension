@@ -276,8 +276,8 @@ class StaticCodeAnalisisUtil {
     /**
      * gets the script inlcude with the given identifier form the server, and parses it to use it as monaco extra library
      *
-     * @param {string} scriptIDList script include sys_id list
-     * @param {string} currentScope scope of the current record
+     * @param {Array<String>} scriptIDList script include sys_id list
+     * @param {String} currentScope scope of the current record
      *
      */
     async triggerScriptIncludeLib(scriptIDList, currentScope, restFactory, postProcessFN) {
@@ -316,8 +316,9 @@ class StaticCodeAnalisisUtil {
             scriptInclude.script,
             scriptInclude.api_name,
             currentScope || scriptIncludeScope,
-            scriptIncludeScope
+            scriptIncludeScope,
             );
+        scriptIncludeObject.sys_id = scriptInclude.sys_id;
         
         cacheManager.setScriptIncludeCache(scriptInclude.sys_id, scriptIncludeObject, {
             sys_id:  scriptInclude.sys_id,
