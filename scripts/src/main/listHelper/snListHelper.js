@@ -163,7 +163,7 @@ export default function snListHelper() {
       },'')
     }
 
-    let getScriptIncludeTableRowHTML = (method, propertyDef) => {
+    let getScriptIncludeTableRowHTML = (method, propertyDef, isStatic) => {
       const COLOR_MAP = {
         Literal: "#E57373",
         ObjectExpression: "#64B5F6",
@@ -210,7 +210,7 @@ export default function snListHelper() {
         
 
       return `<tr>
-            <td>static ${method}</td>
+            <td>${isStatic ? 'Static ':''}${method}</td>
             <td 
               class="sn-blame-node-type" 
               style="color:${COLOR_MAP[propertyDef.type || "Literal"] || "#F44336"}">
@@ -246,8 +246,9 @@ export default function snListHelper() {
     }
 
     let scriptIncludeDetailsHTML = '';
-    let currentScriptIncldeParsedDetails = scriptInfo.scriptIncludesInfo[scriptInfo.sys_name] || scriptInfo.scriptIncludesInfo[scriptInfo.api_name];
+    let currentScriptIncldeParsedDetails = scriptInfo.scriptIncludesInfo[scriptInfo.sys_name.trim()] || scriptInfo.scriptIncludesInfo[scriptInfo.api_name.trim()];
     if(currentScriptIncldeParsedDetails){
+      let constructorFNArguments = currentScriptIncldeParsedDetails['methods'].initialize?.args || currentScriptIncldeParsedDetails['methods'].constructor?.args;
       scriptIncludeDetailsHTML+= `
         <details ${dialogState["sn-blame-script-include-detail"]}  id="sn-blame-script-include-detail">
           <summary>
@@ -255,7 +256,7 @@ export default function snListHelper() {
           </summary>`
         
       scriptIncludeDetailsHTML+= `<div> Constructor: <br/> 
-        <pre>new ${scriptInfo.api_name || scriptInfo.sys_name}(${currentScriptIncldeParsedDetails['methods'].initialize?.args || ''})</pre>
+        <pre>new ${scriptInfo.api_name || scriptInfo.sys_name}(${ constructorFNArguments || ''})</pre>
       <div>`
 
       if(currentScriptIncldeParsedDetails.extends){
@@ -286,15 +287,15 @@ export default function snListHelper() {
           let propertyDef = currentScriptIncldeParsedDetails['static'][method];
           if(!propertyDef) return
 
-          scriptIncludeDetailsHTML+= getScriptIncludeTableRowHTML(method, propertyDef)
+          scriptIncludeDetailsHTML+= getScriptIncludeTableRowHTML(method, propertyDef, true)
         }
       )
       Object.keys(currentScriptIncldeParsedDetails['methods']).forEach(
         method => {
           let propertyDef = currentScriptIncldeParsedDetails['methods'][method];
-          if(method === 'initialize' || !propertyDef) return
+          if(method === 'initialize' || method === 'constructor' || !propertyDef) return
 
-          scriptIncludeDetailsHTML+= getScriptIncludeTableRowHTML(method, propertyDef)
+          scriptIncludeDetailsHTML+= getScriptIncludeTableRowHTML(method, propertyDef, false)
         }
       )
 

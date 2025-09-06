@@ -108,6 +108,8 @@ let getListData = async function(table, sysIDList, field, g_ck){
 }
 
 const getExtendedScriptIncludes = async function (sysIDList, dept = 1) {
+  if(sysIDList.length === 0)
+    return []
   let parsedScriptIncludes =
     await staticCodeAnalisisUtil.triggerScriptIncludeLib(sysIDList, null, restFactory, null);
 
