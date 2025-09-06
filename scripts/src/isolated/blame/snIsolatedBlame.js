@@ -2,7 +2,7 @@ import MonacoBlameGutterWrapper from "./MonacoBlameGutterWrapper.js";
 import SNBlameOptions from "../SNBlameOptions.js";
 import snRESTFactory from "../snRESTFactory.js";
 
-import StaticCodeAnalisisUtil from "../../astParser/StaticCodeAnalysisUtil.js";
+import StaticCodeAnalisisUtil from "../../astParser/staticCodeAnalysisUtil.js";
 
 import patienceDiff from "../../../libraries/patienceDiff.js";
 import X2JS from "x2js";

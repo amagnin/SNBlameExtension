@@ -1,5 +1,5 @@
 import snRESTFactory from "../snRESTFactory.js";
-import StaticCodeAnalisisUtil from "../../astParser/StaticCodeAnalysisUtil.js";
+import StaticCodeAnalisisUtil from "../../astParser/staticCodeAnalysisUtil.js";
 import * as tableConfig from "../../../../snTableConfigurations.json"
 
 /**
@@ -107,6 +107,27 @@ let getListData = async function(table, sysIDList, field, g_ck){
     return parsedScripts;
 }
 
+const getExtendedScriptIncludes = async function (sysIDList, dept = 1) {
+  let parsedScriptIncludes =
+    await staticCodeAnalisisUtil.triggerScriptIncludeLib(sysIDList, null, restFactory, null);
+
+  if (dept > 3) 
+    return parsedScriptIncludes || [];
+
+  let scriptIDs = parsedScriptIncludes.map((s) => s.sys_id);
+  let extendsIDs = parsedScriptIncludes
+    .map((e) => e.scriptExtends)
+    .flat()
+    .filter((e) => e)
+    .map((e) => staticCodeAnalisisUtil.getScriptIncludeSysID(e))
+    .filter((e) => scriptIDs.indexOf(e) === -1);
+
+   if(!extendsIDs || extendsIDs.length === 0)
+    return parsedScriptIncludes || [];
+
+   return parsedScriptIncludes.concat(await getExtendedScriptIncludes(extendsIDs, dept++))
+};
+
 export default function(){
     const LISTENERS =  {
         'sn-list-helper': async (event) => {
@@ -120,12 +141,30 @@ export default function(){
                 null,
                 restFactory,
                 null
-            ); 
+            );
+            
+            if(table === 'sys_script_include'){
+                let scriptIDs = parsedScriptIncludes.map(s=> s.sys_id);
+                let extendsIDs = parsedScriptIncludes.map(e=> e.scriptExtends)
+                    .flat()
+                    .filter(e=>e)
+                    .map(e=> staticCodeAnalisisUtil.getScriptIncludeSysID(e))
+                    .filter(e=> scriptIDs.indexOf(e) === -1 && e)
+
+                let ExtendedClasses = await getExtendedScriptIncludes(extendsIDs);
+                parsedScriptIncludes = parsedScriptIncludes.concat(ExtendedClasses);
+            }
+            
       
             window.dispatchEvent(new CustomEvent('sn-list-helper-response', {
                 detail: { 
                     parsedScripts , 
-                    parsedScriptIncludes: parsedScriptIncludes.reduce((acc, scriptInclude) => Object.assign(acc, scriptInclude?.parsedScript), {})
+                    parsedScriptIncludes: parsedScriptIncludes.reduce(
+                        (acc, scriptInclude) => {
+                            Object.keys(scriptInclude.parsedScript).forEach(key => scriptInclude.parsedScript[key].sys_id = scriptInclude.sys_id);
+                            return Object.assign(acc, scriptInclude?.parsedScript)
+                        }, {}
+                    )
                 }
             }))
         },

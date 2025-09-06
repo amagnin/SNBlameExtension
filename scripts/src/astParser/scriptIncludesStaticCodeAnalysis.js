@@ -126,7 +126,8 @@ const methodWalker = (name, key, isConstructor, serviceNowClassesName, scriptInc
             if(constructorExpression?.type === 'FunctionExpression'){
                 serviceNowClassesName[name].methods[constructorExpression.key] = {
                     args: constructorExpression.args,
-                    glideRecord: []
+                    glideRecord: [],
+                    type: 'FunctionExpression'
                 }
             }
         },
@@ -184,6 +185,7 @@ const getES6ClassMethods = (astTree, es6Classes, scriptIncludeCache, currentScop
                             glideRecord: [],
                             scriptIncludeCalls: [],
                             private: _node.key.type === 'PrivateIdentifier',
+                            type: 'FunctionExpression'
                         }
 
                         let key = _node.key.name;
@@ -234,6 +236,7 @@ const getES6ClassMethods = (astTree, es6Classes, scriptIncludeCache, currentScop
                             glideRecord: [],
                             scriptIncludeCalls: [],
                             private: _node.key.type === 'PrivateIdentifier',
+                            type: 'FunctionExpression'
                         }
                         return
                     }
@@ -296,6 +299,7 @@ const getSNClassMethods = (astTree, serviceNowClasses, scriptIncludeCache, curre
             serviceNowClassesName[node.expression.left.object.name].static[key] = {
                 args:[],
                 glideRecord: [],
+                type: 'FunctionExpression'
             }
 
             serviceNowClassesName[name].static[key].args = node.expression.right.params.map(e=> e.name);
@@ -307,7 +311,7 @@ const getSNClassMethods = (astTree, serviceNowClasses, scriptIncludeCache, curre
             return
         }    
 
-        serviceNowClassesName[name].static[key] =  { type: node.expression.right?.type, value: node.expression.right } ;
+        serviceNowClassesName[name].static[key] =  { type: node.expression.right?.type, value: astring.generate(node.expression.right) } ;
        
     });
     
@@ -340,7 +344,8 @@ const getSNClassMethods = (astTree, serviceNowClasses, scriptIncludeCache, curre
                 serviceNowClassesName[name].methods[key] = {
                     args:[],
                     glideRecord:[],
-                    dependencies:[]
+                    dependencies:[],
+                    type:'FunctionExpression'
                 }
 
                 serviceNowClassesName[name].methods[key].args = property.value.params.map(e=> e.name)
@@ -357,7 +362,7 @@ const getSNClassMethods = (astTree, serviceNowClasses, scriptIncludeCache, curre
                 return
             }
 
-            serviceNowClassesName[name].methods[property.key.name] =  { type: property.value.type, value: property.value };
+            serviceNowClassesName[name].methods[property.key.name] =  { type: property.value.type, value: astring.generate(property.value) };
         })
     })
     
