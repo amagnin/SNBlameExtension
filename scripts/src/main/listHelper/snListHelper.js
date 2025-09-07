@@ -260,7 +260,7 @@ export default function snListHelper() {
       <div>`
 
       if(currentScriptIncldeParsedDetails.extends){
-        let extendeHirerachy = [currentScriptIncldeParsedDetails.extends];
+        let extendeHirerachy = [currentScriptIncldeParsedDetails.extends].flat();
 
         let lastIndexClass = extendeHirerachy[extendeHirerachy.length-1];
         while(parsedScriptIncludes[lastIndexClass]?.extends){
