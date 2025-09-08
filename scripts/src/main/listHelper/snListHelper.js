@@ -246,60 +246,62 @@ export default function snListHelper() {
     }
 
     let scriptIncludeDetailsHTML = '';
-    let currentScriptIncldeParsedDetails = scriptInfo.scriptIncludesInfo[scriptInfo.sys_name.trim()] || scriptInfo.scriptIncludesInfo[scriptInfo.api_name.trim()];
-    if(currentScriptIncldeParsedDetails){
-      let constructorFNArguments = currentScriptIncldeParsedDetails['methods'].initialize?.args || currentScriptIncldeParsedDetails['methods'].constructor?.args;
-      scriptIncludeDetailsHTML+= `
-        <details ${dialogState["sn-blame-script-include-detail"]}  id="sn-blame-script-include-detail">
-          <summary>
-            <h4>${scriptInfo.api_name || scriptInfo.sys_name}</h4>
-          </summary>`
-        
-      scriptIncludeDetailsHTML+= `<div> Constructor: <br/> 
-        <pre>new ${scriptInfo.api_name || scriptInfo.sys_name}(${ constructorFNArguments || ''})</pre>
-      <div>`
+    if(table === 'sys_script_include'){
+      let currentScriptIncldeParsedDetails = scriptInfo.scriptIncludesInfo[(scriptInfo.sys_name || '').trim()] || scriptInfo.scriptIncludesInfo[(scriptInfo.api_name|| '').trim()];
+      if(currentScriptIncldeParsedDetails){
+        let constructorFNArguments = currentScriptIncldeParsedDetails['methods'].initialize?.args || currentScriptIncldeParsedDetails['methods'].constructor?.args;
+        scriptIncludeDetailsHTML+= `
+          <details ${dialogState["sn-blame-script-include-detail"]}  id="sn-blame-script-include-detail">
+            <summary>
+              <h4>${scriptInfo.api_name || scriptInfo.sys_name}</h4>
+            </summary>`
+          
+        scriptIncludeDetailsHTML+= `<div> Constructor: <br/> 
+          <pre>new ${scriptInfo.api_name || scriptInfo.sys_name}(${ constructorFNArguments || ''})</pre>
+        <div>`
 
-      if(currentScriptIncldeParsedDetails.extends){
-        let extendeHirerachy = [currentScriptIncldeParsedDetails.extends];
+        if(currentScriptIncldeParsedDetails.extends){
+          let extendeHirerachy = [currentScriptIncldeParsedDetails.extends];
 
-        let lastIndexClass = extendeHirerachy[extendeHirerachy.length-1];
-        while(parsedScriptIncludes[lastIndexClass]?.extends){
-          extendeHirerachy.push(parsedScriptIncludes[lastIndexClass].extends);
-          lastIndexClass = extendeHirerachy[extendeHirerachy.length-1];
+          let lastIndexClass = extendeHirerachy[extendeHirerachy.length-1];
+          while(parsedScriptIncludes[lastIndexClass]?.extends){
+            extendeHirerachy.push(parsedScriptIncludes[lastIndexClass].extends);
+            lastIndexClass = extendeHirerachy[extendeHirerachy.length-1];
+          }
+
+          scriptIncludeDetailsHTML+= '<h5>Extends<h5>';
+          scriptIncludeDetailsHTML+=  extendeHirerachy.reduce((acc ,ext) => {
+            acc += `<ul><li><a href="/sys_script_include.do?sys_id=${parsedScriptIncludes[ext].sys_id}">${ext}</a>`
+            return acc
+          }, '') + extendeHirerachy.map(e=> '</li></ul>').join('');
         }
 
-        scriptIncludeDetailsHTML+= '<h5>Extends<h5>';
-        scriptIncludeDetailsHTML+=  extendeHirerachy.reduce((acc ,ext) => {
-          acc += `<ul><li><a href="/sys_script_include.do?sys_id=${parsedScriptIncludes[ext].sys_id}">${ext}</a>`
-          return acc
-        }, '') + extendeHirerachy.map(e=> '</li></ul>').join('');
+        scriptIncludeDetailsHTML+= `<table class='sn-blame-dialog-list sn-blame-object-props'><tbody>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Arguments/Value</th>
+          </tr>
+        `
+        Object.keys(currentScriptIncldeParsedDetails['static']).forEach(
+          method => {
+            let propertyDef = currentScriptIncldeParsedDetails['static'][method];
+            if(!propertyDef) return
+
+            scriptIncludeDetailsHTML+= getScriptIncludeTableRowHTML(method, propertyDef, true)
+          }
+        )
+        Object.keys(currentScriptIncldeParsedDetails['methods']).forEach(
+          method => {
+            let propertyDef = currentScriptIncldeParsedDetails['methods'][method];
+            if(method === 'initialize' || method === 'constructor' || !propertyDef) return
+
+            scriptIncludeDetailsHTML+= getScriptIncludeTableRowHTML(method, propertyDef, false)
+          }
+        )
+
+        scriptIncludeDetailsHTML+= `</tbody></table></details>`;
       }
-
-      scriptIncludeDetailsHTML+= `<table class='sn-blame-dialog-list sn-blame-object-props'><tbody>
-        <tr>
-          <th>Property</th>
-          <th>Type</th>
-          <th>Arguments/Value</th>
-        </tr>
-      `
-      Object.keys(currentScriptIncldeParsedDetails['static']).forEach(
-        method => {
-          let propertyDef = currentScriptIncldeParsedDetails['static'][method];
-          if(!propertyDef) return
-
-          scriptIncludeDetailsHTML+= getScriptIncludeTableRowHTML(method, propertyDef, true)
-        }
-      )
-      Object.keys(currentScriptIncldeParsedDetails['methods']).forEach(
-        method => {
-          let propertyDef = currentScriptIncldeParsedDetails['methods'][method];
-          if(method === 'initialize' || method === 'constructor' || !propertyDef) return
-
-          scriptIncludeDetailsHTML+= getScriptIncludeTableRowHTML(method, propertyDef, false)
-        }
-      )
-
-      scriptIncludeDetailsHTML+= `</tbody></table></details>`;
     }
 
     if (scriptContext)
