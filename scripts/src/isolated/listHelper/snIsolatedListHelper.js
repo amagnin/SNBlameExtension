@@ -161,7 +161,7 @@ export default function(){
             window.dispatchEvent(new CustomEvent('sn-list-helper-response', {
                 detail: { 
                     parsedScripts , 
-                    parsedScriptIncludes: parsedScriptIncludes.reduce(
+                    parsedScriptIncludes: (parsedScriptIncludes || []).reduce(
                         (acc, scriptInclude) => {
                             Object.keys(scriptInclude.parsedScript).forEach(key => scriptInclude.parsedScript[key].sys_id = scriptInclude.sys_id);
                             return Object.assign(acc, scriptInclude?.parsedScript)

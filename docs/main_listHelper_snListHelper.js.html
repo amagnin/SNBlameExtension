@@ -641,66 +641,6 @@ export default function snListHelper() {
       },'')
     }
 
-<<<<<<< HEAD
-    let getScriptIncludeTableRowHTML = (method, propertyDef, isStatic) => {
-      const COLOR_MAP = {
-        Literal: "#E57373",
-        ObjectExpression: "#64B5F6",
-        FunctionExpression: "#81C784",
-        ArrayExpression: "#FFD54F",
-        Identifier: "#BA68C8",
-        BinaryExpression: "#4DB6AC",
-        CallExpression: "#FF8A65",
-        MemberExpression: "#9575CD",
-        AssignmentExpression: "#F06292",
-        ConditionalExpression: "#4FC3F7",
-        ReturnStatement: "#AED581",
-        VariableDeclaration: "#FFF176",
-        ImportDeclaration: "#90CAF9",
-        ExportDeclaration: "#A1887F",
-        ThisExpression: "#F48FB1",
-      };
-
-      let value = propertyDef;
-      if (propertyDef.type === "ObjectExpression") {
-        try {
-          value = `&lt;pre style="white-space: pre-wrap;">${JSON.stringify(JSON.parse(jsonLoose(propertyDef.value)), null, 2)}&lt;/pre>`;
-        } catch (e) {
-          value = propertyDef.value || propertyDef;
-        }
-      }
-
-      if (propertyDef.type === "ArrayExpression") {
-        value = JSON.stringify(propertyDef.value);
-        value = value.substring(1, value.length-1);
-      }
-
-      if (propertyDef.type === "CallExpression") {
-        value = JSON.stringify(propertyDef.value);
-        value = value.substring(1, value.length-1);
-      }
-
-      if (propertyDef.type === "FunctionExpression"){
-        if(propertyDef.args.length)
-          value = `( ${propertyDef.args.join(", ")} )`;
-        else
-          value = '';
-      }
-        
-
-      return `&lt;tr>
-            &lt;td>${isStatic ? 'Static ':''}${method}&lt;/td>
-            &lt;td 
-              class="sn-blame-node-type" 
-              style="color:${COLOR_MAP[propertyDef.type || "Literal"] || "#F44336"}">
-              &lt;span sn-blame-title="${propertyDef.type || "Literal"}">${(propertyDef.type || "Literal")[0].toUpperCase()}&lt;/span>
-            &lt;/td>
-            &lt;td>${(!propertyDef.type) ? '"' + value + '"' : value}&lt;/td>
-          &lt;/tr>`;
-    };
-
-=======
->>>>>>> main
     let tableConfig = config.default[table]  
 
     if(table &amp;&amp; tableConfig &amp;&amp; tableConfig.modalContext){
@@ -727,64 +667,6 @@ export default function snListHelper() {
     }
 
     let scriptIncludeDetailsHTML = '';
-<<<<<<< HEAD
-    if(table === 'sys_script_include'){
-      let currentScriptIncldeParsedDetails = scriptInfo.scriptIncludesInfo[(scriptInfo.sys_name || '').trim()] || scriptInfo.scriptIncludesInfo[(scriptInfo.api_name|| '').trim()];
-      if(currentScriptIncldeParsedDetails){
-        let constructorFNArguments = currentScriptIncldeParsedDetails['methods'].initialize?.args || currentScriptIncldeParsedDetails['methods'].constructor?.args;
-        scriptIncludeDetailsHTML+= `
-          &lt;details ${dialogState["sn-blame-script-include-detail"]}  id="sn-blame-script-include-detail">
-            &lt;summary>
-              &lt;h4>${scriptInfo.api_name || scriptInfo.sys_name}&lt;/h4>
-            &lt;/summary>`
-          
-        scriptIncludeDetailsHTML+= `&lt;div> Constructor: &lt;br/> 
-          &lt;pre>new ${scriptInfo.api_name || scriptInfo.sys_name}(${ constructorFNArguments || ''})&lt;/pre>
-        &lt;div>`
-
-        if(currentScriptIncldeParsedDetails.extends){
-          let extendeHirerachy = [currentScriptIncldeParsedDetails.extends];
-
-          let lastIndexClass = extendeHirerachy[extendeHirerachy.length-1];
-          while(parsedScriptIncludes[lastIndexClass]?.extends){
-            extendeHirerachy.push(parsedScriptIncludes[lastIndexClass].extends);
-            lastIndexClass = extendeHirerachy[extendeHirerachy.length-1];
-          }
-
-          scriptIncludeDetailsHTML+= '&lt;h5>Extends&lt;h5>';
-          scriptIncludeDetailsHTML+=  extendeHirerachy.reduce((acc ,ext) => {
-            acc += `&lt;ul>&lt;li>&lt;a href="/sys_script_include.do?sys_id=${parsedScriptIncludes[ext].sys_id}">${ext}&lt;/a>`
-            return acc
-          }, '') + extendeHirerachy.map(e=> '&lt;/li>&lt;/ul>').join('');
-        }
-
-        scriptIncludeDetailsHTML+= `&lt;table class='sn-blame-dialog-list sn-blame-object-props'>&lt;tbody>
-          &lt;tr>
-            &lt;th>Property&lt;/th>
-            &lt;th>Type&lt;/th>
-            &lt;th>Arguments/Value&lt;/th>
-          &lt;/tr>
-        `
-        Object.keys(currentScriptIncldeParsedDetails['static']).forEach(
-          method => {
-            let propertyDef = currentScriptIncldeParsedDetails['static'][method];
-            if(!propertyDef) return
-
-            scriptIncludeDetailsHTML+= getScriptIncludeTableRowHTML(method, propertyDef, true)
-          }
-        )
-        Object.keys(currentScriptIncldeParsedDetails['methods']).forEach(
-          method => {
-            let propertyDef = currentScriptIncldeParsedDetails['methods'][method];
-            if(method === 'initialize' || method === 'constructor' || !propertyDef) return
-
-            scriptIncludeDetailsHTML+= getScriptIncludeTableRowHTML(method, propertyDef, false)
-          }
-        )
-
-        scriptIncludeDetailsHTML+= `&lt;/tbody>&lt;/table>&lt;/details>`;
-      }
-=======
     let currentScriptIncldeParsedDetails = scriptInfo.scriptIncludesInfo[scriptInfo.sys_name] || scriptInfo.scriptIncludesInfo[scriptInfo.api_name];
     if(currentScriptIncldeParsedDetails){
       scriptIncludeDetailsHTML+= `
@@ -859,7 +741,6 @@ export default function snListHelper() {
       )
 
       scriptIncludeDetailsHTML+= `&lt;/tbody>&lt;/table>&lt;/details>`;
->>>>>>> main
     }
 
     if (scriptContext)
@@ -1002,13 +883,8 @@ export default function snListHelper() {
 
     <footer>
       Documentation generated by
-<<<<<<< HEAD
-      <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Tue Sep 09
-      2025 00:48:07 GMT+0200 (hora de verano de Europa central) using the
-=======
       <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Sat Sep 06
       2025 19:20:17 GMT+0200 (hora de verano de Europa central) using the
->>>>>>> main
       <a href="https://github.com/clenemt/docdash">docdash</a> theme.
     </footer>
 
