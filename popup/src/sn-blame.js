@@ -63,7 +63,7 @@ window.onload = function() {
 
       Object.keys(userOptions).forEach((key => options[key] = userOptions[key]));
     } catch (e) {
-      console.error('Error parsing Blame options')
+      console.log('Error parsing Blame options')
     } finally{
       document.getElementById("guttervalue").innerText = `${options.gutterWidth}px`;
       document.getElementById("gutterSize").value = options.gutterWidth;

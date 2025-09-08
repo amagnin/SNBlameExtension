@@ -8,8 +8,8 @@ global.document = window.document;
 global.chrome={};
 global.chrome['storage'] = {
     sync: {
-        set: async (kvp) => {throw new Error('Unimplemented')},
-        get: async (key) => {throw new Error('Unimplemented')}
+        set: async (kvp) => {},
+        get: async (key) => {}
     }
 };
 
