@@ -30,10 +30,17 @@ describe('getScriptIncludeLib', () => {
     const className = 'TestClass';
     const scriptIncludesObject = {
       methods: {
+<<<<<<< HEAD
         obj: { type: 'ObjectExpression', value: '"value"' }
       },
       static: {
         staticObj: { type: 'ObjectExpression', value: '"value"' }
+=======
+        obj: { type: 'ObjectExpression', value: { value: 'value', type: 'Literal' } }
+      },
+      static: {
+        staticObj: { type: 'ObjectExpression', value: { value: 'value', type: 'Literal' } }
+>>>>>>> main
       }
     };
 

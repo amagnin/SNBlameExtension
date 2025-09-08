@@ -276,8 +276,13 @@ class StaticCodeAnalisisUtil {
     /**
      * gets the script inlcude with the given identifier form the server, and parses it to use it as monaco extra library
      *
+<<<<<<< HEAD
      * @param {Array<String>} scriptIDList script include sys_id list
      * @param {String} currentScope scope of the current record
+=======
+     * @param {string} scriptIDList script include sys_id list
+     * @param {string} currentScope scope of the current record
+>>>>>>> main
      *
      */
     async triggerScriptIncludeLib(scriptIDList, currentScope, restFactory, postProcessFN) {
