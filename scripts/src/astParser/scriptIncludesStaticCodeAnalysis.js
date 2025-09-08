@@ -328,14 +328,12 @@ const getSNClassMethods = (astTree, serviceNowClasses, scriptIncludeCache, curre
             ))
             return;
 
-        
         let args = (node.expression?.right?.arguments || []);
         if(args.length > 1 && args[args.length - 1]?.properties){
             serviceNowClassesName[name].extends = astring.generate(args[0]);
         }
 
         ( node.expression?.right?.properties || args.find(a=> a.properties)?.properties /** Object.extends **/ || []).forEach(property => {
-
             if(property.value.type === 'FunctionExpression'){
                 let key = property.key.name
                 serviceNowClassesName[name].methods[key] = {

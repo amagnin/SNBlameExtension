@@ -10,8 +10,10 @@
   },
   "devDependencies": {
     "archiver": "^7.0.1",
+    "chromedriver": "^139.0.3",
     "css-loader": "^7.1.2",
     "docdash": "^2.0.2",
+    "dotenv": "^17.2.1",
     "file-loader": "^6.2.0",
     "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.4",
@@ -23,6 +25,7 @@
     "prettier": "^3.5.0",
     "sass": "^1.89.2",
     "sass-loader": "^16.0.5",
+    "selenium-webdriver": "^4.35.0",
     "template-ejs-loader": "^0.9.4",
     "webpack": "^5.96.1",
     "webpack-cli": "^5.1.4"
