@@ -163,8 +163,11 @@ export default function(){
                     parsedScripts , 
                     parsedScriptIncludes: (parsedScriptIncludes || []).reduce(
                         (acc, scriptInclude) => {
-                            Object.keys(scriptInclude.parsedScript).forEach(key => scriptInclude.parsedScript[key].sys_id = scriptInclude.sys_id);
-                            return Object.assign(acc, scriptInclude?.parsedScript)
+                            Object.keys(scriptInclude.parsedScript).forEach(key => {
+                                scriptInclude.parsedScript[key].sys_id = scriptInclude.sys_id
+                                acc[`${scriptInclude.parsedScript[key].scope}.${key}`] = scriptInclude.parsedScript[key];
+                            });
+                            return acc
                         }, {}
                     )
                 }

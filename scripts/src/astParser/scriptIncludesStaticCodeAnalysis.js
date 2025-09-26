@@ -166,7 +166,7 @@ const methodWalker = (name, key, isConstructor, serviceNowClassesName, scriptInc
  */
 const getES6ClassMethods = (astTree, es6Classes, scriptIncludeCache, currentScope, availableScopes) => {
    return es6Classes.reduce((acc, className) => {
-        acc[className] = {methods:{}, static:{}, extends: null};
+        acc[className] = {methods:{}, static:{}, extends: null, scope: currentScope};
         
         astTree.body.filter(node =>
             node.type === 'ClassDeclaration' && node.id.name === className
@@ -261,19 +261,19 @@ const getES6ClassMethods = (astTree, es6Classes, scriptIncludeCache, currentScop
  */
 const getSNClassMethods = (astTree, serviceNowClasses, scriptIncludeCache, currentScope, availableScopes) => {
     let serviceNowClassesName = serviceNowClasses.reduce( (acc, node) => {
+        let name = null;
         if( node.type === 'VariableDeclaration')
-            acc[node.declarations[0].id.name] = {
-                methods:{},
-                static:{},
-                extends: null
-            };
+            name = node.declarations[0].id.name;
 
-            
         if(node.type === 'ExpressionStatement')
-            acc[node.expression.left.name] = {
+            name = node.expression.left.name;
+
+        if(name)
+            acc[name] = {
                 methods:{},
                 static:{},
-                extends: null
+                extends: null,
+                scope: currentScope,
             };
 
         return acc
