@@ -261,17 +261,28 @@ export default function snListHelper() {
         <div>`
 
         if(currentScriptIncldeParsedDetails.extends){
+          let currentRecordScope = currentScriptIncldeParsedDetails.scope;
           let extendeHirerachy = [currentScriptIncldeParsedDetails.extends];
 
           let lastIndexClass = extendeHirerachy[extendeHirerachy.length-1];
+          
           while(parsedScriptIncludes[lastIndexClass]?.extends){
-            extendeHirerachy.push(parsedScriptIncludes[lastIndexClass].extends);
+            let extendedScriptInclude = parsedScriptIncludes[lastIndexClass].extends
+            if(extendedScriptInclude.indexOf('.') === -1)
+            extendedScriptInclude = `${parsedScriptIncludes[lastIndexClass].scope}.${parsedScriptIncludes[lastIndexClass].extends}`
+
+            extendeHirerachy.push(extendedScriptInclude);
             lastIndexClass = extendeHirerachy[extendeHirerachy.length-1];
           }
+         
 
           scriptIncludeDetailsHTML+= '<h5>Extends<h5>';
           scriptIncludeDetailsHTML+=  extendeHirerachy.reduce((acc ,ext) => {
-            acc += `<ul><li><a href="/sys_script_include.do?sys_id=${parsedScriptIncludes[ext].sys_id}">${ext}</a>`
+            let scriptInclude = ext
+            if(ext.indexOf('.') === -1)
+              scriptInclude = `${currentRecordScope}.${ext}`;
+
+            acc += `<ul><li><a href="/sys_script_include.do?sys_id=${parsedScriptIncludes[scriptInclude].sys_id}">${ext}</a>`
             return acc
           }, '') + extendeHirerachy.map(e=> '</li></ul>').join('');
         }
