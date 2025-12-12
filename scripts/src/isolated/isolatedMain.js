@@ -4,6 +4,7 @@ import snBlame from "./blame/snIsolatedBlame.js";
 import snListHelper from "./listHelper/snIsolatedListHelper.js";
 import CacheManager from "./CacheManager.js";
 import snRESTFactory from "./snRESTFactory.js";
+import snSymbol from "./blame/snSimbolPanel.js"
 
 /**
  * @typedef BlameLine
@@ -151,6 +152,7 @@ Object.keys(LISTENERS).forEach((key) => {
 });
 
 snBlame();
+snSymbol();
 snListHelper();
 
 
